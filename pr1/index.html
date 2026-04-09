@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="TalkToDeal captures every on-site quote automatically. No typing. No lost revenue. Book a 15-min demo." />
+  <title>TalkToDeal — Stop Losing Field Quotes</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: #000;
+      color: #fff;
+      font-family: 'DM Sans', system-ui, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    h1, h2, blockquote {
+      font-family: 'DM Serif Display', Georgia, serif;
+      letter-spacing: -0.02em;
+      font-weight: 400;
+    }
+
+    .mono {
+      font-family: 'Space Mono', 'Courier New', monospace;
+    }
+
+    /* Noise texture overlay */
+    .noise-overlay {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.028;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-size: 160px 160px;
+    }
+
+    .divider { height: 1px; background: #1e1e1e; }
+
+    /* Buttons */
+    .btn-primary {
+      display: inline-block;
+      background: #FF5C1B;
+      color: #fff;
+      border: 1px solid #FF5C1B;
+      border-radius: 6px;
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 600;
+      font-size: 15px;
+      padding: 13px 28px;
+      text-decoration: none;
+      transition: background 0.15s ease, transform 0.15s ease;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .btn-primary:hover { background: #FF6E30; transform: scale(1.02); }
+    .btn-primary:active { transform: scale(0.99); }
+
+    .btn-secondary {
+      display: inline-block;
+      background: transparent;
+      color: #888;
+      border: 1px solid #2e2e2e;
+      border-radius: 6px;
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 600;
+      font-size: 15px;
+      padding: 13px 28px;
+      text-decoration: none;
+      transition: border-color 0.15s ease, color 0.15s ease, transform 0.15s ease;
+      white-space: nowrap;
+    }
+    .btn-secondary:hover { border-color: #FF5C1B; color: #FF5C1B; transform: scale(1.02); }
+    .btn-secondary:active { transform: scale(0.99); }
+
+    /* Eyebrow tag */
+    .eyebrow-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border: 1px solid #2a1508;
+      background: rgba(255, 92, 27, 0.06);
+      border-radius: 4px;
+      padding: 6px 12px;
+    }
+    .eyebrow-label {
+      color: #FF5C1B;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+    }
+  </style>
+</head>
+<body>
+<div id="root"></div>
+
+<script type="text/babel">
+
+const DEMO_URL = "https://calendly.com/talktodeal/15min";
+const PHONE = "660-900-0008";
+
+// ─── SVG Icons ──────────────────────────────────────────────────────────────
+
+const XIcon = () => (
+  <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
+    <path d="M1.5 1.5L11.5 11.5M11.5 1.5L1.5 11.5" stroke="#FF3B3B" strokeWidth="2" strokeLinecap="round"/>
+  </svg>
+);
+
+const ArrowRightIcon = () => (
+  <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+    <path d="M3 8H13M9 4l4 4-4 4" stroke="#C8FF00" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+  </svg>
+);
+
+const BoltIcon = () => (
+  <svg width="12" height="12" viewBox="0 0 12 12" fill="#FF5C1B">
+    <path d="M7 1L2 7h4l-1 4L11 5H7L7 1Z"/>
+  </svg>
+);
+
+const PhoneIcon = () => (
+  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#FF5C1B" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M22 16.92v3a2 2 0 01-2.18 2 19.8 19.8 0 01-8.63-3.07A19.5 19.5 0 013.09 9.81 19.8 19.8 0 012 1.17 2 2 0 014 1h3a2 2 0 012 1.72c.13.96.36 1.9.7 2.81a2 2 0 01-.45 2.11L8.09 8.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0122 16.92z"/>
+  </svg>
+);
+
+const RecorderIcon = () => (
+  <svg width="28" height="28" viewBox="0 0 28 28" fill="none" strokeLinecap="round" strokeLinejoin="round">
+    <rect x="8" y="2" width="12" height="18" rx="5" stroke="#555" strokeWidth="1.4"/>
+    <circle cx="14" cy="8" r="2.5" stroke="#444" strokeWidth="1.2"/>
+    <circle cx="14" cy="8" r="0.8" fill="#FF5C1B"/>
+    <circle cx="14" cy="16" r="1.8" stroke="#FF5C1B" strokeWidth="1.2"/>
+    <path d="M5 12a9 9 0 0018 0" stroke="#444" strokeWidth="1.4"/>
+    <line x1="14" y1="22" x2="14" y2="26" stroke="#444" strokeWidth="1.4"/>
+    <line x1="11" y1="26" x2="17" y2="26" stroke="#444" strokeWidth="1.4"/>
+  </svg>
+);
+
+// ─── Device SVG (hero illustration) ──────────────────────────────────────
+const DeviceIllustration = () => (
+  <svg viewBox="0 0 200 320" fill="none" xmlns="http://www.w3.org/2000/svg"
+    style={{ width: '100%', maxWidth: 180, display: 'block' }}>
+    {/* body */}
+    <rect x="70" y="24" width="60" height="138" rx="16" stroke="#2a2a2a" strokeWidth="1.5"/>
+    {/* grille background */}
+    <rect x="82" y="42" width="36" height="46" rx="6" stroke="#222" strokeWidth="1" fill="#0a0a0a"/>
+    {/* grille dots */}
+    {[[0,0],[1,0],[2,0],[3,0],[0,1],[1,1],[2,1],[3,1],[0,2],[1,2],[2,2],[3,2],[0,3],[1,3],[2,3],[3,3]].map(([c,r],i)=>(
+      <circle key={i} cx={89+c*8} cy={50+r*9} r="1.4" fill="#2e2e2e"/>
+    ))}
+    {/* LED indicator */}
+    <circle cx="100" cy="36" r="2.5" fill="#FF5C1B" opacity="0.85"/>
+    <circle cx="100" cy="36" r="4.5" fill="#FF5C1B" opacity="0.12"/>
+    {/* model text */}
+    <text x="84" y="103" fill="#2e2e2e" fontSize="6" fontFamily="monospace" letterSpacing="1">TTD-01</text>
+    {/* record button */}
+    <circle cx="100" cy="142" r="9" stroke="#2a2a2a" strokeWidth="1.2"/>
+    <circle cx="100" cy="142" r="4" fill="#FF5C1B" opacity="0.75"/>
+    {/* clip */}
+    <path d="M84 162 L84 206 Q100 217 116 206 L116 162" stroke="#1e1e1e" strokeWidth="1.5"/>
+    <path d="M91 188 L109 188" stroke="#2a2a2a" strokeWidth="1"/>
+    {/* sound waves */}
+    <path d="M138 60 Q152 78 138 96" stroke="#FF5C1B" strokeWidth="1.2" strokeLinecap="round" opacity="0.45" strokeDasharray="3.5 3"/>
+    <path d="M148 50 Q168 78 148 106" stroke="#FF5C1B" strokeWidth="1" strokeLinecap="round" opacity="0.2" strokeDasharray="3.5 3"/>
+    {/* AI output card */}
+    <rect x="44" y="238" width="112" height="38" rx="5" fill="#0A0A0A" stroke="#1e1e1e" strokeWidth="1"/>
+    <circle cx="55" cy="257" r="3" fill="#C8FF00" opacity="0.7"/>
+    <text x="63" y="252" fill="#666" fontSize="7" fontFamily="monospace">AI processing</text>
+    <text x="63" y="264" fill="#C8FF00" fontSize="7" fontFamily="monospace" opacity="0.85">→ Work order ready</text>
+    {/* connector line */}
+    <line x1="100" y1="218" x2="100" y2="237" stroke="#1e1e1e" strokeWidth="1" strokeDasharray="3 2"/>
+  </svg>
+);
+
+// ─── Shared components ─────────────────────────────────────────────────────
+const Divider = () => <div className="divider"/>;
+
+const BookDemoBtn = ({ large = false }) => (
+  <a href={DEMO_URL} target="_blank" rel="noopener noreferrer"
+    className="btn-primary"
+    style={large ? { fontSize: 16, padding: '14px 32px' } : {}}>
+    Book a 15-min Demo
+  </a>
+);
+
+const TryDemoBtn = () => (
+  <a href={`tel:${PHONE}`} className="btn-secondary">Try AI Demo</a>
+);
+
+// ─── Section 1: Hero ───────────────────────────────────────────────────────
+const Hero = () => (
+  <section style={{ background: '#000', position: 'relative', overflow: 'hidden' }}
+    className="px-6 md:px-16 py-32">
+    {/* Orange glow — top left */}
+    <div style={{
+      position: 'absolute', top: -160, left: -160,
+      width: 640, height: 540,
+      background: 'radial-gradient(ellipse, rgba(255,92,27,0.11) 0%, transparent 62%)',
+      pointerEvents: 'none'
+    }}/>
+    <div className="noise-overlay"/>
+
+    <div style={{ position: 'relative', maxWidth: 1080, margin: '0 auto' }}
+      className="flex flex-col md:flex-row md:items-center gap-14 md:gap-20">
+
+      {/* Left */}
+      <div style={{ flex: 1 }}>
+        <div className="eyebrow-tag" style={{ marginBottom: 32 }}>
+          <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#FF3B3B', display:'inline-block', flexShrink: 0 }}/>
+          <span className="eyebrow-label">HVAC &amp; Field Service Revenue Problem</span>
+        </div>
+
+        <h1 style={{ fontSize: 'clamp(38px, 5.5vw, 70px)', lineHeight: 1.06, marginBottom: 24 }}>
+          Your tech quoted{' '}
+          <span className="mono" style={{ color: '#FF5C1B' }}>$4,800</span>{' '}
+          on&#8209;site.
+          <br/>
+          <span style={{ color: '#555' }}>Nobody followed up.</span>
+          <br/>
+          <span style={{ color: '#FF3B3B' }}>That money is gone.</span>
+        </h1>
+
+        <p style={{ color: '#888', fontSize: 18, lineHeight: 1.72, maxWidth: 500, marginBottom: 36 }}>
+          TalkToDeal captures every on-site quote automatically.{' '}
+          <strong style={{ color: '#ddd', fontWeight: 600 }}>No typing. No lost revenue.</strong>
+        </p>
+
+        <BookDemoBtn large />
+        <p style={{ color: '#444', fontSize: 13, marginTop: 12 }}>Takes 15 minutes. No commitment.</p>
+      </div>
+
+      {/* Right — device line art */}
+      <div className="hidden md:flex items-center justify-center"
+        style={{ width: 200, flexShrink: 0, opacity: 0.75 }}>
+        <DeviceIllustration />
+      </div>
+    </div>
+  </section>
+);
+
+// ─── Section 2: Before vs After ────────────────────────────────────────────
+const BeforeAfter = () => {
+  const before = [
+    "Tech quotes on-site",
+    "Forgets details by end of day",
+    "Office never gets the number",
+    "Customer calls competitor",
+    "You lose the job",
+  ];
+  const after = [
+    "Tech speaks on-site",
+    "AI captures quote instantly",
+    "Work order auto-created",
+    "Follow-up scheduled automatically",
+    "Job closed. Revenue captured.",
+  ];
+
+  return (
+    <section style={{ background: '#0A0A0A' }} className="px-6 md:px-16 py-14">
+      <div style={{ maxWidth: 1080, margin: '0 auto' }}>
+        <h2 style={{ fontSize: 'clamp(26px, 3.5vw, 42px)', marginBottom: 8 }}>
+          The difference is the follow-through.
+        </h2>
+        <p style={{ color: '#666', fontSize: 16, marginBottom: 36 }}>One conversation. Two outcomes.</p>
+
+        <div className="grid md:grid-cols-2 gap-5">
+          {/* Before */}
+          <div style={{ border: '1px solid #1f1008', borderRadius: 8, padding: '26px 28px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 20 }}>
+              <span style={{ width: 7, height: 7, borderRadius: '50%', background: '#FF3B3B', display: 'inline-block' }}/>
+              <span style={{ color: '#FF3B3B', fontSize: 11, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase' }}>
+                Without TalkToDeal
+              </span>
+            </div>
+            <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 13 }}>
+              {before.map((item, i) => (
+                <li key={i} style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                  <span style={{ width: 20, height: 20, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                    <XIcon/>
+                  </span>
+                  <span style={{ color: i >= 2 ? '#c0392b' : '#888', fontSize: 15 }}>{item}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* After */}
+          <div style={{ border: '1px solid #1a2808', borderRadius: 8, padding: '26px 28px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 20 }}>
+              <span style={{ width: 7, height: 7, borderRadius: '50%', background: '#C8FF00', display: 'inline-block' }}/>
+              <span style={{ color: '#C8FF00', fontSize: 11, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase' }}>
+                With TalkToDeal
+              </span>
+            </div>
+            <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 13 }}>
+              {after.map((item, i) => (
+                <li key={i} style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                  <span style={{ width: 20, height: 20, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                    <ArrowRightIcon/>
+                  </span>
+                  <span style={{ color: i >= 2 ? '#C8FF00' : '#ccc', fontSize: 15, fontWeight: i >= 2 ? 500 : 400 }}>{item}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+
+        <div style={{ marginTop: 32 }}>
+          <BookDemoBtn />
+        </div>
+      </div>
+    </section>
+  );
+};
+
+// ─── Section 3: Scenarios ──────────────────────────────────────────────────
+const ScenarioRow = ({ quote, outputs, isLast }) => (
+  <>
+    <div className="grid md:grid-cols-2 gap-0" style={{ padding: '36px 0' }}>
+      {/* Left: quote */}
+      <div style={{ paddingRight: 0, marginBottom: 0 }} className="md:pr-10 pb-6 md:pb-0">
+        <div style={{
+          background: '#0A0A0A',
+          border: '1px solid #1a1a1a',
+          borderRadius: 6,
+          padding: '24px 26px',
+          height: '100%',
+        }}>
+          <div style={{
+            fontFamily: 'DM Serif Display, Georgia, serif',
+            fontSize: 52,
+            lineHeight: 0.75,
+            color: '#FF5C1B',
+            marginBottom: 14,
+            opacity: 0.55,
+          }}>&ldquo;</div>
+          <p style={{ color: '#bbb', fontSize: 15, lineHeight: 1.75, fontStyle: 'italic' }}>{quote}</p>
+          <p style={{ color: '#444', fontSize: 11, marginTop: 14, textTransform: 'uppercase', letterSpacing: '0.09em' }}>
+            Tech said on-site
+          </p>
+        </div>
+      </div>
+
+      {/* Right: AI output */}
+      <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', paddingLeft: 0 }}
+        className="md:pl-10">
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 16 }}>
+          <span style={{ fontSize: 11, fontWeight: 700, color: '#FF5C1B', textTransform: 'uppercase', letterSpacing: '0.1em' }}>
+            AI Auto-Generated
+          </span>
+          <span style={{ width: 5, height: 5, borderRadius: '50%', background: '#C8FF00', display: 'inline-block' }}/>
+        </div>
+        <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 11 }}>
+          {outputs.map((out, i) => (
+            <li key={i} style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+              <span style={{ color: '#C8FF00', fontSize: 14, fontWeight: 700, flexShrink: 0 }}>✓</span>
+              <span style={{ color: '#ddd', fontSize: 15 }}>{out}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+    {!isLast && <div className="divider"/>}
+  </>
+);
+
+const Scenarios = () => {
+  const cards = [
+    {
+      quote: "Capacitor is blown. Fan motor too. About $850 total.",
+      outputs: ["Repair documented", "Parts recorded", "Invoice ready"],
+    },
+    {
+      quote: "Drain line flushed. Contactor should be replaced next visit.",
+      outputs: ["Maintenance logged", "Upsell flagged", "Follow-up scheduled"],
+    },
+    {
+      quote: "10 ton Carrier Infinity. Ductwork mod needed. Around $12,500.",
+      outputs: ["Proposal drafted", "Scope captured", "Office notified"],
+    },
+  ];
+
+  return (
+    <section style={{ background: '#000' }} className="px-6 md:px-16 py-20">
+      <div style={{ maxWidth: 1080, margin: '0 auto' }}>
+        <h2 style={{ fontSize: 'clamp(26px, 3.5vw, 44px)', marginBottom: 8 }}>
+          From service calls to changeout estimates —{' '}
+          <span style={{ color: '#FF5C1B' }}>automatically.</span>
+        </h2>
+        <p style={{ color: '#666', fontSize: 16, marginBottom: 44 }}>
+          Every word your tech says becomes a trackable, billable record.
+        </p>
+
+        {/* Card container */}
+        <div style={{ border: '1px solid #1a1a1a', borderRadius: 8, padding: '0 32px' }}>
+          {cards.map((c, i) => (
+            <ScenarioRow key={i} {...c} isLast={i === cards.length - 1}/>
+          ))}
+        </div>
+
+        {/* Stats row */}
+        <div className="grid grid-cols-3"
+          style={{ border: '1px solid #1a1a1a', borderRadius: 8, overflow: 'hidden', marginTop: 40 }}>
+          {[
+            { num: "0",     label: "Keystrokes required" },
+            { num: "< 30s", label: "Quote to work order" },
+            { num: "100%",  label: "Field quotes captured" },
+          ].map((s, i) => (
+            <div key={i} className="text-center py-7 px-3"
+              style={{ borderRight: i < 2 ? '1px solid #1a1a1a' : 'none', minWidth: 0 }}>
+              <div className="mono" style={{ fontSize: 'clamp(20px, 4vw, 28px)', fontWeight: 700, color: '#FF5C1B', whiteSpace: 'nowrap' }}>{s.num}</div>
+              <div style={{ fontSize: 11, color: '#555', marginTop: 5, lineHeight: 1.4 }}>{s.label}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+};
+
+// ─── Section 4: Social Proof ───────────────────────────────────────────────
+const SocialProof = () => (
+  <section style={{ background: '#0A0A0A' }} className="px-6 md:px-16 py-20">
+    <div style={{ maxWidth: 680, margin: '0 auto' }}>
+      {/* Badge */}
+      <div className="eyebrow-tag" style={{ marginBottom: 36 }}>
+        <BoltIcon/>
+        <span className="eyebrow-label">BUILT FOR THE TRADES. TESTED IN THE FIELD.</span>
+      </div>
+
+      {/* Body copy */}
+      <p style={{ fontFamily: "'DM Serif Display', Georgia, serif", fontSize: 'clamp(22px, 3vw, 36px)', lineHeight: 1.3, marginBottom: 14, color: '#e8e8e8' }}>
+        Currently piloting with HVAC companies across Arizona and California.
+      </p>
+
+      {/* Sub copy */}
+      <p style={{ color: '#888', fontSize: 16, lineHeight: 1.65, marginBottom: 44 }}>
+        Real field techs. Real service calls. Real results — not a simulation.
+      </p>
+
+      {/* Device callout */}
+      <div style={{ marginTop: 44, border: '1px solid #1a1a1a', borderRadius: 8, padding: '22px 24px',
+        display: 'flex', alignItems: 'flex-start', gap: 16 }}>
+        <div style={{ width: 44, height: 44, borderRadius: 7, background: '#111', border: '1px solid #222',
+          display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+          <RecorderIcon/>
+        </div>
+        <div>
+          <div style={{ fontWeight: 600, color: '#e0e0e0', marginBottom: 6, fontSize: 15 }}>
+            Clips to the collar. That's it.
+          </div>
+          <div style={{ color: '#666', fontSize: 14, lineHeight: 1.68 }}>
+            No phone to unlock, no app to open, no form to fill. Techs just talk.
+            The small recording device captures everything. AI does the rest.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+);
+
+// ─── Section 5: Final CTA ─────────────────────────────────────────────────
+const FinalCTA = () => (
+  <section style={{ background: '#000', position: 'relative', overflow: 'hidden' }}
+    className="px-6 md:px-16 py-28">
+    {/* Orange glow — bottom right */}
+    <div style={{
+      position: 'absolute', bottom: -100, right: -100,
+      width: 560, height: 460,
+      background: 'radial-gradient(ellipse, rgba(255,92,27,0.09) 0%, transparent 62%)',
+      pointerEvents: 'none'
+    }}/>
+    <div className="noise-overlay"/>
+
+    <div style={{ position: 'relative', maxWidth: 680 }}>
+      <h2 style={{ fontSize: 'clamp(30px, 4.5vw, 58px)', lineHeight: 1.1, marginBottom: 16 }}>
+        Stop losing revenue.
+        <br/>
+        <span style={{ color: '#FF5C1B' }}>Start with one team.</span>
+      </h2>
+
+      <p style={{ color: '#888', fontSize: 17, marginBottom: 6 }}>
+        Starting at{' '}
+        <span className="mono" style={{ color: '#e0e0e0', fontWeight: 700 }}>$99–109 / month per team</span>
+      </p>
+      <p style={{ color: '#555', fontSize: 13, marginBottom: 36 }}>
+        Hardware included. No long-term contract required.
+      </p>
+
+      <div className="flex flex-wrap gap-3 items-center" style={{ marginBottom: 28 }}>
+        <BookDemoBtn large/>
+        <TryDemoBtn/>
+      </div>
+
+      <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+        <PhoneIcon/>
+        <a href={`tel:${PHONE}`} className="mono"
+          style={{ color: '#FF5C1B', fontSize: 16, fontWeight: 700, textDecoration: 'none',
+            transition: 'color 0.15s' }}
+          onMouseEnter={e => e.currentTarget.style.color = '#FF7040'}
+          onMouseLeave={e => e.currentTarget.style.color = '#FF5C1B'}>
+          {PHONE}
+        </a>
+      </div>
+
+      <p style={{ color: '#2a2a2a', fontSize: 12, marginTop: 52 }}>
+        TalkToDeal · HVAC &amp; Field Service · AI Voice-to-Work Order
+      </p>
+    </div>
+  </section>
+);
+
+// ─── App ──────────────────────────────────────────────────────────────────
+function App() {
+  return (
+    <>
+      <Hero/>
+      <Divider/>
+      <BeforeAfter/>
+      <Divider/>
+      <Scenarios/>
+      <Divider/>
+      <SocialProof/>
+      <Divider/>
+      <FinalCTA/>
+    </>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+</script>
+</body>
+</html>
