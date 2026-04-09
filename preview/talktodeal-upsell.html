@@ -1,0 +1,1438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TalkToDeal — Stop Losing $45K/Month in Hidden Upsells</title>
+  <meta name="description" content="Your techs spot upsell opportunities every day. TalkToDeal captures every one — compressor replacements, duct upgrades, full installs — and turns them into revenue your office can close." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ─── Tokens ──────────────────────────────────────────────────────────── */
+    :root {
+      --bg:          #FFFFFF;
+      --bg-alt:      #F8F8F6;
+      --bg-dark:     #111110;
+      --bg-darker:   #0C0C0B;
+
+      --fg:          #1A1A1A;
+      --fg-2:        #333333;
+      --fg-3:        #666666;
+      --fg-4:        #999999;
+
+      --orange:      #FF5C1B;
+      --orange-dk:   #D94A12;
+      --orange-bg:   #FFF4EF;
+      --orange-br:   rgba(255,92,27,0.18);
+
+      --green:       #16A34A;
+      --green-light: #22C55E;
+      --green-bg:    #F0FDF4;
+      --green-br:    rgba(22,163,74,0.2);
+
+      --red:         #DC2626;
+      --red-light:   #EF4444;
+      --red-bg:      #FEF2F2;
+      --red-br:      rgba(220,38,38,0.18);
+
+      --border:      #E5E5E5;
+      --border-md:   #D0D0D0;
+      --border-dk:   rgba(255,255,255,0.08);
+
+      --font-h: 'DM Serif Display', Georgia, serif;
+      --font-b: 'DM Sans', system-ui, sans-serif;
+      --font-m: 'JetBrains Mono', 'Courier New', monospace;
+
+      --r-xs: 4px;
+      --r-sm: 6px;
+      --r-md: 10px;
+      --r-lg: 16px;
+      --r-xl: 22px;
+      --r-2xl: 30px;
+
+      --sh-xs: 0 1px 2px rgba(0,0,0,.06);
+      --sh-sm: 0 1px 4px rgba(0,0,0,.07), 0 1px 2px rgba(0,0,0,.05);
+      --sh-md: 0 4px 16px rgba(0,0,0,.09), 0 2px 6px rgba(0,0,0,.06);
+      --sh-lg: 0 12px 40px rgba(0,0,0,.10), 0 4px 12px rgba(0,0,0,.07);
+      --sh-xl: 0 24px 64px rgba(0,0,0,.12), 0 8px 20px rgba(0,0,0,.08);
+
+      --ease: cubic-bezier(0.16,1,0.3,1);
+      --ease-in: cubic-bezier(0.4,0,1,1);
+    }
+
+    /* ─── Reset ───────────────────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; font-size: 16px; }
+    body { font-family: var(--font-b); background: var(--bg); color: var(--fg); line-height: 1.6; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+    img { display: block; max-width: 100%; height: auto; }
+    a { color: inherit; text-decoration: none; }
+    button { cursor: pointer; font-family: var(--font-b); border: none; }
+    :focus-visible { outline: 2px solid var(--orange); outline-offset: 3px; border-radius: 3px; }
+
+    /* ─── Layout ──────────────────────────────────────────────────────────── */
+    .wrap { width: 100%; max-width: 1080px; margin: 0 auto; padding: 0 28px; }
+    section { padding: 100px 0; }
+
+    /* ─── Eyebrow ─────────────────────────────────────────────────────────── */
+    .eyebrow {
+      display: inline-block;
+      font-family: var(--font-m);
+      font-size: 0.68rem; font-weight: 600;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--orange); margin-bottom: 16px;
+    }
+
+    /* ─── Buttons ─────────────────────────────────────────────────────────── */
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      padding: 13px 26px; border-radius: var(--r-md);
+      font-size: 0.95rem; font-weight: 600; font-family: var(--font-b);
+      cursor: pointer; border: none; text-decoration: none;
+      transition: transform 0.18s var(--ease), box-shadow 0.18s, background 0.18s, border-color 0.18s;
+    }
+    .btn:active { transform: scale(0.97) !important; }
+    .btn-primary {
+      background: var(--orange); color: #fff;
+      box-shadow: 0 2px 0 var(--orange-dk), 0 4px 16px rgba(255,92,27,0.28);
+    }
+    .btn-primary:hover { background: var(--orange-dk); transform: translateY(-2px); box-shadow: 0 4px 0 #a83a0a, 0 8px 28px rgba(255,92,27,.36); }
+    .btn-ghost {
+      background: var(--bg); color: var(--fg);
+      border: 1.5px solid var(--border-md);
+      box-shadow: var(--sh-sm);
+    }
+    .btn-ghost:hover { background: var(--bg-alt); border-color: #bbb; transform: translateY(-1px); box-shadow: var(--sh-md); }
+    .btn-lg { padding: 15px 32px; font-size: 1rem; }
+
+    /* ─── Fade-up ─────────────────────────────────────────────────────────── */
+    .fu { opacity: 0; transform: translateY(22px); transition: opacity 0.65s var(--ease), transform 0.65s var(--ease); }
+    .fu.in { opacity: 1; transform: none; }
+    @media (prefers-reduced-motion: reduce) { .fu { opacity: 1; transform: none; transition: none; } }
+
+    /* ─── Divider ─────────────────────────────────────────────────────────── */
+    .hr { height: 1px; background: var(--border); }
+
+
+    /* ════════════════════════════════════════════════════════════════════════
+       S1 — HERO
+    ════════════════════════════════════════════════════════════════════════ */
+    .hero {
+      background: var(--bg);
+      padding: 76px 0 96px;
+      border-bottom: 1px solid var(--border);
+      position: relative; overflow: hidden;
+    }
+    .hero::after {
+      content: '';
+      position: absolute; inset: 0;
+      background-image: repeating-linear-gradient(0deg, transparent, transparent 39px, rgba(0,0,0,.022) 39px, rgba(0,0,0,.022) 40px);
+      pointer-events: none;
+    }
+    .hero-layout {
+      display: grid;
+      grid-template-columns: 1fr 420px;
+      gap: 64px; align-items: center;
+      position: relative; z-index: 1;
+    }
+
+    /* Left */
+    .hero-kicker {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--orange-bg); border: 1px solid var(--orange-br);
+      border-radius: 100px; padding: 5px 14px 5px 8px;
+      font-family: var(--font-m); font-size: 0.68rem; font-weight: 600;
+      color: var(--orange); letter-spacing: 0.07em; text-transform: uppercase;
+      margin-bottom: 22px;
+    }
+    .kicker-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--orange); flex-shrink: 0; }
+    .hero h1 {
+      font-family: var(--font-h);
+      font-size: clamp(2.1rem, 4.8vw, 3.5rem);
+      line-height: 1.09; letter-spacing: -0.015em;
+      color: var(--fg); margin-bottom: 22px;
+    }
+    .hero h1 .h1-money {
+      font-family: var(--font-m);
+      color: var(--orange);
+    }
+    .hero-sub {
+      font-size: 1.08rem; color: var(--fg-3); line-height: 1.65;
+      max-width: 520px; margin-bottom: 36px;
+    }
+    .hero-ctas { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 13px; }
+    .hero-note { font-family: var(--font-m); font-size: 0.72rem; color: var(--fg-4); }
+
+    /* Right: product + floating tags */
+    .hero-visual { position: relative; }
+    .hw-frame {
+      background: #111110;
+      border-radius: var(--r-xl);
+      padding: 32px;
+      box-shadow: var(--sh-xl);
+      border: 1px solid #222;
+    }
+    .hw-frame img { width: 100%; border-radius: var(--r-lg); display: block; }
+    /* Fallback */
+    .hw-placeholder {
+      aspect-ratio: 3/4;
+      background: linear-gradient(160deg, #2A2826, #1A1816);
+      border-radius: var(--r-lg);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .hw-device-mock {
+      width: 110px; height: 165px;
+      background: linear-gradient(170deg, #3A3836, #1E1C1A);
+      border-radius: 20px;
+      box-shadow: 0 16px 48px rgba(0,0,0,.6), inset 0 1px 0 rgba(255,255,255,.06);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center; gap: 14px;
+    }
+    .hd-led { width: 8px; height: 8px; border-radius: 50%; background: var(--orange); }
+    .hd-grill { display: flex; gap: 3px; }
+    .hd-grill span { width: 3px; height: 18px; background: rgba(255,255,255,.12); border-radius: 2px; }
+    .hd-brand { font-family: var(--font-m); font-size: .48rem; color: rgba(255,255,255,.18); letter-spacing: .12em; }
+
+    /* Upsell badges — stack on right */
+    .upsell-badges {
+      position: absolute;
+      right: -18px; top: 50%;
+      transform: translateY(-50%);
+      display: flex; flex-direction: column; gap: 8px;
+    }
+    .ub {
+      background: var(--bg);
+      border: 1.5px solid var(--border);
+      border-radius: var(--r-sm);
+      padding: 9px 14px;
+      display: flex; align-items: flex-start; gap: 9px;
+      box-shadow: var(--sh-md);
+      max-width: 220px;
+    }
+    .ub-check {
+      width: 18px; height: 18px; border-radius: 50%;
+      background: var(--green-bg); border: 1.5px solid var(--green-br);
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px;
+    }
+    .ub-money {
+      width: 18px; height: 18px; border-radius: 50%;
+      background: var(--orange-bg); border: 1.5px solid var(--orange-br);
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px;
+    }
+    .ub-label { font-size: 0.77rem; font-weight: 600; color: var(--fg); line-height: 1.35; }
+    .ub-sub { font-family: var(--font-m); font-size: 0.62rem; color: var(--fg-3); margin-top: 1px; }
+
+
+    /* ════════════════════════════════════════════════════════════════════════
+       S2 — REVENUE MATH
+    ════════════════════════════════════════════════════════════════════════ */
+    .math-section { background: var(--bg-alt); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+
+    .math-card {
+      background: var(--bg);
+      border: 1.5px solid var(--border);
+      border-radius: var(--r-2xl);
+      padding: 56px 60px;
+      box-shadow: var(--sh-lg);
+      margin-top: 48px;
+    }
+    .math-equation {
+      display: flex; align-items: center; flex-wrap: wrap; gap: 16px;
+      margin-bottom: 40px;
+    }
+    .math-term {
+      text-align: center;
+    }
+    .math-num {
+      font-family: var(--font-m);
+      font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 700;
+      line-height: 1; color: var(--fg);
+      margin-bottom: 4px;
+    }
+    .math-num.orange { color: var(--orange); }
+    .math-label {
+      font-size: 0.78rem; color: var(--fg-3);
+      white-space: nowrap;
+    }
+    .math-op {
+      font-family: var(--font-m);
+      font-size: 2rem; font-weight: 400; color: var(--fg-4);
+      align-self: flex-start; padding-top: 2px;
+    }
+    .math-eq {
+      font-family: var(--font-m);
+      font-size: 2rem; color: var(--orange); font-weight: 700;
+      align-self: flex-start; padding-top: 2px;
+    }
+    .math-result {
+      flex: 1; min-width: 200px;
+      background: var(--orange-bg);
+      border: 1.5px solid var(--orange-br);
+      border-radius: var(--r-lg);
+      padding: 16px 22px; text-align: center;
+    }
+    .result-num {
+      font-family: var(--font-m);
+      font-size: clamp(1.6rem, 3.5vw, 2.4rem); font-weight: 700;
+      color: var(--orange); line-height: 1; margin-bottom: 4px;
+    }
+    .result-label { font-size: 0.78rem; color: var(--fg-3); }
+
+    .math-question {
+      font-family: var(--font-h); font-style: italic;
+      font-size: clamp(1.1rem, 2vw, 1.35rem);
+      color: var(--fg-2); margin-bottom: 32px; line-height: 1.4;
+    }
+
+    .math-contrast {
+      display: grid; grid-template-columns: 1fr 48px 1fr; gap: 0;
+      border: 1.5px solid var(--border);
+      border-radius: var(--r-xl); overflow: hidden;
+    }
+    .mc-side { padding: 28px 28px; text-align: center; }
+    .mc-left  { background: var(--red-bg); }
+    .mc-right { background: var(--green-bg); }
+    .mc-divider {
+      display: flex; align-items: center; justify-content: center;
+      background: var(--bg); border-left: 1px solid var(--border); border-right: 1px solid var(--border);
+      font-family: var(--font-m); font-size: 0.68rem; font-weight: 700; color: var(--fg-4);
+      writing-mode: vertical-lr; letter-spacing: 0.06em;
+    }
+    .mc-num {
+      font-family: var(--font-m); font-size: clamp(1.8rem, 3.5vw, 2.6rem); font-weight: 700;
+      line-height: 1; margin-bottom: 6px;
+    }
+    .mc-left  .mc-num { color: var(--red); text-decoration: line-through; text-decoration-color: rgba(220,38,38,.5); text-decoration-thickness: 3px; }
+    .mc-right .mc-num { color: var(--green); }
+    .mc-label { font-size: 0.82rem; color: var(--fg-3); line-height: 1.4; }
+
+
+    /* ════════════════════════════════════════════════════════════════════════
+       S3 — SCENARIO COMPARISON
+    ════════════════════════════════════════════════════════════════════════ */
+    .scenario-section { background: var(--bg); }
+
+    .scenarios { display: flex; flex-direction: column; gap: 24px; margin-top: 52px; }
+    .scene {
+      border: 1.5px solid var(--border);
+      border-radius: var(--r-xl);
+      overflow: hidden;
+      transition: box-shadow 0.22s, transform 0.22s var(--ease);
+    }
+    .scene:hover { box-shadow: var(--sh-lg); transform: translateY(-2px); }
+
+    /* Quote header */
+    .scene-quote {
+      background: var(--bg-alt);
+      border-bottom: 1px solid var(--border);
+      padding: 18px 28px;
+      display: flex; align-items: flex-start; gap: 14px;
+    }
+    .sq-marker {
+      flex-shrink: 0; margin-top: 2px;
+      width: 28px; height: 28px; border-radius: 50%;
+      background: var(--fg); color: #fff;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .sq-label {
+      font-family: var(--font-m); font-size: 0.65rem; font-weight: 700;
+      letter-spacing: .1em; text-transform: uppercase;
+      color: var(--fg-4); margin-bottom: 5px;
+    }
+    .sq-text {
+      font-family: var(--font-h); font-style: italic;
+      font-size: 1rem; color: var(--fg); line-height: 1.45;
+    }
+
+    /* Two outcomes */
+    .scene-outcomes {
+      display: grid; grid-template-columns: 1fr 1fr;
+    }
+    .outcome {
+      padding: 24px 28px;
+      display: flex; flex-direction: column; gap: 10px;
+    }
+    .outcome.bad  { background: var(--bg); border-right: 1px solid var(--border); }
+    .outcome.good { background: var(--green-bg); }
+    .out-head {
+      display: flex; align-items: center; gap: 9px;
+      font-family: var(--font-m); font-size: 0.68rem; font-weight: 700;
+      letter-spacing: .09em; text-transform: uppercase;
+    }
+    .out-head.bad-head  { color: var(--red);   }
+    .out-head.good-head { color: var(--green); }
+    .out-icon {
+      width: 20px; height: 20px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    }
+    .out-icon.bad  { background: var(--red-bg);   border: 1.5px solid var(--red-br);   }
+    .out-icon.good { background: var(--green-bg); border: 1.5px solid var(--green-br); }
+    .out-body { font-size: 0.9rem; color: var(--fg-2); line-height: 1.6; }
+    .out-result {
+      display: inline-flex; align-items: center; gap: 7px;
+      padding: 7px 13px;
+      border-radius: var(--r-sm);
+      font-family: var(--font-m); font-size: 0.73rem; font-weight: 600;
+      margin-top: 4px; align-self: flex-start;
+    }
+    .out-result.lost  { background: var(--red-bg);   color: var(--red);   border: 1px solid var(--red-br);   }
+    .out-result.won   { background: var(--green-bg); color: var(--green); border: 1px solid var(--green-br); }
+    .out-result .rm   { font-family: var(--font-m); font-weight: 700; }
+
+
+    /* ════════════════════════════════════════════════════════════════════════
+       S4 — TIMELINE
+    ════════════════════════════════════════════════════════════════════════ */
+    .timeline-section { background: var(--bg-alt); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+    .timeline-sub { font-size: 1.05rem; color: var(--fg-3); max-width: 540px; line-height: 1.65; margin-top: 12px; }
+
+    .timeline {
+      position: relative;
+      padding-top: 52px;
+      max-width: 680px;
+    }
+    /* Vertical line */
+    .timeline::before {
+      content: '';
+      position: absolute;
+      top: 68px; bottom: 32px;
+      left: 84px;
+      width: 2px;
+      background: repeating-linear-gradient(to bottom, var(--border) 0, var(--border) 8px, transparent 8px, transparent 14px);
+    }
+
+    .tl-item {
+      display: grid;
+      grid-template-columns: 84px 40px 1fr;
+      gap: 0 0;
+      margin-bottom: 0;
+      position: relative;
+    }
+    .tl-item + .tl-item { margin-top: 2px; }
+
+    /* Time column */
+    .tl-time {
+      font-family: var(--font-m); font-size: 0.65rem; font-weight: 700;
+      color: var(--fg-4); letter-spacing: .04em; text-align: right;
+      padding-right: 16px; padding-top: 14px; line-height: 1.3;
+    }
+    .tl-time .tl-day   { display: block; color: var(--fg-3); font-size: .72rem; }
+    .tl-time .tl-clock { display: block; font-size: .62rem; }
+
+    /* Dot column */
+    .tl-dot-col {
+      display: flex; flex-direction: column; align-items: center;
+      position: relative; z-index: 1;
+    }
+    .tl-dot {
+      width: 14px; height: 14px; border-radius: 50%;
+      border: 2.5px solid var(--border-md);
+      background: var(--bg); flex-shrink: 0;
+      margin-top: 14px;
+      transition: border-color .2s, background .2s;
+    }
+    .tl-dot.active  { border-color: var(--orange); background: var(--orange-bg); }
+    .tl-dot.success { border-color: var(--green);  background: var(--green-bg);  }
+
+    /* Content column */
+    .tl-content {
+      padding: 10px 0 10px 16px;
+    }
+    .tl-card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--r-md);
+      padding: 14px 18px;
+      transition: border-color .2s, box-shadow .2s;
+    }
+    .tl-item:hover .tl-card { border-color: var(--border-md); box-shadow: var(--sh-sm); }
+    .tl-card.highlight {
+      border-color: var(--orange-br);
+      background: var(--orange-bg);
+    }
+    .tl-card.win {
+      border-color: var(--green-br);
+      background: var(--green-bg);
+    }
+    .tl-card-head {
+      font-family: var(--font-m); font-size: 0.65rem; font-weight: 700;
+      letter-spacing: .08em; text-transform: uppercase;
+      color: var(--fg-4); margin-bottom: 5px;
+    }
+    .tl-card.highlight .tl-card-head { color: var(--orange); }
+    .tl-card.win .tl-card-head        { color: var(--green);  }
+    .tl-card-body { font-size: 0.875rem; color: var(--fg-2); line-height: 1.55; }
+    .tl-card-body strong { color: var(--fg); }
+    .tl-amount {
+      font-family: var(--font-m); font-size: 1.05rem; font-weight: 700;
+      color: var(--orange); margin-top: 5px; display: block;
+    }
+    .tl-amount.win { color: var(--green); }
+
+    /* Closing callout */
+    .timeline-close {
+      background: var(--fg);
+      border-radius: var(--r-xl);
+      padding: 28px 32px;
+      margin-top: 32px;
+      display: flex; align-items: center; gap: 20px;
+      flex-wrap: wrap;
+    }
+    .tc-text {
+      font-family: var(--font-h); font-style: italic;
+      font-size: 1.1rem; color: rgba(255,255,255,.75); flex: 1;
+      line-height: 1.5;
+    }
+    .tc-amount {
+      font-family: var(--font-m); font-size: 1.8rem; font-weight: 700;
+      color: var(--orange); white-space: nowrap;
+    }
+
+
+    /* ════════════════════════════════════════════════════════════════════════
+       S5 — PAIN CARDS
+    ════════════════════════════════════════════════════════════════════════ */
+    .pain-section { background: var(--bg); }
+    .pain-grid {
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      gap: 16px; margin-top: 52px;
+    }
+    .pain-card {
+      background: var(--bg-alt);
+      border: 1.5px solid var(--border);
+      border-radius: var(--r-xl);
+      padding: 28px 22px;
+      position: relative; overflow: hidden;
+      transition: border-color .22s, box-shadow .22s, transform .22s var(--ease);
+    }
+    .pain-card:hover { border-color: var(--border-md); box-shadow: var(--sh-md); transform: translateY(-3px); }
+    .pain-card.primary {
+      border-color: rgba(255,92,27,.28);
+      background: var(--orange-bg);
+    }
+    .pain-card.primary:hover { border-color: rgba(255,92,27,.45); }
+    .pain-icon {
+      width: 40px; height: 40px; border-radius: var(--r-sm);
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 16px;
+    }
+    .pi-o { background: var(--orange-bg); border: 1.5px solid var(--orange-br); }
+    .pi-g { background: var(--green-bg);  border: 1.5px solid var(--green-br);  }
+    .pi-s { background: var(--bg);        border: 1.5px solid var(--border);    }
+    .pain-card.primary .pain-icon { background: rgba(255,92,27,.15); border-color: rgba(255,92,27,.25); }
+    .pain-title { font-family: var(--font-h); font-size: 1.1rem; margin-bottom: 8px; color: var(--fg); }
+    .pain-desc  { font-size: 0.83rem; color: var(--fg-3); line-height: 1.65; }
+    .pain-seq {
+      position: absolute; top: 18px; right: 18px;
+      font-family: var(--font-m); font-size: .6rem; font-weight: 700;
+      color: var(--fg-4); opacity: .5;
+    }
+
+
+    /* ════════════════════════════════════════════════════════════════════════
+       S6 — HARDWARE
+    ════════════════════════════════════════════════════════════════════════ */
+    .hardware-section { background: var(--bg-dark); padding: 100px 0; }
+    .hw-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 72px; align-items: center; }
+
+    /* Image block */
+    .hw-img-block {
+      background: #1B1A18; border-radius: var(--r-2xl);
+      border: 1px solid rgba(255,255,255,.06);
+      padding: 48px;
+      display: flex; align-items: center; justify-content: center;
+      min-height: 360px;
+      box-shadow: 0 32px 80px rgba(0,0,0,.55);
+    }
+    .hw-img-block img {
+      max-height: 310px; width: auto;
+      filter: drop-shadow(0 16px 40px rgba(0,0,0,.55));
+    }
+    .hw-fallback {
+      width: 130px; height: 190px;
+      background: linear-gradient(160deg, #3A3836, #1E1C1A);
+      border-radius: 20px;
+      box-shadow: 0 16px 48px rgba(0,0,0,.6), inset 0 1px 0 rgba(255,255,255,.07);
+      display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px;
+    }
+
+    /* Content */
+    .hw-content {}
+    .hw-content .eyebrow { color: var(--orange); }
+    .hw-content h2 { color: #fff; margin-bottom: 14px; }
+    .hw-lead { font-size: 1rem; color: rgba(255,255,255,.5); margin-bottom: 32px; line-height: 1.65; }
+    .hw-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 36px; }
+    .hw-row {
+      display: flex; align-items: flex-start; gap: 12px;
+      padding: 13px 16px;
+      background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.07);
+      border-radius: var(--r-md);
+    }
+    .hw-chk {
+      width: 20px; height: 20px; border-radius: 50%;
+      background: rgba(34,197,94,.18); border: 1px solid rgba(34,197,94,.3);
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px;
+    }
+    .hw-row-t { font-weight: 600; font-size: .875rem; color: rgba(255,255,255,.88); margin-bottom: 1px; }
+    .hw-row-s { font-size: .78rem; color: rgba(255,255,255,.38); }
+    .hw-tagline {
+      font-family: var(--font-h); font-style: italic;
+      font-size: 1.05rem; color: rgba(255,255,255,.42);
+      border-left: 2px solid var(--orange); padding-left: 16px; line-height: 1.55;
+    }
+
+
+    /* ════════════════════════════════════════════════════════════════════════
+       S7 — TESTIMONIAL
+    ════════════════════════════════════════════════════════════════════════ */
+    .proof-section { background: var(--bg-alt); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+    .proof-inner {
+      display: grid; grid-template-columns: 1fr 300px; gap: 64px; align-items: center;
+    }
+    .proof-qmark {
+      font-family: var(--font-h); font-size: 7rem; line-height: .7;
+      color: var(--orange); opacity: .15; display: block; margin-bottom: -6px;
+    }
+    blockquote.proof-q {
+      font-family: var(--font-h);
+      font-size: clamp(1.15rem, 2.2vw, 1.65rem); line-height: 1.38;
+      color: var(--fg); margin-bottom: 24px;
+    }
+    .proof-attr { display: flex; align-items: center; gap: 12px; }
+    .pa-av {
+      width: 44px; height: 44px; border-radius: 50%;
+      background: var(--fg); display: flex; align-items: center; justify-content: center;
+      font-family: var(--font-m); font-size: .75rem; font-weight: 700; color: #fff; flex-shrink: 0;
+    }
+    .pa-name { font-weight: 600; font-size: .875rem; }
+    .pa-role { font-size: .775rem; color: var(--fg-3); }
+    .pa-tag {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: var(--bg); border: 1px solid var(--border);
+      border-radius: 100px; padding: 3px 10px;
+      font-family: var(--font-m); font-size: .62rem; font-weight: 600;
+      color: var(--fg-3); margin-top: 14px;
+    }
+
+    /* Right: numbers */
+    .proof-nums { display: flex; flex-direction: column; gap: 12px; }
+    .pn {
+      background: var(--bg); border: 1.5px solid var(--border);
+      border-radius: var(--r-lg); padding: 20px 18px;
+    }
+    .pn-val { font-family: var(--font-m); font-size: 1.9rem; font-weight: 700; line-height: 1; margin-bottom: 3px; }
+    .pn-val.orange { color: var(--orange); }
+    .pn-val.green  { color: var(--green);  }
+    .pn-label { font-size: .82rem; color: var(--fg-3); }
+
+
+    /* ════════════════════════════════════════════════════════════════════════
+       S8 — INTEGRATIONS
+    ════════════════════════════════════════════════════════════════════════ */
+    .int-section { background: var(--bg); padding: 80px 0; border-bottom: 1px solid var(--border); }
+    .int-inner { text-align: center; }
+    .int-inner h2 { font-family: var(--font-h); font-size: clamp(1.5rem, 3vw, 2.2rem); max-width: 480px; margin: 0 auto 10px; }
+    .int-sub { font-size: 1rem; color: var(--fg-3); max-width: 440px; margin: 0 auto 44px; line-height: 1.65; }
+    .int-row { display: flex; align-items: center; justify-content: center; gap: 14px; flex-wrap: wrap; margin-bottom: 32px; }
+    .int-card {
+      background: var(--bg-alt); border: 1.5px solid var(--border);
+      border-radius: var(--r-lg); padding: 18px 22px;
+      display: flex; align-items: center; gap: 11px;
+      transition: border-color .2s, box-shadow .2s, transform .2s var(--ease);
+    }
+    .int-card:hover { border-color: var(--border-md); box-shadow: var(--sh-sm); transform: translateY(-2px); }
+    .int-logo {
+      width: 36px; height: 36px; border-radius: var(--r-sm);
+      background: var(--bg); border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--font-m); font-size: .58rem; font-weight: 700; color: var(--fg-3); flex-shrink: 0;
+    }
+    .int-name { font-weight: 600; font-size: .875rem; }
+    .int-type { font-size: .7rem; color: var(--fg-4); }
+    .trust-row { display: flex; align-items: center; justify-content: center; gap: 16px; flex-wrap: wrap; }
+    .tb {
+      display: flex; align-items: center; gap: 7px;
+      padding: 6px 13px; background: var(--bg-alt);
+      border: 1px solid var(--border); border-radius: 100px;
+      font-size: .78rem; font-weight: 500; color: var(--fg-3);
+    }
+
+
+    /* ════════════════════════════════════════════════════════════════════════
+       S9 — FINAL CTA
+    ════════════════════════════════════════════════════════════════════════ */
+    .cta-section { background: var(--bg-darker); padding: 100px 0; }
+    .cta-grid { display: grid; grid-template-columns: 1fr 380px; gap: 64px; align-items: center; }
+    .cta-left .eyebrow { color: var(--orange); }
+    .cta-left h2 { color: #fff; margin-bottom: 16px; }
+    .cta-left h2 .cm { font-family: var(--font-m); color: var(--orange); }
+    .cta-left p { font-size: 1.05rem; color: rgba(255,255,255,.5); line-height: 1.65; max-width: 440px; }
+
+    .cta-box {
+      background: rgba(255,255,255,.05); border: 1.5px solid rgba(255,255,255,.1);
+      border-radius: var(--r-2xl); padding: 34px 30px;
+    }
+    .cp-row { display: flex; align-items: baseline; gap: 7px; margin-bottom: 3px; }
+    .cp-num { font-family: var(--font-m); font-size: 2.6rem; font-weight: 700; color: #fff; line-height: 1; }
+    .cp-per { font-size: .875rem; color: rgba(255,255,255,.4); }
+    .cp-sub { font-size: .75rem; color: rgba(255,255,255,.3); margin-bottom: 24px; }
+    .cc-list { display: flex; flex-direction: column; gap: 9px; margin-bottom: 24px; }
+    .cc-item { display: flex; align-items: center; gap: 10px; font-size: .85rem; color: rgba(255,255,255,.7); }
+    .cc-chk { color: #22C55E; flex-shrink: 0; }
+    .cta-btns { display: flex; flex-direction: column; gap: 9px; }
+    .cta-btns .btn-primary { width: 100%; }
+    .cta-btns .btn-ghost {
+      width: 100%; background: rgba(255,255,255,.07); color: rgba(255,255,255,.8);
+      border-color: rgba(255,255,255,.14);
+    }
+    .cta-btns .btn-ghost:hover { background: rgba(255,255,255,.12); border-color: rgba(255,255,255,.25); transform: translateY(-1px); }
+    .cta-phone {
+      text-align: center; margin-top: 13px;
+      font-family: var(--font-m); font-size: .72rem; color: rgba(255,255,255,.28);
+    }
+    .cta-phone a { color: rgba(255,255,255,.52); transition: color .2s; }
+    .cta-phone a:hover { color: rgba(255,255,255,.9); }
+
+
+    /* ─── Footer ──────────────────────────────────────────────────────────── */
+    footer { background: var(--bg-darker); border-top: 1px solid rgba(255,255,255,.06); padding: 28px 0; }
+    .foot-row { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 14px; }
+    .foot-brand { display: flex; align-items: center; gap: 9px; }
+    .foot-logo { width: 28px; height: 28px; border-radius: 7px; background: var(--orange); display: flex; align-items: center; justify-content: center; }
+    .foot-name { font-family: var(--font-h); font-size: 1rem; color: rgba(255,255,255,.75); }
+    .foot-links { display: flex; gap: 18px; }
+    .foot-links a { font-size: .78rem; color: rgba(255,255,255,.28); transition: color .2s; }
+    .foot-links a:hover { color: rgba(255,255,255,.7); }
+    .foot-copy { font-family: var(--font-m); font-size: .7rem; color: rgba(255,255,255,.18); }
+
+
+    /* ─── Responsive ──────────────────────────────────────────────────────── */
+    @media (max-width: 960px) {
+      .hero-layout { grid-template-columns: 1fr; gap: 44px; }
+      .upsell-badges { position: static; transform: none; flex-direction: row; flex-wrap: wrap; margin-top: 14px; }
+      .hw-frame { max-width: 360px; margin: 0 auto; }
+      .hw-grid  { grid-template-columns: 1fr; gap: 48px; }
+      .hw-img-block { max-width: 340px; margin: 0 auto; }
+      .pain-grid { grid-template-columns: repeat(2, 1fr); }
+      .proof-inner { grid-template-columns: 1fr; }
+      .cta-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 768px) {
+      section { padding: 72px 0; }
+      .math-card { padding: 32px 24px; }
+      .math-equation { gap: 12px; justify-content: center; }
+      .math-contrast { grid-template-columns: 1fr 32px 1fr; }
+      .mc-side { padding: 20px 16px; }
+      .scene-outcomes { grid-template-columns: 1fr; }
+      .outcome.bad { border-right: none; border-bottom: 1px solid var(--border); }
+      .pain-grid { grid-template-columns: 1fr; }
+      .int-row { gap: 10px; }
+      footer .foot-row { flex-direction: column; text-align: center; }
+    }
+    @media (max-width: 480px) {
+      .hero h1 { font-size: 1.85rem; }
+      .hero-ctas { flex-direction: column; }
+      .hero-ctas .btn { width: 100%; }
+      .timeline { padding-left: 0; }
+      .timeline::before { left: 72px; }
+      .tl-time { padding-right: 12px; font-size: .6rem; }
+      .math-contrast { grid-template-columns: 1fr; }
+      .mc-divider { writing-mode: initial; height: 32px; width: 100%; border-left: none; border-right: none; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ════════════════════════════════════════════════════════════════════════
+     S1 — HERO
+════════════════════════════════════════════════════════════════════════ -->
+<section class="hero" aria-labelledby="hero-h1">
+  <div class="wrap">
+    <div class="hero-layout">
+
+      <!-- LEFT -->
+      <div>
+        <div class="hero-kicker" aria-hidden="true">
+          <span class="kicker-dot"></span>
+          Revenue Intelligence · HVAC &amp; Field Service
+        </div>
+        <h1 id="hero-h1">
+          Your techs spot
+          <span class="h1-money">$50K</span>
+          in upsells every month.<br/>
+          Your office sees zero.
+        </h1>
+        <p class="hero-sub">
+          Every service call is a sales opportunity. TalkToDeal captures every upsell your techs mention on-site — and turns it into a follow-up your office can close.
+        </p>
+        <div class="hero-ctas">
+          <a href="https://calendly.com/talktodeal/15min" class="btn btn-primary btn-lg" target="_blank" rel="noopener" aria-label="Book a 15-minute demo call">
+            <svg width="17" height="17" viewBox="0 0 17 17" fill="none" aria-hidden="true"><rect x="2" y="3" width="13" height="12" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M5.5 2v2.5M11.5 2v2.5M2 7.5h13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+            Book a 15-min Demo
+          </a>
+          <a href="https://talktodeal.com/demo" class="btn btn-ghost btn-lg" target="_blank" rel="noopener" aria-label="Try the interactive AI demo">
+            <svg width="17" height="17" viewBox="0 0 17 17" fill="none" aria-hidden="true"><circle cx="8.5" cy="8.5" r="6.5" stroke="currentColor" stroke-width="1.4"/><path d="M7 5.5l4.5 3L7 11.5V5.5z" fill="currentColor"/></svg>
+            Try AI Demo
+          </a>
+        </div>
+        <p class="hero-note">Takes 15 minutes. No commitment.</p>
+      </div>
+
+      <!-- RIGHT: product + upsell badges -->
+      <div class="hero-visual">
+        <div class="hw-frame">
+          <img
+            src="HCJD7.png"
+            alt="TalkToDeal voice recorder — aluminum clip-on device for HVAC technicians"
+            loading="eager"
+            onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"
+          />
+          <div class="hw-placeholder" style="display:none;" role="img" aria-label="TalkToDeal hardware device">
+            <div class="hw-device-mock">
+              <div class="hd-led" aria-hidden="true"></div>
+              <div class="hd-grill" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></div>
+              <div class="hd-brand">TALKTODEAL</div>
+            </div>
+          </div>
+        </div>
+        <div class="upsell-badges" role="list" aria-label="Upsell capture examples">
+          <div class="ub" role="listitem">
+            <div class="ub-check" aria-hidden="true">
+              <svg width="9" height="9" viewBox="0 0 9 9" fill="none"><path d="M1.5 4.5l2 2L7.5 2" stroke="#16A34A" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <div>
+              <div class="ub-label">Upsell flagged: compressor replacement</div>
+              <div class="ub-sub">Detected · Mon 9:01am</div>
+            </div>
+          </div>
+          <div class="ub" role="listitem">
+            <div class="ub-money" aria-hidden="true">
+              <svg width="9" height="9" viewBox="0 0 9 9" fill="none"><path d="M4.5 1v7M3 2.5h2.25A1.25 1.25 0 016.5 3.75v0A1.25 1.25 0 015.25 5H3.75A1.25 1.25 0 002.5 6.25v0A1.25 1.25 0 003.75 7.5H6" stroke="#FF5C1B" stroke-width="1.2" stroke-linecap="round"/></svg>
+            </div>
+            <div>
+              <div class="ub-label" style="color:var(--orange)">Estimate: $8,200</div>
+              <div class="ub-sub">Auto-generated</div>
+            </div>
+          </div>
+          <div class="ub" role="listitem">
+            <div class="ub-check" aria-hidden="true">
+              <svg width="9" height="9" viewBox="0 0 9 9" fill="none"><path d="M1.5 4.5l2 2L7.5 2" stroke="#16A34A" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <div>
+              <div class="ub-label">Follow-up scheduled: Oct 2025</div>
+              <div class="ub-sub">Synced to ServiceTitan</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════════════════════════════════════
+     S2 — REVENUE MATH
+════════════════════════════════════════════════════════════════════════ -->
+<section class="math-section" aria-labelledby="math-h2">
+  <div class="wrap">
+    <div class="fu">
+      <span class="eyebrow">The Revenue Leak</span>
+      <h2 id="math-h2" style="font-family:var(--font-h); font-size:clamp(1.8rem,3.2vw,2.5rem); line-height:1.15; letter-spacing:-.01em; margin-bottom:0">This is what invisible revenue looks like.</h2>
+    </div>
+
+    <div class="math-card fu" style="transition-delay:.08s">
+      <!-- Equation -->
+      <div class="math-equation" role="math" aria-label="5 techs times 3 upsells per week times $3,000 average value equals $45,000 per month in opportunities">
+        <div class="math-term">
+          <div class="math-num">5</div>
+          <div class="math-label">techs on your team</div>
+        </div>
+        <div class="math-op" aria-hidden="true">×</div>
+        <div class="math-term">
+          <div class="math-num">3</div>
+          <div class="math-label">upsells spotted / week</div>
+        </div>
+        <div class="math-op" aria-hidden="true">×</div>
+        <div class="math-term">
+          <div class="math-num orange">$3,000</div>
+          <div class="math-label">avg. opportunity value</div>
+        </div>
+        <div class="math-eq" aria-hidden="true">=</div>
+        <div class="math-result">
+          <div class="result-num">$45,000</div>
+          <div class="result-label">per month in upsell opportunities</div>
+        </div>
+      </div>
+
+      <p class="math-question">"How many of these actually made it to your office last month?"</p>
+
+      <!-- Contrast -->
+      <div class="math-contrast" role="presentation" aria-label="$45,000 spotted versus $0 followed up">
+        <div class="mc-side mc-left">
+          <div class="mc-num" aria-label="45,000 dollars spotted, but lost">$45,000</div>
+          <div class="mc-label">spotted on-site by your techs<br/>every month</div>
+        </div>
+        <div class="mc-divider" aria-hidden="true">vs</div>
+        <div class="mc-side mc-right">
+          <div class="mc-num" style="color:var(--green)" aria-label="Zero dollars followed up without TalkToDeal">$0</div>
+          <div class="mc-label">followed up by your office<br/>without TalkToDeal</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════════════════════════════════════
+     S3 — SCENARIO COMPARISON
+════════════════════════════════════════════════════════════════════════ -->
+<section class="scenario-section" aria-labelledby="scene-h2">
+  <div class="wrap">
+    <div class="fu">
+      <span class="eyebrow">Real Scenarios</span>
+      <h2 id="scene-h2" style="font-family:var(--font-h); font-size:clamp(1.8rem,3.2vw,2.5rem); line-height:1.15; letter-spacing:-.01em; margin-bottom:12px">Same conversation.<br/>Two outcomes.</h2>
+      <p style="font-size:1.05rem; color:var(--fg-3); max-width:520px; line-height:1.65">The tech says the same thing on every job. The only difference is whether anyone hears it.</p>
+    </div>
+
+    <div class="scenarios">
+
+      <!-- Scene 1 -->
+      <article class="scene fu" style="transition-delay:.05s" aria-label="Scenario: aging compressor">
+        <div class="scene-quote">
+          <div class="sq-marker" aria-hidden="true">
+            <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><rect x="2" y="3" width="9" height="7.5" rx="1.5" stroke="rgba(255,255,255,.7)" stroke-width="1.3"/><path d="M4.5 6.5h4M4.5 8.5h2.5" stroke="rgba(255,255,255,.7)" stroke-width="1.3" stroke-linecap="round"/></svg>
+          </div>
+          <div>
+            <div class="sq-label">Tech says on-site · Scenario 01</div>
+            <div class="sq-text">"This compressor is on its last legs. Probably need to replace it next summer."</div>
+          </div>
+        </div>
+        <div class="scene-outcomes">
+          <div class="outcome bad" aria-label="Without TalkToDeal">
+            <div class="out-head bad-head">
+              <div class="out-icon bad" aria-hidden="true">
+                <svg width="9" height="9" viewBox="0 0 9 9" fill="none"><path d="M2 2l5 5M7 2l-5 5" stroke="#DC2626" stroke-width="1.4" stroke-linecap="round"/></svg>
+              </div>
+              Without TalkToDeal
+            </div>
+            <p class="out-body">Tech forgets to mention it to the office. Nobody logs it. Next summer, the customer's compressor fails. They call a <strong>different company</strong> for the emergency replacement.</p>
+            <div class="out-result lost" aria-label="$8,000 job lost to competitor">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M6 1v10M3 8l3 3 3-3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <span class="rm">$8,000 job lost to a competitor</span>
+            </div>
+          </div>
+          <div class="outcome good" aria-label="With TalkToDeal">
+            <div class="out-head good-head">
+              <div class="out-icon good" aria-hidden="true">
+                <svg width="9" height="9" viewBox="0 0 9 9" fill="none"><path d="M1.5 4.5l2 2L7.5 2" stroke="#16A34A" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </div>
+              With TalkToDeal
+            </div>
+            <p class="out-body">AI flags upsell opportunity instantly. Office gets an alert with full context. Sales rep calls the customer in spring, references the tech's assessment. <strong>Customer books the replacement with you.</strong></p>
+            <div class="out-result won" aria-label="$8,000 job closed">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M6 11V1M3 4l3-3 3 3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <span class="rm">$8,000 job closed. Your company.</span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- Scene 2 -->
+      <article class="scene fu" style="transition-delay:.10s" aria-label="Scenario: leaking ductwork">
+        <div class="scene-quote">
+          <div class="sq-marker" aria-hidden="true">
+            <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><rect x="2" y="3" width="9" height="7.5" rx="1.5" stroke="rgba(255,255,255,.7)" stroke-width="1.3"/><path d="M4.5 6.5h4M4.5 8.5h2.5" stroke="rgba(255,255,255,.7)" stroke-width="1.3" stroke-linecap="round"/></svg>
+          </div>
+          <div>
+            <div class="sq-label">Tech says on-site · Scenario 02</div>
+            <div class="sq-text">"Your ductwork is leaking pretty bad. You're losing about 30% efficiency."</div>
+          </div>
+        </div>
+        <div class="scene-outcomes">
+          <div class="outcome bad" aria-label="Without TalkToDeal">
+            <div class="out-head bad-head">
+              <div class="out-icon bad" aria-hidden="true">
+                <svg width="9" height="9" viewBox="0 0 9 9" fill="none"><path d="M2 2l5 5M7 2l-5 5" stroke="#DC2626" stroke-width="1.4" stroke-linecap="round"/></svg>
+              </div>
+              Without TalkToDeal
+            </div>
+            <p class="out-body">Customer nods. Tech moves on. Nobody in the office ever hears about the duct problem. The customer keeps paying high energy bills and never knows a fix exists.</p>
+            <div class="out-result lost" aria-label="$4,500 job never happened">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M6 1v10M3 8l3 3 3-3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <span class="rm">$4,500 duct job never happens</span>
+            </div>
+          </div>
+          <div class="outcome good" aria-label="With TalkToDeal">
+            <div class="out-head good-head">
+              <div class="out-icon good" aria-hidden="true">
+                <svg width="9" height="9" viewBox="0 0 9 9" fill="none"><path d="M1.5 4.5l2 2L7.5 2" stroke="#16A34A" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </div>
+              With TalkToDeal
+            </div>
+            <p class="out-body">AI creates a duct sealing proposal automatically. Office sends estimate to the customer that same week. Customer sees their potential savings and says yes.</p>
+            <div class="out-result won" aria-label="$4,500 job closed same week">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M6 11V1M3 4l3-3 3 3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <span class="rm">$4,500 job closed same week</span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- Scene 3 -->
+      <article class="scene fu" style="transition-delay:.15s" aria-label="Scenario: aging 15-year-old unit">
+        <div class="scene-quote">
+          <div class="sq-marker" aria-hidden="true">
+            <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><rect x="2" y="3" width="9" height="7.5" rx="1.5" stroke="rgba(255,255,255,.7)" stroke-width="1.3"/><path d="M4.5 6.5h4M4.5 8.5h2.5" stroke="rgba(255,255,255,.7)" stroke-width="1.3" stroke-linecap="round"/></svg>
+          </div>
+          <div>
+            <div class="sq-label">Tech says on-site · Scenario 03</div>
+            <div class="sq-text">"This unit is 15 years old. I'd recommend budgeting for a new system in the next year or two."</div>
+          </div>
+        </div>
+        <div class="scene-outcomes">
+          <div class="outcome bad" aria-label="Without TalkToDeal">
+            <div class="out-head bad-head">
+              <div class="out-icon bad" aria-hidden="true">
+                <svg width="9" height="9" viewBox="0 0 9 9" fill="none"><path d="M2 2l5 5M7 2l-5 5" stroke="#DC2626" stroke-width="1.4" stroke-linecap="round"/></svg>
+              </div>
+              Without TalkToDeal
+            </div>
+            <p class="out-body">Good advice. Zero follow-through. Two years later, the unit fails. The customer doesn't remember who told them, so they call whoever comes up first on Google. <strong>Another company gets the install.</strong></p>
+            <div class="out-result lost" aria-label="$12,000 install lost">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M6 1v10M3 8l3 3 3-3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <span class="rm">$12,000 install goes to someone else</span>
+            </div>
+          </div>
+          <div class="outcome good" aria-label="With TalkToDeal">
+            <div class="out-head good-head">
+              <div class="out-icon good" aria-hidden="true">
+                <svg width="9" height="9" viewBox="0 0 9 9" fill="none"><path d="M1.5 4.5l2 2L7.5 2" stroke="#16A34A" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </div>
+              With TalkToDeal
+            </div>
+            <p class="out-body">AI schedules a follow-up for 12 months out. Sales rep calls right on time, <strong>before the unit fails</strong>, before the customer looks elsewhere. You get the planned replacement on your terms.</p>
+            <div class="out-result won" aria-label="$12,000 install secured">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M6 11V1M3 4l3-3 3 3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <span class="rm">$12,000 install. Your company. On time.</span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════════════════════════════════════
+     S4 — TIMELINE
+════════════════════════════════════════════════════════════════════════ -->
+<section class="timeline-section" aria-labelledby="tl-h2">
+  <div class="wrap">
+    <div class="fu">
+      <span class="eyebrow">How It Works</span>
+      <h2 id="tl-h2" style="font-family:var(--font-h); font-size:clamp(1.8rem,3.2vw,2.5rem); line-height:1.15; letter-spacing:-.01em; margin-bottom:0">From tech talk to closed deal —<br/>automatically.</h2>
+      <p class="timeline-sub">One real upsell. Watch what happens in 5 days — without anyone typing a single word.</p>
+    </div>
+
+    <div class="timeline fu" style="transition-delay:.08s" aria-label="Timeline of upsell from discovery to closed deal">
+
+      <!-- Item 1 -->
+      <div class="tl-item">
+        <div class="tl-time" aria-hidden="true"><span class="tl-day">Monday</span><span class="tl-clock">9:00 am</span></div>
+        <div class="tl-dot-col"><div class="tl-dot"></div></div>
+        <div class="tl-content">
+          <div class="tl-card">
+            <div class="tl-card-head">Tech on-site</div>
+            <div class="tl-card-body">While finishing the tune-up, tech tells the customer: <strong>"This compressor is aging — probably 1–2 years left. You'll want to budget for a replacement."</strong></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Item 2 -->
+      <div class="tl-item">
+        <div class="tl-time" aria-hidden="true"><span class="tl-day">Monday</span><span class="tl-clock">9:01 am</span></div>
+        <div class="tl-dot-col"><div class="tl-dot active"></div></div>
+        <div class="tl-content">
+          <div class="tl-card highlight">
+            <div class="tl-card-head">AI detects upsell</div>
+            <div class="tl-card-body">TalkToDeal flags the opportunity, creates an upsell record, and generates an estimate — automatically.</div>
+            <span class="tl-amount">Opportunity value: $8,200</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Item 3 -->
+      <div class="tl-item">
+        <div class="tl-time" aria-hidden="true"><span class="tl-day">Monday</span><span class="tl-clock">10:00 am</span></div>
+        <div class="tl-dot-col"><div class="tl-dot"></div></div>
+        <div class="tl-content">
+          <div class="tl-card">
+            <div class="tl-card-head">Office alert</div>
+            <div class="tl-card-body">Office manager receives the flagged opportunity with full context: the customer name, address, tech's exact assessment, and the estimated value. <strong>No phone calls. No follow-up questions.</strong></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Item 4 -->
+      <div class="tl-item">
+        <div class="tl-time" aria-hidden="true"><span class="tl-day">Tuesday</span><span class="tl-clock">morning</span></div>
+        <div class="tl-dot-col"><div class="tl-dot"></div></div>
+        <div class="tl-content">
+          <div class="tl-card">
+            <div class="tl-card-head">Sales call</div>
+            <div class="tl-card-body">Sales rep calls the customer. References the tech's assessment by name. Customer is <strong>not surprised</strong> — the tech already told them. The call is warm. Trust is already built.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Item 5 -->
+      <div class="tl-item">
+        <div class="tl-time" aria-hidden="true"><span class="tl-day">Friday</span><span class="tl-clock">afternoon</span></div>
+        <div class="tl-dot-col"><div class="tl-dot success"></div></div>
+        <div class="tl-content">
+          <div class="tl-card win">
+            <div class="tl-card-head">Deal closed</div>
+            <div class="tl-card-body">Customer signs the proposal. Compressor replacement scheduled for spring.</div>
+            <span class="tl-amount win">$8,200 closed. 5 days. Zero typing.</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="timeline-close fu" style="transition-delay:.14s" role="presentation">
+      <div class="tc-text">From one sentence on-site to $8,200 in revenue. Without anyone typing a single word.</div>
+      <div class="tc-amount" aria-label="$8,200 revenue">$8,200</div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════════════════════════════════════
+     S5 — PAIN CARDS
+════════════════════════════════════════════════════════════════════════ -->
+<section class="pain-section" aria-labelledby="pain-h2">
+  <div class="wrap">
+    <div class="fu" style="text-align:center; max-width:580px; margin:0 auto 0">
+      <span class="eyebrow">What We Solve</span>
+      <h2 id="pain-h2" style="font-family:var(--font-h); font-size:clamp(1.8rem,3.2vw,2.5rem); line-height:1.15; letter-spacing:-.01em; margin-bottom:12px">One device. Every field problem — solved.</h2>
+      <p style="font-size:1.05rem; color:var(--fg-3); line-height:1.65">The four ways field service companies leak revenue every day.</p>
+    </div>
+    <div class="pain-grid">
+
+      <article class="pain-card primary fu" style="transition-delay:.04s" aria-labelledby="p1-t">
+        <span class="pain-seq" aria-hidden="true">01 / 04</span>
+        <div class="pain-icon pi-o" aria-hidden="true">
+          <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M11 3l2.5 5.5H19l-4.5 3.5 1.5 5.5L11 14l-5 3.5 1.5-5.5L3 8.5h5.5L11 3z" stroke="#FF5C1B" stroke-width="1.5" stroke-linejoin="round"/></svg>
+        </div>
+        <h3 class="pain-title" id="p1-t">Missed Upsells</h3>
+        <p class="pain-desc">Your techs spot opportunities every day. TalkToDeal makes sure every one becomes a follow-up your office can close.</p>
+      </article>
+
+      <article class="pain-card fu" style="transition-delay:.1s" aria-labelledby="p2-t">
+        <span class="pain-seq" aria-hidden="true">02 / 04</span>
+        <div class="pain-icon pi-g" aria-hidden="true">
+          <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M5 7h12a1 1 0 011 1v9a1 1 0 01-1 1H5a1 1 0 01-1-1V8a1 1 0 011-1z" stroke="#16A34A" stroke-width="1.5"/><path d="M8 11h6M8 14h4" stroke="#16A34A" stroke-width="1.5" stroke-linecap="round"/><path d="M8 7V5.5a3 3 0 016 0V7" stroke="#16A34A" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </div>
+        <h3 class="pain-title" id="p2-t">Lost Quotes</h3>
+        <p class="pain-desc">On-site quotes vanish between the job and the office. Every quote is now captured and tracked automatically from the moment it's spoken.</p>
+      </article>
+
+      <article class="pain-card fu" style="transition-delay:.16s" aria-labelledby="p3-t">
+        <span class="pain-seq" aria-hidden="true">03 / 04</span>
+        <div class="pain-icon pi-s" aria-hidden="true">
+          <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><circle cx="11" cy="7" r="3.5" stroke="#666" stroke-width="1.5"/><path d="M3.5 19c0-4.14 3.36-7.5 7.5-7.5s7.5 3.36 7.5 7.5" stroke="#666" stroke-width="1.5" stroke-linecap="round"/><path d="M16 12l2 2m0 0l2 2m-2-2l2-2m-2 2l-2 2" stroke="#666" stroke-width="1.4" stroke-linecap="round"/></svg>
+        </div>
+        <h3 class="pain-title" id="p3-t">Admin Overload</h3>
+        <p class="pain-desc">Office stops chasing techs for details. Work orders, quotes, and follow-ups generate themselves from what techs already say on-site.</p>
+      </article>
+
+      <article class="pain-card fu" style="transition-delay:.22s" aria-labelledby="p4-t">
+        <span class="pain-seq" aria-hidden="true">04 / 04</span>
+        <div class="pain-icon pi-s" aria-hidden="true">
+          <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M11 4v4l3 3" stroke="#666" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="11" cy="11" r="7.5" stroke="#666" stroke-width="1.5"/><path d="M5 17.5l1.5-1.5" stroke="#666" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </div>
+        <h3 class="pain-title" id="p4-t">Maintenance Revenue</h3>
+        <p class="pain-desc">Every "you should service this next year" becomes a scheduled callback. Recurring maintenance revenue — on autopilot, no one needs to remember.</p>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════════════════════════════════════
+     S6 — HARDWARE
+════════════════════════════════════════════════════════════════════════ -->
+<section class="hardware-section" aria-labelledby="hw-h2">
+  <div class="wrap">
+    <div class="hw-grid">
+
+      <div class="fu">
+        <div class="hw-img-block">
+          <img
+            src="HCJD7.png"
+            alt="TalkToDeal hardware: compact aluminum clip-on voice recorder for HVAC technicians"
+            loading="lazy"
+            onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"
+          />
+          <div class="hw-fallback" style="display:none;" role="img" aria-label="TalkToDeal hardware device">
+            <div class="hd-led" aria-hidden="true"></div>
+            <div class="hd-grill" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></div>
+            <div class="hd-brand">TALKTODEAL</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="hw-content fu" style="transition-delay:.1s">
+        <span class="eyebrow">The Hardware</span>
+        <h2 id="hw-h2" style="font-family:var(--font-h); font-size:clamp(1.8rem,3.2vw,2.5rem); line-height:1.15; color:#fff; margin-bottom:14px">Built for the field.<br/>Invisible to your techs.</h2>
+        <p class="hw-lead">A small aluminum device that clips to a collar or sits in a pocket. Techs talk like they always do. Every word that matters gets captured.</p>
+        <ul class="hw-list" aria-label="Hardware features">
+          <li class="hw-row">
+            <div class="hw-chk" aria-hidden="true">
+              <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5l2 2 4-4" stroke="#22C55E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <div>
+              <div class="hw-row-t">Clips to collar or pocket</div>
+              <div class="hw-row-s">Techs forget it's there. That's by design.</div>
+            </div>
+          </li>
+          <li class="hw-row">
+            <div class="hw-chk" aria-hidden="true">
+              <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5l2 2 4-4" stroke="#22C55E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <div>
+              <div class="hw-row-t">All-day battery</div>
+              <div class="hw-row-s">No charging mid-shift. Works the full work day.</div>
+            </div>
+          </li>
+          <li class="hw-row">
+            <div class="hw-chk" aria-hidden="true">
+              <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5l2 2 4-4" stroke="#22C55E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <div>
+              <div class="hw-row-t">No phone required</div>
+              <div class="hw-row-s">Works completely independently. No pairing or setup.</div>
+            </div>
+          </li>
+          <li class="hw-row">
+            <div class="hw-chk" aria-hidden="true">
+              <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5l2 2 4-4" stroke="#22C55E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <div>
+              <div class="hw-row-t">No training needed</div>
+              <div class="hw-row-s">Talk to the customer. Talk to yourself. AI understands both.</div>
+            </div>
+          </li>
+        </ul>
+        <p class="hw-tagline">"Your techs don't need to do anything different. They already talk about what they see. Now that talk becomes revenue."</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════════════════════════════════════
+     S7 — SOCIAL PROOF
+════════════════════════════════════════════════════════════════════════ -->
+<section class="proof-section" aria-labelledby="proof-label">
+  <div class="wrap">
+    <div class="proof-inner">
+
+      <div class="fu">
+        <span id="proof-label" class="eyebrow">Customer Story</span>
+        <span class="proof-qmark" aria-hidden="true">"</span>
+        <blockquote class="proof-q">
+          We had no idea how many upsell opportunities we were missing. First month with TalkToDeal, our office flagged $38K in follow-ups we would have never seen.
+        </blockquote>
+        <div class="proof-attr">
+          <div class="pa-av" aria-hidden="true">JM</div>
+          <div>
+            <div class="pa-name">J. Morris</div>
+            <div class="pa-role">HVAC Company Owner, Southeast US</div>
+          </div>
+        </div>
+        <div class="pa-tag" aria-label="Already in use by over 10 field service teams">
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true"><circle cx="6" cy="6" r="4.5" stroke="currentColor" stroke-width="1.2"/><path d="M4 6l1.5 1.5L8.5 4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Already powering 10+ field service teams
+        </div>
+      </div>
+
+      <div class="proof-nums fu" style="transition-delay:.12s" aria-label="Key results">
+        <div class="pn" aria-label="$38,000 flagged in first month">
+          <div class="pn-val orange">$38K</div>
+          <div class="pn-label">Flagged in first month — opportunities never seen before</div>
+        </div>
+        <div class="pn" aria-label="100% tech adoption from day one">
+          <div class="pn-val green">100%</div>
+          <div class="pn-label">Tech adoption from day one — zero training needed</div>
+        </div>
+        <div class="pn" aria-label="Less than one week to deploy">
+          <div class="pn-val" style="font-size:1.6rem; color:var(--fg)">&lt; 1 week</div>
+          <div class="pn-label">Average time from order to first upsell captured</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════════════════════════════════════
+     S8 — INTEGRATIONS
+════════════════════════════════════════════════════════════════════════ -->
+<section class="int-section" aria-labelledby="int-h2">
+  <div class="wrap">
+    <div class="int-inner">
+      <span class="eyebrow">Integrations</span>
+      <h2 id="int-h2">Drops into your existing workflow.</h2>
+      <p class="int-sub">Upsell opportunities flow directly into your CRM. Your sales team sees them instantly — no copy-paste, no new system to learn.</p>
+
+      <div class="int-row fu" role="list" aria-label="Supported integrations">
+        <div class="int-card" role="listitem">
+          <div class="int-logo" aria-hidden="true">ST</div>
+          <div><div class="int-name">ServiceTitan</div><div class="int-type">Field Service CRM</div></div>
+        </div>
+        <div class="int-card" role="listitem">
+          <div class="int-logo" aria-hidden="true">HC</div>
+          <div><div class="int-name">Housecall Pro</div><div class="int-type">Field Service CRM</div></div>
+        </div>
+        <div class="int-card" role="listitem">
+          <div class="int-logo" aria-hidden="true">JB</div>
+          <div><div class="int-name">Jobber</div><div class="int-type">Field Service CRM</div></div>
+        </div>
+        <div class="int-card" role="listitem">
+          <div class="int-logo" aria-hidden="true">QB</div>
+          <div><div class="int-name">QuickBooks</div><div class="int-type">Accounting</div></div>
+        </div>
+      </div>
+
+      <div class="trust-row fu" style="transition-delay:.08s" role="list" aria-label="Security certifications">
+        <div class="tb" role="listitem">
+          <svg width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true"><path d="M6.5 1.5L2 3.5v3.5c0 2.5 2 4.5 4.5 5 2.5-.5 4.5-2.5 4.5-5V3.5L6.5 1.5z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/><path d="M4.5 6.5l1.5 1.5L9 5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          End-to-end encrypted
+        </div>
+        <div class="tb" role="listitem">
+          <svg width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true"><rect x="2" y="5" width="9" height="7" rx="1.5" stroke="currentColor" stroke-width="1.2"/><path d="M4 5V3.5a2.5 2.5 0 015 0V5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+          SOC 2 compliant
+        </div>
+        <div class="tb" role="listitem">
+          <svg width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true"><circle cx="6.5" cy="6.5" r="5" stroke="currentColor" stroke-width="1.2"/><path d="M4.5 6.5l1.5 1.5L9 4.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          HIPAA ready
+        </div>
+        <div class="tb" role="listitem">
+          <svg width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true"><path d="M6.5 2v9M2 6.5h9" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+          Hardware included
+        </div>
+        <div class="tb" role="listitem">
+          <svg width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true"><path d="M2 9.5l2.5-2.5 2 2 4-5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          No long-term contract
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════════════════════════════════════
+     S9 — FINAL CTA
+════════════════════════════════════════════════════════════════════════ -->
+<section class="cta-section" aria-labelledby="cta-h2">
+  <div class="wrap">
+    <div class="cta-grid">
+
+      <div class="fu">
+        <span class="eyebrow">Get Started</span>
+        <h2 id="cta-h2" style="font-family:var(--font-h); font-size:clamp(1.8rem,3.2vw,2.5rem); line-height:1.15; letter-spacing:-.01em; color:#fff; margin-bottom:16px">Your techs already see<br/>the opportunities.<br/><span class="cm">Start capturing them.</span></h2>
+        <p>Every service call your team goes on today has at least one upsell in it. TalkToDeal makes sure none of them disappear again.</p>
+      </div>
+
+      <div class="cta-box fu" style="transition-delay:.1s">
+        <div class="cp-row" aria-label="Starting at $99 per month per team">
+          <span class="cp-num">$99</span>
+          <span class="cp-per">– $109 / month per team</span>
+        </div>
+        <p class="cp-sub">Hardware included. No long-term contract. Cancel anytime.</p>
+        <ul class="cc-list" aria-label="What's included">
+          <li class="cc-item">
+            <svg class="cc-chk" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2 7l3 3 7-6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            AI upsell detection, automatic
+          </li>
+          <li class="cc-item">
+            <svg class="cc-chk" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2 7l3 3 7-6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Work orders + quotes from voice
+          </li>
+          <li class="cc-item">
+            <svg class="cc-chk" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2 7l3 3 7-6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Hardware device included
+          </li>
+          <li class="cc-item">
+            <svg class="cc-chk" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2 7l3 3 7-6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            ServiceTitan, Housecall Pro, Jobber, QB
+          </li>
+          <li class="cc-item">
+            <svg class="cc-chk" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2 7l3 3 7-6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            SOC 2 · End-to-end encrypted · HIPAA
+          </li>
+        </ul>
+        <div class="cta-btns">
+          <a href="https://calendly.com/talktodeal/15min" class="btn btn-primary" target="_blank" rel="noopener" aria-label="Book a free 15-minute demo">
+            <svg width="15" height="15" viewBox="0 0 15 15" fill="none" aria-hidden="true"><rect x="2" y="2.5" width="11" height="11" rx="2" stroke="currentColor" stroke-width="1.4"/><path d="M5 2v1.5M10 2v1.5M2 7h11" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+            Book a 15-min Demo
+          </a>
+          <a href="https://talktodeal.com/demo" class="btn btn-ghost" target="_blank" rel="noopener" aria-label="Try the interactive AI demo">
+            <svg width="15" height="15" viewBox="0 0 15 15" fill="none" aria-hidden="true"><circle cx="7.5" cy="7.5" r="6" stroke="currentColor" stroke-width="1.3"/><path d="M6 5l4.5 2.5L6 10V5z" fill="currentColor"/></svg>
+            Try AI Demo First
+          </a>
+        </div>
+        <p class="cta-phone">Questions? Call us: <a href="tel:6609000008">660-900-0008</a></p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ─── Footer ─────────────────────────────────────────────────────────── -->
+<footer>
+  <div class="wrap">
+    <div class="foot-row">
+      <div class="foot-brand">
+        <div class="foot-logo" aria-hidden="true">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1.5a5.5 5.5 0 100 11A5.5 5.5 0 007 1.5zM5 7a2 2 0 114 0 2 2 0 01-4 0z" fill="#fff"/></svg>
+        </div>
+        <span class="foot-name">TalkToDeal</span>
+      </div>
+      <nav class="foot-links" aria-label="Footer">
+        <a href="https://talktodeal.com/privacy">Privacy</a>
+        <a href="https://talktodeal.com/terms">Terms</a>
+        <a href="https://talktodeal.com/security">Security</a>
+      </nav>
+      <span class="foot-copy">&copy; 2025 TalkToDeal. All rights reserved.</span>
+    </div>
+  </div>
+</footer>
+
+
+<script>
+  // Fade-up on scroll
+  const io = new IntersectionObserver(e => {
+    e.forEach(x => { if (x.isIntersecting) { x.target.classList.add('in'); io.unobserve(x.target); } });
+  }, { threshold: 0.1, rootMargin: '0px 0px -36px 0px' });
+  document.querySelectorAll('.fu').forEach(el => io.observe(el));
+
+  // Subtle hover on scenario steps
+  document.querySelectorAll('.fstep, .outcome').forEach(el => {
+    el.addEventListener('mouseenter', () => { if (!el.classList.contains('outcome')) el.style.transform = 'translateX(3px)'; });
+    el.addEventListener('mouseleave', () => { el.style.transform = ''; });
+  });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,1399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TalkToDeal — Stop Chasing Techs for Job Details</title>
+  <meta name="description" content="TalkToDeal auto-generates work orders, quotes, and follow-ups from what your techs say on-site. No data entry. No phone tag. Works with ServiceTitan." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ─── Tokens ──────────────────────────────────────────────────────────── */
+    :root {
+      --bg:           #F7F4F0;
+      --bg-white:     #FFFFFF;
+      --bg-dark:      #111110;
+      --bg-darker:    #0C0C0B;
+
+      --fg:           #1A1814;
+      --fg-mid:       #4A4640;
+      --fg-muted:     #7A7470;
+      --fg-subtle:    #A8A4A0;
+
+      --orange:       #FF5C1B;
+      --orange-dk:    #D94A12;
+      --orange-bg:    #FFF3EE;
+      --orange-border:rgba(255,92,27,0.2);
+
+      --green:        #1A6B3C;
+      --green-light:  #22C55E;
+      --green-bg:     #EBF7EF;
+      --green-border: rgba(26,107,60,0.18);
+
+      --red:          #C0392B;
+      --red-bg:       #FEF0EE;
+      --red-border:   rgba(192,57,43,0.15);
+
+      --amber:        #B45309;
+      --amber-bg:     #FFFBEB;
+
+      --blue:         #1D4ED8;
+      --blue-bg:      #EFF6FF;
+
+      --border:       #E2DDD8;
+      --border-md:    #C8C3BE;
+      --border-dark:  rgba(255,255,255,0.08);
+
+      --font-h: 'DM Serif Display', Georgia, serif;
+      --font-b: 'DM Sans', system-ui, sans-serif;
+      --font-m: 'JetBrains Mono', 'Courier New', monospace;
+
+      --r-xs: 4px;
+      --r-sm: 6px;
+      --r-md: 10px;
+      --r-lg: 16px;
+      --r-xl: 22px;
+      --r-2xl:30px;
+
+      --sh-sm: 0 1px 3px rgba(0,0,0,.07), 0 1px 2px rgba(0,0,0,.05);
+      --sh-md: 0 4px 16px rgba(0,0,0,.09), 0 2px 6px rgba(0,0,0,.06);
+      --sh-lg: 0 12px 40px rgba(0,0,0,.11), 0 4px 12px rgba(0,0,0,.07);
+      --sh-xl: 0 24px 64px rgba(0,0,0,.14), 0 8px 20px rgba(0,0,0,.09);
+
+      --ease: cubic-bezier(0.16,1,0.3,1);
+    }
+
+    /* ─── Reset ───────────────────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; font-size: 16px; }
+    body { font-family: var(--font-b); background: var(--bg); color: var(--fg); line-height: 1.6; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+    img { display: block; max-width: 100%; height: auto; }
+    a { color: inherit; text-decoration: none; }
+    button { cursor: pointer; font-family: var(--font-b); border: none; }
+    :focus-visible { outline: 2px solid var(--orange); outline-offset: 3px; border-radius: 3px; }
+
+    /* ─── Layout ──────────────────────────────────────────────────────────── */
+    .container { width: 100%; max-width: 1120px; margin: 0 auto; padding: 0 28px; }
+    section { padding: 96px 0; }
+
+    /* ─── Typography ──────────────────────────────────────────────────────── */
+    h1 { font-family: var(--font-h); font-weight: 400; font-size: clamp(2.2rem, 5vw, 3.6rem); line-height: 1.09; letter-spacing: -0.015em; }
+    h2 { font-family: var(--font-h); font-weight: 400; font-size: clamp(1.7rem, 3.2vw, 2.5rem); line-height: 1.12; letter-spacing: -0.01em; }
+    h3 { font-family: var(--font-h); font-weight: 400; font-size: 1.2rem; line-height: 1.3; }
+
+    /* ─── Eyebrow ─────────────────────────────────────────────────────────── */
+    .eyebrow {
+      display: inline-block;
+      font-family: var(--font-m);
+      font-size: 0.7rem; font-weight: 600;
+      letter-spacing: 0.13em; text-transform: uppercase;
+      color: var(--orange); margin-bottom: 14px;
+    }
+
+    /* ─── Buttons ─────────────────────────────────────────────────────────── */
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      padding: 13px 26px; border-radius: var(--r-md);
+      font-size: 0.95rem; font-weight: 600; font-family: var(--font-b);
+      cursor: pointer; border: none; text-decoration: none;
+      transition: transform 0.18s var(--ease), box-shadow 0.18s, background 0.18s, border-color 0.18s;
+    }
+    .btn:active { transform: scale(0.97) !important; }
+    .btn-primary {
+      background: var(--orange); color: #fff;
+      box-shadow: 0 2px 0 var(--orange-dk), 0 4px 18px rgba(255,92,27,0.3);
+    }
+    .btn-primary:hover { background: var(--orange-dk); transform: translateY(-2px); box-shadow: 0 4px 0 #a83a0a, 0 8px 28px rgba(255,92,27,0.38); }
+    .btn-outline {
+      background: var(--bg-white); color: var(--fg);
+      border: 1.5px solid var(--border-md); box-shadow: var(--sh-sm);
+    }
+    .btn-outline:hover { background: var(--bg); border-color: var(--fg-muted); transform: translateY(-1px); box-shadow: var(--sh-md); }
+    .btn-lg { padding: 16px 32px; font-size: 1rem; }
+    .btn-block { width: 100%; }
+
+    /* ─── Fade-up ─────────────────────────────────────────────────────────── */
+    .fu { opacity: 0; transform: translateY(22px); transition: opacity 0.65s var(--ease), transform 0.65s var(--ease); }
+    .fu.in { opacity: 1; transform: none; }
+    @media (prefers-reduced-motion: reduce) { .fu { opacity: 1; transform: none; transition: none; } }
+
+    /* ─── Section header ──────────────────────────────────────────────────── */
+    .sec-head { max-width: 620px; }
+    .sec-head.center { margin: 0 auto; text-align: center; }
+    .sec-head h2 { margin-bottom: 12px; }
+    .sec-head p { font-size: 1.05rem; color: var(--fg-mid); line-height: 1.65; }
+
+
+    /* ════════════════════════════════════════════════════════════════════════
+       HERO
+    ════════════════════════════════════════════════════════════════════════ */
+    .hero {
+      background: var(--bg-white);
+      padding: 76px 0 88px;
+      border-bottom: 1px solid var(--border);
+      position: relative; overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background-image: repeating-linear-gradient(
+        0deg, transparent, transparent 39px,
+        rgba(0,0,0,0.025) 39px, rgba(0,0,0,0.025) 40px
+      );
+      pointer-events: none;
+    }
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1fr 420px;
+      gap: 60px; align-items: center;
+      position: relative; z-index: 1;
+    }
+
+    /* Left */
+    .hero-tag {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--orange-bg); border: 1px solid var(--orange-border);
+      border-radius: 100px; padding: 5px 14px 5px 8px;
+      font-family: var(--font-m); font-size: 0.7rem; font-weight: 600;
+      color: var(--orange); letter-spacing: 0.07em; text-transform: uppercase;
+      margin-bottom: 22px;
+    }
+    .tag-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--orange); flex-shrink: 0; }
+    .hero h1 { margin-bottom: 22px; }
+    .hero h1 em { font-style: italic; color: var(--fg-mid); }
+    .hero-sub { font-size: 1.1rem; color: var(--fg-mid); line-height: 1.65; max-width: 500px; margin-bottom: 36px; }
+    .hero-ctas { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 14px; }
+    .hero-footnote { font-family: var(--font-m); font-size: 0.75rem; color: var(--fg-subtle); }
+
+    /* Right: product + badges */
+    .hero-visual { position: relative; }
+    .hw-card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--r-xl);
+      padding: 32px;
+      box-shadow: var(--sh-xl);
+      position: relative;
+    }
+    .hw-card img {
+      width: 100%; border-radius: var(--r-lg);
+      display: block;
+    }
+    /* Fallback */
+    .hw-card-placeholder {
+      aspect-ratio: 3/4;
+      background: linear-gradient(150deg, #E8E3DD 0%, #D0C9C1 100%);
+      border-radius: var(--r-lg);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .hw-device {
+      width: 110px; height: 160px;
+      background: linear-gradient(160deg, #2E2C2A, #1A1816);
+      border-radius: 18px;
+      box-shadow: 0 12px 40px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.07);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center; gap: 12px;
+    }
+    .hw-led { width: 8px; height: 8px; border-radius: 50%; background: var(--orange); box-shadow: 0 0 10px rgba(255,92,27,.7); }
+    .hw-grill { display: flex; gap: 3px; }
+    .hw-grill span { width: 3px; height: 18px; background: rgba(255,255,255,0.12); border-radius: 2px; }
+    .hw-brand { font-family: var(--font-m); font-size: 0.5rem; color: rgba(255,255,255,0.2); letter-spacing: 0.12em; }
+
+    /* Float badges */
+    .float-badges { position: absolute; right: -14px; top: 50%; transform: translateY(-50%); display: flex; flex-direction: column; gap: 8px; }
+    .fbadge {
+      background: var(--bg-white); border: 1.5px solid var(--border);
+      border-radius: var(--r-sm); padding: 9px 14px;
+      display: flex; align-items: center; gap: 9px;
+      font-size: 0.8rem; font-weight: 600; white-space: nowrap;
+      box-shadow: var(--sh-md);
+    }
+    .fcheck {
+      width: 18px; height: 18px; border-radius: 50%;
+      background: var(--green-bg); border: 1.5px solid var(--green-border);
+      flex-shrink: 0; display: flex; align-items: center; justify-content: center;
+    }
+
+
+    /* ════════════════════════════════════════════════════════════════════════
+       SECTION 2: TIME COMPARISON
+    ════════════════════════════════════════════════════════════════════════ */
+    .time-section { background: var(--bg); border-bottom: 1px solid var(--border); }
+
+    /* Headline callout */
+    .time-callout {
+      display: flex; align-items: center; gap: 20px;
+      background: var(--bg-white);
+      border: 1.5px solid var(--border);
+      border-radius: var(--r-xl);
+      padding: 28px 36px;
+      margin-bottom: 56px;
+      box-shadow: var(--sh-md);
+    }
+    .callout-before {
+      flex: 1; text-align: center; border-right: 1px solid var(--border); padding-right: 28px;
+    }
+    .callout-after  { flex: 1; text-align: center; padding-left: 28px; }
+    .callout-num {
+      font-family: var(--font-m);
+      font-size: 2.8rem; font-weight: 700; line-height: 1; margin-bottom: 4px;
+    }
+    .callout-before .callout-num { color: var(--red); text-decoration: line-through; text-decoration-thickness: 3px; text-decoration-color: var(--red); }
+    .callout-after  .callout-num { color: var(--green); }
+    .callout-label { font-size: 0.875rem; color: var(--fg-muted); }
+    .callout-arrow {
+      font-family: var(--font-m); font-size: 1.3rem; color: var(--fg-subtle); flex-shrink: 0;
+    }
+
+    /* Flow columns */
+    .time-flows { display: grid; grid-template-columns: 1fr auto 1fr; gap: 0; align-items: start; }
+    .flow-col {}
+    .flow-head {
+      display: flex; align-items: center; gap: 10px;
+      padding: 13px 20px;
+      border-radius: var(--r-md) var(--r-md) 0 0;
+      margin-bottom: 3px;
+      font-size: 0.875rem; font-weight: 600;
+    }
+    .fh-bad  { background: var(--red-bg);   color: var(--red);   border: 1px solid var(--red-border); }
+    .fh-good { background: var(--green-bg); color: var(--green); border: 1px solid var(--green-border); }
+    .flow-steps { display: flex; flex-direction: column; gap: 3px; }
+    .fstep {
+      display: flex; align-items: flex-start; gap: 12px;
+      padding: 14px 20px;
+      background: var(--bg-white); border: 1px solid var(--border);
+      border-radius: var(--r-sm);
+      font-size: 0.875rem; color: var(--fg-mid); line-height: 1.45;
+      transition: transform 0.15s var(--ease);
+    }
+    .fstep:hover { transform: translateX(3px); }
+    .fstep.bad  { border-left: 3px solid var(--red); }
+    .fstep.good { border-left: 3px solid var(--green); color: var(--fg); font-weight: 500; }
+    .fstep.good:last-child { background: var(--green-bg); border-color: var(--green-border); border-left-color: var(--green); }
+    .fnum {
+      font-family: var(--font-m); font-size: 0.68rem; font-weight: 700;
+      min-width: 20px; flex-shrink: 0; margin-top: 2px;
+    }
+    .fstep.bad  .fnum { color: var(--red); }
+    .fstep.good .fnum { color: var(--green); }
+    .fstrike { text-decoration: line-through; text-decoration-color: rgba(192,57,43,0.5); color: var(--fg-subtle); }
+    .flow-vs {
+      display: flex; align-items: center; justify-content: center;
+      padding: 0 24px; align-self: center;
+    }
+    .vs-pill {
+      width: 40px; height: 40px; border-radius: 50%;
+      background: var(--fg); color: #fff;
+      font-family: var(--font-m); font-size: 0.7rem; font-weight: 700;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .flow-tally {
+      margin-top: 12px; padding: 12px 20px;
+      border-radius: var(--r-md); border: 1.5px solid;
+      text-align: center;
+    }
+    .ft-bad  { background: var(--red-bg);   border-color: var(--red-border);   }
+    .ft-good { background: var(--green-bg); border-color: var(--green-border); }
+    .ft-num  { font-family: var(--font-m); font-size: 1.8rem; font-weight: 700; line-height: 1; }
+    .ft-bad  .ft-num { color: var(--red); }
+    .ft-good .ft-num { color: var(--green); }
+    .ft-label { font-size: 0.75rem; color: var(--fg-muted); margin-top: 2px; }
+
+
+    /* ════════════════════════════════════════════════════════════════════════
+       SECTION 3: REAL SCENARIOS
+    ════════════════════════════════════════════════════════════════════════ */
+    .scenario-section { background: var(--bg-white); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+
+    .scenarios { display: flex; flex-direction: column; gap: 28px; margin-top: 52px; }
+    .scenario-card {
+      background: var(--bg);
+      border: 1.5px solid var(--border);
+      border-radius: var(--r-xl);
+      overflow: hidden;
+      transition: box-shadow 0.25s, border-color 0.25s, transform 0.25s var(--ease);
+    }
+    .scenario-card:hover { box-shadow: var(--sh-lg); border-color: var(--border-md); transform: translateY(-2px); }
+    .scenario-card-inner { display: grid; grid-template-columns: 1fr 1fr; }
+    .scenario-left {
+      padding: 32px 28px;
+      border-right: 1px solid var(--border);
+      background: var(--bg-white);
+    }
+    .scenario-right { padding: 32px 28px; }
+
+    .sc-label {
+      font-family: var(--font-m); font-size: 0.65rem; font-weight: 700;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      margin-bottom: 14px; display: flex; align-items: center; gap: 7px;
+    }
+    .sc-label.voice { color: var(--fg-muted); }
+    .sc-label.output { color: var(--green); }
+    .sc-dot { width: 5px; height: 5px; border-radius: 50%; flex-shrink: 0; }
+    .sc-dot.voice  { background: var(--fg-muted); }
+    .sc-dot.output { background: var(--green-light); }
+
+    .sc-num {
+      display: inline-flex; align-items: center;
+      background: var(--orange-bg); border: 1px solid var(--orange-border);
+      border-radius: 100px; padding: 3px 10px;
+      font-family: var(--font-m); font-size: 0.65rem; font-weight: 700;
+      color: var(--orange); letter-spacing: 0.06em;
+      margin-bottom: 14px;
+    }
+
+    /* Voice bubble */
+    .voice-bubble {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 0 var(--r-lg) var(--r-lg) var(--r-lg);
+      padding: 16px 18px;
+      font-size: 0.9rem; color: var(--fg-mid); line-height: 1.6;
+      position: relative;
+    }
+    .voice-bubble::before {
+      content: '';
+      position: absolute; top: 0; left: -10px;
+      width: 0; height: 0;
+      border-top: 8px solid var(--border);
+      border-right: 10px solid transparent;
+    }
+    .voice-bubble::after {
+      content: '';
+      position: absolute; top: 1px; left: -8px;
+      width: 0; height: 0;
+      border-top: 7px solid var(--bg);
+      border-right: 9px solid transparent;
+    }
+    .voice-bubble cite {
+      display: flex; align-items: center; gap: 8px;
+      margin-top: 12px; font-style: normal;
+      font-family: var(--font-m); font-size: 0.68rem; color: var(--fg-subtle);
+    }
+    .cite-avatar {
+      width: 22px; height: 22px; border-radius: 50%;
+      background: var(--fg-subtle);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.55rem; color: #fff; font-weight: 700;
+    }
+
+    /* Output card */
+    .output-card {
+      background: var(--bg-white);
+      border: 1px solid var(--border);
+      border-radius: var(--r-lg);
+      overflow: hidden;
+      box-shadow: var(--sh-sm);
+    }
+    .output-card-head {
+      padding: 10px 16px;
+      background: var(--green-bg);
+      border-bottom: 1px solid var(--green-border);
+      display: flex; align-items: center; gap: 8px;
+      font-family: var(--font-m); font-size: 0.7rem; font-weight: 700;
+      color: var(--green); letter-spacing: 0.06em; text-transform: uppercase;
+    }
+    .output-rows { padding: 4px 0; }
+    .output-row {
+      display: grid; grid-template-columns: 130px 1fr;
+      padding: 9px 16px;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.8rem;
+    }
+    .output-row:last-child { border-bottom: none; }
+    .or-key { color: var(--fg-muted); font-weight: 500; }
+    .or-val { color: var(--fg); font-weight: 500; }
+    .or-val.highlight { color: var(--green); font-weight: 600; }
+    .or-val.orange { color: var(--orange); font-weight: 600; }
+    .or-badge {
+      display: inline-block;
+      background: var(--orange-bg); color: var(--orange);
+      border: 1px solid var(--orange-border);
+      border-radius: 100px; padding: 1px 8px;
+      font-family: var(--font-m); font-size: 0.65rem; font-weight: 700;
+    }
+    .or-badge.green { background: var(--green-bg); color: var(--green); border-color: var(--green-border); }
+    .or-badge.blue  { background: var(--blue-bg); color: var(--blue); border-color: rgba(29,78,216,0.18); }
+
+    /* Stats row */
+    .scenario-stats {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      border: 1.5px solid var(--border); border-radius: var(--r-xl);
+      overflow: hidden; margin-top: 52px;
+      box-shadow: var(--sh-md);
+    }
+    .sstat {
+      background: var(--bg-white);
+      padding: 36px 24px; text-align: center;
+      border-right: 1px solid var(--border);
+    }
+    .sstat:last-child { border-right: none; }
+    .sstat-num {
+      font-family: var(--font-m); font-size: 2.6rem; font-weight: 700;
+      line-height: 1; margin-bottom: 6px;
+    }
+    .sstat-num.orange { color: var(--orange); }
+    .sstat-num.green  { color: var(--green); }
+    .sstat-num.dark   { color: var(--fg); }
+    .sstat-label { font-size: 0.875rem; color: var(--fg-muted); }
+
+
+    /* ════════════════════════════════════════════════════════════════════════
+       SECTION 4: PAIN POINTS
+    ════════════════════════════════════════════════════════════════════════ */
+    .pain-section { background: var(--bg); }
+    .pain-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; margin-top: 52px; }
+    .pain-card {
+      background: var(--bg-white); border: 1.5px solid var(--border);
+      border-radius: var(--r-xl); padding: 30px 26px;
+      position: relative; overflow: hidden;
+      transition: border-color 0.22s, box-shadow 0.22s, transform 0.22s var(--ease);
+    }
+    .pain-card:hover { border-color: var(--border-md); box-shadow: var(--sh-md); transform: translateY(-2px); }
+    .pain-card.primary {
+      border-color: rgba(255,92,27,0.3);
+      background: linear-gradient(150deg, #FFF6F2 0%, var(--bg-white) 55%);
+    }
+    .pain-card.primary:hover { border-color: rgba(255,92,27,0.5); }
+    .pain-seq {
+      position: absolute; top: 22px; right: 22px;
+      font-family: var(--font-m); font-size: 0.65rem; font-weight: 700;
+      color: var(--fg-subtle); letter-spacing: 0.07em;
+    }
+    .pain-card.primary .pain-seq { color: rgba(255,92,27,0.4); }
+    .pain-icon {
+      width: 42px; height: 42px; border-radius: var(--r-sm);
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 18px;
+    }
+    .pi-orange { background: var(--orange-bg); border: 1.5px solid var(--orange-border); }
+    .pi-green  { background: var(--green-bg);  border: 1.5px solid var(--green-border);  }
+    .pi-blue   { background: var(--blue-bg);   border: 1.5px solid rgba(29,78,216,0.15); }
+    .pi-gray   { background: var(--bg);        border: 1.5px solid var(--border);        }
+    .pain-title { font-family: var(--font-h); font-size: 1.2rem; margin-bottom: 9px; }
+    .pain-desc  { font-size: 0.875rem; color: var(--fg-mid); line-height: 1.65; }
+
+
+    /* ════════════════════════════════════════════════════════════════════════
+       SECTION 5: HARDWARE
+    ════════════════════════════════════════════════════════════════════════ */
+    .hardware-section { background: var(--bg-dark); padding: 96px 0; }
+    .hardware-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 72px; align-items: center; }
+
+    /* Visual */
+    .hw-img-block {
+      background: #1C1B19; border-radius: var(--r-2xl);
+      border: 1px solid rgba(255,255,255,0.07);
+      padding: 48px 40px;
+      display: flex; align-items: center; justify-content: center;
+      min-height: 360px;
+      box-shadow: 0 28px 72px rgba(0,0,0,0.55);
+    }
+    .hw-img-block img {
+      max-height: 300px; width: auto;
+      filter: drop-shadow(0 16px 36px rgba(0,0,0,0.55));
+    }
+    .hw-fallback {
+      width: 130px; height: 190px;
+      background: linear-gradient(160deg, #3A3836, #1E1C1A);
+      border-radius: 20px;
+      box-shadow: 0 16px 48px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.07);
+      display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px;
+    }
+
+    /* Content */
+    .hw-content { color: rgba(255,255,255,0.88); }
+    .hw-content .eyebrow { color: var(--orange); }
+    .hw-content h2 { color: #fff; margin-bottom: 14px; }
+    .hw-lead { font-size: 1rem; color: rgba(255,255,255,0.55); margin-bottom: 32px; line-height: 1.65; }
+    .hw-list { display: flex; flex-direction: column; gap: 12px; margin-bottom: 36px; }
+    .hw-row {
+      display: flex; align-items: flex-start; gap: 13px;
+      padding: 14px 16px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: var(--r-md);
+    }
+    .hw-chk {
+      width: 20px; height: 20px; border-radius: 50%;
+      background: rgba(34,197,94,0.18); border: 1px solid rgba(34,197,94,0.3);
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px;
+    }
+    .hw-row-title { font-weight: 600; font-size: 0.875rem; color: rgba(255,255,255,0.9); margin-bottom: 1px; }
+    .hw-row-sub   { font-size: 0.78rem; color: rgba(255,255,255,0.4); }
+    .hw-tagline {
+      font-family: var(--font-h); font-style: italic;
+      font-size: 1.05rem; color: rgba(255,255,255,0.45);
+      border-left: 2px solid var(--orange);
+      padding-left: 16px; line-height: 1.55;
+    }
+
+
+    /* ════════════════════════════════════════════════════════════════════════
+       SECTION 6: INTEGRATIONS
+    ════════════════════════════════════════════════════════════════════════ */
+    .int-section { background: var(--bg-white); border-top: 1px solid var(--border); padding: 80px 0; }
+    .int-inner { text-align: center; }
+    .int-inner h2 { max-width: 480px; margin: 0 auto 10px; }
+    .int-sub { font-size: 1rem; color: var(--fg-mid); max-width: 460px; margin: 0 auto 48px; line-height: 1.65; }
+
+    .int-grid {
+      display: flex; align-items: stretch; justify-content: center;
+      gap: 14px; flex-wrap: wrap; margin-bottom: 36px;
+    }
+    .int-card {
+      background: var(--bg); border: 1.5px solid var(--border);
+      border-radius: var(--r-lg); padding: 20px 24px;
+      display: flex; align-items: center; gap: 12px;
+      transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s var(--ease);
+    }
+    .int-card:hover { border-color: var(--border-md); box-shadow: var(--sh-md); transform: translateY(-2px); }
+    .int-logo {
+      width: 38px; height: 38px; border-radius: var(--r-sm);
+      background: var(--bg-white); border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--font-m); font-size: 0.6rem; font-weight: 700;
+      color: var(--fg-muted); flex-shrink: 0;
+    }
+    .int-name { font-weight: 600; font-size: 0.9rem; }
+    .int-type { font-size: 0.72rem; color: var(--fg-subtle); }
+
+    .trust-strip { display: flex; align-items: center; justify-content: center; gap: 20px; flex-wrap: wrap; }
+    .tb {
+      display: flex; align-items: center; gap: 7px;
+      padding: 7px 14px;
+      background: var(--bg); border: 1px solid var(--border);
+      border-radius: 100px; font-size: 0.78rem; font-weight: 500; color: var(--fg-mid);
+    }
+
+
+    /* ════════════════════════════════════════════════════════════════════════
+       SECTION 7: SOCIAL PROOF
+    ════════════════════════════════════════════════════════════════════════ */
+    .proof-section { background: var(--bg); border-top: 1px solid var(--border); }
+    .proof-grid { display: grid; grid-template-columns: 1fr 320px; gap: 60px; align-items: center; }
+
+    .proof-qmark {
+      font-family: var(--font-h); font-size: 6rem; line-height: 0.7;
+      color: var(--orange); opacity: 0.18; display: block; margin-bottom: -4px;
+    }
+    blockquote.proof-q {
+      font-family: var(--font-h);
+      font-size: clamp(1.2rem, 2.4vw, 1.7rem); line-height: 1.38;
+      color: var(--fg); margin-bottom: 24px;
+    }
+    .proof-attr { display: flex; align-items: center; gap: 12px; }
+    .pa-avatar {
+      width: 44px; height: 44px; border-radius: 50%;
+      background: var(--fg);
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--font-m); font-size: 0.75rem; font-weight: 700; color: #fff;
+      flex-shrink: 0;
+    }
+    .pa-name { font-weight: 600; font-size: 0.875rem; }
+    .pa-role { font-size: 0.775rem; color: var(--fg-muted); }
+
+    .proof-numbers { display: flex; flex-direction: column; gap: 14px; }
+    .pnum-card {
+      background: var(--bg-white); border: 1.5px solid var(--border);
+      border-radius: var(--r-lg); padding: 22px 20px;
+    }
+    .pnum-val {
+      font-family: var(--font-m); font-size: 2rem; font-weight: 700; line-height: 1; margin-bottom: 3px;
+    }
+    .pnum-val.orange { color: var(--orange); }
+    .pnum-val.green  { color: var(--green);  }
+    .pnum-label { font-size: 0.82rem; color: var(--fg-muted); }
+
+
+    /* ════════════════════════════════════════════════════════════════════════
+       SECTION 8: FINAL CTA
+    ════════════════════════════════════════════════════════════════════════ */
+    .cta-section { background: var(--bg-darker); padding: 96px 0; }
+    .cta-grid { display: grid; grid-template-columns: 1fr 380px; gap: 64px; align-items: center; }
+
+    .cta-left .eyebrow { color: var(--orange); }
+    .cta-left h2 { color: #fff; margin-bottom: 16px; }
+    .cta-left p { font-size: 1.05rem; color: rgba(255,255,255,0.55); line-height: 1.65; max-width: 460px; }
+
+    .cta-box {
+      background: rgba(255,255,255,0.05); border: 1.5px solid rgba(255,255,255,0.1);
+      border-radius: var(--r-2xl); padding: 34px 30px;
+    }
+    .cta-price-row { display: flex; align-items: baseline; gap: 6px; margin-bottom: 4px; }
+    .cta-pnum { font-family: var(--font-m); font-size: 2.8rem; font-weight: 700; color: #fff; line-height: 1; }
+    .cta-period { font-size: 0.875rem; color: rgba(255,255,255,0.45); }
+    .cta-pdesc { font-size: 0.78rem; color: rgba(255,255,255,0.35); margin-bottom: 26px; }
+    .cta-checklist { display: flex; flex-direction: column; gap: 9px; margin-bottom: 26px; }
+    .cc-item { display: flex; align-items: center; gap: 10px; font-size: 0.85rem; color: rgba(255,255,255,0.7); }
+    .cc-chk { color: var(--green-light); flex-shrink: 0; }
+    .cta-btns { display: flex; flex-direction: column; gap: 9px; }
+    .cta-btns .btn-primary { width: 100%; }
+    .cta-btns .btn-outline {
+      width: 100%; background: rgba(255,255,255,0.07);
+      color: rgba(255,255,255,0.8); border-color: rgba(255,255,255,0.14);
+    }
+    .cta-btns .btn-outline:hover { background: rgba(255,255,255,0.12); border-color: rgba(255,255,255,0.25); transform: translateY(-1px); }
+    .cta-phone {
+      text-align: center; margin-top: 14px;
+      font-family: var(--font-m); font-size: 0.75rem; color: rgba(255,255,255,0.3);
+    }
+    .cta-phone a { color: rgba(255,255,255,0.55); transition: color 0.2s; }
+    .cta-phone a:hover { color: rgba(255,255,255,0.9); }
+
+
+    /* ─── Footer ──────────────────────────────────────────────────────────── */
+    footer {
+      background: var(--bg-darker);
+      border-top: 1px solid rgba(255,255,255,0.06);
+      padding: 28px 0;
+    }
+    .footer-row { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 14px; }
+    .footer-brand { display: flex; align-items: center; gap: 9px; }
+    .flogo {
+      width: 28px; height: 28px; border-radius: 7px; background: var(--orange);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .fname { font-family: var(--font-h); font-size: 1rem; color: rgba(255,255,255,0.8); }
+    .footer-links { display: flex; gap: 18px; }
+    .footer-links a { font-size: 0.78rem; color: rgba(255,255,255,0.3); transition: color 0.2s; }
+    .footer-links a:hover { color: rgba(255,255,255,0.7); }
+    .footer-copy { font-family: var(--font-m); font-size: 0.72rem; color: rgba(255,255,255,0.2); }
+
+
+    /* ─── Responsive ──────────────────────────────────────────────────────── */
+    @media (max-width: 960px) {
+      .hero-grid        { grid-template-columns: 1fr; gap: 44px; }
+      .float-badges     { position: static; transform: none; flex-direction: row; flex-wrap: wrap; margin-top: 14px; justify-content: center; }
+      .hw-card          { max-width: 360px; margin: 0 auto; }
+      .hardware-grid    { grid-template-columns: 1fr; gap: 48px; }
+      .hw-img-block     { max-width: 340px; margin: 0 auto; }
+      .proof-grid       { grid-template-columns: 1fr; }
+      .cta-grid         { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 768px) {
+      section { padding: 72px 0; }
+      .time-callout { flex-direction: column; gap: 12px; padding: 22px 24px; }
+      .callout-before { border-right: none; border-bottom: 1px solid var(--border); padding-right: 0; padding-bottom: 14px; }
+      .callout-after  { padding-left: 0; }
+      .time-flows { grid-template-columns: 1fr; gap: 24px; }
+      .flow-vs { display: none; }
+      .scenario-card-inner { grid-template-columns: 1fr; }
+      .scenario-left { border-right: none; border-bottom: 1px solid var(--border); }
+      .scenario-stats { grid-template-columns: 1fr; }
+      .sstat { border-right: none; border-bottom: 1px solid var(--border); }
+      .sstat:last-child { border-bottom: none; }
+      .pain-grid { grid-template-columns: 1fr; }
+      .int-grid  { gap: 10px; }
+      footer .footer-row { flex-direction: column; text-align: center; }
+    }
+    @media (max-width: 480px) {
+      .hero h1 { font-size: 1.9rem; }
+      .hero-ctas { flex-direction: column; }
+      .hero-ctas .btn { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ════════════════════════════════════════════════════════════════════════
+     HERO
+════════════════════════════════════════════════════════════════════════ -->
+<section class="hero" aria-labelledby="hero-title">
+  <div class="container">
+    <div class="hero-grid">
+
+      <!-- LEFT: copy -->
+      <div>
+        <div class="hero-tag" aria-hidden="true">
+          <span class="tag-dot"></span>
+          OFFICE EFFICIENCY PROBLEM
+        </div>
+        <h1 id="hero-title">
+          Your dispatcher made<br/>
+          <span style="color: var(--orange)">14 calls yesterday</span><br/>
+          <em>chasing job details.</em>
+        </h1>
+        <p class="hero-sub">
+          TalkToDeal auto-generates work orders, quotes, and follow-ups from what your techs already say on-site. Zero data entry. Zero phone tag.
+        </p>
+        <p style="font-family: var(--font-m); font-size: 0.8rem; color: var(--fg-mid); border-left: 2px solid #B45309; padding-left: 10px; margin-bottom: 28px; line-height: 1.55;">
+          3 hours of your office manager's day disappears into phone tag.
+        </p>
+        <div class="hero-ctas">
+          <a href="https://calendly.com/talktodeal/15min" class="btn btn-primary btn-lg" target="_blank" rel="noopener" aria-label="Book a 15-minute demo">
+            <svg width="17" height="17" viewBox="0 0 17 17" fill="none" aria-hidden="true"><rect x="2" y="3" width="13" height="12" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M5.5 2v2.5M11.5 2v2.5M2 7.5h13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+            Book a 15-min Demo
+          </a>
+          <a href="https://talktodeal.com/demo" class="btn btn-outline btn-lg" target="_blank" rel="noopener" aria-label="Try the interactive AI demo">
+            <svg width="17" height="17" viewBox="0 0 17 17" fill="none" aria-hidden="true"><circle cx="8.5" cy="8.5" r="6.5" stroke="currentColor" stroke-width="1.4"/><path d="M7 5.5l4.5 3L7 11.5V5.5z" fill="currentColor"/></svg>
+            Try AI Demo
+          </a>
+        </div>
+        <p class="hero-footnote">Takes 15 minutes. No commitment. No credit card.</p>
+      </div>
+
+      <!-- RIGHT: hardware + badges -->
+      <div class="hero-visual">
+        <div class="hw-card">
+          <img
+            src="HCJD7.png"
+            alt="TalkToDeal voice recorder — small clip-on device for field technicians"
+            loading="eager"
+            onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"
+          />
+          <div class="hw-card-placeholder" style="display:none;" role="img" aria-label="TalkToDeal hardware device">
+            <div class="hw-device">
+              <div class="hw-led" aria-hidden="true"></div>
+              <div class="hw-grill" aria-hidden="true">
+                <span></span><span></span><span></span><span></span><span></span>
+              </div>
+              <div class="hw-brand">TALKTODEAL</div>
+            </div>
+          </div>
+        </div>
+        <div class="float-badges" role="list" aria-label="Key benefits">
+          <div class="fbadge" role="listitem">
+            <div class="fcheck" aria-hidden="true">
+              <svg width="9" height="9" viewBox="0 0 9 9" fill="none"><path d="M1.5 4.5l2 2L7.5 2.5" stroke="#1A6B3C" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            Work order auto-filled
+          </div>
+          <div class="fbadge" role="listitem">
+            <div class="fcheck" aria-hidden="true">
+              <svg width="9" height="9" viewBox="0 0 9 9" fill="none"><path d="M1.5 4.5l2 2L7.5 2.5" stroke="#1A6B3C" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            No phone calls needed
+          </div>
+          <div class="fbadge" role="listitem">
+            <div class="fcheck" aria-hidden="true">
+              <svg width="9" height="9" viewBox="0 0 9 9" fill="none"><path d="M1.5 4.5l2 2L7.5 2.5" stroke="#1A6B3C" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            Synced to ServiceTitan
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════════════════════════════════════
+     SECTION 2: TIME COMPARISON
+════════════════════════════════════════════════════════════════════════ -->
+<section class="time-section" aria-labelledby="time-h2">
+  <div class="container">
+    <div class="sec-head fu" style="margin-bottom:48px">
+      <span class="eyebrow">The Admin Problem</span>
+      <h2 id="time-h2">What used to take your office<br/>3 hours now takes zero.</h2>
+      <p>Every hour your office spends chasing job details is an hour not spent on customers, scheduling, or growth.</p>
+    </div>
+
+    <!-- Callout bar -->
+    <div class="time-callout fu" role="presentation" aria-label="Before: 3 hours of admin work. After: 0 hours.">
+      <div class="callout-before">
+        <div class="callout-num" aria-label="3 hours before">3 hrs</div>
+        <div class="callout-label">daily admin chasing techs</div>
+      </div>
+      <div class="callout-arrow" aria-hidden="true">→</div>
+      <div class="callout-after">
+        <div class="callout-num" aria-label="0 hours after">0</div>
+        <div class="callout-label">with TalkToDeal</div>
+      </div>
+    </div>
+
+    <!-- Flows -->
+    <div class="time-flows fu">
+      <!-- Before -->
+      <div class="flow-col" aria-label="Before TalkToDeal: 6 painful steps">
+        <div class="flow-head fh-bad" aria-hidden="true">
+          <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><circle cx="7.5" cy="7.5" r="6" stroke="currentColor" stroke-width="1.4"/><path d="M7.5 4.5v4M7.5 10v.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+          Without TalkToDeal
+        </div>
+        <ol class="flow-steps">
+          <li class="fstep bad">
+            <span class="fnum">01</span>
+            Tech finishes 5 service calls
+          </li>
+          <li class="fstep bad">
+            <span class="fnum">02</span>
+            Drives back to office
+          </li>
+          <li class="fstep bad">
+            <span class="fnum">03</span>
+            <span class="fstrike">"What was that address again?"</span>
+          </li>
+          <li class="fstep bad">
+            <span class="fnum">04</span>
+            <span class="fstrike">Office calls tech — 3 times</span>
+          </li>
+          <li class="fstep bad">
+            <span class="fnum">05</span>
+            <span class="fstrike">Manually types into ServiceTitan</span>
+          </li>
+          <li class="fstep bad">
+            <span class="fnum">06</span>
+            <span class="fstrike">Still missing half the details</span>
+          </li>
+        </ol>
+        <div class="flow-tally ft-bad" aria-label="6 steps, 3 hours wasted">
+          <div class="ft-num">6 steps</div>
+          <div class="ft-label">3+ hours of admin per day</div>
+        </div>
+      </div>
+
+      <!-- VS -->
+      <div class="flow-vs" aria-hidden="true"><div class="vs-pill">VS</div></div>
+
+      <!-- After -->
+      <div class="flow-col" aria-label="After TalkToDeal: 3 simple steps">
+        <div class="flow-head fh-good" aria-hidden="true">
+          <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><circle cx="7.5" cy="7.5" r="6" stroke="currentColor" stroke-width="1.4"/><path d="M4.5 7.5l2 2 4-4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          With TalkToDeal
+        </div>
+        <ol class="flow-steps">
+          <li class="fstep good">
+            <span class="fnum">01</span>
+            Tech talks on-site — naturally
+          </li>
+          <li class="fstep good">
+            <span class="fnum">02</span>
+            AI generates complete records
+          </li>
+          <li class="fstep good">
+            <span class="fnum">03</span>
+            Office sees everything instantly
+          </li>
+        </ol>
+        <!-- Spacer to align with 6-step list -->
+        <div style="height: 76px;"></div>
+        <div class="flow-tally ft-good" aria-label="0 steps for office, instant results">
+          <div class="ft-num">0 steps</div>
+          <div class="ft-label">for your office. Just done.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════════════════════════════════════
+     SECTION 3: REAL SCENARIOS
+════════════════════════════════════════════════════════════════════════ -->
+<section class="scenario-section" aria-labelledby="scenario-h2">
+  <div class="container">
+    <div class="sec-head center fu">
+      <span class="eyebrow">Real Examples</span>
+      <h2 id="scenario-h2">Every service call, fully documented —<br/>without anyone typing.</h2>
+      <p>This is what your office receives automatically, from what your tech already said.</p>
+    </div>
+
+    <div class="scenarios">
+
+      <!-- Scenario 1: HVAC Diagnosis -->
+      <article class="scenario-card fu" aria-label="Scenario: HVAC diagnosis and repair">
+        <div class="scenario-card-inner">
+          <div class="scenario-left">
+            <div class="sc-num">Scenario 01</div>
+            <div class="sc-label voice"><span class="sc-dot voice"></span>What the tech said on-site</div>
+            <div class="voice-bubble" role="blockquote">
+              "AC unit not cooling, homeowner says it's been running all night. I checked the refrigerant — it's low, about 1.5 pounds short. Compressor sounds like it's struggling. I'm going to top off the refrigerant, check for leaks at the service valve and schrader. Also noticed the air filter is completely clogged, gonna swap that out. Going to quote them for a potential compressor replacement if the leak check comes back bad — looking around $1,800."
+              <cite>
+                <div class="cite-avatar" aria-hidden="true">MT</div>
+                Mike T. — Service Tech
+              </cite>
+            </div>
+          </div>
+          <div class="scenario-right">
+            <div class="sc-label output"><span class="sc-dot output"></span>Auto-generated work order</div>
+            <div class="output-card">
+              <div class="output-card-head">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true"><rect x="1" y="1.5" width="10" height="9" rx="1.5" stroke="currentColor" stroke-width="1.2"/><path d="M3.5 5h5M3.5 7h3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+                Work Order — Auto Generated
+              </div>
+              <div class="output-rows">
+                <div class="output-row">
+                  <span class="or-key">Issue</span>
+                  <span class="or-val">AC not cooling · Low refrigerant (−1.5 lbs)</span>
+                </div>
+                <div class="output-row">
+                  <span class="or-key">Work done</span>
+                  <span class="or-val">Refrigerant top-off · Leak check (valve + schrader) · Filter replacement</span>
+                </div>
+                <div class="output-row">
+                  <span class="or-key">Follow-up</span>
+                  <span class="or-val highlight">Quote compressor replacement if leak found</span>
+                </div>
+                <div class="output-row">
+                  <span class="or-key">Quote amount</span>
+                  <span class="or-val orange">$1,800 <span class="or-badge">Pending approval</span></span>
+                </div>
+                <div class="output-row">
+                  <span class="or-key">Status</span>
+                  <span class="or-val"><span class="or-badge green">Synced to ServiceTitan</span></span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- Scenario 2: On-site quote -->
+      <article class="scenario-card fu" style="transition-delay:0.08s" aria-label="Scenario: On-site equipment replacement quote">
+        <div class="scenario-card-inner">
+          <div class="scenario-left">
+            <div class="sc-num">Scenario 02</div>
+            <div class="sc-label voice"><span class="sc-dot voice"></span>What the tech said on-site</div>
+            <div class="voice-bubble" role="blockquote">
+              "This is a 2009 Carrier unit, heat exchanger is cracked — it's a CO risk, I told the customer we can't leave it running. They want a full replacement quote. I'm thinking a Carrier 3-ton 16 SEER, installation's about a day's work for two guys. Parts plus labor, we're looking at $6,400. Customer said they need to think about it, follow up Monday."
+              <cite>
+                <div class="cite-avatar" aria-hidden="true">RS</div>
+                Ray S. — Lead Tech
+              </cite>
+            </div>
+          </div>
+          <div class="scenario-right">
+            <div class="sc-label output"><span class="sc-dot output"></span>Auto-generated quote + follow-up</div>
+            <div class="output-card">
+              <div class="output-card-head">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true"><rect x="1" y="2" width="10" height="8" rx="1.5" stroke="currentColor" stroke-width="1.2"/><path d="M3.5 5.5h5M3.5 7.5h2.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+                Quote + Task — Auto Generated
+              </div>
+              <div class="output-rows">
+                <div class="output-row">
+                  <span class="or-key">Unit</span>
+                  <span class="or-val">2009 Carrier — cracked heat exchanger (CO risk)</span>
+                </div>
+                <div class="output-row">
+                  <span class="or-key">Proposal</span>
+                  <span class="or-val">Carrier 3-ton 16 SEER replacement · Full install</span>
+                </div>
+                <div class="output-row">
+                  <span class="or-key">Quote</span>
+                  <span class="or-val orange">$6,400 <span class="or-badge">Draft created</span></span>
+                </div>
+                <div class="output-row">
+                  <span class="or-key">Task</span>
+                  <span class="or-val highlight">Follow up Monday · Customer considering</span>
+                </div>
+                <div class="output-row">
+                  <span class="or-key">Synced</span>
+                  <span class="or-val"><span class="or-badge green">ServiceTitan</span> <span class="or-badge blue">Jobber</span></span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- Scenario 3: Maintenance callback -->
+      <article class="scenario-card fu" style="transition-delay:0.16s" aria-label="Scenario: Maintenance callback and upsell">
+        <div class="scenario-card-inner">
+          <div class="scenario-left">
+            <div class="sc-num">Scenario 03</div>
+            <div class="sc-label voice"><span class="sc-dot voice"></span>What the tech said on-site</div>
+            <div class="voice-bubble" role="blockquote">
+              "Tune-up done, everything's good. But the customer mentioned they've never had a duct cleaning — you can tell, everything's gray in there. Also the outdoor unit is about 14 years old, might want to plan a replacement conversation before next summer. I told them we'd reach out in spring. And they asked if we do maintenance plans — sounds like they're interested."
+              <cite>
+                <div class="cite-avatar" aria-hidden="true">AL</div>
+                Alex L. — Tech
+              </cite>
+            </div>
+          </div>
+          <div class="scenario-right">
+            <div class="sc-label output"><span class="sc-dot output"></span>Auto-generated follow-up tasks</div>
+            <div class="output-card">
+              <div class="output-card-head">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true"><circle cx="6" cy="6" r="4.5" stroke="currentColor" stroke-width="1.2"/><path d="M6 3.5V6l1.5 1.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+                3 Follow-up Tasks — Auto Created
+              </div>
+              <div class="output-rows">
+                <div class="output-row">
+                  <span class="or-key">Task 1</span>
+                  <span class="or-val highlight">Quote duct cleaning · Customer interested</span>
+                </div>
+                <div class="output-row">
+                  <span class="or-key">Task 2</span>
+                  <span class="or-val highlight">Spring callback · Unit replacement consult (14-yr unit)</span>
+                </div>
+                <div class="output-row">
+                  <span class="or-key">Task 3</span>
+                  <span class="or-val highlight">Send maintenance plan info</span>
+                </div>
+                <div class="output-row">
+                  <span class="or-key">Notes</span>
+                  <span class="or-val">Tune-up completed · No urgent issues</span>
+                </div>
+                <div class="output-row">
+                  <span class="or-key">Synced</span>
+                  <span class="or-val"><span class="or-badge green">All tasks in Housecall Pro</span></span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+    </div>
+
+    <!-- Stats -->
+    <div class="scenario-stats fu" role="list" aria-label="Key performance statistics">
+      <div class="sstat" role="listitem">
+        <div class="sstat-num orange" aria-label="Zero manual entries">0</div>
+        <div class="sstat-label">Manual entries by your office</div>
+      </div>
+      <div class="sstat" role="listitem">
+        <div class="sstat-num green" aria-label="Less than 30 seconds">&lt; 30s</div>
+        <div class="sstat-label">From conversation to complete record</div>
+      </div>
+      <div class="sstat" role="listitem">
+        <div class="sstat-num dark" aria-label="100% of details captured">100%</div>
+        <div class="sstat-label">Job details captured, nothing missed</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════════════════════════════════════
+     SECTION 4: PAIN POINTS
+════════════════════════════════════════════════════════════════════════ -->
+<section class="pain-section" aria-labelledby="pain-h2">
+  <div class="container">
+    <div class="sec-head center fu">
+      <span class="eyebrow">What We Fix</span>
+      <h2 id="pain-h2">One device solves your biggest<br/>field headaches.</h2>
+      <p>The four operational leaks costing HVAC companies real revenue — every single day.</p>
+    </div>
+    <div class="pain-grid">
+
+      <article class="pain-card primary fu" aria-labelledby="p1-title">
+        <span class="pain-seq" aria-hidden="true">01 / 04</span>
+        <div class="pain-icon pi-orange" aria-hidden="true">
+          <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><circle cx="11" cy="7" r="3.5" stroke="#FF5C1B" stroke-width="1.5"/><path d="M3.5 19c0-4.14 3.36-7.5 7.5-7.5s7.5 3.36 7.5 7.5" stroke="#FF5C1B" stroke-width="1.5" stroke-linecap="round"/><path d="M16 11l2 2m0 0l2 2m-2-2l2-2m-2 2l-2 2" stroke="#FF5C1B" stroke-width="1.4" stroke-linecap="round"/></svg>
+        </div>
+        <h3 class="pain-title" id="p1-title">Admin Overload</h3>
+        <p class="pain-desc">Office staff spends 3 hours daily chasing techs for job details. TalkToDeal eliminates manual data entry completely — records generate automatically from voice.</p>
+      </article>
+
+      <article class="pain-card fu" style="transition-delay:0.07s" aria-labelledby="p2-title">
+        <span class="pain-seq" aria-hidden="true">02 / 04</span>
+        <div class="pain-icon pi-green" aria-hidden="true">
+          <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M5 6h12a1 1 0 011 1v9a1 1 0 01-1 1H5a1 1 0 01-1-1V7a1 1 0 011-1z" stroke="#1A6B3C" stroke-width="1.5"/><path d="M8 10h6M8 13h4" stroke="#1A6B3C" stroke-width="1.5" stroke-linecap="round"/><path d="M8 6V4.5a3 3 0 016 0V6" stroke="#1A6B3C" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </div>
+        <h3 class="pain-title" id="p2-title">Lost Quotes</h3>
+        <p class="pain-desc">Techs quote on-site, the office never gets the number. Every quote is now captured the moment it's spoken and turned into a trackable follow-up.</p>
+      </article>
+
+      <article class="pain-card fu" style="transition-delay:0.14s" aria-labelledby="p3-title">
+        <span class="pain-seq" aria-hidden="true">03 / 04</span>
+        <div class="pain-icon pi-blue" aria-hidden="true">
+          <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><rect x="6" y="2" width="10" height="18" rx="3" stroke="#1D4ED8" stroke-width="1.5"/><path d="M9 6h4M11 15v2" stroke="#1D4ED8" stroke-width="1.5" stroke-linecap="round"/><line x1="9" y1="18" x2="13" y2="18" stroke="#1D4ED8" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </div>
+        <h3 class="pain-title" id="p3-title">App Fatigue</h3>
+        <p class="pain-desc">Your techs won't type into an app on the truck. TalkToDeal works entirely by voice — zero behavior change, zero pushback from the field.</p>
+      </article>
+
+      <article class="pain-card fu" style="transition-delay:0.21s" aria-labelledby="p4-title">
+        <span class="pain-seq" aria-hidden="true">04 / 04</span>
+        <div class="pain-icon pi-gray" aria-hidden="true">
+          <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M11 4v4l3 3" stroke="#7A7470" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="11" cy="11" r="7.5" stroke="#7A7470" stroke-width="1.5"/><path d="M5.5 17l1.5-1.5" stroke="#7A7470" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </div>
+        <h3 class="pain-title" id="p4-title">Broken Follow-ups</h3>
+        <p class="pain-desc">Maintenance callbacks and upsell opportunities disappear between the truck and the office. TalkToDeal flags every one automatically.</p>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════════════════════════════════════
+     SECTION 5: HARDWARE
+════════════════════════════════════════════════════════════════════════ -->
+<section class="hardware-section" aria-labelledby="hw-h2">
+  <div class="container">
+    <div class="hardware-grid">
+
+      <div class="fu">
+        <div class="hw-img-block">
+          <img
+            src="HCJD7.png"
+            alt="TalkToDeal hardware: compact aluminum clip-on voice recorder"
+            loading="lazy"
+            onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"
+          />
+          <div class="hw-fallback" style="display:none;" role="img" aria-label="TalkToDeal hardware device">
+            <div class="hw-led" aria-hidden="true"></div>
+            <div class="hw-grill" aria-hidden="true">
+              <span></span><span></span><span></span><span></span><span></span>
+            </div>
+            <div class="hw-brand">TALKTODEAL</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="hw-content fu" style="transition-delay:0.1s">
+        <span class="eyebrow">The Hardware</span>
+        <h2 id="hw-h2">Built for the field.<br/>Zero learning curve.</h2>
+        <p class="hw-lead">A compact aluminum device that clips to a collar or fits in a pocket. Techs talk like they always do. The AI handles the rest.</p>
+        <ul class="hw-list" aria-label="Hardware features">
+          <li class="hw-row">
+            <div class="hw-chk" aria-hidden="true">
+              <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5l2 2 4-4" stroke="#22C55E" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <div>
+              <div class="hw-row-title">Clips to collar or fits in pocket</div>
+              <div class="hw-row-sub">Techs wear it all day — and forget it's there.</div>
+            </div>
+          </li>
+          <li class="hw-row">
+            <div class="hw-chk" aria-hidden="true">
+              <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5l2 2 4-4" stroke="#22C55E" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <div>
+              <div class="hw-row-title">All-day battery, no charging mid-shift</div>
+              <div class="hw-row-sub">Works the full shift. No interruptions.</div>
+            </div>
+          </li>
+          <li class="hw-row">
+            <div class="hw-chk" aria-hidden="true">
+              <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5l2 2 4-4" stroke="#22C55E" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <div>
+              <div class="hw-row-title">No phone, no app, no pairing</div>
+              <div class="hw-row-sub">Completely independent. Zero setup friction.</div>
+            </div>
+          </li>
+          <li class="hw-row">
+            <div class="hw-chk" aria-hidden="true">
+              <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5l2 2 4-4" stroke="#22C55E" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <div>
+              <div class="hw-row-title">No training needed</div>
+              <div class="hw-row-sub">Talk to a customer. Talk to yourself. AI understands both.</div>
+            </div>
+          </li>
+        </ul>
+        <p class="hw-tagline">"No typing. No extra step. Just talk like you already do."</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════════════════════════════════════
+     SECTION 6: INTEGRATIONS
+════════════════════════════════════════════════════════════════════════ -->
+<section class="int-section" aria-labelledby="int-h2">
+  <div class="container">
+    <div class="int-inner">
+      <span class="eyebrow">Integrations</span>
+      <h2 id="int-h2">Drops into your<br/>existing workflow.</h2>
+      <p class="int-sub">Records flow directly into your FSM software. No copy-paste. No double entry. No new system to learn.</p>
+
+      <div class="int-grid fu" role="list" aria-label="Supported software integrations">
+        <div class="int-card" role="listitem">
+          <div class="int-logo" aria-hidden="true">ST</div>
+          <div>
+            <div class="int-name">ServiceTitan</div>
+            <div class="int-type">Field Service Management</div>
+          </div>
+        </div>
+        <div class="int-card" role="listitem">
+          <div class="int-logo" aria-hidden="true">HC</div>
+          <div>
+            <div class="int-name">Housecall Pro</div>
+            <div class="int-type">Field Service Management</div>
+          </div>
+        </div>
+        <div class="int-card" role="listitem">
+          <div class="int-logo" aria-hidden="true">JB</div>
+          <div>
+            <div class="int-name">Jobber</div>
+            <div class="int-type">Field Service Management</div>
+          </div>
+        </div>
+        <div class="int-card" role="listitem">
+          <div class="int-logo" aria-hidden="true">QB</div>
+          <div>
+            <div class="int-name">QuickBooks</div>
+            <div class="int-type">Accounting</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="trust-strip fu" role="list" aria-label="Security and compliance certifications">
+        <div class="tb" role="listitem">
+          <svg width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true"><path d="M6.5 1.5L2 3.5v3.5c0 2.5 2 4.5 4.5 5 2.5-.5 4.5-2.5 4.5-5V3.5L6.5 1.5z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/><path d="M4.5 6.5l1.5 1.5L9 5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          End-to-end encrypted
+        </div>
+        <div class="tb" role="listitem">
+          <svg width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true"><rect x="2" y="5" width="9" height="7" rx="1.5" stroke="currentColor" stroke-width="1.2"/><path d="M4 5V3.5a2.5 2.5 0 015 0V5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+          SOC 2 compliant
+        </div>
+        <div class="tb" role="listitem">
+          <svg width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true"><path d="M6.5 2a4.5 4.5 0 100 9 4.5 4.5 0 000-9z" stroke="currentColor" stroke-width="1.2"/><path d="M4.5 6.5l1.5 1.5L9 4.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          HIPAA ready
+        </div>
+        <div class="tb" role="listitem">
+          <svg width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true"><circle cx="6.5" cy="6.5" r="5" stroke="currentColor" stroke-width="1.2"/><path d="M4 6.5h5M6.5 4v5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+          Hardware included
+        </div>
+        <div class="tb" role="listitem">
+          <svg width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true"><rect x="1.5" y="4" width="4" height="7" rx="1" stroke="currentColor" stroke-width="1.2"/><rect x="7.5" y="2" width="4" height="9" rx="1" stroke="currentColor" stroke-width="1.2"/></svg>
+          No long-term contract
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════════════════════════════════════
+     SECTION 7: SOCIAL PROOF
+════════════════════════════════════════════════════════════════════════ -->
+<section class="proof-section" aria-labelledby="proof-label">
+  <div class="container">
+    <div class="proof-grid">
+
+      <div class="fu">
+        <span id="proof-label" class="eyebrow">EARLY PILOTS</span>
+        <span class="proof-qmark" aria-hidden="true">"</span>
+        <blockquote class="proof-q">
+          Currently working with HVAC companies in Arizona and California — real techs, real service calls, validating real results every day.
+        </blockquote>
+        <div class="proof-attr">
+          <div class="pa-avatar" aria-hidden="true">TTD</div>
+          <div>
+            <div class="pa-name">TalkToDeal Team</div>
+            <div class="pa-role">Early Access Pilot Program</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="proof-numbers fu" style="transition-delay:0.12s" aria-label="Key results">
+        <div class="pnum-card" aria-label="3 hours per day of office admin time targeted">
+          <div class="pnum-val orange">3 hrs/day</div>
+          <div class="pnum-label">Office admin time targeted for elimination</div>
+        </div>
+        <div class="pnum-card" aria-label="14 calls per day chasing job details">
+          <div class="pnum-val orange">14 calls/day</div>
+          <div class="pnum-label">Average dispatcher calls chasing job details</div>
+        </div>
+        <div class="pnum-card" aria-label="Zero manual entries by office staff">
+          <div class="pnum-val" style="color:var(--fg)">0 manual entries</div>
+          <div class="pnum-label">Job details entered by office staff</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════════════════════════════════════
+     SECTION 8: FINAL CTA
+════════════════════════════════════════════════════════════════════════ -->
+<section class="cta-section" aria-labelledby="cta-h2">
+  <div class="container">
+    <div class="cta-grid">
+
+      <div class="fu">
+        <span class="eyebrow">Get Started</span>
+        <h2 id="cta-h2">Give your office back 3 hours a day.<br/>Without changing how techs work.</h2>
+        <p>Every job your tech goes to is a conversation. Turn that conversation into complete records — automatically, from the moment they start talking.</p>
+      </div>
+
+      <div class="cta-box fu" style="transition-delay:0.1s">
+        <div class="cta-price-row" aria-label="Starting at $99 per month per team">
+          <span class="cta-pnum">$99</span>
+          <span class="cta-period">– $109 / month per team</span>
+        </div>
+        <p class="cta-pdesc">Hardware included. No long-term contract. Cancel anytime.</p>
+
+        <ul class="cta-checklist" aria-label="Plan includes">
+          <li class="cc-item">
+            <svg class="cc-chk" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2 7l3 3 7-6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Automatic work orders from voice
+          </li>
+          <li class="cc-item">
+            <svg class="cc-chk" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2 7l3 3 7-6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Hardware device included, ships fast
+          </li>
+          <li class="cc-item">
+            <svg class="cc-chk" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2 7l3 3 7-6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Integrates with ServiceTitan, Housecall Pro, Jobber
+          </li>
+          <li class="cc-item">
+            <svg class="cc-chk" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2 7l3 3 7-6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            SOC 2 compliant · End-to-end encrypted
+          </li>
+          <li class="cc-item">
+            <svg class="cc-chk" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2 7l3 3 7-6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Onboarding + dedicated support
+          </li>
+        </ul>
+
+        <div class="cta-btns">
+          <a href="https://calendly.com/talktodeal/15min" class="btn btn-primary" target="_blank" rel="noopener" aria-label="Book a free 15-minute demo call">
+            <svg width="15" height="15" viewBox="0 0 15 15" fill="none" aria-hidden="true"><rect x="2" y="2.5" width="11" height="11" rx="2" stroke="currentColor" stroke-width="1.4"/><path d="M5 2v1.5M10 2v1.5M2 7h11" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+            Book a 15-min Demo
+          </a>
+          <a href="https://talktodeal.com/demo" class="btn btn-outline" target="_blank" rel="noopener" aria-label="Try interactive AI demo first">
+            <svg width="15" height="15" viewBox="0 0 15 15" fill="none" aria-hidden="true"><circle cx="7.5" cy="7.5" r="6" stroke="currentColor" stroke-width="1.3"/><path d="M6 5l4.5 2.5L6 10V5z" fill="currentColor"/></svg>
+            Try AI Demo First
+          </a>
+        </div>
+        <p class="cta-phone">
+          Prefer to call? <a href="tel:6609000008">660-900-0008</a>
+        </p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ─── Footer ─────────────────────────────────────────────────────────── -->
+<footer>
+  <div class="container">
+    <div class="footer-row">
+      <div class="footer-brand">
+        <div class="flogo" aria-hidden="true">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1.5a5.5 5.5 0 100 11A5.5 5.5 0 007 1.5zM5 7a2 2 0 114 0 2 2 0 01-4 0z" fill="#fff"/></svg>
+        </div>
+        <span class="fname">TalkToDeal</span>
+      </div>
+      <nav class="footer-links" aria-label="Footer navigation">
+        <a href="https://talktodeal.com/privacy">Privacy</a>
+        <a href="https://talktodeal.com/terms">Terms</a>
+        <a href="https://talktodeal.com/security">Security</a>
+      </nav>
+      <span class="footer-copy">&copy; 2025 TalkToDeal. All rights reserved.</span>
+    </div>
+  </div>
+</footer>
+
+
+<script>
+  // Fade-up on scroll
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); obs.unobserve(e.target); } });
+  }, { threshold: 0.1, rootMargin: '0px 0px -36px 0px' });
+  document.querySelectorAll('.fu').forEach(el => obs.observe(el));
+
+  // Subtle step hover
+  document.querySelectorAll('.fstep').forEach(s => {
+    s.addEventListener('mouseenter', () => s.style.transform = 'translateX(4px)');
+    s.addEventListener('mouseleave', () => s.style.transform = '');
+  });
+</script>
+
+</body>
+</html>
