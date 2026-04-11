@@ -5,99 +5,529 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="TalkToDeal captures every on-site quote automatically. No typing. No lost revenue. Book a 15-min demo." />
   <title>TalkToDeal — Stop Losing Field Quotes</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
   <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
   <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-    body {
-      background: #000;
-      color: #fff;
-      font-family: 'DM Sans', system-ui, sans-serif;
+    html, body {
+      background: #0C0C0E;
+      color: rgba(255,255,255,0.9);
+      font-family: system-ui, -apple-system, 'Inter', 'SF Pro Display', sans-serif;
       -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
+      overflow-x: hidden;
     }
 
-    h1, h2, blockquote {
-      font-family: 'DM Serif Display', Georgia, serif;
-      letter-spacing: -0.02em;
-      font-weight: 400;
+    /* ── Fade-in ──────────────────────────────────────────────────────────── */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.9s cubic-bezier(0.16,1,0.3,1),
+                  transform 0.9s cubic-bezier(0.16,1,0.3,1);
+    }
+    .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+    /* ── Keyframes ───────────────────────────────────────────────────────── */
+    @keyframes aurora-drift {
+      0%   { transform: translateX(0)    translateY(0)    scale(1);    opacity: 0.7; }
+      33%  { transform: translateX(30px) translateY(-20px) scale(1.05); opacity: 1.0; }
+      66%  { transform: translateX(-20px) translateY(15px) scale(0.97); opacity: 0.8; }
+      100% { transform: translateX(15px) translateY(-30px) scale(1.03); opacity: 0.9; }
+    }
+    @keyframes pulse-glow {
+      0%, 100% { opacity: 0.6; transform: translateX(-50%) scale(1); }
+      50%       { opacity: 1.0; transform: translateX(-50%) scale(1.08); }
+    }
+    @keyframes float-up {
+      0%   { transform: translateY(0px);   opacity: 0.15; }
+      50%  { transform: translateY(-20px); opacity: 0.35; }
+      100% { transform: translateY(-40px); opacity: 0;    }
+    }
+    @keyframes float-device {
+      0%, 100% { transform: translateY(0px); }
+      50%       { transform: translateY(-14px); }
     }
 
-    .mono {
-      font-family: 'Space Mono', 'Courier New', monospace;
+    /* ── Nav ──────────────────────────────────────────────────────────────── */
+    .nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center;
+      padding: 28px 48px;
+      background: transparent;
+      transition: background 0.3s ease, backdrop-filter 0.3s ease, -webkit-backdrop-filter 0.3s ease, border-bottom 0.3s ease;
+    }
+    .nav-wordmark {
+      font-size: 15px; font-weight: 500; letter-spacing: -0.01em;
+      color: #FFFFFF; text-decoration: none; flex-shrink: 0;
+    }
+    .nav-links {
+      display: flex; align-items: center; gap: 32px;
+      flex: 1; justify-content: center;
+    }
+    .nav-link {
+      font-size: 13px; font-weight: 400;
+      color: rgba(255,255,255,0.5); text-decoration: none;
+      transition: color 0.2s ease;
+    }
+    .nav-link:hover { color: rgba(255,255,255,0.9); }
+    .nav-cta {
+      font-size: 13px; font-weight: 500; color: #FFFFFF;
+      text-decoration: none; background: rgba(255,255,255,0.08);
+      border-radius: 980px; padding: 8px 18px;
+      transition: background 0.2s ease; flex-shrink: 0;
+    }
+    .nav-cta:hover { background: rgba(255,255,255,0.14); }
+    .nav-hamburger {
+      display: none; background: none; border: none; cursor: pointer;
+      padding: 4px; color: #FFFFFF; margin-left: auto;
     }
 
-    /* Noise texture overlay */
-    .noise-overlay {
+    /* ── Hero ─────────────────────────────────────────────────────────────── */
+    .hero {
+      min-height: 100vh;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      position: relative; text-align: center;
+      padding: 140px 48px 160px;
+      overflow: hidden;
+    }
+
+    /* Aurora background layer */
+    .hero-bg {
+      position: absolute; inset: 0; overflow: hidden;
+      pointer-events: none; z-index: 0;
+    }
+    .ao {
+      position: absolute; border-radius: 50%;
+    }
+    .ao1 {
+      width: 900px; height: 600px;
+      top: -200px; left: 50%; margin-left: -450px;
+      background: radial-gradient(ellipse, rgba(66,133,244,0.13) 0%, rgba(66,133,244,0.04) 40%, transparent 70%);
+      animation: aurora-drift 8s ease-in-out infinite alternate;
+    }
+    .ao2 {
+      width: 600px; height: 500px;
+      bottom: -100px; left: -100px;
+      background: radial-gradient(ellipse, rgba(100,160,255,0.08) 0%, transparent 65%);
+      animation: aurora-drift 11s ease-in-out infinite alternate-reverse;
+    }
+    .ao3 {
+      width: 500px; height: 400px;
+      top: 0; right: -80px;
+      background: radial-gradient(ellipse, rgba(66,133,244,0.06) 0%, transparent 60%);
+      animation: aurora-drift 13s ease-in-out infinite alternate;
+    }
+    /* Floating particles */
+    .hp {
+      position: absolute; width: 2px; height: 2px; border-radius: 50%;
+      background: rgba(66,133,244,0.5);
+      animation: float-up linear infinite;
+    }
+
+    /* Hero content wrapper — sits above aurora */
+    .hero-content {
+      position: relative; z-index: 1;
+      display: flex; flex-direction: column; align-items: center;
+      width: 100%;
+    }
+
+    .hero-eyebrow {
+      font-size: 11px; font-weight: 500; letter-spacing: 0.12em;
+      text-transform: uppercase; color: rgba(255,255,255,0.38);
+      margin-bottom: 40px;
+    }
+    .hero-h1 {
+      font-size: clamp(64px, 9vw, 120px);
+      font-weight: 300; line-height: 0.95; letter-spacing: -0.04em;
+    }
+    .hero-h1-line1 { display: block; color: rgba(255,255,255,0.9); }
+    .hero-h1-line2 { display: block; color: #FFFFFF; }
+    .hero-h1-line3 { display: block; color: rgba(255,255,255,0.58); font-weight: 200; }
+    .hero-accent { color: #E8E0D4; }
+    .hero-gone {
+      font-size: 28px; font-weight: 300;
+      color: rgba(255,255,255,0.6); margin-top: 48px;
+    }
+    .hero-cta-wrap { margin-top: 56px; }
+    .hero-cta-btn {
+      display: inline-flex; align-items: center;
+      font-size: 15px; font-weight: 400; color: #FFFFFF;
+      text-decoration: none; background: rgba(255,255,255,0.08);
+      border-radius: 980px; padding: 14px 32px; border: none;
+      cursor: pointer; font-family: inherit;
+      transition: background 0.2s ease;
+    }
+    .hero-cta-btn:hover { background: rgba(255,255,255,0.14); }
+    .hero-note {
+      font-size: 13px; color: rgba(255,255,255,0.38); margin-top: 20px;
+    }
+    /* Stat strip */
+    .hero-stat-strip {
+      position: absolute; bottom: 52px; left: 0; right: 0; width: 100%;
+      display: flex; flex-direction: row; justify-content: center; align-items: center;
+      gap: 0; z-index: 2;
+    }
+    .hero-stat-sep { width: 1px; height: 28px; background: rgba(255,255,255,0.12); flex-shrink: 0; }
+    .hero-stat {
+      display: flex; flex-direction: column; align-items: center; text-align: center;
+      padding: 0 36px;
+    }
+    .hero-stat-num { font-size: 15px; font-weight: 500; color: #FFFFFF; letter-spacing: -0.01em; }
+    .hero-stat-lbl { font-size: 11px; color: rgba(255,255,255,0.35); margin-top: 4px; letter-spacing: 0.02em; }
+
+    /* ── Full-bleed Photos ────────────────────────────────────────────────── */
+    .photo-section { position: relative; overflow: hidden; }
+    .photo-section img {
+      width: 100%; height: 110%; object-fit: cover;
+      display: block; will-change: transform; margin-top: -5%;
+    }
+    .photo-grad-top {
+      position: absolute; top: 0; left: 0; right: 0; height: 25%;
+      background: linear-gradient(to bottom, #0C0C0E 0%, transparent 100%);
+      pointer-events: none; z-index: 1;
+    }
+    .photo-grad-bottom {
+      position: absolute; bottom: 0; left: 0; right: 0; height: 35%;
+      background: linear-gradient(to top, #0C0C0E 0%, transparent 100%);
+      pointer-events: none; z-index: 1;
+    }
+    .ps1 { height: 80vh; }
+    .ps2 { height: 65vh; }
+
+    /* Photo 1 overlays */
+    .p1-left {
+      position: absolute; bottom: 60px; left: 60px; z-index: 2; max-width: 440px;
+    }
+    .p1-left-label { font-size: 12px; color: rgba(255,255,255,0.58); margin-bottom: 10px; }
+    .p1-left-quote { font-size: 22px; font-weight: 300; color: #FFFFFF; line-height: 1.4; }
+    .p1-right {
+      position: absolute; bottom: 60px; right: 60px; z-index: 2;
+      background: rgba(255,255,255,0.08);
+      backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+      border-radius: 12px; padding: 16px 22px;
+    }
+    .p1-right-label {
+      font-size: 10px; color: rgba(255,255,255,0.4);
+      text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 10px;
+    }
+    .p1-right-items { font-size: 13px; color: rgba(255,255,255,0.8); line-height: 1.9; }
+
+    /* Photo 2 center overlay */
+    .p2-center {
+      position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
+      z-index: 2; text-align: center; max-width: 600px; width: 90%;
+      pointer-events: none;
+    }
+    .p2-text { font-size: 32px; font-weight: 300; color: #FFFFFF; line-height: 1.4; }
+
+    /* ── Product Section ─────────────────────────────────────────────────── */
+    .product-section {
+      padding: 140px 48px; position: relative;
+      background: radial-gradient(ellipse 700px 500px at 30% 50%, rgba(66,133,244,0.07) 0%, transparent 55%), #0C0C0E;
+    }
+    .product-inner {
+      max-width: 1100px; margin: 0 auto;
+      display: grid; grid-template-columns: 55% 45%; gap: 80px; align-items: center;
+    }
+    .product-img-col { position: relative; }
+    .product-img-wrap {
+      position: relative; display: flex; align-items: center; justify-content: center;
+      min-height: 400px; background: transparent;
+    }
+    .product-device-glow {
+      position: absolute; width: 400px; height: 260px; border-radius: 50%;
+      background: radial-gradient(ellipse, rgba(66,133,244,0.15) 0%, transparent 65%);
+      top: 50%; left: 50%; transform: translate(-50%, -50%);
+      z-index: 0; pointer-events: none;
+    }
+    .product-text-col { }
+    .product-eyebrow {
+      font-size: 11px; font-weight: 500; letter-spacing: 0.12em;
+      text-transform: uppercase; color: rgba(255,255,255,0.35); margin-bottom: 24px;
+    }
+    .product-headline {
+      font-size: clamp(36px, 4.5vw, 54px); font-weight: 300; color: #FFFFFF;
+      letter-spacing: -0.03em; line-height: 1.1; margin-bottom: 20px;
+    }
+    .product-sub {
+      font-size: 16px; color: rgba(255,255,255,0.52); line-height: 1.75;
+      max-width: 380px; margin-bottom: 40px;
+    }
+    .product-feature {
+      display: flex; gap: 16px; align-items: flex-start;
+      padding: 16px 0; border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .product-feature:last-child { border-bottom: none; }
+    .pf-check {
+      width: 22px; height: 22px; border-radius: 50%; flex-shrink: 0;
+      background: rgba(66,133,244,0.15);
+      display: flex; align-items: center; justify-content: center;
+      margin-top: 2px;
+    }
+    .pf-checkmark { font-size: 11px; color: #4285F4; line-height: 1; }
+    .pf-title { font-size: 15px; font-weight: 500; color: #FFFFFF; }
+    .pf-desc { font-size: 13px; color: rgba(255,255,255,0.42); margin-top: 3px; line-height: 1.5; }
+
+    /* ── Before / After ──────────────────────────────────────────────────── */
+    .ba-section { padding: 180px 48px; }
+    .ba-inner {
+      max-width: 1000px; margin: 0 auto;
+      display: grid; grid-template-columns: 1fr 1px 1fr; gap: 64px;
+      align-items: start;
+    }
+    .ba-sep { background: rgba(255,255,255,0.06); align-self: stretch; }
+    .ba-col-label {
+      font-size: 10px; color: rgba(255,255,255,0.38);
+      letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 32px;
+    }
+    .ba-item { font-size: 17px; font-weight: 300; line-height: 2.6; }
+
+    /* ── Scenarios ────────────────────────────────────────────────────────── */
+    .scenarios-section { padding: 180px 48px; }
+    .scenarios-inner { max-width: 800px; margin: 0 auto; }
+    .section-eyebrow {
+      font-size: 11px; font-weight: 500; letter-spacing: 0.12em;
+      text-transform: uppercase; color: rgba(255,255,255,0.38); margin-bottom: 24px;
+    }
+    .section-title {
+      font-size: clamp(28px, 4vw, 44px); font-weight: 300;
+      color: #FFFFFF; letter-spacing: -0.025em; line-height: 1.1;
+      margin-bottom: 80px;
+    }
+    .section-title-accent { color: #E8E0D4; }
+    .scenario-row {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 48px;
+      padding: 60px 0; border-top: 1px solid rgba(255,255,255,0.06);
+    }
+    .scenario-row:last-child { border-bottom: 1px solid rgba(255,255,255,0.06); }
+    .sc-left-label {
+      font-size: 10px; color: rgba(255,255,255,0.32);
+      text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 16px;
+    }
+    .sc-quote {
+      font-size: 17px; font-style: italic; font-weight: 300;
+      color: rgba(255,255,255,0.58); line-height: 1.65;
+    }
+    .sc-right-label {
+      font-size: 10px; color: rgba(255,255,255,0.38);
+      text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 16px;
+    }
+    .sc-output { font-size: 15px; color: rgba(255,255,255,0.65); line-height: 2.1; }
+    .sc-arrow { color: rgba(255,255,255,0.38); margin-right: 6px; }
+
+    /* ── Stats strip ─────────────────────────────────────────────────────── */
+    .stats-section {
+      padding: 180px 0; position: relative; overflow: hidden;
+    }
+    .stats-inner {
+      max-width: 860px; margin: 0 auto; padding: 80px 48px;
+      display: flex; flex-direction: row; align-items: center; justify-content: center;
+      position: relative; z-index: 1;
+    }
+    .stats-glow {
+      position: absolute; width: 800px; height: 300px;
+      bottom: -100px; left: 50%; transform: translateX(-50%);
+      background: radial-gradient(ellipse, rgba(66,133,244,0.10) 0%, transparent 65%);
+      pointer-events: none; z-index: 0;
+      animation: pulse-glow 5s ease-in-out infinite;
+    }
+    .stat-item {
+      flex: 1;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      text-align: center;
+    }
+    .stats-sep { width: 1px; height: 48px; background: rgba(255,255,255,0.1); flex-shrink: 0; margin: 0 32px; }
+    .stat-num {
+      font-size: clamp(56px, 8vw, 96px); font-weight: 300;
+      color: #FFFFFF; letter-spacing: -0.03em; line-height: 1.0;
+    }
+    .stat-lbl { font-size: 13px; color: rgba(255,255,255,0.4); margin-top: 10px; font-weight: 400; text-align: center; }
+
+    /* ── Social Proof ────────────────────────────────────────────────────── */
+    .proof-section { padding: 160px 48px; }
+    .proof-inner { max-width: 680px; margin: 0 auto; text-align: center; }
+    .proof-eyebrow {
+      font-size: 11px; color: rgba(255,255,255,0.38);
+      text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 40px;
+    }
+    .proof-main { font-size: 28px; font-weight: 300; color: #FFFFFF; line-height: 1.5; }
+    .proof-sub {
+      font-size: 17px; font-weight: 300; color: rgba(255,255,255,0.72);
+      margin-top: 20px; line-height: 1.65;
+    }
+    .proof-attr { font-size: 12px; color: rgba(255,255,255,0.38); margin-top: 32px; }
+
+    /* ── Final CTA ───────────────────────────────────────────────────────── */
+    .cta-section { padding: 200px 48px; position: relative; overflow: hidden; }
+    .cta-bg-glow {
+      position: absolute; inset: 0; z-index: 0; pointer-events: none;
+      background: radial-gradient(ellipse 900px 600px at 0% 100%, rgba(66,133,244,0.14) 0%, transparent 55%);
+    }
+    .cta-inner { max-width: 700px; position: relative; z-index: 1; }
+    .cta-h2 {
+      font-size: clamp(56px, 8vw, 104px); font-weight: 300;
+      color: #FFFFFF; letter-spacing: -0.04em; line-height: 0.95;
+    }
+    .cta-sub {
+      font-size: 17px; color: rgba(255,255,255,0.58); font-weight: 300; margin-top: 40px;
+    }
+    .cta-btn-row {
+      display: flex; gap: 16px; align-items: center; flex-wrap: wrap; margin-top: 48px;
+    }
+    .cta-btn-primary {
+      display: inline-flex; align-items: center;
+      font-size: 15px; font-weight: 500; color: #0C0C0E; text-decoration: none;
+      background: rgba(255,255,255,0.9); border-radius: 980px; padding: 15px 36px;
+      border: none; cursor: pointer; font-family: inherit;
+      transition: background 0.2s ease;
+    }
+    .cta-btn-primary:hover { background: #FFFFFF; }
+    .cta-btn-secondary {
+      display: inline-flex; align-items: center;
+      font-size: 15px; font-weight: 400; color: rgba(255,255,255,0.5); text-decoration: none;
+      background: transparent; padding: 15px 36px; border: none;
+      cursor: pointer; font-family: inherit; transition: color 0.2s ease;
+    }
+    .cta-btn-secondary:hover { color: #FFFFFF; text-decoration: underline; text-underline-offset: 4px; }
+    .cta-phone-label { font-size: 12px; color: rgba(255,255,255,0.38); margin-top: 32px; margin-bottom: 6px; }
+    .cta-phone { font-size: 17px; font-weight: 400; color: #FFFFFF; text-decoration: none; display: block; }
+
+    /* ── Footer ──────────────────────────────────────────────────────────── */
+    .site-footer {
+      background: #0C0C0E; padding: 60px 48px;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .footer-left { font-size: 13px; color: rgba(255,255,255,0.38); }
+    .footer-right { display: flex; gap: 24px; }
+    .footer-link {
+      font-size: 13px; color: rgba(255,255,255,0.38); text-decoration: none;
+      transition: color 0.2s ease;
+    }
+    .footer-link:hover { color: rgba(255,255,255,0.6); }
+
+    /* ── Video Section (PhotoTwo) ───────────────────────────────────────── */
+    .video-split-section {
+      position: relative;
+      width: 100%;
+      min-height: 70vh;
+      display: flex;
+      flex-direction: row;
+      align-items: stretch;
+      overflow: hidden;
+      background: #0C0C0E;
+    }
+    .video-split-left {
+      width: 50%;
+      position: relative;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+    .video-split-left video {
       position: absolute;
       inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      background: #0C0C0E;
+    }
+    .video-split-fade {
+      position: absolute;
+      top: 0; right: 0;
+      width: 140px; height: 100%;
+      background: linear-gradient(to right, transparent, #0C0C0E);
       pointer-events: none;
-      z-index: 0;
-      opacity: 0.028;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-      background-size: 160px 160px;
+      z-index: 1;
     }
-
-    .divider { height: 1px; background: #1e1e1e; }
-
-    /* Buttons */
-    .btn-primary {
-      display: inline-block;
-      background: #FF5C1B;
-      color: #fff;
-      border: 1px solid #FF5C1B;
-      border-radius: 6px;
-      font-family: 'DM Sans', sans-serif;
-      font-weight: 600;
-      font-size: 15px;
-      padding: 13px 28px;
-      text-decoration: none;
-      transition: background 0.15s ease, transform 0.15s ease;
-      cursor: pointer;
-      white-space: nowrap;
-    }
-    .btn-primary:hover { background: #FF6E30; transform: scale(1.02); }
-    .btn-primary:active { transform: scale(0.99); }
-
-    .btn-secondary {
-      display: inline-block;
-      background: transparent;
-      color: #888;
-      border: 1px solid #2e2e2e;
-      border-radius: 6px;
-      font-family: 'DM Sans', sans-serif;
-      font-weight: 600;
-      font-size: 15px;
-      padding: 13px 28px;
-      text-decoration: none;
-      transition: border-color 0.15s ease, color 0.15s ease, transform 0.15s ease;
-      white-space: nowrap;
-    }
-    .btn-secondary:hover { border-color: #FF5C1B; color: #FF5C1B; transform: scale(1.02); }
-    .btn-secondary:active { transform: scale(0.99); }
-
-    /* Eyebrow tag */
-    .eyebrow-tag {
-      display: inline-flex;
+    .video-split-right {
+      width: 50%;
+      display: flex;
       align-items: center;
-      gap: 8px;
-      border: 1px solid #2a1508;
-      background: rgba(255, 92, 27, 0.06);
-      border-radius: 4px;
-      padding: 6px 12px;
+      justify-content: center;
+      padding: 60px 64px 60px 48px;
     }
-    .eyebrow-label {
-      color: #FF5C1B;
-      font-size: 11px;
-      font-weight: 600;
-      letter-spacing: 0.09em;
-      text-transform: uppercase;
+    .video-split-right p {
+      font-size: clamp(24px, 2.8vw, 38px);
+      font-weight: 300;
+      color: #FFFFFF;
+      line-height: 1.4;
+      letter-spacing: -0.02em;
+      text-align: left;
+      max-width: 480px;
+      margin: 0;
+    }
+
+    /* ── Mobile ──────────────────────────────────────────────────────────── */
+    @media (max-width: 768px) {
+      .nav { padding: 20px 24px; }
+      .nav-links { display: none; }
+      .nav-hamburger { display: flex; align-items: center; }
+      .hero { padding: 120px 24px 140px; }
+      .hero-stat-strip { gap: 20px; bottom: 40px; }
+      /* Reduce aurora orb sizes ~50% */
+      .ao1 { width: 450px; height: 300px; margin-left: -225px; top: -100px; }
+      .ao2 { width: 300px; height: 250px; }
+      .ao3 { width: 250px; height: 200px; }
+      /* Hide 3 of 6 particles */
+      .hp:nth-child(n+6) { display: none; }
+      .ps1, .ps2 { height: 50vh; }
+      .p1-left { bottom: 40px; left: 24px; right: 120px; }
+      .p1-left-quote { font-size: 16px; }
+      .p1-right { bottom: 40px; right: 24px; }
+      .p2-text { font-size: 22px; }
+      /* Product section stacks */
+      .product-section { padding: 100px 24px; }
+      .product-inner { grid-template-columns: 1fr; gap: 48px; }
+      .product-device-glow { width: 240px; height: 140px; }
+      .product-img { max-width: 280px; }
+      .product-img-fallback { max-width: 100%; height: 280px; }
+      .product-img-wrap { min-height: 280px; }
+      /* Stats glow reduce */
+      .stats-glow { width: 400px; height: 150px; }
+      .ba-section  { padding: 100px 24px; }
+      .ba-inner { grid-template-columns: 1fr; gap: 48px; }
+      .ba-sep { display: none; }
+      .scenarios-section { padding: 100px 24px; }
+      .scenario-row { grid-template-columns: 1fr; gap: 32px; }
+      .stats-section { padding: 80px 0; }
+      .stats-inner { flex-direction: column; gap: 0; padding: 40px 24px; }
+      .stat-item { padding: 28px 0; width: 100%; }
+      .stats-sep { width: 80px; height: 1px; margin: 0; flex-shrink: 0; }
+      .p2-device-float { display: none; }
+      .video-split-section {
+        flex-direction: column;
+        min-height: auto;
+      }
+      .video-split-left {
+        width: 100%;
+        height: 56vw;
+        min-height: 240px;
+        flex-shrink: 0;
+      }
+      .video-split-fade {
+        top: auto; right: 0; bottom: 0; left: 0;
+        width: 100%; height: 80px;
+        background: linear-gradient(to bottom, transparent, #0C0C0E);
+      }
+      .video-split-right {
+        width: 100%;
+        padding: 40px 28px 60px;
+        justify-content: center;
+      }
+      .video-split-right p {
+        text-align: center;
+        font-size: clamp(20px, 5vw, 28px);
+      }
+      .proof-section { padding: 100px 24px; }
+      .proof-main { font-size: 22px; }
+      .cta-section { padding: 120px 24px; text-align: center; }
+      .cta-inner { max-width: none; }
+      .cta-btn-row { justify-content: center; }
+      .cta-phone-label, .cta-phone { text-align: center; }
+      .site-footer { flex-direction: column; gap: 20px; padding: 40px 24px; text-align: center; }
+      .footer-right { justify-content: center; }
     }
   </style>
 </head>
@@ -105,151 +535,204 @@
 <div id="root"></div>
 
 <script type="text/babel">
+const { useEffect } = React;
 
-const DEMO_URL = "https://calendly.com/talktodeal/15min";
+const DEMO_URL = "https://talktodeal.com/call/";
 const PHONE = "660-900-0008";
 
-// ─── SVG Icons ──────────────────────────────────────────────────────────────
-
-const XIcon = () => (
-  <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
-    <path d="M1.5 1.5L11.5 11.5M11.5 1.5L1.5 11.5" stroke="#FF3B3B" strokeWidth="2" strokeLinecap="round"/>
-  </svg>
-);
-
-const ArrowRightIcon = () => (
-  <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-    <path d="M3 8H13M9 4l4 4-4 4" stroke="#C8FF00" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
-  </svg>
-);
-
-const BoltIcon = () => (
-  <svg width="12" height="12" viewBox="0 0 12 12" fill="#FF5C1B">
-    <path d="M7 1L2 7h4l-1 4L11 5H7L7 1Z"/>
-  </svg>
-);
+// ─── Icons ────────────────────────────────────────────────────────────────────
 
 const PhoneIcon = () => (
-  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#FF5C1B" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" style={{ opacity: 0.5 }}>
     <path d="M22 16.92v3a2 2 0 01-2.18 2 19.8 19.8 0 01-8.63-3.07A19.5 19.5 0 013.09 9.81 19.8 19.8 0 012 1.17 2 2 0 014 1h3a2 2 0 012 1.72c.13.96.36 1.9.7 2.81a2 2 0 01-.45 2.11L8.09 8.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0122 16.92z"/>
   </svg>
 );
 
-const RecorderIcon = () => (
-  <svg width="28" height="28" viewBox="0 0 28 28" fill="none" strokeLinecap="round" strokeLinejoin="round">
-    <rect x="8" y="2" width="12" height="18" rx="5" stroke="#555" strokeWidth="1.4"/>
-    <circle cx="14" cy="8" r="2.5" stroke="#444" strokeWidth="1.2"/>
-    <circle cx="14" cy="8" r="0.8" fill="#FF5C1B"/>
-    <circle cx="14" cy="16" r="1.8" stroke="#FF5C1B" strokeWidth="1.2"/>
-    <path d="M5 12a9 9 0 0018 0" stroke="#444" strokeWidth="1.4"/>
-    <line x1="14" y1="22" x2="14" y2="26" stroke="#444" strokeWidth="1.4"/>
-    <line x1="11" y1="26" x2="17" y2="26" stroke="#444" strokeWidth="1.4"/>
+const MenuIcon = () => (
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round">
+    <line x1="3" y1="7" x2="21" y2="7"/>
+    <line x1="3" y1="17" x2="21" y2="17"/>
   </svg>
 );
 
-// ─── Device SVG (hero illustration) ──────────────────────────────────────
-const DeviceIllustration = () => (
-  <svg viewBox="0 0 200 320" fill="none" xmlns="http://www.w3.org/2000/svg"
-    style={{ width: '100%', maxWidth: 180, display: 'block' }}>
-    {/* body */}
-    <rect x="70" y="24" width="60" height="138" rx="16" stroke="#2a2a2a" strokeWidth="1.5"/>
-    {/* grille background */}
-    <rect x="82" y="42" width="36" height="46" rx="6" stroke="#222" strokeWidth="1" fill="#0a0a0a"/>
-    {/* grille dots */}
-    {[[0,0],[1,0],[2,0],[3,0],[0,1],[1,1],[2,1],[3,1],[0,2],[1,2],[2,2],[3,2],[0,3],[1,3],[2,3],[3,3]].map(([c,r],i)=>(
-      <circle key={i} cx={89+c*8} cy={50+r*9} r="1.4" fill="#2e2e2e"/>
-    ))}
-    {/* LED indicator */}
-    <circle cx="100" cy="36" r="2.5" fill="#FF5C1B" opacity="0.85"/>
-    <circle cx="100" cy="36" r="4.5" fill="#FF5C1B" opacity="0.12"/>
-    {/* model text */}
-    <text x="84" y="103" fill="#2e2e2e" fontSize="6" fontFamily="monospace" letterSpacing="1">TTD-01</text>
-    {/* record button */}
-    <circle cx="100" cy="142" r="9" stroke="#2a2a2a" strokeWidth="1.2"/>
-    <circle cx="100" cy="142" r="4" fill="#FF5C1B" opacity="0.75"/>
-    {/* clip */}
-    <path d="M84 162 L84 206 Q100 217 116 206 L116 162" stroke="#1e1e1e" strokeWidth="1.5"/>
-    <path d="M91 188 L109 188" stroke="#2a2a2a" strokeWidth="1"/>
-    {/* sound waves */}
-    <path d="M138 60 Q152 78 138 96" stroke="#FF5C1B" strokeWidth="1.2" strokeLinecap="round" opacity="0.45" strokeDasharray="3.5 3"/>
-    <path d="M148 50 Q168 78 148 106" stroke="#FF5C1B" strokeWidth="1" strokeLinecap="round" opacity="0.2" strokeDasharray="3.5 3"/>
-    {/* AI output card */}
-    <rect x="44" y="238" width="112" height="38" rx="5" fill="#0A0A0A" stroke="#1e1e1e" strokeWidth="1"/>
-    <circle cx="55" cy="257" r="3" fill="#C8FF00" opacity="0.7"/>
-    <text x="63" y="252" fill="#666" fontSize="7" fontFamily="monospace">AI processing</text>
-    <text x="63" y="264" fill="#C8FF00" fontSize="7" fontFamily="monospace" opacity="0.85">→ Work order ready</text>
-    {/* connector line */}
-    <line x1="100" y1="218" x2="100" y2="237" stroke="#1e1e1e" strokeWidth="1" strokeDasharray="3 2"/>
-  </svg>
+// ─── Nav ─────────────────────────────────────────────────────────────────────
+const Nav = () => (
+  <nav id="main-nav" className="nav">
+    <a href="#" className="nav-wordmark">TalkToDeal</a>
+    <div className="nav-links">
+      <a href="#how" className="nav-link">How it works</a>
+      <a href="#pricing" className="nav-link">Pricing</a>
+      <a href={DEMO_URL} className="nav-link" target="_blank" rel="noopener noreferrer">Demo</a>
+    </div>
+    <a href={DEMO_URL} target="_blank" rel="noopener noreferrer" className="nav-cta">Book Demo</a>
+    <button className="nav-hamburger" aria-label="Menu"><MenuIcon/></button>
+  </nav>
 );
 
-// ─── Shared components ─────────────────────────────────────────────────────
-const Divider = () => <div className="divider"/>;
-
-const BookDemoBtn = ({ large = false }) => (
-  <a href={DEMO_URL} target="_blank" rel="noopener noreferrer"
-    className="btn-primary"
-    style={large ? { fontSize: 16, padding: '14px 32px' } : {}}>
-    Book a 15-min Demo
-  </a>
-);
-
-const TryDemoBtn = () => (
-  <a href={`tel:${PHONE}`} className="btn-secondary">Try AI Demo</a>
-);
-
-// ─── Section 1: Hero ───────────────────────────────────────────────────────
+// ─── Section 1: Hero ──────────────────────────────────────────────────────────
 const Hero = () => (
-  <section style={{ background: '#000', position: 'relative', overflow: 'hidden' }}
-    className="px-6 md:px-16 py-32">
-    {/* Orange glow — top left */}
-    <div style={{
-      position: 'absolute', top: -160, left: -160,
-      width: 640, height: 540,
-      background: 'radial-gradient(ellipse, rgba(255,92,27,0.11) 0%, transparent 62%)',
-      pointerEvents: 'none'
-    }}/>
-    <div className="noise-overlay"/>
+  <section className="hero">
+    {/* Aurora + particles layer */}
+    <div className="hero-bg" aria-hidden="true">
+      <div className="ao ao1"/>
+      <div className="ao ao2"/>
+      <div className="ao ao3"/>
+      {/* 6 floating particles — nth-child(n+6) hides 3 on mobile */}
+      <div className="hp" style={{ top:'22%', left:'14%', animationDelay:'0s',   animationDuration:'7s',  opacity:0.3 }}/>
+      <div className="hp" style={{ top:'60%', left:'9%',  animationDelay:'2.5s', animationDuration:'9s',  opacity:0.2 }}/>
+      <div className="hp" style={{ top:'40%', left:'25%', animationDelay:'1.2s', animationDuration:'8s',  opacity:0.25 }}/>
+      <div className="hp" style={{ top:'28%', left:'78%', animationDelay:'0.6s', animationDuration:'6.5s',opacity:0.3 }}/>
+      <div className="hp" style={{ top:'55%', left:'86%', animationDelay:'3.5s', animationDuration:'10s', opacity:0.2 }}/>
+      <div className="hp" style={{ top:'72%', left:'68%', animationDelay:'1.8s', animationDuration:'7.5s',opacity:0.25 }}/>
+    </div>
 
-    <div style={{ position: 'relative', maxWidth: 1080, margin: '0 auto' }}
-      className="flex flex-col md:flex-row md:items-center gap-14 md:gap-20">
-
-      {/* Left */}
-      <div style={{ flex: 1 }}>
-        <div className="eyebrow-tag" style={{ marginBottom: 32 }}>
-          <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#FF3B3B', display:'inline-block', flexShrink: 0 }}/>
-          <span className="eyebrow-label">HVAC &amp; Field Service Revenue Problem</span>
-        </div>
-
-        <h1 style={{ fontSize: 'clamp(38px, 5.5vw, 70px)', lineHeight: 1.06, marginBottom: 24 }}>
-          Your tech quoted{' '}
-          <span className="mono" style={{ color: '#FF5C1B' }}>$4,800</span>{' '}
-          on&#8209;site.
-          <br/>
-          <span style={{ color: '#555' }}>Nobody followed up.</span>
-          <br/>
-          <span style={{ color: '#FF3B3B' }}>That money is gone.</span>
-        </h1>
-
-        <p style={{ color: '#888', fontSize: 18, lineHeight: 1.72, maxWidth: 500, marginBottom: 36 }}>
-          TalkToDeal captures every on-site quote automatically.{' '}
-          <strong style={{ color: '#ddd', fontWeight: 600 }}>No typing. No lost revenue.</strong>
-        </p>
-
-        <BookDemoBtn large />
-        <p style={{ color: '#444', fontSize: 13, marginTop: 12 }}>Takes 15 minutes. No commitment.</p>
+    {/* Text content */}
+    <div className="hero-content">
+      <div className="hero-eyebrow fade-in" style={{ transitionDelay: '0.1s' }}>
+        HVAC &amp; Field Service Revenue Problem
       </div>
 
-      {/* Right — device line art */}
-      <div className="hidden md:flex items-center justify-center"
-        style={{ width: 200, flexShrink: 0, opacity: 0.75 }}>
-        <DeviceIllustration />
+      <h1 className="hero-h1 fade-in" style={{ transitionDelay: '0.2s' }}>
+        <span className="hero-h1-line1">Your tech quoted</span>
+        <span className="hero-h1-line2">
+          <span className="hero-accent">$4,800</span> on-site.
+        </span>
+        <span className="hero-h1-line3">Nobody followed up.</span>
+      </h1>
+
+      <p className="hero-gone fade-in" style={{ transitionDelay: '0.3s' }}>
+        That money is gone.
+      </p>
+
+      <div className="hero-cta-wrap fade-in" style={{ transitionDelay: '0.4s' }}>
+        <a href={DEMO_URL} target="_blank" rel="noopener noreferrer" className="hero-cta-btn">
+          Book a 15-min Demo
+        </a>
+      </div>
+
+      <p className="hero-note fade-in" style={{ transitionDelay: '0.5s' }}>
+        Takes 15 minutes. No commitment.
+      </p>
+    </div>
+
+    {/* Stat strip — position absolute at bottom */}
+    <div className="hero-stat-strip fade-in" style={{ transitionDelay: '0.65s' }}>
+      <div className="hero-stat">
+        <div className="hero-stat-num">0</div>
+        <div className="hero-stat-lbl">Keystrokes</div>
+      </div>
+      <div className="hero-stat-sep"/>
+      <div className="hero-stat">
+        <div className="hero-stat-num">&lt; 30 Seconds</div>
+        <div className="hero-stat-lbl">Quote to work order</div>
+      </div>
+      <div className="hero-stat-sep"/>
+      <div className="hero-stat">
+        <div className="hero-stat-num">100%</div>
+        <div className="hero-stat-lbl">Captured</div>
       </div>
     </div>
   </section>
 );
 
-// ─── Section 2: Before vs After ────────────────────────────────────────────
+// ─── Product Section (new — between Hero and PhotoOne) ────────────────────────
+const ProductSection = () => {
+  const features = [
+    {
+      title: "Clips to the collar. That's it.",
+      desc: "Techs wear it all day — and forget it's there.",
+    },
+    {
+      title: "No typing. No app. No form to fill.",
+      desc: "Just talk. AI captures everything.",
+    },
+    {
+      title: "< 30 seconds",
+      desc: "From spoken words to work order.",
+    },
+    {
+      title: "100% field quotes captured",
+      desc: "Every job, every upsell, every follow-up.",
+    },
+  ];
+
+  return (
+    <section className="product-section fade-in">
+      <div className="product-inner">
+        {/* Left: device image */}
+        <div className="product-img-col">
+          <div className="product-img-wrap">
+            <div className="product-device-glow" aria-hidden="true"/>
+            <img
+              src="../img/HCJD10.png"
+              alt="TalkToDeal voice capture device"
+              style={{
+                width: '100%',
+                maxWidth: '380px',
+                display: 'block',
+                mixBlendMode: 'lighten',
+                filter: 'drop-shadow(0 40px 100px rgba(66,133,244,0.22)) drop-shadow(0 0 40px rgba(255,255,255,0.04))',
+                margin: '0 auto',
+                position: 'relative',
+                zIndex: 1,
+                pointerEvents: 'none',
+              }}
+            />
+          </div>
+        </div>
+
+        {/* Right: feature list */}
+        <div className="product-text-col">
+          <p className="product-eyebrow">The Hardware</p>
+          <h2 className="product-headline">
+            Built for the field.<br/>Zero learning curve.
+          </h2>
+          <p className="product-sub">
+            A compact device that clips to a collar or fits in a pocket. Techs talk like they always do. The AI handles the rest.
+          </p>
+          <div>
+            {features.map((f, i) => (
+              <div key={i} className="product-feature">
+                <div className="pf-check">
+                  <span className="pf-checkmark">✓</span>
+                </div>
+                <div>
+                  <p className="pf-title">{f.title}</p>
+                  <p className="pf-desc">{f.desc}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+// ─── Section 2: Full-bleed photo (talk_1.jpg) ────────────────────────────────
+const PhotoOne = () => (
+  <div className="photo-section ps1 parallax-photo">
+    <img src="../img/HCJD12.png" alt="HVAC tech David with device at AC unit" loading="lazy"/>
+    <div className="photo-grad-top"/>
+    <div className="photo-grad-bottom"/>
+
+    <div className="p1-left fade-in">
+      <p className="p1-left-label">David H. · HVAC Technician · Arizona</p>
+      <p className="p1-left-quote">"Capacitor is blown. Fan motor too. About $850 total."</p>
+    </div>
+
+    <div className="p1-right fade-in">
+      <p className="p1-right-label">AI Auto-Generated</p>
+      <div className="p1-right-items">
+        ✓ Repair documented<br/>
+        ✓ Parts recorded<br/>
+        ✓ Invoice ready
+      </div>
+    </div>
+  </div>
+);
+
+// ─── Section 3: Before / After ───────────────────────────────────────────────
 const BeforeAfter = () => {
   const before = [
     "Tech quotes on-site",
@@ -267,273 +750,392 @@ const BeforeAfter = () => {
   ];
 
   return (
-    <section style={{ background: '#0A0A0A' }} className="px-6 md:px-16 py-14">
-      <div style={{ maxWidth: 1080, margin: '0 auto' }}>
-        <h2 style={{ fontSize: 'clamp(26px, 3.5vw, 42px)', marginBottom: 8 }}>
-          The difference is the follow-through.
-        </h2>
-        <p style={{ color: '#666', fontSize: 16, marginBottom: 36 }}>One conversation. Two outcomes.</p>
-
-        <div className="grid md:grid-cols-2 gap-5">
-          {/* Before */}
-          <div style={{ border: '1px solid #1f1008', borderRadius: 8, padding: '26px 28px' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 20 }}>
-              <span style={{ width: 7, height: 7, borderRadius: '50%', background: '#FF3B3B', display: 'inline-block' }}/>
-              <span style={{ color: '#FF3B3B', fontSize: 11, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase' }}>
-                Without TalkToDeal
-              </span>
-            </div>
-            <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 13 }}>
-              {before.map((item, i) => (
-                <li key={i} style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                  <span style={{ width: 20, height: 20, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                    <XIcon/>
-                  </span>
-                  <span style={{ color: i >= 2 ? '#c0392b' : '#888', fontSize: 15 }}>{item}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* After */}
-          <div style={{ border: '1px solid #1a2808', borderRadius: 8, padding: '26px 28px' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 20 }}>
-              <span style={{ width: 7, height: 7, borderRadius: '50%', background: '#C8FF00', display: 'inline-block' }}/>
-              <span style={{ color: '#C8FF00', fontSize: 11, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase' }}>
-                With TalkToDeal
-              </span>
-            </div>
-            <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 13 }}>
-              {after.map((item, i) => (
-                <li key={i} style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                  <span style={{ width: 20, height: 20, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                    <ArrowRightIcon/>
-                  </span>
-                  <span style={{ color: i >= 2 ? '#C8FF00' : '#ccc', fontSize: 15, fontWeight: i >= 2 ? 500 : 400 }}>{item}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
+    <section className="ba-section">
+      <div className="ba-inner">
+        {/* Left column — without */}
+        <div className="fade-in" style={{
+          background: 'rgba(234,67,53,0.03)',
+          borderRadius: '16px',
+          padding: '40px 36px',
+        }}>
+          <p style={{
+            display: 'flex', alignItems: 'center',
+            fontSize: '11px', fontWeight: 600, letterSpacing: '0.12em',
+            textTransform: 'uppercase', color: 'rgba(234,67,53,0.7)',
+            marginBottom: '32px',
+          }}>
+            <span style={{
+              display: 'inline-block', width: '2px', height: '32px',
+              background: 'rgba(234,67,53,0.4)', borderRadius: '2px',
+              marginRight: '12px', flexShrink: 0,
+            }}/>
+            Without TalkToDeal
+          </p>
+          {before.map((item, i) => (
+            <p key={i} className="ba-item" style={{
+              fontSize: '17px', fontWeight: 300, lineHeight: 2.4,
+              color: i >= 3 ? 'rgba(234,67,53,0.5)' : 'rgba(255,255,255,0.52)',
+              textDecoration: i >= 3 ? 'line-through' : 'none',
+              textDecorationColor: i >= 3 ? 'rgba(234,67,53,0.35)' : undefined,
+            }}>{item}</p>
+          ))}
         </div>
 
-        <div style={{ marginTop: 32 }}>
-          <BookDemoBtn />
+        {/* Vertical separator */}
+        <div className="ba-sep"/>
+
+        {/* Right column — with */}
+        <div className="fade-in" style={{
+          transitionDelay: '0.15s',
+          background: 'rgba(66,133,244,0.04)',
+          borderRadius: '16px',
+          padding: '40px 36px',
+        }}>
+          <p style={{
+            display: 'flex', alignItems: 'center',
+            fontSize: '11px', fontWeight: 600, letterSpacing: '0.12em',
+            textTransform: 'uppercase', color: 'rgba(66,133,244,0.7)',
+            marginBottom: '32px',
+          }}>
+            <span style={{
+              display: 'inline-block', width: '2px', height: '32px',
+              background: 'rgba(66,133,244,0.5)', borderRadius: '2px',
+              marginRight: '12px', flexShrink: 0,
+            }}/>
+            With TalkToDeal
+          </p>
+          {after.map((item, i) => (
+            <p key={i} className="ba-item" style={{
+              fontSize: i >= 3 ? '18px' : '17px',
+              fontWeight: i >= 3 ? 500 : 300,
+              lineHeight: 2.4,
+              color: i >= 3 ? '#FFFFFF' : 'rgba(255,255,255,0.65)',
+            }}>{item}</p>
+          ))}
         </div>
       </div>
     </section>
   );
 };
 
-// ─── Section 3: Scenarios ──────────────────────────────────────────────────
-const ScenarioRow = ({ quote, outputs, isLast }) => (
-  <>
-    <div className="grid md:grid-cols-2 gap-0" style={{ padding: '36px 0' }}>
-      {/* Left: quote */}
-      <div style={{ paddingRight: 0, marginBottom: 0 }} className="md:pr-10 pb-6 md:pb-0">
-        <div style={{
-          background: '#0A0A0A',
-          border: '1px solid #1a1a1a',
-          borderRadius: 6,
-          padding: '24px 26px',
-          height: '100%',
-        }}>
-          <div style={{
-            fontFamily: 'DM Serif Display, Georgia, serif',
-            fontSize: 52,
-            lineHeight: 0.75,
-            color: '#FF5C1B',
-            marginBottom: 14,
-            opacity: 0.55,
-          }}>&ldquo;</div>
-          <p style={{ color: '#bbb', fontSize: 15, lineHeight: 1.75, fontStyle: 'italic' }}>{quote}</p>
-          <p style={{ color: '#444', fontSize: 11, marginTop: 14, textTransform: 'uppercase', letterSpacing: '0.09em' }}>
-            Tech said on-site
-          </p>
-        </div>
-      </div>
-
-      {/* Right: AI output */}
-      <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', paddingLeft: 0 }}
-        className="md:pl-10">
-        <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 16 }}>
-          <span style={{ fontSize: 11, fontWeight: 700, color: '#FF5C1B', textTransform: 'uppercase', letterSpacing: '0.1em' }}>
-            AI Auto-Generated
-          </span>
-          <span style={{ width: 5, height: 5, borderRadius: '50%', background: '#C8FF00', display: 'inline-block' }}/>
-        </div>
-        <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 11 }}>
-          {outputs.map((out, i) => (
-            <li key={i} style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-              <span style={{ color: '#C8FF00', fontSize: 14, fontWeight: 700, flexShrink: 0 }}>✓</span>
-              <span style={{ color: '#ddd', fontSize: 15 }}>{out}</span>
-            </li>
-          ))}
-        </ul>
-      </div>
+// ─── Section 4: Split video + text ───────────────────────────────────────────
+const PhotoTwo = () => (
+  <div className="video-split-section">
+    {/* Left — full-bleed video panel */}
+    <div className="video-split-left">
+      <video src="../img/mic05.mp4" autoPlay loop muted playsInline/>
+      <div className="video-split-fade" aria-hidden="true"/>
     </div>
-    {!isLast && <div className="divider"/>}
-  </>
+    {/* Right — text panel */}
+    <div className="video-split-right fade-in">
+      <p>Every word your tech says becomes a trackable, billable record.</p>
+    </div>
+  </div>
 );
 
+// ─── Section 5: Scenarios ─────────────────────────────────────────────────────
 const Scenarios = () => {
-  const cards = [
+  const scenarios = [
     {
-      quote: "Capacitor is blown. Fan motor too. About $850 total.",
-      outputs: ["Repair documented", "Parts recorded", "Invoice ready"],
+      quote: '"Capacitor is blown, fan motor too. Around $850 total. Should have parts in the truck."',
+      outputs: [
+        'Repair documented — Capacitor + Fan motor',
+        'Parts recorded — in-truck inventory',
+        'Invoice ready — $850 · pending approval',
+      ],
     },
     {
-      quote: "Drain line flushed. Contactor should be replaced next visit.",
-      outputs: ["Maintenance logged", "Upsell flagged", "Follow-up scheduled"],
+      quote: '"Drain line flushed. Contactor should be replaced next visit. Flagged automatically."',
+      outputs: [
+        "Upsells don't slip through",
+        'Follow-up scheduled for next visit',
+        'Parts flagged in system',
+      ],
     },
     {
-      quote: "10 ton Carrier Infinity. Ductwork mod needed. Around $12,500.",
-      outputs: ["Proposal drafted", "Scope captured", "Office notified"],
+      quote: '"10 ton Carrier Infinity, ductwork mod, about twelve-five total."',
+      outputs: [
+        'Big quotes, no paperwork',
+        '~$12,500 proposal drafted in 30 seconds',
+        'Ready to send before tech leaves the lot',
+      ],
     },
   ];
 
   return (
-    <section style={{ background: '#000' }} className="px-6 md:px-16 py-20">
-      <div style={{ maxWidth: 1080, margin: '0 auto' }}>
-        <h2 style={{ fontSize: 'clamp(26px, 3.5vw, 44px)', marginBottom: 8 }}>
+    <section className="scenarios-section" id="how">
+      <div className="scenarios-inner">
+        <p className="section-eyebrow fade-in">How it works</p>
+        <h2 className="section-title fade-in" style={{ transitionDelay: '0.1s' }}>
           From service calls to changeout estimates —{' '}
-          <span style={{ color: '#FF5C1B' }}>automatically.</span>
+          <span className="section-title-accent">automatically.</span>
         </h2>
-        <p style={{ color: '#666', fontSize: 16, marginBottom: 44 }}>
-          Every word your tech says becomes a trackable, billable record.
-        </p>
 
-        {/* Card container */}
-        <div style={{ border: '1px solid #1a1a1a', borderRadius: 8, padding: '0 32px' }}>
-          {cards.map((c, i) => (
-            <ScenarioRow key={i} {...c} isLast={i === cards.length - 1}/>
-          ))}
-        </div>
-
-        {/* Stats row */}
-        <div className="grid grid-cols-3"
-          style={{ border: '1px solid #1a1a1a', borderRadius: 8, overflow: 'hidden', marginTop: 40 }}>
-          {[
-            { num: "0",     label: "Keystrokes required" },
-            { num: "< 30s", label: "Quote to work order" },
-            { num: "100%",  label: "Field quotes captured" },
-          ].map((s, i) => (
-            <div key={i} className="text-center py-7 px-3"
-              style={{ borderRight: i < 2 ? '1px solid #1a1a1a' : 'none', minWidth: 0 }}>
-              <div className="mono" style={{ fontSize: 'clamp(20px, 4vw, 28px)', fontWeight: 700, color: '#FF5C1B', whiteSpace: 'nowrap' }}>{s.num}</div>
-              <div style={{ fontSize: 11, color: '#555', marginTop: 5, lineHeight: 1.4 }}>{s.label}</div>
+        {scenarios.map((sc, i) => (
+          <React.Fragment key={i}>
+            <div className="scenario-row fade-in" style={{ transitionDelay: `${i * 0.1}s` }}>
+              <div>
+                <p className="sc-left-label">Tech said on-site</p>
+                <p className="sc-quote">{sc.quote}</p>
+              </div>
+              <div>
+                <p className="sc-right-label">AI Auto-Generated</p>
+                {sc.outputs.map((out, j) => (
+                  <p key={j} className="sc-output">
+                    <span className="sc-arrow">→</span>{out}
+                  </p>
+                ))}
+              </div>
             </div>
-          ))}
+            {/* Device image interlude between rows 2 and 3 */}
+            {i === 1 && (
+              <div className="fade-in" style={{
+                display: 'flex', justifyContent: 'center', alignItems: 'center',
+                padding: '20px 0', position: 'relative',
+              }}>
+                <div style={{
+                  position: 'absolute',
+                  width: '400px', height: '300px',
+                  background: 'radial-gradient(ellipse, rgba(66,133,244,0.1) 0%, transparent 70%)',
+                  borderRadius: '50%', pointerEvents: 'none',
+                }}/>
+                <img src="../img/HCJD5.png" alt=""
+                  style={{
+                    position: 'relative', zIndex: 1, width: '180px',
+                    mixBlendMode: 'lighten',
+                    filter: 'drop-shadow(0 20px 50px rgba(66,133,244,0.2))',
+                    transform: 'rotate(-8deg)', opacity: 0.85,
+                    display: 'block', pointerEvents: 'none',
+                  }}
+                />
+              </div>
+            )}
+          </React.Fragment>
+        ))}
+      </div>
+    </section>
+  );
+};
+
+// ─── Section 6: Stats ─────────────────────────────────────────────────────────
+const StatStrip = () => {
+  const numStyle = {
+    fontSize: 'clamp(48px, 7vw, 88px)',
+    fontWeight: 300,
+    color: '#FFFFFF',
+    letterSpacing: '-0.03em',
+    lineHeight: 1.0,
+    display: 'block',
+    whiteSpace: 'nowrap',
+  };
+  const lblStyle = {
+    fontSize: '13px',
+    color: 'rgba(255,255,255,0.4)',
+    marginTop: '12px',
+    fontWeight: 400,
+    display: 'block',
+    textAlign: 'center',
+  };
+  const sepStyle = {
+    width: '1px', height: '52px',
+    background: 'rgba(255,255,255,0.1)',
+    flexShrink: 0, margin: '0 24px',
+  };
+  const itemStyle = {
+    display: 'flex', flexDirection: 'column',
+    alignItems: 'center', justifyContent: 'center',
+    flex: 1, textAlign: 'center',
+  };
+
+  return (
+    <section className="stats-section">
+      <div className="stats-glow" aria-hidden="true"/>
+      <div style={{
+        display: 'flex', flexDirection: 'row',
+        alignItems: 'center', justifyContent: 'center',
+        width: '100%', maxWidth: '900px',
+        margin: '0 auto', padding: '80px 48px',
+        position: 'relative', zIndex: 1,
+      }}>
+        <div className="fade-in" style={itemStyle}>
+          <span style={numStyle}>0</span>
+          <span style={lblStyle}>Keystrokes required</span>
+        </div>
+        <div aria-hidden="true" style={sepStyle}/>
+        <div className="fade-in" style={{ ...itemStyle, transitionDelay: '0.1s' }}>
+          <span style={numStyle}>{'< 30s'}</span>
+          <span style={lblStyle}>Quote to work order</span>
+        </div>
+        <div aria-hidden="true" style={sepStyle}/>
+        <div className="fade-in" style={{ ...itemStyle, transitionDelay: '0.2s' }}>
+          <span style={numStyle}>100%</span>
+          <span style={lblStyle}>Field quotes captured</span>
         </div>
       </div>
     </section>
   );
 };
 
-// ─── Section 4: Social Proof ───────────────────────────────────────────────
-const SocialProof = () => (
-  <section style={{ background: '#0A0A0A' }} className="px-6 md:px-16 py-20">
-    <div style={{ maxWidth: 680, margin: '0 auto' }}>
-      {/* Badge */}
-      <div className="eyebrow-tag" style={{ marginBottom: 36 }}>
-        <BoltIcon/>
-        <span className="eyebrow-label">BUILT FOR THE TRADES. TESTED IN THE FIELD.</span>
-      </div>
+// ─── Device Showcase (before Social Proof) ───────────────────────────────────
+const DeviceShowcase = () => (
+  <div style={{
+    width: '100%', padding: '100px 48px 0',
+    display: 'flex', justifyContent: 'center', alignItems: 'center',
+    position: 'relative', overflow: 'hidden', flexDirection: 'column',
+  }}>
+    {/* Glow behind image */}
+    <div aria-hidden="true" style={{
+      position: 'absolute', inset: 0, pointerEvents: 'none', zIndex: 0,
+      background: 'radial-gradient(ellipse 700px 500px at 50% 60%, rgba(66,133,244,0.12) 0%, transparent 65%)',
+    }}/>
+    <img
+      src="../img/HCJD5.png"
+      alt="TalkToDeal device"
+      className="fade-in"
+      style={{
+        position: 'relative', zIndex: 1,
+        width: '320px', maxWidth: '60vw',
+        display: 'block', margin: '0 auto',
+        mixBlendMode: 'lighten',
+        filter: 'drop-shadow(0 40px 100px rgba(66,133,244,0.2))',
+        animation: 'float-device 6s ease-in-out infinite',
+        pointerEvents: 'none',
+      }}
+    />
+    <p className="fade-in" style={{
+      fontSize: '13px', color: 'rgba(255,255,255,0.3)',
+      textAlign: 'center', marginTop: '28px', letterSpacing: '0.02em',
+      position: 'relative', zIndex: 1,
+    }}>
+      The TalkToDeal device. Clips to any collar.
+    </p>
+  </div>
+);
 
-      {/* Body copy */}
-      <p style={{ fontFamily: "'DM Serif Display', Georgia, serif", fontSize: 'clamp(22px, 3vw, 36px)', lineHeight: 1.3, marginBottom: 14, color: '#e8e8e8' }}>
+// ─── Section 7: Social Proof ──────────────────────────────────────────────────
+const SocialProof = () => (
+  <section className="proof-section">
+    <div className="proof-inner">
+      <p className="proof-eyebrow fade-in">Early Pilots</p>
+      <p className="proof-main fade-in" style={{ transitionDelay: '0.1s' }}>
         Currently piloting with HVAC companies across Arizona and California.
       </p>
-
-      {/* Sub copy */}
-      <p style={{ color: '#888', fontSize: 16, lineHeight: 1.65, marginBottom: 44 }}>
+      <p className="proof-sub fade-in" style={{ transitionDelay: '0.2s' }}>
         Real field techs. Real service calls. Real results — not a simulation.
       </p>
-
-      {/* Device callout */}
-      <div style={{ marginTop: 44, border: '1px solid #1a1a1a', borderRadius: 8, padding: '22px 24px',
-        display: 'flex', alignItems: 'flex-start', gap: 16 }}>
-        <div style={{ width: 44, height: 44, borderRadius: 7, background: '#111', border: '1px solid #222',
-          display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-          <RecorderIcon/>
-        </div>
-        <div>
-          <div style={{ fontWeight: 600, color: '#e0e0e0', marginBottom: 6, fontSize: 15 }}>
-            Clips to the collar. That's it.
-          </div>
-          <div style={{ color: '#666', fontSize: 14, lineHeight: 1.68 }}>
-            No phone to unlock, no app to open, no form to fill. Techs just talk.
-            The small recording device captures everything. AI does the rest.
-          </div>
-        </div>
-      </div>
+      <p className="proof-attr fade-in" style={{ transitionDelay: '0.3s' }}>
+        TalkToDeal Team · Early Access Pilot Program
+      </p>
     </div>
   </section>
 );
 
-// ─── Section 5: Final CTA ─────────────────────────────────────────────────
+// ─── Section 8: Final CTA ─────────────────────────────────────────────────────
 const FinalCTA = () => (
-  <section style={{ background: '#000', position: 'relative', overflow: 'hidden' }}
-    className="px-6 md:px-16 py-28">
-    {/* Orange glow — bottom right */}
-    <div style={{
-      position: 'absolute', bottom: -100, right: -100,
-      width: 560, height: 460,
-      background: 'radial-gradient(ellipse, rgba(255,92,27,0.09) 0%, transparent 62%)',
-      pointerEvents: 'none'
-    }}/>
-    <div className="noise-overlay"/>
-
-    <div style={{ position: 'relative', maxWidth: 680 }}>
-      <h2 style={{ fontSize: 'clamp(30px, 4.5vw, 58px)', lineHeight: 1.1, marginBottom: 16 }}>
-        Stop losing revenue.
-        <br/>
-        <span style={{ color: '#FF5C1B' }}>Start with one team.</span>
+  <section className="cta-section">
+    <div className="cta-bg-glow" aria-hidden="true"/>
+    <div className="cta-inner">
+      <h2 className="cta-h2 fade-in">
+        Stop losing revenue.<br/>
+        <span style={{ color: '#E8E0D4' }}>Start with one team.</span>
       </h2>
 
-      <p style={{ color: '#888', fontSize: 17, marginBottom: 6 }}>
-        Starting at{' '}
-        <span className="mono" style={{ color: '#e0e0e0', fontWeight: 700 }}>$99–109 / month per team</span>
-      </p>
-      <p style={{ color: '#555', fontSize: 13, marginBottom: 36 }}>
-        Hardware included. No long-term contract required.
+      <p className="cta-sub fade-in" style={{ transitionDelay: '0.1s' }}>
+        Starting at $99–109 / month per team. Hardware included. No long-term contract required.
       </p>
 
-      <div className="flex flex-wrap gap-3 items-center" style={{ marginBottom: 28 }}>
-        <BookDemoBtn large/>
-        <TryDemoBtn/>
-      </div>
-
-      <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-        <PhoneIcon/>
-        <a href={`tel:${PHONE}`} className="mono"
-          style={{ color: '#FF5C1B', fontSize: 16, fontWeight: 700, textDecoration: 'none',
-            transition: 'color 0.15s' }}
-          onMouseEnter={e => e.currentTarget.style.color = '#FF7040'}
-          onMouseLeave={e => e.currentTarget.style.color = '#FF5C1B'}>
-          {PHONE}
+      <div className="cta-btn-row fade-in" style={{ transitionDelay: '0.2s' }}>
+        <a href={DEMO_URL} target="_blank" rel="noopener noreferrer" className="cta-btn-primary">
+          Book a 15-min Demo
         </a>
+        <a href={`tel:${PHONE}`} className="cta-btn-secondary">Try AI Demo</a>
       </div>
 
-      <p style={{ color: '#2a2a2a', fontSize: 12, marginTop: 52 }}>
-        TalkToDeal · HVAC &amp; Field Service · AI Voice-to-Work Order
-      </p>
+      <div className="fade-in" style={{ transitionDelay: '0.3s' }}>
+        <p className="cta-phone-label">or call us at</p>
+        <a href={`tel:${PHONE}`} className="cta-phone">{PHONE}</a>
+      </div>
     </div>
   </section>
 );
 
-// ─── App ──────────────────────────────────────────────────────────────────
+// ─── Footer ───────────────────────────────────────────────────────────────────
+const Footer = () => (
+  <footer className="site-footer">
+    <div className="footer-left">
+      TalkToDeal &nbsp;·&nbsp; © 2025
+    </div>
+    <div className="footer-right">
+      <a href="#" className="footer-link">Privacy</a>
+      <a href="#" className="footer-link">Terms</a>
+      <a href={`tel:${PHONE}`} className="footer-link">Contact</a>
+    </div>
+  </footer>
+);
+
+// ─── App ──────────────────────────────────────────────────────────────────────
 function App() {
+  useEffect(() => {
+    // Intersection Observer — fade-in
+    const io = new IntersectionObserver(
+      (entries) => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); }),
+      { threshold: 0.05 }
+    );
+    document.querySelectorAll('.fade-in').forEach(el => io.observe(el));
+
+    // Nav frosted glass on scroll
+    const nav = document.getElementById('main-nav');
+    const handleNavScroll = () => {
+      const scrolled = window.scrollY;
+      const opacity = Math.min(scrolled / 80, 1);
+      if (scrolled > 10) {
+        nav.style.background = `rgba(8, 8, 14, ${0.72 * opacity})`;
+        nav.style.backdropFilter = `blur(${20 * opacity}px) saturate(180%)`;
+        nav.style.webkitBackdropFilter = `blur(${20 * opacity}px) saturate(180%)`;
+        nav.style.borderBottom = `1px solid rgba(255,255,255,${0.06 * opacity})`;
+      } else {
+        nav.style.background = 'transparent';
+        nav.style.backdropFilter = 'none';
+        nav.style.webkitBackdropFilter = 'none';
+        nav.style.borderBottom = 'none';
+      }
+    };
+    window.addEventListener('scroll', handleNavScroll, { passive: true });
+    handleNavScroll();
+
+    // Parallax on scroll
+    const handleScroll = () => {
+      document.querySelectorAll('.parallax-photo').forEach(container => {
+        const rect = container.getBoundingClientRect();
+        const centerOffset = (rect.top + rect.height / 2) - window.innerHeight / 2;
+        const img = container.querySelector('img');
+        if (img) img.style.transform = `translateY(${centerOffset * 0.08}px)`;
+      });
+    };
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll();
+
+    return () => {
+      io.disconnect();
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('scroll', handleNavScroll);
+    };
+  }, []);
+
   return (
     <>
+      <Nav/>
       <Hero/>
-      <Divider/>
+      <ProductSection/>
+      <PhotoOne/>
       <BeforeAfter/>
-      <Divider/>
+      <PhotoTwo/>
       <Scenarios/>
-      <Divider/>
+      <StatStrip/>
+      <DeviceShowcase/>
       <SocialProof/>
-      <Divider/>
       <FinalCTA/>
+      <Footer/>
     </>
   );
 }
