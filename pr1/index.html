@@ -3,11 +3,32 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="TalkToDeal captures every on-site quote automatically. No typing. No lost revenue. Book a 15-min demo." />
-  <title>TalkToDeal — Stop Losing Field Quotes</title>
+  <meta name="description" content="TalkToDeal is HVAC field service management software that captures every on-site quote automatically. No typing. No lost revenue. Built for HVAC technicians and field service teams. Starting at $99/month." />
+  <meta name="keywords" content="hvac field service management, hvac service management software, field service management software, hvac business software, hvac dispatch software, hvac scheduling software, hvac technician workflow, hvac service system" />
+  <meta property="og:title" content="TalkToDeal — HVAC Field Service Management Software" />
+  <meta property="og:description" content="Stop losing field quotes. TalkToDeal captures every on-site job automatically — voice to work order in under 30 seconds. Built for HVAC field service teams." />
+  <meta property="og:type" content="website" />
+  <link rel="canonical" href="https://talktodeal.com/" />
+  <title>TalkToDeal — HVAC Field Service Management Software | Voice-to-Work Order</title>
   <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
   <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "TalkToDeal",
+    "applicationCategory": "BusinessApplication",
+    "description": "HVAC field service management software. Voice-to-work order AI for field service teams. Captures on-site quotes automatically.",
+    "offers": {
+      "@type": "Offer",
+      "price": "99",
+      "priceCurrency": "USD"
+    },
+    "operatingSystem": "Any",
+    "url": "https://talktodeal.com"
+  }
+  </script>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -589,7 +610,7 @@ const Hero = () => (
     {/* Text content */}
     <div className="hero-content">
       <div className="hero-eyebrow fade-in" style={{ transitionDelay: '0.1s' }}>
-        HVAC &amp; Field Service Revenue Problem
+        HVAC Field Service Management Software
       </div>
 
       <h1 className="hero-h1 fade-in" style={{ transitionDelay: '0.2s' }}>
@@ -619,7 +640,7 @@ const Hero = () => (
     <div className="hero-stat-strip fade-in" style={{ transitionDelay: '0.65s' }}>
       <div className="hero-stat">
         <div className="hero-stat-num">0</div>
-        <div className="hero-stat-lbl">Keystrokes</div>
+        <div className="hero-stat-lbl">Keystrokes Required</div>
       </div>
       <div className="hero-stat-sep"/>
       <div className="hero-stat">
@@ -629,7 +650,7 @@ const Hero = () => (
       <div className="hero-stat-sep"/>
       <div className="hero-stat">
         <div className="hero-stat-num">100%</div>
-        <div className="hero-stat-lbl">Captured</div>
+        <div className="hero-stat-lbl">Field Quotes Captured</div>
       </div>
     </div>
   </section>
@@ -643,12 +664,12 @@ const ProductSection = () => {
       desc: "Techs wear it all day — and forget it's there.",
     },
     {
-      title: "No typing. No app. No form to fill.",
+      title: "No typing. No HVAC software to open. No form to fill.",
       desc: "Just talk. AI captures everything.",
     },
     {
       title: "< 30 seconds",
-      desc: "From spoken words to work order.",
+      desc: "From spoken words to ServiceTitan work order.",
     },
     {
       title: "100% field quotes captured",
@@ -683,12 +704,12 @@ const ProductSection = () => {
 
         {/* Right: feature list */}
         <div className="product-text-col">
-          <p className="product-eyebrow">The Hardware</p>
+          <p className="product-eyebrow">HVAC Field Technician Tool</p>
           <h2 className="product-headline">
             Built for the field.<br/>Zero learning curve.
           </h2>
           <p className="product-sub">
-            A compact device that clips to a collar or fits in a pocket. Techs talk like they always do. The AI handles the rest.
+            A compact device built for HVAC field technicians. Clips to the collar or fits in a pocket. Your techs talk like they always do — the AI handles HVAC data capture, work order creation, and job documentation automatically.
           </p>
           <div>
             {features.map((f, i) => (
@@ -865,10 +886,10 @@ const Scenarios = () => {
   return (
     <section className="scenarios-section" id="how">
       <div className="scenarios-inner">
-        <p className="section-eyebrow fade-in">How it works</p>
+        <p className="section-eyebrow fade-in">HVAC Service System in Action</p>
         <h2 className="section-title fade-in" style={{ transitionDelay: '0.1s' }}>
-          From service calls to changeout estimates —{' '}
-          <span className="section-title-accent">automatically.</span>
+          HVAC Technician Workflow —{' '}
+          <span className="section-title-accent">Automated.</span>
         </h2>
 
         {scenarios.map((sc, i) => (
@@ -972,6 +993,13 @@ const StatStrip = () => {
           <span style={lblStyle}>Field quotes captured</span>
         </div>
       </div>
+      <p className="fade-in" style={{
+        fontSize: '15px', color: 'rgba(255,255,255,0.38)', fontWeight: 300,
+        textAlign: 'center', maxWidth: '600px', margin: '0 auto',
+        lineHeight: 1.7, padding: '0 48px 80px', position: 'relative', zIndex: 1,
+      }}>
+        The only HVAC field service management software built around how technicians actually work — by voice, in the field.
+      </p>
     </section>
   );
 };
@@ -1016,12 +1044,12 @@ const DeviceShowcase = () => (
 const SocialProof = () => (
   <section className="proof-section">
     <div className="proof-inner">
-      <p className="proof-eyebrow fade-in">Early Pilots</p>
+      <p className="proof-eyebrow fade-in">HVAC Field Service Teams — Early Pilots</p>
       <p className="proof-main fade-in" style={{ transitionDelay: '0.1s' }}>
         Currently piloting with HVAC companies across Arizona and California.
       </p>
       <p className="proof-sub fade-in" style={{ transitionDelay: '0.2s' }}>
-        Real field techs. Real service calls. Real results — not a simulation.
+        Real HVAC field service management — real techs, real service calls, real results. Not a simulation.
       </p>
       <p className="proof-attr fade-in" style={{ transitionDelay: '0.3s' }}>
         TalkToDeal Team · Early Access Pilot Program
@@ -1036,12 +1064,12 @@ const FinalCTA = () => (
     <div className="cta-bg-glow" aria-hidden="true"/>
     <div className="cta-inner">
       <h2 className="cta-h2 fade-in">
-        Stop losing revenue.<br/>
+        Stop losing revenue on every HVAC service call.<br/>
         <span style={{ color: '#E8E0D4' }}>Start with one team.</span>
       </h2>
 
       <p className="cta-sub fade-in" style={{ transitionDelay: '0.1s' }}>
-        Starting at $99–109 / month per team. Hardware included. No long-term contract required.
+        Starting at $99–109 / month per team. HVAC field service management software + hardware included. No long-term contract.
       </p>
 
       <div className="cta-btn-row fade-in" style={{ transitionDelay: '0.2s' }}>
@@ -1063,7 +1091,8 @@ const FinalCTA = () => (
 const Footer = () => (
   <footer className="site-footer">
     <div className="footer-left">
-      TalkToDeal &nbsp;·&nbsp; © 2025
+      TalkToDeal &nbsp;·&nbsp; © 2025<br/>
+      <span style={{ fontSize: '11px', opacity: 0.6 }}>HVAC field service management software. Voice to work order. Built for the trades.</span>
     </div>
     <div className="footer-right">
       <a href="#" className="footer-link">Privacy</a>
