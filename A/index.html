@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TalkToDeal</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: #080808;
+    color: #FFFFFF;
+    font-family: system-ui, -apple-system, 'Inter', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    height: 56px;
+    padding: 0 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 100;
+    background: transparent;
+  }
+  .nav-logo {
+    font-size: 14px;
+    font-weight: 600;
+    color: #FFFFFF;
+    text-decoration: none;
+  }
+  .nav-link {
+    display: inline-block;
+    background: #FFFFFF;
+    color: #080808;
+    border-radius: 980px;
+    padding: 9px 20px;
+    font-size: 13px;
+    font-weight: 700;
+    border: none;
+    text-decoration: none;
+    transition: opacity 0.15s ease;
+  }
+  .nav-link:hover { opacity: 0.85; }
+
+  /* ── CTA BUTTON (shared) ── */
+  .cta-btn {
+    display: block;
+    width: 100%;
+    max-width: 320px;
+    margin: 0 auto;
+    background: #FFFFFF;
+    color: #080808;
+    border: none;
+    border-radius: 980px;
+    padding: 17px 28px;
+    font-size: 16px;
+    font-weight: 700;
+    font-family: inherit;
+    cursor: pointer;
+    text-decoration: none;
+    text-align: center;
+    transition: transform 0.15s;
+  }
+  .cta-btn:hover { transform: scale(1.02); }
+
+  /* ── SECTION 1: HERO ── */
+  .hero {
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+    overflow: hidden;
+  }
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 25%;
+    z-index: 0;
+    display: block;
+  }
+  .hero-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    background: linear-gradient(
+      to bottom,
+      rgba(8,8,8,0.3) 0%,
+      rgba(8,8,8,0.2) 30%,
+      rgba(8,8,8,0.85) 70%,
+      rgba(8,8,8,1.0) 100%
+    );
+  }
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    min-height: 100vh;
+    padding: 0 24px 64px;
+    text-align: center;
+  }
+  .hero-content h1 {
+    font-size: clamp(56px, 12vw, 110px);
+    font-weight: 800;
+    line-height: 0.95;
+    letter-spacing: -0.05em;
+    color: #FFFFFF;
+    margin: 0 0 20px;
+  }
+  .hero-sub {
+    font-size: clamp(15px, 2.5vw, 18px);
+    font-weight: 300;
+    color: rgba(255,255,255,0.6);
+    max-width: 400px;
+    margin: 0 auto 36px;
+    line-height: 1.45;
+  }
+  .hero-cta-wrap { width: 100%; max-width: 320px; margin: 0 auto; }
+  .trust {
+    font-size: 11px;
+    color: rgba(255,255,255,0.28);
+    display: block;
+    margin-top: 10px;
+    text-align: center;
+  }
+
+  /* ── SECTION 2: PAIN SPLITS ── */
+  .pain-split {
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    min-height: 80vh;
+  }
+  .pain-split.reverse { flex-direction: row-reverse; }
+
+  .pain-text {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 80px 64px;
+  }
+  .pain-label {
+    font-size: 11px;
+    color: rgba(255,255,255,0.25);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 24px;
+  }
+  .pain-headline {
+    font-size: clamp(36px, 5vw, 60px);
+    font-weight: 800;
+    line-height: 1.0;
+    letter-spacing: -0.03em;
+    color: #FFFFFF;
+    margin: 0 0 24px;
+  }
+  .pain-body {
+    font-size: 17px;
+    color: rgba(255,255,255,0.45);
+    font-weight: 300;
+    line-height: 1.75;
+    margin: 0 0 32px;
+  }
+  .pain-body p { margin: 0; }
+  .pain-outcome {
+    font-size: 20px;
+    font-weight: 700;
+    color: #FFFFFF;
+  }
+  .pain-video {
+    width: 50%;
+    position: relative;
+    overflow: hidden;
+    min-height: 80vh;
+  }
+  .pain-edge-fade {
+    position: absolute;
+    top: 0; bottom: 0;
+    z-index: 1;
+    pointer-events: none;
+  }
+  .pain-edge-left {
+    left: 0;
+    width: 120px;
+    background: linear-gradient(to right, #080808, transparent);
+  }
+  .pain-edge-left-alt {
+    left: 0;
+    width: 120px;
+    background: linear-gradient(to right, #0C0C0E, transparent);
+  }
+  .pain-edge-right {
+    right: 0;
+    width: 140px;
+    background: linear-gradient(to left, #0C0C0E, transparent);
+  }
+  .pain-transition {
+    background: #080808;
+    padding: 48px 28px;
+    text-align: center;
+    font-size: 16px;
+    color: rgba(255,255,255,0.28);
+    font-style: italic;
+  }
+
+  /* ── SECTION 3: FINAL CTA ── */
+  .final {
+    position: relative;
+    width: 100%;
+    min-height: 60vh;
+    overflow: hidden;
+  }
+  .final-bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 30%;
+    z-index: 0;
+    display: block;
+  }
+  .final-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    background: rgba(8,8,8,0.78);
+  }
+  .final-content {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 60vh;
+    padding: 64px 24px;
+    text-align: center;
+  }
+  .final-content h2 {
+    font-size: clamp(40px, 9vw, 80px);
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    color: #FFFFFF;
+    margin: 0 0 12px;
+    line-height: 1.0;
+  }
+  .final-sub {
+    font-size: clamp(16px, 2.5vw, 20px);
+    font-weight: 300;
+    color: rgba(255,255,255,0.5);
+    margin: 0 0 36px;
+  }
+  .final-cta-wrap { width: 100%; max-width: 320px; margin: 0 auto; }
+  .trust-2 {
+    font-size: 11px;
+    color: rgba(255,255,255,0.22);
+    display: block;
+    margin-top: 12px;
+    text-align: center;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    background: #050508;
+    padding: 28px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .footer-copy {
+    font-size: 11px;
+    color: rgba(255,255,255,0.2);
+  }
+  .footer-links {
+    font-size: 11px;
+    color: rgba(255,255,255,0.22);
+  }
+  .footer-links a {
+    color: rgba(255,255,255,0.22);
+    text-decoration: none;
+  }
+  .footer-links a:hover { color: rgba(255,255,255,0.5); }
+
+  /* ── DEVICE SECTION ── */
+  .device-section {
+    background: #080808;
+    padding: 100px 32px;
+  }
+  .device-inner {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 80px;
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+  .device-img-col {
+    flex: 1;
+    position: relative;
+  }
+  .device-glow {
+    position: absolute;
+    width: 400px;
+    height: 300px;
+    border-radius: 50%;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background: radial-gradient(ellipse, rgba(255,255,255,0.06) 0%, transparent 65%);
+    pointer-events: none;
+    z-index: 0;
+  }
+  .device-copy-col {
+    flex: 1;
+  }
+  .device-label {
+    font-size: 11px;
+    color: rgba(255,255,255,0.25);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 20px;
+  }
+  .device-headline {
+    font-size: clamp(36px, 5vw, 56px);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    color: #FFFFFF;
+    line-height: 1.0;
+    margin: 0 0 20px;
+  }
+  .device-body {
+    font-size: 16px;
+    color: rgba(255,255,255,0.45);
+    font-weight: 300;
+    line-height: 1.75;
+  }
+  .device-features {
+    margin-top: 28px;
+  }
+  .device-feature {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+  .device-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.25);
+    flex-shrink: 0;
+  }
+  .device-feature span {
+    font-size: 14px;
+    color: rgba(255,255,255,0.55);
+  }
+
+  /* ── ANIMATION ── */
+  @keyframes float-device {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+  }
+  .fi {
+    opacity: 0;
+    transform: translateY(12px);
+    transition: opacity 0.6s cubic-bezier(0.16,1,0.3,1),
+                transform 0.6s cubic-bezier(0.16,1,0.3,1);
+  }
+  .fi.on { opacity: 1; transform: translateY(0); }
+
+  /* ── MOBILE ── */
+  @media (max-width: 768px) {
+    .hero-content h1 { font-size: clamp(48px, 14vw, 72px) !important; }
+    .pain-split,
+    .pain-split.reverse { flex-direction: column !important; }
+    .pain-video { position: relative !important; height: 56vw !important; min-height: 260px !important; width: 100% !important; }
+    .pain-text { width: 100% !important; padding: 48px 24px !important; }
+    .pain-edge-fade { display: none !important; }
+    nav { padding: 0 20px !important; }
+    .device-inner { flex-direction: column !important; gap: 40px !important; }
+    .device-img-col img { max-width: 200px !important; }
+    .device-copy-col { text-align: center; }
+    .device-feature { justify-content: center; }
+    .device-section-inner { flex-direction: column !important; gap: 48px !important; }
+    .device-section-inner img { max-width: 200px !important; }
+    .cta-btn { width: 100% !important; max-width: 100% !important; }
+    .hero-cta-wrap,
+    .final-cta-wrap { max-width: 100% !important; }
+    footer { flex-direction: column; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav style="transition: background 0.3s ease, backdrop-filter 0.3s ease, border-bottom 0.3s ease">
+  <a href="https://talktodeal.com/" class="nav-logo" target="_blank">TalkToDeal</a>
+  <a href="https://talktodeal.com/call/" class="nav-link" target="_blank">Book a Free Demo</a>
+</nav>
+
+<!-- ── SECTION 1: HERO ── -->
+<section class="hero">
+  <img src="../img/action-1.png" alt="" class="hero-bg" aria-hidden="true">
+  <div class="hero-overlay" aria-hidden="true"></div>
+  <div class="hero-content">
+    <h1 class="fi">Missed call.<br>Missed job.</h1>
+    <span style="
+      display: block;
+      font-size: clamp(17px, 2.5vw, 21px);
+      font-weight: 600;
+      color: rgba(255,255,255,0.82);
+      margin: 18px auto 0;
+      max-width: 480px;
+      text-align: center;
+      line-height: 1.4;
+    ">Answer every call. Book every job. 24/7 — automatically.</span>
+    <p class="hero-sub fi">Every unanswered HVAC call is money your competitor made.</p>
+    <div class="hero-cta-wrap fi">
+      <a href="https://talktodeal.com/call/" class="cta-btn" target="_blank">Book a Free Demo</a>
+      <span class="trust">Free. No commitment. Private.</span>
+    </div>
+  </div>
+</section>
+
+<!-- ── SECTION 2A: AFTER HOURS ── -->
+<section class="pain-split" style="background:#080808;">
+  <div class="pain-text">
+    <span class="pain-label fi" style="transition-delay:0s">Pain Point 01</span>
+    <h2 class="pain-headline fi" style="transition-delay:0.1s">After hours.<br>Phone rings.<br>Nobody answers.</h2>
+    <div class="pain-body fi" style="transition-delay:0.2s">
+      <p>It's 9pm. A homeowner's AC breaks.</p>
+      <p>They Google 'HVAC near me' and call the first number.</p>
+      <p>That's you. But you're off the clock.</p>
+      <p>Voicemail picks up. They don't leave a message.</p>
+      <p>They call the second number.</p>
+    </div>
+    <p class="pain-outcome fi" style="transition-delay:0.3s">That job was yours. Then it wasn't.</p>
+  </div>
+  <div class="pain-video">
+    <video autoplay loop muted playsinline preload="auto" poster="../img/action-1.png"
+      style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;">
+      <source src="../img/action-3.mp4" type="video/mp4">
+    </video>
+    <div class="pain-edge-fade pain-edge-left" aria-hidden="true"></div>
+  </div>
+</section>
+
+<!-- ── SECTION 2B: QUOTE NOT FOLLOWED UP ── -->
+<section class="pain-split" style="background:#0C0C0E;">
+  <div class="pain-video">
+    <video autoplay loop muted playsinline preload="auto" poster="../img/action-1.png"
+      style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;">
+      <source src="../img/action-4.mp4" type="video/mp4">
+    </video>
+    <div aria-hidden="true" style="
+      position:absolute;top:0;right:0;bottom:0;
+      width:140px;z-index:1;pointer-events:none;
+      background:linear-gradient(to right,transparent,#0C0C0E);
+    "></div>
+  </div>
+  <div class="pain-text">
+    <span class="pain-label fi" style="transition-delay:0s">Pain Point 02</span>
+    <h2 class="pain-headline fi" style="transition-delay:0.1s">Big quote.<br>On-site.<br>Never followed up.</h2>
+    <div class="pain-body fi" style="transition-delay:0.2s">
+      <p>Your tech quoted a big job on-site.</p>
+      <p>Customer seemed interested.</p>
+      <p>But by the time he got back to the truck — it's gone.</p>
+      <p>No note. No follow-up.</p>
+      <p>Nobody called Tuesday.</p>
+    </div>
+    <p class="pain-outcome fi" style="transition-delay:0.3s">That revenue never existed.</p>
+  </div>
+</section>
+
+<!-- ── SECTION 2C: DISPATCHER PHONE TAG ── -->
+<section class="pain-split" style="background:#080808;">
+  <div class="pain-text">
+    <span class="pain-label fi" style="transition-delay:0s">Pain Point 03</span>
+    <h2 class="pain-headline fi" style="transition-delay:0.1s">14 calls today.<br>Chasing techs.<br>Zero new revenue.</h2>
+    <div class="pain-body fi" style="transition-delay:0.2s">
+      <p>Your dispatcher made 14 calls today.</p>
+      <p>Not to book new jobs.</p>
+      <p>Just to find out what happened on yesterday's.</p>
+      <p>Three hours of payroll.</p>
+      <p>Install heard a different story than sales.</p>
+    </div>
+    <p class="pain-outcome fi" style="transition-delay:0.3s">This is happening every day.</p>
+  </div>
+  <div class="pain-video">
+    <video autoplay loop muted playsinline preload="auto" poster="../img/action-1.png"
+      style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;">
+      <source src="../img/action-5.mp4" type="video/mp4">
+    </video>
+    <div class="pain-edge-fade pain-edge-left" aria-hidden="true"></div>
+  </div>
+</section>
+
+<!-- ── DEVICE SECTION ── -->
+<section style="
+  background: #080808;
+  padding: 120px 32px;
+  position: relative;
+  overflow: hidden;
+">
+  <!-- Background glow -->
+  <div style="
+    position: absolute;
+    width: 600px; height: 500px;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    background: radial-gradient(ellipse, rgba(255,255,255,0.04) 0%, transparent 65%);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 0;
+  "></div>
+
+  <div class="device-section-inner" style="
+    position: relative;
+    z-index: 1;
+    max-width: 960px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 80px;
+  ">
+
+    <!-- LEFT: Product image -->
+    <div style="flex: 1; display: flex; justify-content: center; align-items: center; position: relative;">
+
+      <!-- Soft glow behind device -->
+      <div style="
+        position: absolute;
+        width: 320px; height: 320px;
+        border-radius: 50%;
+        background: radial-gradient(ellipse, rgba(255,255,255,0.07) 0%, transparent 70%);
+        pointer-events: none;
+        z-index: 0;
+      "></div>
+
+      <img
+        src="../img/HCJD5.png"
+        alt="TalkToDeal device — compact aluminum voice recorder"
+        style="
+          position: relative;
+          z-index: 1;
+          width: 100%;
+          max-width: 300px;
+          display: block;
+          mix-blend-mode: lighten;
+          filter: drop-shadow(0 24px 60px rgba(255,255,255,0.06));
+          animation: float-device 5s ease-in-out infinite;
+        "
+      >
+    </div>
+
+    <!-- RIGHT: Copy -->
+    <div style="flex: 1;">
+
+      <span style="
+        display: block;
+        font-size: 11px;
+        color: rgba(255,255,255,0.25);
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        margin-bottom: 20px;
+      ">THE DEVICE</span>
+
+      <h2 style="
+        font-size: clamp(36px, 5vw, 56px);
+        font-weight: 800;
+        letter-spacing: -0.03em;
+        color: #FFFFFF;
+        line-height: 1.0;
+        margin: 0 0 20px;
+      ">Clips on.<br>That's it.</h2>
+
+      <p style="
+        font-size: 16px;
+        color: rgba(255,255,255,0.45);
+        font-weight: 300;
+        line-height: 1.75;
+        margin: 0 0 28px;
+      ">A compact aluminum device that clips to a collar or fits in a pocket. Your techs talk like they always do. TalkToDeal captures every word automatically — no phone, no app, no setup.</p>
+
+      <div style="display: flex; flex-direction: column; gap: 12px;">
+
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <span style="width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,0.25);flex-shrink:0;"></span>
+          <span style="font-size:14px;color:rgba(255,255,255,0.52);">No phone. No app. No setup.</span>
+        </div>
+
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <span style="width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,0.25);flex-shrink:0;"></span>
+          <span style="font-size:14px;color:rgba(255,255,255,0.52);">All-day battery. Techs forget it's there.</span>
+        </div>
+
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <span style="width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,0.25);flex-shrink:0;"></span>
+          <span style="font-size:14px;color:rgba(255,255,255,0.52);">Works on any job site, any weather.</span>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ── SECTION 3: FINAL CTA ── -->
+<section class="final">
+  <img src="../img/action-3.png" alt="" class="final-bg" aria-hidden="true">
+  <div class="final-overlay" aria-hidden="true"></div>
+  <div class="final-content">
+    <h2 class="fi">Stop missing jobs.</h2>
+    <p class="final-sub fi">15-minute free demo. See it work.</p>
+    <div class="final-cta-wrap fi">
+      <a href="https://talktodeal.com/call/" class="cta-btn" target="_blank">Book a Free Demo</a>
+      <span class="trust-2">No credit card. Your data stays private.</span>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer style="
+  background: #050508;
+  border-top: 1px solid rgba(255,255,255,0.06);
+  padding: 56px 48px 36px;
+">
+  <div style="max-width: 100%; margin: 0 auto;">
+
+    <!-- TOP ROW: Brand left · Links right -->
+    <div style="
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 40px;
+      flex-wrap: wrap;
+      margin-bottom: 56px;
+    ">
+
+      <!-- Brand -->
+      <div>
+        <div style="
+          font-size: 16px;
+          font-weight: 700;
+          color: #FFFFFF;
+          margin-bottom: 8px;
+          letter-spacing: -0.01em;
+        ">TalkToDeal</div>
+        <div style="
+          font-size: 13px;
+          color: rgba(255,255,255,0.28);
+          line-height: 1.6;
+          max-width: 240px;
+        ">AI call answering + field capture for HVAC businesses.</div>
+        <a href="mailto:talktodeal@gmic.ai" style="
+          display: inline-block;
+          margin-top: 12px;
+          font-size: 13px;
+          color: rgba(255,255,255,0.35);
+          text-decoration: none;
+          transition: color 0.15s;
+        "
+        onmouseover="this.style.color='rgba(255,255,255,0.65)'"
+        onmouseout="this.style.color='rgba(255,255,255,0.35)'"
+        >talktodeal@gmic.ai</a>
+      </div>
+
+      <!-- Links -->
+      <div style="display: flex; flex-direction: column; gap: 12px; padding-top: 4px;">
+        <a href="https://talktodeal.com/call/" target="_blank" style="
+          font-size: 13px;
+          color: rgba(255,255,255,0.45);
+          text-decoration: none;
+          transition: color 0.15s;
+        "
+        onmouseover="this.style.color='#FFFFFF'"
+        onmouseout="this.style.color='rgba(255,255,255,0.45)'"
+        >Book a Demo</a>
+        <a href="https://talktodeal.com/privacy" target="_blank" style="
+          font-size: 13px;
+          color: rgba(255,255,255,0.3);
+          text-decoration: none;
+          transition: color 0.15s;
+        "
+        onmouseover="this.style.color='rgba(255,255,255,0.65)'"
+        onmouseout="this.style.color='rgba(255,255,255,0.3)'"
+        >Privacy Policy</a>
+        <a href="https://talktodeal.com/terms" target="_blank" style="
+          font-size: 13px;
+          color: rgba(255,255,255,0.3);
+          text-decoration: none;
+          transition: color 0.15s;
+        "
+        onmouseover="this.style.color='rgba(255,255,255,0.65)'"
+        onmouseout="this.style.color='rgba(255,255,255,0.3)'"
+        >Terms of Service</a>
+      </div>
+
+    </div>
+
+    <!-- BOTTOM ROW: Copyright -->
+    <div style="
+      border-top: 1px solid rgba(255,255,255,0.05);
+      padding-top: 32px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+    ">
+      <span style="font-size: 11px; color: rgba(255,255,255,0.18);">
+        © 2025 TalkToDeal. All rights reserved. · We never share or sell your information.
+      </span>
+    </div>
+
+  </div>
+</footer>
+
+<script>
+  const o = new IntersectionObserver(es => {
+    es.forEach(e => { if (e.isIntersecting) e.target.classList.add('on'); });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.fi').forEach(el => o.observe(el));
+  setTimeout(() => {
+    document.querySelectorAll('section:first-of-type .fi')
+      .forEach(el => el.classList.add('on'));
+  }, 60);
+
+  const nav = document.querySelector('nav');
+  function updateNav() {
+    if (window.scrollY > 40) {
+      nav.style.background = 'rgba(8,8,8,0.80)';
+      nav.style.backdropFilter = 'blur(20px)';
+      nav.style.webkitBackdropFilter = 'blur(20px)';
+      nav.style.borderBottom = '1px solid rgba(255,255,255,0.07)';
+    } else {
+      nav.style.background = 'transparent';
+      nav.style.backdropFilter = 'none';
+      nav.style.webkitBackdropFilter = 'none';
+      nav.style.borderBottom = 'none';
+    }
+  }
+  window.addEventListener('scroll', updateNav, { passive: true });
+  updateNav();
+</script>
+
+</body>
+</html>
