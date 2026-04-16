@@ -3,13 +3,13 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="TalkToDeal is HVAC field service management software that captures every on-site quote automatically. No typing. No lost revenue. Built for HVAC technicians and field service teams. Starting at $99/month." />
+  <meta name="description" content="TalkToDeal answers every HVAC call 24/7, books the appointment automatically, and captures every on-site detail from your techs by voice. AI call answering + field service management. Starting at $99/month." />
   <meta name="keywords" content="hvac field service management, hvac service management software, field service management software, hvac business software, hvac dispatch software, hvac scheduling software, hvac technician workflow, hvac service system" />
   <meta property="og:title" content="TalkToDeal — HVAC Field Service Management Software" />
   <meta property="og:description" content="Stop losing field quotes. TalkToDeal captures every on-site job automatically — voice to work order in under 30 seconds. Built for HVAC field service teams." />
   <meta property="og:type" content="website" />
   <link rel="canonical" href="https://talktodeal.com/" />
-  <title>TalkToDeal — HVAC Field Service Management Software | Voice-to-Work Order</title>
+  <title>TalkToDeal — HVAC AI Phone Answering + Field Service Management | Never Miss a Job</title>
   <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
   <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
@@ -205,13 +205,13 @@
       display: block; will-change: transform; margin-top: -5%;
     }
     .photo-grad-top {
-      position: absolute; top: 0; left: 0; right: 0; height: 25%;
-      background: linear-gradient(to bottom, #0C0C0E 0%, transparent 100%);
+      position: absolute; top: 0; left: 0; right: 0; height: 30%;
+      background: linear-gradient(to bottom, rgba(8,8,8,0.75) 0%, transparent 100%);
       pointer-events: none; z-index: 1;
     }
     .photo-grad-bottom {
-      position: absolute; bottom: 0; left: 0; right: 0; height: 35%;
-      background: linear-gradient(to top, #0C0C0E 0%, transparent 100%);
+      position: absolute; bottom: 0; left: 0; right: 0; height: 55%;
+      background: linear-gradient(to top, rgba(8,8,8,0.92) 0%, rgba(8,8,8,0.7) 25%, transparent 55%);
       pointer-events: none; z-index: 1;
     }
     .ps1 { height: 80vh; }
@@ -306,7 +306,7 @@
     .ba-item { font-size: 17px; font-weight: 300; line-height: 2.6; }
 
     /* ── Scenarios ────────────────────────────────────────────────────────── */
-    .scenarios-section { padding: 180px 48px; }
+    .scenarios-section { padding: 180px 48px 60px; }
     .scenarios-inner { max-width: 800px; margin: 0 auto; }
     .section-eyebrow {
       font-size: 11px; font-weight: 500; letter-spacing: 0.12em;
@@ -320,7 +320,7 @@
     .section-title-accent { color: #E8E0D4; }
     .scenario-row {
       display: grid; grid-template-columns: 1fr 1fr; gap: 48px;
-      padding: 60px 0; border-top: 1px solid rgba(255,255,255,0.06);
+      padding: 32px 0; border-top: 1px solid rgba(255,255,255,0.06);
     }
     .scenario-row:last-child { border-bottom: 1px solid rgba(255,255,255,0.06); }
     .sc-left-label {
@@ -340,7 +340,7 @@
 
     /* ── Stats strip ─────────────────────────────────────────────────────── */
     .stats-section {
-      padding: 180px 0; position: relative; overflow: hidden;
+      padding: 0 0 180px; position: relative; overflow: hidden;
     }
     .stats-inner {
       max-width: 860px; margin: 0 auto; padding: 80px 48px;
@@ -381,14 +381,19 @@
     .proof-attr { font-size: 12px; color: rgba(255,255,255,0.38); margin-top: 32px; }
 
     /* ── Final CTA ───────────────────────────────────────────────────────── */
-    .cta-section { padding: 200px 48px; position: relative; overflow: hidden; }
+    .cta-section { padding: 160px 48px; position: relative; overflow: hidden; }
     .cta-bg-glow {
       position: absolute; inset: 0; z-index: 0; pointer-events: none;
       background: radial-gradient(ellipse 900px 600px at 0% 100%, rgba(66,133,244,0.14) 0%, transparent 55%);
     }
-    .cta-inner { max-width: 700px; position: relative; z-index: 1; }
+    .cta-inner {
+      max-width: 1100px; margin: 0 auto; position: relative; z-index: 1;
+      display: flex; flex-direction: row; align-items: stretch; gap: 80px;
+    }
+    .cta-left { flex: 1; }
+    .cta-right { flex: 1; max-width: 480px; flex-shrink: 0; align-self: stretch; display: flex; align-items: stretch; }
     .cta-h2 {
-      font-size: clamp(56px, 8vw, 104px); font-weight: 300;
+      font-size: clamp(36px, 5vw, 72px); font-weight: 300;
       color: #FFFFFF; letter-spacing: -0.04em; line-height: 0.95;
     }
     .cta-sub {
@@ -524,7 +529,7 @@
       .video-split-left {
         width: 100%;
         height: 56vw;
-        min-height: 240px;
+        min-height: 280px;
         flex-shrink: 0;
       }
       .video-split-fade {
@@ -544,12 +549,23 @@
       .proof-section { padding: 100px 24px; }
       .proof-main { font-size: 22px; }
       .cta-section { padding: 120px 24px; text-align: center; }
-      .cta-inner { max-width: none; }
+      .cta-inner { max-width: none; flex-direction: column; gap: 48px; }
+      .cta-left { width: 100%; }
+      .cta-right { display: none; }
       .cta-btn-row { justify-content: center; }
       .cta-phone-label, .cta-phone { text-align: center; }
       .site-footer { flex-direction: column; gap: 20px; padding: 40px 24px; text-align: center; }
       .footer-right { justify-content: center; }
+      .phone-entry-inner { grid-template-columns: 1fr !important; gap: 48px !important; }
+      .pe-right { align-items: center !important; }
     }
+
+    /* ── Phone Entry ─────────────────────────────────────────────────────── */
+    @keyframes pulse-dot {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(52,168,83,0.3); }
+      50%       { box-shadow: 0 0 0 8px rgba(52,168,83,0); }
+    }
+    .pulse-dot { animation: pulse-dot 2s ease-in-out infinite; }
   </style>
 </head>
 <body>
@@ -610,19 +626,21 @@ const Hero = () => (
     {/* Text content */}
     <div className="hero-content">
       <div className="hero-eyebrow fade-in" style={{ transitionDelay: '0.1s' }}>
-        HVAC Field Service Management Software
+        HVAC AI PHONE ANSWERING + FIELD CAPTURE
       </div>
 
       <h1 className="hero-h1 fade-in" style={{ transitionDelay: '0.2s' }}>
-        <span className="hero-h1-line1">Your tech quoted</span>
-        <span className="hero-h1-line2">
-          <span className="hero-accent">$4,800</span> on-site.
-        </span>
-        <span className="hero-h1-line3">Nobody followed up.</span>
+        <span className="hero-h1-line1">Every missed call</span>
+        <span className="hero-h1-line2">is a missed job.</span>
+        <span style={{ display: 'block', color: '#E8E0D4', fontWeight: 300 }}>TalkToDeal answers both.</span>
       </h1>
 
-      <p className="hero-gone fade-in" style={{ transitionDelay: '0.3s' }}>
-        That money is gone.
+      <p className="hero-gone fade-in" style={{ transitionDelay: '0.3s', color: 'rgba(255,255,255,0.55)' }}>
+        AI answers your calls, books the job, and captures every on-site detail — automatically.
+      </p>
+
+      <p className="fade-in" style={{ fontSize: '19px', color: 'rgba(255,255,255,0.52)', maxWidth: '520px', textAlign: 'center', lineHeight: 1.7, margin: '24px auto 0', transitionDelay: '0.35s' }}>
+        Don't lose jobs to voicemail. TalkToDeal's AI answers every HVAC call, schedules the appointment, and captures every on-site detail from your techs.
       </p>
 
       <div className="hero-cta-wrap fade-in" style={{ transitionDelay: '0.4s' }}>
@@ -640,21 +658,140 @@ const Hero = () => (
     <div className="hero-stat-strip fade-in" style={{ transitionDelay: '0.65s' }}>
       <div className="hero-stat">
         <div className="hero-stat-num">0</div>
-        <div className="hero-stat-lbl">Keystrokes Required</div>
+        <div className="hero-stat-lbl">Missed calls</div>
       </div>
       <div className="hero-stat-sep"/>
       <div className="hero-stat">
-        <div className="hero-stat-num">&lt; 30 Seconds</div>
-        <div className="hero-stat-lbl">Quote to work order</div>
+        <div className="hero-stat-num">24/7</div>
+        <div className="hero-stat-lbl">AI answers your phone</div>
       </div>
       <div className="hero-stat-sep"/>
       <div className="hero-stat">
         <div className="hero-stat-num">100%</div>
-        <div className="hero-stat-lbl">Field Quotes Captured</div>
+        <div className="hero-stat-lbl">Jobs captured</div>
       </div>
+    </div>
+
+    {/* Full-width video after hero stats strip */}
+    <div style={{
+      position: 'relative',
+      width: '100%',
+      height: '60vh',
+      minHeight: '380px',
+      overflow: 'hidden',
+      marginTop: '48px',
+      borderRadius: 0,
+    }}>
+      <video
+        autoPlay loop muted playsInline preload="auto"
+        style={{
+          position: 'absolute',
+          inset: 0,
+          width: '100%',
+          height: '100%',
+          objectFit: 'cover',
+          objectPosition: 'center 30%',
+          display: 'block',
+        }}
+      >
+        <source src="img/action-2.mp4" type="video/mp4" />
+      </video>
+      {/* Top fade into hero bg */}
+      <div style={{
+        position: 'absolute',
+        top: 0, left: 0, right: 0,
+        height: '120px',
+        background: 'linear-gradient(to bottom, #080808 0%, transparent 100%)',
+        pointerEvents: 'none',
+        zIndex: 1,
+      }}/>
+      {/* Bottom fade into next section */}
+      <div style={{
+        position: 'absolute',
+        bottom: 0, left: 0, right: 0,
+        height: '160px',
+        background: 'linear-gradient(to top, #080808 0%, transparent 100%)',
+        pointerEvents: 'none',
+        zIndex: 1,
+      }}/>
     </div>
   </section>
 );
+
+// ─── Section B: Phone Entry (AI answering + auto-booking) ────────────────────
+const PhoneEntry = () => {
+  const features = [
+    { title: "AI answers every call, 24/7", desc: "No voicemail. No missed opportunities." },
+    { title: "Auto-books into your calendar", desc: "Qualified leads, confirmed appointments." },
+    { title: "Handles after-hours calls", desc: "Jobs booked while you sleep." },
+    { title: "Zero interruptions for techs", desc: "They stay focused on the job." },
+  ];
+
+  return (
+    <section className="fade-in" style={{ padding: '140px 48px', position: 'relative', background: 'radial-gradient(ellipse 800px 600px at 70% 50%, rgba(66,133,244,0.06) 0%, transparent 60%), #0C0C0E' }}>
+      <div className="phone-entry-inner" style={{ maxWidth: '1100px', margin: '0 auto', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '80px', alignItems: 'center' }}>
+
+        {/* Left column — copy */}
+        <div>
+          <p style={{ fontSize: '11px', fontWeight: 500, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.38)', marginBottom: '24px' }}>
+            AI PHONE ANSWERING FOR HVAC
+          </p>
+          <h2 style={{ fontSize: 'clamp(42px, 6vw, 72px)', fontWeight: 300, lineHeight: 1.05, color: '#FFFFFF', letterSpacing: '-0.03em', marginBottom: '24px' }}>
+            Your phone rings<br/>while your tech works.
+          </h2>
+          <p style={{ fontSize: '17px', color: 'rgba(255,255,255,0.52)', lineHeight: 1.75, maxWidth: '420px', marginBottom: '40px' }}>
+            TalkToDeal's AI answers every inbound HVAC call — 24/7, no hold music, no missed jobs. It qualifies the caller, books the appointment into your schedule, and sends a confirmation. Your tech never gets interrupted.
+          </p>
+          <div>
+            {features.map((f, i) => (
+              <div key={i} style={{ display: 'flex', gap: '16px', alignItems: 'flex-start', padding: '16px 0', borderBottom: i < features.length - 1 ? '1px solid rgba(255,255,255,0.06)' : 'none' }}>
+                <div style={{ width: '22px', height: '22px', borderRadius: '50%', flexShrink: 0, background: 'rgba(66,133,244,0.12)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: '2px' }}>
+                  <span style={{ fontSize: '11px', color: '#4285F4', lineHeight: 1 }}>✓</span>
+                </div>
+                <div>
+                  <p style={{ fontSize: '15px', fontWeight: 500, color: '#FFFFFF' }}>{f.title}</p>
+                  <p style={{ fontSize: '13px', color: 'rgba(255,255,255,0.42)', marginTop: '3px', lineHeight: 1.5 }}>{f.desc}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Right column — incoming call UI mockup */}
+        <div className="pe-right" style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end' }}>
+          <div style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '20px', padding: '28px', width: '320px', maxWidth: '90%' }}>
+            {/* Top row */}
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '4px' }}>
+              <span style={{ fontSize: '11px', color: 'rgba(255,255,255,0.35)', textTransform: 'uppercase', letterSpacing: '0.1em' }}>Incoming Call</span>
+              <span className="pulse-dot" style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#34A853', display: 'inline-block', boxShadow: '0 0 0 4px rgba(52,168,83,0.2)' }}/>
+            </div>
+            {/* Caller info */}
+            <p style={{ fontSize: '18px', fontWeight: 500, color: '#FFFFFF', marginTop: '12px' }}>📞 (480) 555-0192</p>
+            <p style={{ fontSize: '13px', color: 'rgba(255,255,255,0.45)', marginTop: '4px' }}>HVAC service request · AC not cooling</p>
+            {/* Divider */}
+            <div style={{ height: '1px', background: 'rgba(255,255,255,0.06)', margin: '16px 0' }}/>
+            {/* AI Response */}
+            <p style={{ fontSize: '11px', color: '#4285F4', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '10px' }}>AI Response</p>
+            <div style={{ background: 'rgba(66,133,244,0.08)', borderRadius: '12px', padding: '12px 16px' }}>
+              <p style={{ fontSize: '13px', color: 'rgba(255,255,255,0.75)', lineHeight: 1.5 }}>
+                Hi, thanks for calling! I can schedule a tech visit for tomorrow between 10–2. Does that work?
+              </p>
+            </div>
+            {/* Bottom row */}
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '16px' }}>
+              <span style={{ fontSize: '12px', color: '#34A853', fontWeight: 500 }}>Appointment booked ✓</span>
+              <span style={{ fontSize: '12px', color: 'rgba(255,255,255,0.3)' }}>Added to ServiceTitan</span>
+            </div>
+          </div>
+          <p style={{ fontSize: '13px', color: 'rgba(255,255,255,0.35)', textAlign: 'center', marginTop: '20px', width: '320px', maxWidth: '90%' }}>
+            Every call answered. Every job booked. Automatically.
+          </p>
+        </div>
+
+      </div>
+    </section>
+  );
+};
 
 // ─── Product Section (new — between Hero and PhotoOne) ────────────────────────
 const ProductSection = () => {
@@ -685,7 +822,7 @@ const ProductSection = () => {
           <div className="product-img-wrap">
             <div className="product-device-glow" aria-hidden="true"/>
             <img
-              src="../img/HCJD10.png"
+              src="img/HCJD10.png"
               alt="TalkToDeal voice capture device"
               style={{
                 width: '100%',
@@ -704,7 +841,10 @@ const ProductSection = () => {
 
         {/* Right: feature list */}
         <div className="product-text-col">
-          <p className="product-eyebrow">HVAC Field Technician Tool</p>
+          <p className="product-eyebrow">STEP 2 — HVAC FIELD CAPTURE TOOL</p>
+          <p style={{ fontSize: '14px', color: 'rgba(255,255,255,0.38)', fontStyle: 'italic', marginBottom: '16px' }}>
+            Once the job is booked, TalkToDeal's device captures everything on-site.
+          </p>
           <h2 className="product-headline">
             Built for the field.<br/>Zero learning curve.
           </h2>
@@ -733,9 +873,12 @@ const ProductSection = () => {
 // ─── Section 2: Full-bleed photo (talk_1.jpg) ────────────────────────────────
 const PhotoOne = () => (
   <div className="photo-section ps1 parallax-photo">
-    <img src="../img/HCJD12.png" alt="HVAC tech David with device at AC unit" loading="lazy"/>
+    <img src="img/action-1.png" alt="HVAC tech David with device at AC unit" loading="lazy"/>
     <div className="photo-grad-top"/>
     <div className="photo-grad-bottom"/>
+    <div style={{ position: 'absolute', top: '20px', left: '60px', zIndex: 3, fontSize: '10px', color: 'rgba(255,255,255,0.3)', textTransform: 'uppercase', letterSpacing: '0.12em' }}>
+      STEP 2 — FIELD CAPTURE
+    </div>
 
     <div className="p1-left fade-in">
       <p className="p1-left-label">David H. · HVAC Technician · Arizona</p>
@@ -772,6 +915,14 @@ const BeforeAfter = () => {
 
   return (
     <section className="ba-section">
+      <div style={{ maxWidth: '1000px', margin: '0 auto 64px', padding: '0 48px' }}>
+        <h2 className="fade-in" style={{ fontSize: 'clamp(36px, 5vw, 60px)', fontWeight: 300, color: '#FFFFFF', letterSpacing: '-0.03em', lineHeight: 1.1, marginBottom: '20px' }}>
+          Without TalkToDeal,<br/>you lose jobs twice.
+        </h2>
+        <p className="fade-in" style={{ fontSize: '17px', color: 'rgba(255,255,255,0.45)', maxWidth: '500px', lineHeight: 1.65, transitionDelay: '0.1s' }}>
+          Once when the call goes to voicemail. Once when the tech's notes disappear.
+        </p>
+      </div>
       <div className="ba-inner">
         {/* Left column — without */}
         <div className="fade-in" style={{
@@ -792,6 +943,7 @@ const BeforeAfter = () => {
             }}/>
             Without TalkToDeal
           </p>
+          <p style={{ fontSize: '12px', color: 'rgba(255,255,255,0.3)', fontStyle: 'italic', marginBottom: '16px', marginTop: '-16px' }}>Missed calls + lost field data</p>
           {before.map((item, i) => (
             <p key={i} className="ba-item" style={{
               fontSize: '17px', fontWeight: 300, lineHeight: 2.4,
@@ -825,6 +977,7 @@ const BeforeAfter = () => {
             }}/>
             With TalkToDeal
           </p>
+          <p style={{ fontSize: '12px', color: '#4285F4', opacity: 0.7, fontStyle: 'italic', marginBottom: '16px', marginTop: '-16px' }}>Every call answered + every job documented</p>
           {after.map((item, i) => (
             <p key={i} className="ba-item" style={{
               fontSize: i >= 3 ? '18px' : '17px',
@@ -843,13 +996,31 @@ const BeforeAfter = () => {
 const PhotoTwo = () => (
   <div className="video-split-section">
     {/* Left — full-bleed video panel */}
-    <div className="video-split-left">
-      <video src="../img/mic05.mp4" autoPlay loop muted playsInline/>
-      <div className="video-split-fade" aria-hidden="true"/>
+    <div className="video-split-left" style={{
+      width: '50%', position: 'relative', overflow: 'hidden',
+      flexShrink: 0, minHeight: '500px', background: '#0C0C0E',
+    }}>
+      <video
+        autoPlay loop muted playsInline preload="auto"
+        style={{
+          position: 'absolute', inset: 0,
+          width: '100%', height: '100%',
+          objectFit: 'cover', display: 'block',
+        }}
+      >
+        <source src="img/action-2.mp4" type="video/mp4" />
+      </video>
+      {/* Right edge fade into dark bg */}
+      <div style={{
+        position: 'absolute', top: 0, right: 0,
+        width: '120px', height: '100%',
+        background: 'linear-gradient(to right, transparent, #0C0C0E)',
+        pointerEvents: 'none', zIndex: 1,
+      }}/>
     </div>
     {/* Right — text panel */}
     <div className="video-split-right fade-in">
-      <p>Every word your tech says becomes a trackable, billable record.</p>
+      <p>Every word your tech says on-site becomes a trackable, billable record — automatically synced back to the job that was booked by AI.</p>
     </div>
   </div>
 );
@@ -908,29 +1079,6 @@ const Scenarios = () => {
                 ))}
               </div>
             </div>
-            {/* Device image interlude between rows 2 and 3 */}
-            {i === 1 && (
-              <div className="fade-in" style={{
-                display: 'flex', justifyContent: 'center', alignItems: 'center',
-                padding: '20px 0', position: 'relative',
-              }}>
-                <div style={{
-                  position: 'absolute',
-                  width: '400px', height: '300px',
-                  background: 'radial-gradient(ellipse, rgba(66,133,244,0.1) 0%, transparent 70%)',
-                  borderRadius: '50%', pointerEvents: 'none',
-                }}/>
-                <img src="../img/HCJD5.png" alt=""
-                  style={{
-                    position: 'relative', zIndex: 1, width: '180px',
-                    mixBlendMode: 'lighten',
-                    filter: 'drop-shadow(0 20px 50px rgba(66,133,244,0.2))',
-                    transform: 'rotate(-8deg)', opacity: 0.85,
-                    display: 'block', pointerEvents: 'none',
-                  }}
-                />
-              </div>
-            )}
           </React.Fragment>
         ))}
       </div>
@@ -942,7 +1090,7 @@ const Scenarios = () => {
 const StatStrip = () => {
   const numStyle = {
     fontSize: 'clamp(48px, 7vw, 88px)',
-    fontWeight: 300,
+    fontWeight: 500,
     color: '#FFFFFF',
     letterSpacing: '-0.03em',
     lineHeight: 1.0,
@@ -951,9 +1099,9 @@ const StatStrip = () => {
   };
   const lblStyle = {
     fontSize: '13px',
-    color: 'rgba(255,255,255,0.4)',
+    color: 'rgba(255,255,255,0.75)',
     marginTop: '12px',
-    fontWeight: 400,
+    fontWeight: 500,
     display: 'block',
     textAlign: 'center',
   };
@@ -970,36 +1118,58 @@ const StatStrip = () => {
 
   return (
     <section className="stats-section">
-      <div className="stats-glow" aria-hidden="true"/>
+      {/* Full-bleed background image */}
+      <img
+        src="img/action-4.png"
+        alt=""
+        aria-hidden="true"
+        style={{
+          position: 'absolute', inset: 0,
+          width: '100%', height: '100%',
+          objectFit: 'cover', objectPosition: 'center',
+          zIndex: 0, pointerEvents: 'none',
+          opacity: 0.72,
+        }}
+      />
+      {/* Dark overlay so text stays readable */}
       <div style={{
-        display: 'flex', flexDirection: 'row',
-        alignItems: 'center', justifyContent: 'center',
-        width: '100%', maxWidth: '900px',
-        margin: '0 auto', padding: '80px 48px',
-        position: 'relative', zIndex: 1,
-      }}>
-        <div className="fade-in" style={itemStyle}>
-          <span style={numStyle}>0</span>
-          <span style={lblStyle}>Keystrokes required</span>
+        position: 'absolute', inset: 0,
+        background: 'rgba(8,8,14,0.42)',
+        zIndex: 1, pointerEvents: 'none',
+      }}/>
+      {/* All stats content */}
+      <div style={{ position: 'relative', zIndex: 2 }}>
+        <div className="stats-glow" aria-hidden="true"/>
+        <div style={{
+          display: 'flex', flexDirection: 'row',
+          alignItems: 'center', justifyContent: 'center',
+          width: '100%', maxWidth: '900px',
+          margin: '0 auto', padding: '80px 48px',
+          position: 'relative', zIndex: 1,
+        }}>
+          <div className="fade-in" style={itemStyle}>
+            <span style={numStyle}>0</span>
+            <span style={lblStyle}>Keystrokes required from your tech</span>
+          </div>
+          <div aria-hidden="true" style={sepStyle}/>
+          <div className="fade-in" style={{ ...itemStyle, transitionDelay: '0.1s' }}>
+            <span style={numStyle}>{'< 30s'}</span>
+            <span style={lblStyle}>Voice to complete work order</span>
+          </div>
+          <div aria-hidden="true" style={sepStyle}/>
+          <div className="fade-in" style={{ ...itemStyle, transitionDelay: '0.2s' }}>
+            <span style={numStyle}>100%</span>
+            <span style={lblStyle}>Field quotes captured</span>
+          </div>
         </div>
-        <div aria-hidden="true" style={sepStyle}/>
-        <div className="fade-in" style={{ ...itemStyle, transitionDelay: '0.1s' }}>
-          <span style={numStyle}>{'< 30s'}</span>
-          <span style={lblStyle}>Quote to work order</span>
-        </div>
-        <div aria-hidden="true" style={sepStyle}/>
-        <div className="fade-in" style={{ ...itemStyle, transitionDelay: '0.2s' }}>
-          <span style={numStyle}>100%</span>
-          <span style={lblStyle}>Field quotes captured</span>
-        </div>
+        <p className="fade-in" style={{
+          fontSize: '16px', color: 'rgba(255,255,255,0.72)', fontWeight: 400,
+          textAlign: 'center', maxWidth: '620px', margin: '0 auto',
+          lineHeight: 1.7, padding: '0 48px 80px', position: 'relative', zIndex: 1,
+        }}>
+          The only HVAC field service management software that answers your calls AND captures every on-site detail — automatically.
+        </p>
       </div>
-      <p className="fade-in" style={{
-        fontSize: '15px', color: 'rgba(255,255,255,0.38)', fontWeight: 300,
-        textAlign: 'center', maxWidth: '600px', margin: '0 auto',
-        lineHeight: 1.7, padding: '0 48px 80px', position: 'relative', zIndex: 1,
-      }}>
-        The only HVAC field service management software built around how technicians actually work — by voice, in the field.
-      </p>
     </section>
   );
 };
@@ -1017,7 +1187,7 @@ const DeviceShowcase = () => (
       background: 'radial-gradient(ellipse 700px 500px at 50% 60%, rgba(66,133,244,0.12) 0%, transparent 65%)',
     }}/>
     <img
-      src="../img/HCJD5.png"
+      src="img/HCJD5.png"
       alt="TalkToDeal device"
       className="fade-in"
       style={{
@@ -1044,6 +1214,29 @@ const DeviceShowcase = () => (
 const SocialProof = () => (
   <section className="proof-section">
     <div className="proof-inner">
+      {/* Product image above eyebrow */}
+      <div style={{
+        display: 'flex', justifyContent: 'center', alignItems: 'center',
+        marginBottom: '48px', position: 'relative',
+      }}>
+        <div style={{
+          position: 'absolute',
+          width: '320px', height: '220px',
+          background: 'radial-gradient(ellipse, rgba(66,133,244,0.16) 0%, transparent 65%)',
+          borderRadius: '50%', pointerEvents: 'none', zIndex: 0,
+        }}/>
+        <img
+          src="img/HCJD5.png"
+          alt="TalkToDeal device"
+          style={{
+            position: 'relative', zIndex: 1,
+            width: '160px', display: 'block',
+            mixBlendMode: 'lighten',
+            filter: 'drop-shadow(0 24px 60px rgba(66,133,244,0.22))',
+            animation: 'float-device 5s ease-in-out infinite',
+          }}
+        />
+      </div>
       <p className="proof-eyebrow fade-in">HVAC Field Service Teams — Early Pilots</p>
       <p className="proof-main fade-in" style={{ transitionDelay: '0.1s' }}>
         Currently piloting with HVAC companies across Arizona and California.
@@ -1054,6 +1247,9 @@ const SocialProof = () => (
       <p className="proof-attr fade-in" style={{ transitionDelay: '0.3s' }}>
         TalkToDeal Team · Early Access Pilot Program
       </p>
+      <p className="fade-in" style={{ fontSize: '12px', color: 'rgba(255,255,255,0.25)', textAlign: 'center', marginTop: '20px', transitionDelay: '0.4s' }}>
+        Your call data and field recordings are encrypted end-to-end. You own your data. Cancel anytime.
+      </p>
     </div>
   </section>
 );
@@ -1063,25 +1259,62 @@ const FinalCTA = () => (
   <section className="cta-section">
     <div className="cta-bg-glow" aria-hidden="true"/>
     <div className="cta-inner">
-      <h2 className="cta-h2 fade-in">
-        Stop losing revenue on every HVAC service call.<br/>
-        <span style={{ color: '#E8E0D4' }}>Start with one team.</span>
-      </h2>
+      {/* Left column — existing copy unchanged */}
+      <div className="cta-left">
+        <h2 className="cta-h2 fade-in">
+          Stop losing jobs to voicemail.<br/>
+          <span style={{ color: '#E8E0D4' }}>Start answering every call. Start with one team.</span>
+        </h2>
 
-      <p className="cta-sub fade-in" style={{ transitionDelay: '0.1s' }}>
-        Starting at $99–109 / month per team. HVAC field service management software + hardware included. No long-term contract.
-      </p>
+        <p className="cta-sub fade-in" style={{ transitionDelay: '0.1s' }}>
+          Starting at $99–109 / month per team. AI call answering + field capture + hardware. No long-term contract.
+        </p>
 
-      <div className="cta-btn-row fade-in" style={{ transitionDelay: '0.2s' }}>
-        <a href={DEMO_URL} target="_blank" rel="noopener noreferrer" className="cta-btn-primary">
-          Book a 15-min Demo
-        </a>
-        <a href={`tel:${PHONE}`} className="cta-btn-secondary">Try AI Demo</a>
+        <div className="cta-btn-row fade-in" style={{ transitionDelay: '0.2s' }}>
+          <a href={DEMO_URL} target="_blank" rel="noopener noreferrer" className="cta-btn-primary">
+            Book a 15-min Demo
+          </a>
+          <a href={`tel:${PHONE}`} className="cta-btn-secondary">Try AI Demo</a>
+        </div>
+        <p className="fade-in" style={{ fontSize: '12px', color: 'rgba(255,255,255,0.28)', textAlign: 'center', marginTop: '16px', transitionDelay: '0.25s' }}>
+          🔒 No credit card required. Your data stays private. Cancel anytime.
+        </p>
+
+        <div className="fade-in" style={{ transitionDelay: '0.3s' }}>
+          <p className="cta-phone-label">or call us at</p>
+          <a href={`tel:${PHONE}`} className="cta-phone">{PHONE}</a>
+        </div>
       </div>
 
-      <div className="fade-in" style={{ transitionDelay: '0.3s' }}>
-        <p className="cta-phone-label">or call us at</p>
-        <a href={`tel:${PHONE}`} className="cta-phone">{PHONE}</a>
+      {/* Right column — action-3.png */}
+      <div className="cta-right fade-in" style={{ transitionDelay: '0.15s' }}>
+        <div style={{
+          position: 'relative',
+          borderRadius: '20px',
+          overflow: 'hidden',
+          width: '100%',
+          height: '100%',
+        }}>
+          <img
+            src="img/action-3.png"
+            alt="HVAC field technician using TalkToDeal"
+            style={{
+              width: '100%',
+              height: '100%',
+              display: 'block',
+              borderRadius: '20px',
+              objectFit: 'cover',
+              objectPosition: 'center',
+            }}
+          />
+          <div style={{
+            position: 'absolute',
+            inset: 0,
+            background: 'linear-gradient(135deg, rgba(8,8,14,0.15) 0%, transparent 50%, rgba(8,8,14,0.3) 100%)',
+            borderRadius: '20px',
+            pointerEvents: 'none',
+          }}/>
+        </div>
       </div>
     </div>
   </section>
@@ -1155,13 +1388,13 @@ function App() {
     <>
       <Nav/>
       <Hero/>
+      <PhoneEntry/>
       <ProductSection/>
       <PhotoOne/>
       <BeforeAfter/>
       <PhotoTwo/>
       <Scenarios/>
       <StatStrip/>
-      <DeviceShowcase/>
       <SocialProof/>
       <FinalCTA/>
       <Footer/>
@@ -1170,6 +1403,18 @@ function App() {
 }
 
 ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  var videos = document.querySelectorAll('video');
+  videos.forEach(function(video) {
+    video.muted = true;
+    video.play().catch(function(e) {
+      console.log('Autoplay blocked:', e);
+    });
+  });
+});
 </script>
 </body>
 </html>
