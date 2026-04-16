@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TalkToDeal — Book More HVAC Jobs</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: #FFFFFF;
+      color: #1D1D1F;
+      font-family: system-ui, -apple-system, 'SF Pro Display', 'Inter', sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .fi {
+      opacity: 0;
+      transform: translateY(14px);
+      transition: opacity 0.7s cubic-bezier(0.16,1,0.3,1),
+                  transform 0.7s cubic-bezier(0.16,1,0.3,1);
+    }
+    .fi.on { opacity: 1; transform: translateY(0); }
+
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: 52px;
+      padding: 0 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      z-index: 100;
+      background: rgba(255,255,255,0.72);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      border-bottom: 1px solid rgba(0,0,0,0.08);
+    }
+
+    .nav-logo {
+      font-size: 17px;
+      font-weight: 700;
+      color: #1D1D1F;
+      text-decoration: none;
+      letter-spacing: -0.01em;
+    }
+
+    .nav-cta {
+      background: #1D1D1F;
+      color: #FFFFFF;
+      border-radius: 980px;
+      border: none;
+      padding: 8px 20px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+      transition: background 0.15s;
+    }
+    .nav-cta:hover { background: #3D3D3F; }
+
+    @keyframes float-device {
+      0%, 100% { transform: translateY(0px); }
+      50%       { transform: translateY(-10px); }
+    }
+
+    .pain-row {
+      display: flex;
+      align-items: center;
+      gap: 80px;
+      padding: 72px 0;
+      border-top: 1px solid rgba(0,0,0,0.06);
+    }
+    .pain-row:first-of-type { border-top: none; }
+
+    .pain-row-text { flex: 1; }
+
+    .pain-row-img {
+      flex: 1;
+      border-radius: 20px;
+      overflow: hidden;
+      aspect-ratio: 4 / 3;
+    }
+    .pain-row-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    @media (max-width: 768px) {
+      nav { padding: 0 20px !important; }
+
+      .pain-row {
+        flex-direction: column !important;
+        gap: 40px !important;
+        padding: 48px 0 !important;
+      }
+      .pain-row-text { width: 100% !important; }
+      .pain-row-img { width: 100% !important; }
+
+      .device-inner { flex-direction: column !important; gap: 48px !important; }
+
+      .stat-row { flex-wrap: wrap !important; gap: 24px !important; }
+      .stat-sep { display: none !important; }
+
+      .cta-btn {
+        width: 100% !important;
+        max-width: 100% !important;
+        display: block !important;
+        text-align: center !important;
+      }
+
+      .footer-top { flex-direction: column !important; gap: 32px !important; }
+      .footer-links { gap: 32px !important; }
+      .footer-bottom { flex-direction: column !important; text-align: center !important; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="/" class="nav-logo">TalkToDeal</a>
+  <a href="https://talktodeal.com/call/" target="_blank" class="nav-cta">Book a Free Demo</a>
+</nav>
+
+<!-- ── SECTION 1: HERO ── -->
+<section style="background:#FFFFFF;padding:140px 48px 100px;text-align:center;">
+
+  <span class="fi" style="font-size:13px;font-weight:400;color:#6E6E73;display:block;margin-bottom:20px;">
+    For HVAC business owners
+  </span>
+
+  <h1 class="fi" style="
+    font-size: clamp(56px, 9vw, 96px);
+    font-weight: 800;
+    line-height: 1.0;
+    letter-spacing: -0.04em;
+    color: #1D1D1F;
+    margin: 0;
+    transition-delay: 0.05s;
+  ">Book more jobs.<br>Miss nothing.</h1>
+
+  <p class="fi" style="
+    font-size: 19px;
+    font-weight: 300;
+    color: #6E6E73;
+    max-width: 520px;
+    margin: 24px auto 0;
+    line-height: 1.65;
+    transition-delay: 0.10s;
+  ">TalkToDeal answers every HVAC call 24/7, books the appointment,<br>and captures every on-site detail — automatically.</p>
+
+  <div class="fi" style="margin-top:40px;transition-delay:0.15s;">
+    <a href="https://talktodeal.com/call/" target="_blank" class="cta-btn" style="
+      display: inline-block;
+      background: #1D1D1F; color: #FFFFFF;
+      border-radius: 980px; border: none;
+      padding: 17px 40px; font-size: 17px; font-weight: 600;
+      cursor: pointer; text-decoration: none;
+      transition: background 0.15s, transform 0.15s;
+    "
+    onmouseover="this.style.background='#3D3D3F';this.style.transform='scale(1.01)'"
+    onmouseout="this.style.background='#1D1D1F';this.style.transform='scale(1)'"
+    >Book a Free Demo</a>
+    <span style="font-size:12px;color:#AEAEB2;display:block;margin-top:12px;">
+      Free. No credit card. No commitment. Your data stays private.
+    </span>
+  </div>
+
+  <!-- Stat row -->
+  <div class="fi stat-row" style="display:flex;justify-content:center;align-items:center;margin-top:64px;transition-delay:0.20s;">
+    <div>
+      <span style="font-size:26px;font-weight:700;color:#1D1D1F;display:block;text-align:center;">24/7</span>
+      <span style="font-size:11px;color:#AEAEB2;margin-top:5px;display:block;text-align:center;">Calls answered</span>
+    </div>
+    <div class="stat-sep" style="width:1px;height:28px;background:rgba(0,0,0,0.1);margin:0 36px;"></div>
+    <div>
+      <span style="font-size:26px;font-weight:700;color:#1D1D1F;display:block;text-align:center;">0</span>
+      <span style="font-size:11px;color:#AEAEB2;margin-top:5px;display:block;text-align:center;">Missed jobs after hours</span>
+    </div>
+    <div class="stat-sep" style="width:1px;height:28px;background:rgba(0,0,0,0.1);margin:0 36px;"></div>
+    <div>
+      <span style="font-size:26px;font-weight:700;color:#1D1D1F;display:block;text-align:center;">&lt; 2 min</span>
+      <span style="font-size:11px;color:#AEAEB2;margin-top:5px;display:block;text-align:center;">Call to booked appointment</span>
+    </div>
+  </div>
+
+  <!-- Device image -->
+  <div class="fi" style="margin-top:80px;transition-delay:0.25s;">
+    <div style="max-width:280px;margin:0 auto;border-radius:20px;overflow:hidden;">
+      <img src="../img/HCJD5.png" alt="TalkToDeal device" style="
+        width: 100%; max-width: 280px;
+        display: block; margin: 0 auto;
+        filter: drop-shadow(0 32px 64px rgba(0,0,0,0.12));
+        animation: float-device 5s ease-in-out infinite;
+      ">
+    </div>
+    <span style="font-size:13px;color:#AEAEB2;display:block;text-align:center;margin-top:16px;">
+      The TalkToDeal device. Clips to any collar.
+    </span>
+  </div>
+
+</section>
+
+<!-- ── SECTION 2: PAIN POINTS ── -->
+<section style="background:#F5F5F7;padding:120px 48px;">
+
+  <div class="fi" style="text-align:center;">
+    <p style="font-size:clamp(28px,4vw,42px);font-weight:700;color:#1D1D1F;letter-spacing:-0.02em;max-width:600px;margin:0 auto 80px;">
+      Half of what gets said on the job is forgotten by dinner.
+    </p>
+  </div>
+
+  <div style="max-width:1040px;margin:0 auto;">
+
+    <!-- Row 1: text LEFT, image RIGHT -->
+    <div class="pain-row fi">
+      <div class="pain-row-text">
+        <span style="font-size:11px;font-weight:600;color:#AEAEB2;letter-spacing:0.1em;text-transform:uppercase;display:block;margin-bottom:16px;">Pain Point 01</span>
+        <h2 style="font-size:clamp(30px,4vw,48px);font-weight:800;line-height:1.05;letter-spacing:-0.03em;color:#1D1D1F;margin:0 0 20px;">
+          After hours.<br>Phone rings.<br>Nobody answers.
+        </h2>
+        <p style="font-size:16px;color:#6E6E73;font-weight:300;line-height:1.8;margin:0 0 20px;">
+          It's 9pm. A homeowner's AC breaks. They call the first HVAC number they see — that's you. But you're off the clock. Voicemail picks up. They call the second number.
+        </p>
+        <p style="font-size:17px;font-weight:600;color:#1D1D1F;">That job was yours. Then it wasn't.</p>
+      </div>
+      <div class="pain-row-img">
+        <img src="../img/action-1.png" alt="HVAC tech on the job">
+      </div>
+    </div>
+
+    <!-- Row 2: image LEFT, text RIGHT -->
+    <div class="pain-row fi" style="flex-direction:row-reverse;">
+      <div class="pain-row-text">
+        <span style="font-size:11px;font-weight:600;color:#AEAEB2;letter-spacing:0.1em;text-transform:uppercase;display:block;margin-bottom:16px;">Pain Point 02</span>
+        <h2 style="font-size:clamp(30px,4vw,48px);font-weight:800;line-height:1.05;letter-spacing:-0.03em;color:#1D1D1F;margin:0 0 20px;">
+          Big quote.<br>On-site.<br>Never followed up.
+        </h2>
+        <p style="font-size:16px;color:#6E6E73;font-weight:300;line-height:1.8;margin:0 0 20px;">
+          Your tech quoted a big job on-site. Customer seemed interested. But by the time he got back to the truck — it's gone. No note. No follow-up. Nobody called Tuesday.
+        </p>
+        <p style="font-size:17px;font-weight:600;color:#1D1D1F;">That revenue never existed.</p>
+      </div>
+      <div class="pain-row-img">
+        <img src="../img/action-3.png" alt="HVAC job site">
+      </div>
+    </div>
+
+    <!-- Row 3: text LEFT, image RIGHT -->
+    <div class="pain-row fi">
+      <div class="pain-row-text">
+        <span style="font-size:11px;font-weight:600;color:#AEAEB2;letter-spacing:0.1em;text-transform:uppercase;display:block;margin-bottom:16px;">Pain Point 03</span>
+        <h2 style="font-size:clamp(30px,4vw,48px);font-weight:800;line-height:1.05;letter-spacing:-0.03em;color:#1D1D1F;margin:0 0 20px;">
+          14 calls today.<br>Chasing techs.<br>Zero new revenue.
+        </h2>
+        <p style="font-size:16px;color:#6E6E73;font-weight:300;line-height:1.8;margin:0 0 20px;">
+          Your dispatcher made 14 calls today. Not to book new jobs — just to find out what happened on yesterday's. Install heard a different story than sales. Three hours of payroll. Zero dollars earned.
+        </p>
+        <p style="font-size:17px;font-weight:600;color:#1D1D1F;">This is happening every day.</p>
+      </div>
+      <div class="pain-row-img">
+        <img src="../img/action-1.png" alt="HVAC dispatcher at work">
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ── SECTION 3: PRODUCT ── -->
+<section style="background:#FFFFFF;padding:120px 48px;">
+  <div class="device-inner" style="max-width:960px;margin:0 auto;display:flex;flex-direction:row;align-items:center;gap:80px;">
+
+    <!-- Image -->
+    <div style="flex:1;text-align:center;">
+      <div style="max-width:260px;margin:0 auto;border-radius:20px;overflow:hidden;">
+        <img src="../img/HCJD5.png" alt="TalkToDeal device" style="
+          width: 100%; display: block;
+          filter: drop-shadow(0 24px 48px rgba(0,0,0,0.10));
+        ">
+      </div>
+    </div>
+
+    <!-- Copy -->
+    <div style="flex:1;">
+      <span class="fi" style="font-size:11px;font-weight:600;color:#AEAEB2;letter-spacing:0.1em;text-transform:uppercase;display:block;margin-bottom:16px;">The Device</span>
+      <h2 class="fi" style="font-size:clamp(32px,5vw,52px);font-weight:800;letter-spacing:-0.03em;color:#1D1D1F;line-height:1.05;margin:0 0 20px;transition-delay:0.05s;">
+        Clips on.<br>That's it.
+      </h2>
+      <p class="fi" style="font-size:17px;color:#6E6E73;font-weight:300;line-height:1.75;margin:0 0 32px;transition-delay:0.10s;">
+        A compact device that clips to a collar or fits in a pocket. Your techs talk like they always do. TalkToDeal captures every word — no phone, no app, no complicated setup.
+      </p>
+
+      <div class="fi" style="display:flex;flex-direction:column;gap:20px;margin-bottom:40px;transition-delay:0.15s;">
+        <div style="display:flex;align-items:flex-start;gap:14px;">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" style="flex-shrink:0;margin-top:1px;">
+            <circle cx="10" cy="10" r="10" fill="#1D1D1F" fill-opacity="0.06"/>
+            <path d="M6 10L8.5 12.5L14 7" stroke="#1D1D1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <div>
+            <span style="font-size:15px;font-weight:600;color:#1D1D1F;display:block;margin-bottom:2px;">No phone. No app. No setup.</span>
+            <span style="font-size:14px;color:#6E6E73;font-weight:300;">Works the first day, with zero training.</span>
+          </div>
+        </div>
+        <div style="display:flex;align-items:flex-start;gap:14px;">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" style="flex-shrink:0;margin-top:1px;">
+            <circle cx="10" cy="10" r="10" fill="#1D1D1F" fill-opacity="0.06"/>
+            <path d="M6 10L8.5 12.5L14 7" stroke="#1D1D1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <div>
+            <span style="font-size:15px;font-weight:600;color:#1D1D1F;display:block;margin-bottom:2px;">All-day battery.</span>
+            <span style="font-size:14px;color:#6E6E73;font-weight:300;">Techs forget it's there. That's the point.</span>
+          </div>
+        </div>
+        <div style="display:flex;align-items:flex-start;gap:14px;">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" style="flex-shrink:0;margin-top:1px;">
+            <circle cx="10" cy="10" r="10" fill="#1D1D1F" fill-opacity="0.06"/>
+            <path d="M6 10L8.5 12.5L14 7" stroke="#1D1D1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <div>
+            <span style="font-size:15px;font-weight:600;color:#1D1D1F;display:block;margin-bottom:2px;">Works on any job site, any weather.</span>
+            <span style="font-size:14px;color:#6E6E73;font-weight:300;">Attic, crawlspace, roof — it doesn't matter.</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="fi" style="transition-delay:0.20s;">
+        <a href="https://talktodeal.com/call/" target="_blank" class="cta-btn" style="
+          display: inline-block;
+          background: #1D1D1F; color: #FFFFFF;
+          border-radius: 980px; border: none;
+          padding: 15px 36px; font-size: 15px; font-weight: 600;
+          text-decoration: none; cursor: pointer;
+          transition: background 0.15s, transform 0.15s;
+        "
+        onmouseover="this.style.background='#3D3D3F';this.style.transform='scale(1.01)'"
+        onmouseout="this.style.background='#1D1D1F';this.style.transform='scale(1)'"
+        >Book a Free Demo</a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ── SECTION 4: FINAL CTA ── -->
+<section style="background:#F5F5F7;padding:120px 48px;">
+  <div style="text-align:center;max-width:600px;margin:0 auto;">
+
+    <div style="margin-bottom:48px;">
+      <span style="font-size:14px;color:#6E6E73;font-weight:300;line-height:1.6;display:block;">
+        Currently in early pilot with 12+ HVAC teams<br>across Arizona and California.
+      </span>
+      <span style="font-size:13px;color:#AEAEB2;font-style:italic;margin-top:8px;display:block;">
+        Real dispatchers. Real after-hours calls. Real jobs booked.
+      </span>
+    </div>
+
+    <h2 class="fi" style="
+      font-size: clamp(40px, 6vw, 64px);
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      color: #1D1D1F;
+      line-height: 1.05;
+      margin: 0 0 20px;
+    ">More jobs booked.<br>Starting this week.</h2>
+
+    <p class="fi" style="font-size:17px;color:#6E6E73;font-weight:300;margin:0 0 40px;transition-delay:0.05s;">
+      Free 15-minute demo. No setup. No commitment.
+    </p>
+
+    <div class="fi" style="transition-delay:0.10s;">
+      <a href="https://talktodeal.com/call/" target="_blank" class="cta-btn" style="
+        display: inline-block;
+        background: #1D1D1F; color: #FFFFFF;
+        border-radius: 980px; border: none;
+        padding: 17px 40px; font-size: 17px; font-weight: 600;
+        text-decoration: none; cursor: pointer;
+        transition: background 0.15s, transform 0.15s;
+      "
+      onmouseover="this.style.background='#3D3D3F';this.style.transform='scale(1.01)'"
+      onmouseout="this.style.background='#1D1D1F';this.style.transform='scale(1)'"
+      >Book a Free Demo</a>
+
+      <span style="font-size:12px;color:#AEAEB2;display:block;margin-top:12px;">
+        No credit card. Your call data is encrypted and never shared.
+      </span>
+
+      <p style="margin-top:24px;font-size:14px;color:#6E6E73;">
+        Or call us: <a href="tel:6609000008" style="color:#0071E3;text-decoration:none;">660-900-0008</a>
+      </p>
+    </div>
+
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer style="background:#FFFFFF;border-top:1px solid rgba(0,0,0,0.08);padding:56px 48px 36px;">
+  <div style="max-width:100%;margin:0 auto;">
+
+    <div class="footer-top" style="display:flex;justify-content:space-between;align-items:flex-start;gap:40px;flex-wrap:wrap;margin-bottom:56px;">
+
+      <!-- Brand -->
+      <div>
+        <div style="font-size:16px;font-weight:700;color:#1D1D1F;margin-bottom:8px;letter-spacing:-0.01em;">TalkToDeal</div>
+        <div style="font-size:13px;color:#6E6E73;line-height:1.6;max-width:240px;">
+          AI call answering + field capture for HVAC businesses.
+        </div>
+        <a href="mailto:talktodeal@gmic.ai" style="display:block;margin-top:12px;font-size:13px;color:#0071E3;text-decoration:none;transition:opacity 0.15s;"
+          onmouseover="this.style.opacity='0.7'"
+          onmouseout="this.style.opacity='1'"
+        >talktodeal@gmic.ai</a>
+      </div>
+
+      <!-- Link columns -->
+      <div class="footer-links" style="display:flex;gap:80px;">
+        <div>
+          <div style="font-size:11px;font-weight:600;color:#AEAEB2;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:16px;">Product</div>
+          <div style="display:flex;flex-direction:column;gap:12px;">
+            <a href="https://talktodeal.com/call/" target="_blank" style="font-size:13px;color:#1D1D1F;text-decoration:none;transition:color 0.15s;"
+              onmouseover="this.style.color='#0071E3'" onmouseout="this.style.color='#1D1D1F'">Book a Demo</a>
+            <a href="#" style="font-size:13px;color:#1D1D1F;text-decoration:none;transition:color 0.15s;"
+              onmouseover="this.style.color='#0071E3'" onmouseout="this.style.color='#1D1D1F'">How It Works</a>
+            <a href="#" style="font-size:13px;color:#1D1D1F;text-decoration:none;transition:color 0.15s;"
+              onmouseover="this.style.color='#0071E3'" onmouseout="this.style.color='#1D1D1F'">Pricing</a>
+          </div>
+        </div>
+        <div>
+          <div style="font-size:11px;font-weight:600;color:#AEAEB2;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:16px;">Company</div>
+          <div style="display:flex;flex-direction:column;gap:12px;">
+            <a href="mailto:talktodeal@gmic.ai" style="font-size:13px;color:#1D1D1F;text-decoration:none;transition:color 0.15s;"
+              onmouseover="this.style.color='#0071E3'" onmouseout="this.style.color='#1D1D1F'">Contact Us</a>
+            <a href="https://talktodeal.com/privacy" target="_blank" style="font-size:13px;color:#1D1D1F;text-decoration:none;transition:color 0.15s;"
+              onmouseover="this.style.color='#0071E3'" onmouseout="this.style.color='#1D1D1F'">Privacy Policy</a>
+            <a href="https://talktodeal.com/terms" target="_blank" style="font-size:13px;color:#1D1D1F;text-decoration:none;transition:color 0.15s;"
+              onmouseover="this.style.color='#0071E3'" onmouseout="this.style.color='#1D1D1F'">Terms of Service</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-bottom" style="border-top:1px solid rgba(0,0,0,0.06);padding-top:28px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;">
+      <span style="font-size:12px;color:#AEAEB2;">© 2025 TalkToDeal. All rights reserved. · We never share or sell your information.</span>
+    </div>
+
+  </div>
+</footer>
+
+<script>
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) e.target.classList.add('on');
+    });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.fi').forEach(el => obs.observe(el));
+  setTimeout(() => {
+    document.querySelectorAll('section:first-of-type .fi')
+      .forEach(el => el.classList.add('on'));
+  }, 80);
+</script>
+
+</body>
+</html>
