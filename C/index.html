@@ -1,0 +1,929 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TalkToDeal — AI Call Answering for HVAC Teams</title>
+  <meta name="description" content="TalkToDeal answers every HVAC call 24/7, books the appointment, and captures every on-site detail — automatically.">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: system-ui, -apple-system, 'Inter', sans-serif;
+      font-weight: 400;
+      color: #0A0A0F;
+      background: #FFFFFF;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      height: 60px;
+      padding: 0 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(26,5,51,0.72);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      transition: all 0.3s ease;
+    }
+
+    #nav-logo {
+      font-size: 16px;
+      font-weight: 700;
+      color: #FFFFFF;
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+
+    #nav-cta {
+      background: #FFFFFF;
+      color: #0A0A0F;
+      border-radius: 980px;
+      border: none;
+      padding: 9px 22px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+      transition: all 0.3s ease;
+    }
+    #nav-cta:hover { background: #F0F0F0; }
+
+    /* ── SCROLL FADE-IN ── */
+    .fi {
+      opacity: 0;
+      transform: translateY(16px);
+      transition: opacity 0.65s cubic-bezier(0.16,1,0.3,1),
+                  transform 0.65s cubic-bezier(0.16,1,0.3,1);
+    }
+    .fi.on { opacity: 1; transform: translateY(0); }
+    .fi.d1 { transition-delay: 0.1s; }
+    .fi.d2 { transition-delay: 0.2s; }
+
+    /* ── SECTION 1: HERO ── */
+    .hero {
+      position: relative;
+      overflow: hidden;
+      padding: 140px 48px 100px;
+      background: linear-gradient(135deg, #1a0533 0%, #0d1f5c 55%, #0a2a4a 100%);
+    }
+
+    .hero-texture {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      opacity: 0.03;
+      background-image: radial-gradient(circle, #fff 1px, transparent 1px);
+      background-size: 32px 32px;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+
+    .hero-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 980px;
+      padding: 6px 14px;
+      margin-bottom: 24px;
+      font-size: 12px;
+      color: rgba(255,255,255,0.8);
+      font-weight: 500;
+    }
+
+    .hero h1 {
+      font-size: clamp(40px, 5vw, 64px);
+      font-weight: 800;
+      line-height: 1.08;
+      letter-spacing: -0.03em;
+      color: #FFFFFF;
+      margin: 0 0 20px;
+    }
+
+    .hero-sub {
+      font-size: 18px;
+      font-weight: 400;
+      color: rgba(255,255,255,0.65);
+      line-height: 1.65;
+      margin: 0 0 36px;
+    }
+
+    .hero-cta-row {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      background: #FFFFFF;
+      color: #0A0A0F;
+      border-radius: 980px;
+      border: none;
+      padding: 14px 28px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+      transition: background 0.15s, transform 0.15s;
+    }
+    .btn-primary:hover { background: #F0F0F0; transform: scale(1.02); }
+
+    .hero-secondary-link {
+      font-size: 14px;
+      color: rgba(255,255,255,0.5);
+      text-decoration: none;
+      display: inline-block;
+      transition: color 0.15s;
+    }
+    .hero-secondary-link:hover { color: rgba(255,255,255,0.85); }
+
+    .hero-trust-line {
+      font-size: 12px;
+      color: rgba(255,255,255,0.3);
+      display: block;
+      margin-top: 16px;
+    }
+
+    /* Hero Right Card */
+    .hero-card {
+      background: rgba(255,255,255,0.06);
+      border-radius: 20px;
+      padding: 32px;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .hero-device {
+      width: 180px;
+      display: block;
+      margin: 0 auto 20px;
+      mix-blend-mode: lighten;
+      filter: drop-shadow(0 20px 40px rgba(0,0,0,0.4));
+      animation: float-device 5s ease-in-out infinite;
+    }
+
+    @keyframes float-device {
+      0%, 100% { transform: translateY(0px); }
+      50%       { transform: translateY(-8px); }
+    }
+
+    .hero-stat-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .hero-stat-row:last-child { border-bottom: none; }
+
+    .hero-stat-label {
+      font-size: 13px;
+      color: rgba(255,255,255,0.5);
+    }
+    .hero-stat-value {
+      font-size: 15px;
+      font-weight: 700;
+      color: #FFFFFF;
+    }
+
+    /* Stat Bar */
+    .stat-bar {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 0;
+      margin-top: 72px;
+      padding-top: 48px;
+      border-top: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .stat-item {
+      text-align: center;
+      padding: 0 40px;
+    }
+
+    .stat-num {
+      font-size: 28px;
+      font-weight: 800;
+      color: #FFFFFF;
+      display: block;
+      text-align: center;
+    }
+
+    .stat-label {
+      font-size: 11px;
+      color: rgba(255,255,255,0.4);
+      margin-top: 4px;
+      display: block;
+      text-align: center;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    .stat-sep {
+      width: 1px;
+      height: 40px;
+      background: rgba(255,255,255,0.1);
+      flex-shrink: 0;
+    }
+
+    /* ── SECTION 2: TRUST BAR ── */
+    .trust-section {
+      background: #FFFFFF;
+      padding: 32px 48px;
+      border-bottom: 1px solid rgba(0,0,0,0.06);
+    }
+
+    .trust-label {
+      text-align: center;
+      margin-bottom: 24px;
+      font-size: 12px;
+      color: #A1A1AA;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .trust-bar {
+      display: flex;
+      justify-content: center;
+      gap: 48px;
+      align-items: center;
+    }
+
+    .trust-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .trust-dot {
+      color: #6B21A8;
+      font-size: 14px;
+    }
+
+    .trust-text {
+      font-size: 14px;
+      font-weight: 600;
+      color: #52525B;
+    }
+
+    /* ── SECTION 3: PAIN POINTS ── */
+    .pain-section {
+      background: #F7F7F8;
+      padding: 100px 48px;
+    }
+
+    .section-header {
+      text-align: center;
+      max-width: 600px;
+      margin: 0 auto 64px;
+    }
+
+    .section-header h2 {
+      font-size: clamp(32px, 4.5vw, 48px);
+      font-weight: 800;
+      color: #0A0A0F;
+      letter-spacing: -0.02em;
+      margin: 0 0 16px;
+    }
+
+    .section-header p {
+      font-size: 18px;
+      color: #52525B;
+      font-weight: 400;
+    }
+
+    .pain-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .pain-card {
+      background: #FFFFFF;
+      border-radius: 16px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 4px 16px rgba(0,0,0,0.06);
+      padding: 32px;
+    }
+
+    .pain-pill {
+      display: inline-block;
+      background: #F3F4F6;
+      border-radius: 980px;
+      padding: 4px 12px;
+      font-size: 11px;
+      color: #6B7280;
+      font-weight: 500;
+      margin-bottom: 20px;
+    }
+
+    .pain-card h3 {
+      font-size: 22px;
+      font-weight: 800;
+      color: #0A0A0F;
+      letter-spacing: -0.02em;
+      margin: 0 0 12px;
+      line-height: 1.2;
+    }
+
+    .pain-card p {
+      font-size: 14px;
+      color: #52525B;
+      line-height: 1.65;
+      margin: 0 0 16px;
+    }
+
+    .pain-outcome {
+      font-size: 15px;
+      font-weight: 700;
+      color: #0A0A0F;
+      padding-top: 16px;
+      border-top: 1px solid #F3F4F6;
+      margin: 0;
+    }
+
+    /* ── SECTION 4: SOLUTION ── */
+    .solution-section {
+      background: #FFFFFF;
+      padding: 100px 48px;
+    }
+
+    .solution-grid {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+
+    .solution-eyebrow {
+      font-size: 11px;
+      font-weight: 600;
+      color: #6B21A8;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+      display: block;
+    }
+
+    .solution-copy h2 {
+      font-size: clamp(32px, 4vw, 48px);
+      font-weight: 800;
+      color: #0A0A0F;
+      letter-spacing: -0.02em;
+      margin: 0 0 20px;
+    }
+
+    .solution-sub {
+      font-size: 17px;
+      color: #52525B;
+      font-weight: 400;
+      line-height: 1.65;
+      margin: 0 0 36px;
+    }
+
+    .feature-row {
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+      margin-bottom: 24px;
+    }
+    .feature-row:last-of-type { margin-bottom: 0; }
+
+    .feature-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: #F3F4F6;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+    }
+
+    .feature-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: #0A0A0F;
+      display: block;
+    }
+
+    .feature-desc {
+      font-size: 14px;
+      color: #52525B;
+      margin-top: 3px;
+      line-height: 1.55;
+    }
+
+    .btn-dark {
+      background: #1D1D1F;
+      color: #FFFFFF;
+      border-radius: 980px;
+      border: none;
+      padding: 14px 28px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+      margin-top: 40px;
+      transition: background 0.15s;
+    }
+    .btn-dark:hover { background: #3D3D3F; }
+
+    .solution-photo {
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.12);
+      aspect-ratio: 4/5;
+    }
+
+    .solution-photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 25%;
+      display: block;
+    }
+
+    /* ── SECTION 5: FINAL CTA ── */
+    .final-cta {
+      position: relative;
+      overflow: hidden;
+      padding: 100px 48px;
+      background: linear-gradient(135deg, #1a0533 0%, #0d1f5c 100%);
+      text-align: center;
+    }
+
+    .final-cta-texture {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      opacity: 0.03;
+      background-image: radial-gradient(circle, #fff 1px, transparent 1px);
+      background-size: 32px 32px;
+    }
+
+    .final-cta-inner {
+      position: relative;
+      z-index: 1;
+      max-width: 680px;
+      margin: 0 auto;
+    }
+
+    .pilot-note {
+      margin-bottom: 40px;
+    }
+
+    .pilot-note p {
+      font-size: 14px;
+      color: rgba(255,255,255,0.45);
+      font-weight: 400;
+    }
+
+    .pilot-note span {
+      font-size: 13px;
+      color: rgba(255,255,255,0.28);
+      margin-top: 6px;
+      display: block;
+    }
+
+    .final-cta h2 {
+      font-size: clamp(40px, 6vw, 64px);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      color: #FFFFFF;
+      line-height: 1.05;
+      margin: 0 0 16px;
+    }
+
+    .final-cta-sub {
+      font-size: 18px;
+      color: rgba(255,255,255,0.55);
+      font-weight: 400;
+      margin: 0 0 40px;
+    }
+
+    .btn-white {
+      background: #FFFFFF;
+      color: #0A0A0F;
+      border-radius: 980px;
+      border: none;
+      padding: 16px 36px;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+      transition: background 0.15s, transform 0.15s;
+    }
+    .btn-white:hover { background: #F0F0F0; transform: scale(1.02); }
+
+    .final-privacy {
+      font-size: 12px;
+      color: rgba(255,255,255,0.2);
+      display: block;
+      margin-top: 14px;
+    }
+
+    .final-phone {
+      font-size: 14px;
+      color: rgba(255,255,255,0.3);
+      margin-top: 20px;
+      display: block;
+    }
+
+    .final-phone a {
+      color: rgba(255,255,255,0.45);
+      text-decoration: none;
+    }
+    .final-phone a:hover { color: rgba(255,255,255,0.75); }
+
+    /* ── FOOTER ── */
+    footer {
+      background: #0A0A0F;
+      border-top: 1px solid rgba(255,255,255,0.06);
+      padding: 56px 48px 36px;
+    }
+
+    .footer-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 40px;
+      flex-wrap: wrap;
+      margin-bottom: 48px;
+    }
+
+    .footer-brand-name {
+      font-size: 16px;
+      font-weight: 700;
+      color: #FFFFFF;
+      margin-bottom: 8px;
+    }
+
+    .footer-brand-desc {
+      font-size: 13px;
+      color: rgba(255,255,255,0.35);
+      line-height: 1.6;
+      max-width: 240px;
+    }
+
+    .footer-email {
+      display: block;
+      margin-top: 12px;
+      font-size: 13px;
+      color: rgba(255,255,255,0.4);
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+    .footer-email:hover { color: rgba(255,255,255,0.75); }
+
+    .footer-links {
+      display: flex;
+      gap: 72px;
+    }
+
+    .footer-col-header {
+      font-size: 11px;
+      font-weight: 600;
+      color: rgba(255,255,255,0.25);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+      display: block;
+    }
+
+    .footer-link {
+      font-size: 13px;
+      color: rgba(255,255,255,0.42);
+      display: block;
+      margin-bottom: 10px;
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+    .footer-link:hover { color: #FFFFFF; }
+
+    .footer-bottom {
+      border-top: 1px solid rgba(255,255,255,0.06);
+      padding-top: 28px;
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .footer-bottom p {
+      font-size: 12px;
+      color: rgba(255,255,255,0.2);
+    }
+
+    /* ── MOBILE ── */
+    @media (max-width: 768px) {
+      .hero-grid { grid-template-columns: 1fr !important; gap: 40px !important; }
+      .hero-card { display: none !important; }
+      .stat-bar { flex-wrap: wrap !important; gap: 24px !important; }
+      .stat-sep { display: none !important; }
+      .pain-grid { grid-template-columns: 1fr !important; }
+      .solution-grid { grid-template-columns: 1fr !important; gap: 40px !important; }
+      .solution-photo { order: -1 !important; aspect-ratio: 16/9 !important; }
+      .trust-bar { flex-direction: column !important; gap: 16px !important; }
+      .footer-top { flex-direction: column !important; gap: 32px !important; }
+      .footer-links { gap: 32px !important; }
+      .footer-bottom { flex-direction: column !important; text-align: center !important; }
+      nav { padding: 0 20px !important; }
+      section { padding: 72px 24px !important; }
+      .cta-btn { width: 100% !important; display: block !important; text-align: center !important; }
+      h1 { font-size: clamp(38px, 11vw, 56px) !important; }
+      .hero { padding: 120px 24px 80px !important; }
+      .pain-section { padding: 72px 24px !important; }
+      .solution-section { padding: 72px 24px !important; }
+      .final-cta { padding: 72px 24px !important; }
+      footer { padding: 48px 24px 32px !important; }
+      .trust-section { padding: 32px 24px !important; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <span id="nav-logo">TalkToDeal</span>
+    <a id="nav-cta" class="cta-btn" href="https://talktodeal.com/call/" target="_blank">Book a Free Demo</a>
+  </nav>
+
+  <!-- SECTION 1: HERO -->
+  <section class="hero">
+    <div class="hero-texture"></div>
+    <div class="hero-content">
+      <div class="hero-grid">
+
+        <!-- Left Column -->
+        <div class="hero-left">
+          <div class="hero-pill fi">&#10022; Built for HVAC field service teams</div>
+          <h1 class="fi">Stop missing jobs.<br>Answer every call.</h1>
+          <p class="hero-sub fi">TalkToDeal answers every HVAC call 24/7, books the appointment, and captures every on-site detail &mdash; automatically.</p>
+          <div class="hero-cta-row fi">
+            <a href="https://talktodeal.com/call/" target="_blank" class="btn-primary cta-btn">Book a Free Demo</a>
+            <a href="tel:6609000008" class="hero-secondary-link">Or call 660-900-0008</a>
+          </div>
+          <span class="hero-trust-line fi">Free. No credit card. Your data stays private.</span>
+        </div>
+
+        <!-- Right Column: Product Card -->
+        <div class="hero-card fi">
+          <img src="../img/HCJD5.png" class="hero-device" alt="TalkToDeal product">
+          <div class="hero-stat-row">
+            <span class="hero-stat-label">Calls answered</span>
+            <span class="hero-stat-value">24/7</span>
+          </div>
+          <div class="hero-stat-row">
+            <span class="hero-stat-label">Avg. time to book</span>
+            <span class="hero-stat-value">&lt; 2 min</span>
+          </div>
+          <div class="hero-stat-row">
+            <span class="hero-stat-label">Jobs captured</span>
+            <span class="hero-stat-value">100%</span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Stat Bar -->
+      <div class="stat-bar">
+        <div class="stat-item fi">
+          <span class="stat-num">12+</span>
+          <span class="stat-label">HVAC Teams in Pilot</span>
+        </div>
+        <div class="stat-sep"></div>
+        <div class="stat-item fi d1">
+          <span class="stat-num">24/7</span>
+          <span class="stat-label">Call Coverage</span>
+        </div>
+        <div class="stat-sep"></div>
+        <div class="stat-item fi d1">
+          <span class="stat-num">0</span>
+          <span class="stat-label">Missed Jobs After Hours</span>
+        </div>
+        <div class="stat-sep"></div>
+        <div class="stat-item fi d2">
+          <span class="stat-num">&lt; 2min</span>
+          <span class="stat-label">Call to Booked Job</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 2: TRUST BAR -->
+  <section class="trust-section">
+    <p class="trust-label fi">Piloting with HVAC teams across the US</p>
+    <div class="trust-bar">
+      <div class="trust-item fi">
+        <span class="trust-dot">&#10022;</span>
+        <span class="trust-text">Arizona &amp; California</span>
+      </div>
+      <div class="trust-item fi d1">
+        <span class="trust-dot">&#10022;</span>
+        <span class="trust-text">Real field technicians</span>
+      </div>
+      <div class="trust-item fi d2">
+        <span class="trust-dot">&#10022;</span>
+        <span class="trust-text">Real service calls, real results</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 3: PAIN POINTS -->
+  <section class="pain-section">
+    <div class="section-header">
+      <h2 class="fi">This happens to HVAC owners every single day.</h2>
+      <p class="fi">Half of what gets said on the job is forgotten by dinner.</p>
+    </div>
+    <div class="pain-grid">
+
+      <div class="pain-card fi">
+        <span class="pain-pill">Monday &middot; 9pm</span>
+        <h3>Phone rings. Nobody answers.</h3>
+        <p>A homeowner's AC breaks. They call you first. You're off the clock. Voicemail picks up.</p>
+        <p class="pain-outcome">That job was yours. Then it wasn't.</p>
+      </div>
+
+      <div class="pain-card fi d1">
+        <span class="pain-pill">Tuesday &middot; 2pm</span>
+        <h3>Big quote. Never followed up.</h3>
+        <p>Your tech quoted a big job on-site. Customer seemed interested. Nobody called Tuesday.</p>
+        <p class="pain-outcome">That revenue never existed.</p>
+      </div>
+
+      <div class="pain-card fi d2">
+        <span class="pain-pill">Wednesday &middot; All day</span>
+        <h3>14 calls. Zero revenue.</h3>
+        <p>Dispatcher spent 3 hours calling field techs &mdash; just to find out what happened yesterday.</p>
+        <p class="pain-outcome">Three hours of payroll. Zero new jobs.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- SECTION 4: SOLUTION -->
+  <section class="solution-section">
+    <div class="solution-grid">
+
+      <!-- Left: Copy -->
+      <div class="solution-copy">
+        <span class="solution-eyebrow fi">How It Works</span>
+        <h2 class="fi">What if all three stopped happening?</h2>
+        <p class="solution-sub fi">TalkToDeal handles calls, bookings, and field capture automatically.</p>
+
+        <div class="feature-row fi">
+          <div class="feature-icon">&#9990;</div>
+          <div>
+            <span class="feature-title">Every call answered, 24/7</span>
+            <p class="feature-desc">Picks up immediately. No voicemail. Appointment booked automatically.</p>
+          </div>
+        </div>
+
+        <div class="feature-row fi d1">
+          <div class="feature-icon">&#128203;</div>
+          <div>
+            <span class="feature-title">Every on-site detail captured</span>
+            <p class="feature-desc">Whatever your tech says &mdash; quotes, parts, notes &mdash; all recorded and filed.</p>
+          </div>
+        </div>
+
+        <div class="feature-row fi d2">
+          <div class="feature-icon">&#10003;</div>
+          <div>
+            <span class="feature-title">Zero dispatcher phone tag</span>
+            <p class="feature-desc">Office gets the complete picture automatically. No chasing needed.</p>
+          </div>
+        </div>
+
+        <a href="https://talktodeal.com/call/" target="_blank" class="btn-dark cta-btn fi">Book a Free Demo</a>
+      </div>
+
+      <!-- Right: Photo -->
+      <div class="solution-photo fi">
+        <img src="../img/action-3.png" alt="HVAC field technician at work">
+      </div>
+
+    </div>
+  </section>
+
+  <!-- SECTION 5: FINAL CTA -->
+  <section class="final-cta">
+    <div class="final-cta-texture"></div>
+    <div class="final-cta-inner">
+      <div class="pilot-note fi">
+        <p>Currently in early pilot with 12+ HVAC teams across Arizona and California.</p>
+        <span>Real dispatchers. Real calls. Real results.</span>
+      </div>
+      <h2 class="fi">Ready to stop missing jobs?</h2>
+      <p class="final-cta-sub fi">Free 15-minute demo. No setup. No commitment.</p>
+      <a href="https://talktodeal.com/call/" target="_blank" class="btn-white cta-btn fi">Book a Free Demo</a>
+      <span class="final-privacy fi">No credit card. Your call data is encrypted and never shared.</span>
+      <span class="final-phone fi">Or call us: <a href="tel:6609000008">660-900-0008</a></span>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-top">
+      <div class="footer-brand">
+        <p class="footer-brand-name">TalkToDeal</p>
+        <p class="footer-brand-desc">AI call answering + field capture for HVAC businesses.</p>
+        <a href="mailto:talktodeal@gmic.ai" class="footer-email">talktodeal@gmic.ai</a>
+      </div>
+      <div class="footer-links">
+        <div class="footer-col">
+          <span class="footer-col-header">Product</span>
+          <a href="https://talktodeal.com/call/" class="footer-link">Book a Demo</a>
+          <a href="https://talktodeal.com/" class="footer-link">How It Works</a>
+          <a href="https://talktodeal.com/" class="footer-link">Pricing</a>
+        </div>
+        <div class="footer-col">
+          <span class="footer-col-header">Company</span>
+          <a href="mailto:talktodeal@gmic.ai" class="footer-link">Contact Us</a>
+          <a href="https://talktodeal.com/privacy" class="footer-link">Privacy Policy</a>
+          <a href="https://talktodeal.com/terms" class="footer-link">Terms of Service</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2025 TalkToDeal. All rights reserved. &middot; We never share or sell your information.</p>
+    </div>
+  </footer>
+
+  <script>
+    // Nav scroll behavior
+    const nav = document.querySelector('nav');
+    const logo = document.getElementById('nav-logo');
+    const navBtn = document.getElementById('nav-cta');
+    function updateNav() {
+      if (window.scrollY > 500) {
+        nav.style.background = 'rgba(255,255,255,0.92)';
+        nav.style.backdropFilter = 'blur(20px)';
+        nav.style.borderBottom = '1px solid rgba(0,0,0,0.06)';
+        logo.style.color = '#0A0A0F';
+        navBtn.style.background = '#1D1D1F';
+        navBtn.style.color = '#FFFFFF';
+      } else {
+        nav.style.background = 'rgba(26,5,51,0.72)';
+        nav.style.backdropFilter = 'blur(20px)';
+        nav.style.borderBottom = '1px solid rgba(255,255,255,0.08)';
+        logo.style.color = '#FFFFFF';
+        navBtn.style.background = '#FFFFFF';
+        navBtn.style.color = '#0A0A0F';
+      }
+    }
+    window.addEventListener('scroll', updateNav, { passive: true });
+    updateNav();
+
+    // Scroll fade-in animation
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) e.target.classList.add('on');
+      });
+    }, { threshold: 0.08 });
+    document.querySelectorAll('.fi').forEach(el => obs.observe(el));
+    setTimeout(() => {
+      document.querySelectorAll('section:first-of-type .fi')
+        .forEach(el => el.classList.add('on'));
+    }, 80);
+  </script>
+</body>
+</html>
