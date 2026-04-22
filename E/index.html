@@ -6,13 +6,13 @@
 <title>TalkToDeal — HVAC Field Sales</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
 
 body {
-  font-family: 'IBM Plex Sans', -apple-system, sans-serif;
+  font-family: 'Geist', system-ui, sans-serif;
   background: #F5F2EC;
   color: #1A1A1A;
   -webkit-font-smoothing: antialiased;
@@ -58,7 +58,7 @@ nav.scrolled {
   justify-content: space-between;
 }
 .nav-logo {
-  font-family: 'IBM Plex Sans', sans-serif;
+  font-family: 'Geist', system-ui, sans-serif;
   font-weight: 600;
   font-size: 14px;
   letter-spacing: 1px;
@@ -69,7 +69,7 @@ nav.scrolled {
 nav.scrolled .nav-logo { color: #1A1A1A; }
 
 .btn-nav {
-  font-family: 'IBM Plex Sans', sans-serif;
+  font-family: 'Geist', system-ui, sans-serif;
   font-size: 13px;
   font-weight: 400;
   color: #fff;
@@ -95,90 +95,131 @@ nav.scrolled .btn-nav:hover {
   color: #F5F2EC;
 }
 
-/* ── HERO ── */
-.hero-section {
-  height: 100vh;
+/* ── HERO SCROLL-DRIVEN ── */
+#hero-section {
   position: relative;
+  height: 300vh;
+}
+
+#hero-inner {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  background: #F5F2EC;
   overflow: hidden;
 }
-.hero-bg-video {
-  position: absolute;
-  inset: 0;
-  width: 100%; height: 100%;
-  object-fit: cover;
-  z-index: 0;
-}
-.hero-overlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.15) 40%, rgba(0,0,0,0.5) 100%);
-  z-index: 1;
-}
-.hero-content {
-  position: absolute;
-  inset: 0;
-  z-index: 2;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+
+/* Initial state: normal flow above video */
+#hero-text {
+  position: relative;
+  padding: 80px 24px 40px;
   text-align: center;
-  padding: 0 24px;
-}
-.hero-h1 {
-  font-family: 'Playfair Display', Georgia, serif;
-  font-size: clamp(48px, 8vw, 96px);
-  font-weight: 900;
-  color: #fff;
-  line-height: 1.0;
-  letter-spacing: -3px;
-  text-align: center;
-  max-width: 900px;
-  margin-bottom: 24px;
-}
-.hero-sub {
-  font-family: 'IBM Plex Sans', sans-serif;
-  font-size: clamp(15px, 2vw, 18px);
-  font-weight: 300;
-  color: rgba(255,255,255,0.8);
-  max-width: 480px;
-  text-align: center;
-  line-height: 1.7;
-  margin-bottom: 40px;
-}
-.btn-hero {
-  font-family: 'IBM Plex Sans', sans-serif;
-  font-size: 14px;
-  font-weight: 500;
-  color: #1A1A1A;
   background: #F5F2EC;
-  border: none;
-  border-radius: 100px;
-  padding: 14px 36px;
-  text-decoration: none;
-  cursor: pointer;
-  transition: background 0.2s ease;
+  color: #1A1A1A;
+  z-index: 5;
 }
-.btn-hero:hover { background: #fff; }
-.hero-note {
-  font-family: 'IBM Plex Sans', sans-serif;
+
+.hero-label {
+  display: inline-block;
+  font-family: 'Geist', system-ui, sans-serif;
   font-size: 11px;
-  font-weight: 300;
-  color: rgba(255,255,255,0.4);
-  margin-top: 12px;
+  font-weight: 500;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: currentColor;
+  opacity: 0.55;
+  margin-bottom: 20px;
+  padding: 6px 14px;
+  border: 1px solid currentColor;
+  border-radius: 100px;
 }
-.hero-scroll-hint {
+
+#hero-h1-text {
+  font-family: 'Geist', system-ui, sans-serif;
+  font-size: clamp(32px, 4vw, 56px);
+  font-weight: 900;
+  color: inherit;
+  line-height: 1.05;
+  letter-spacing: -2px;
+  margin: 0 auto 20px;
+  max-width: 800px;
+  width: 100%;
+  display: block;
+}
+
+#hero-sub-text {
+  font-family: 'Geist', system-ui, sans-serif;
+  font-size: clamp(14px, 1.4vw, 18px);
+  font-weight: 300;
+  color: inherit;
+  line-height: 1.65;
+  max-width: 800px;
+  margin: 0 auto;
+  opacity: 0.75;
+}
+
+/* Video anchored to bottom, grows upward on scroll */
+#hero-video-wrap {
   position: absolute;
-  bottom: 36px;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 60vh;
+  overflow: hidden;
+  z-index: 2;
+}
+
+#hero-video-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.45) 0%, rgba(0,0,0,0.1) 50%, rgba(0,0,0,0.45) 100%);
+  opacity: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+
+#hero-video-wrap video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+#hero-cta {
+  position: absolute;
+  bottom: 40px;
   left: 50%;
   transform: translateX(-50%);
-  z-index: 2;
-  opacity: 0.45;
-  animation: bobDown 1.5s ease-in-out infinite;
+  background: #F5F2EC;
+  color: #1A1A1A;
+  border-radius: 100px;
+  padding: 14px 36px;
+  font-size: 15px;
+  font-weight: 600;
+  white-space: nowrap;
+  z-index: 10;
+  text-decoration: none;
+  font-family: 'Geist', system-ui, sans-serif;
+  display: inline-block;
+  transition: background 0.2s ease;
 }
-@keyframes bobDown {
-  0%, 100% { transform: translateX(-50%) translateY(0); }
-  50% { transform: translateX(-50%) translateY(8px); }
+#hero-cta:hover { background: #fff; }
+
+@media (max-width: 768px) {
+  #hero-section { height: auto; }
+  #hero-inner {
+    position: relative;
+    height: auto;
+    overflow: visible;
+  }
+  #hero-text { padding: 96px 24px 32px; }
+  #hero-video-wrap {
+    position: relative;
+    height: 60vh;
+    bottom: auto;
+  }
+  #hero-video-overlay { display: none; }
 }
 
 /* ── BIG TYPE TRANSITION ── */
@@ -191,7 +232,7 @@ nav.scrolled .btn-nav:hover {
   margin: 0 auto;
 }
 .bigtype-line {
-  font-family: 'Playfair Display', Georgia, serif;
+  font-family: 'Geist', system-ui, sans-serif;
   font-size: clamp(48px, 8vw, 88px);
   font-weight: 900;
   color: #1A1A1A;
@@ -203,7 +244,7 @@ nav.scrolled .btn-nav:hover {
 .bigtype-line.right  { text-align: right; }
 .bigtype-line.center { text-align: center; }
 .bigtype-sub {
-  font-family: 'IBM Plex Sans', sans-serif;
+  font-family: 'Geist', system-ui, sans-serif;
   font-weight: 300;
   font-size: 16px;
   color: #888;
@@ -239,7 +280,7 @@ nav.scrolled .btn-nav:hover {
   z-index: 2;
 }
 .fullwidth-caption p {
-  font-family: 'Playfair Display', Georgia, serif;
+  font-family: 'Geist', system-ui, sans-serif;
   font-size: clamp(20px, 3vw, 32px);
   font-weight: 700;
   color: #fff;
@@ -279,7 +320,7 @@ nav.scrolled .btn-nav:hover {
 .number-item:first-child { padding-left: 0; }
 .number-item:last-child  { padding-right: 0; }
 .number-big {
-  font-family: 'Playfair Display', Georgia, serif;
+  font-family: 'Geist', system-ui, sans-serif;
   font-size: clamp(56px, 8vw, 96px);
   font-weight: 900;
   color: #1A1A1A;
@@ -288,7 +329,7 @@ nav.scrolled .btn-nav:hover {
   display: block;
 }
 .number-label {
-  font-family: 'IBM Plex Sans', sans-serif;
+  font-family: 'Geist', system-ui, sans-serif;
   font-weight: 300;
   font-size: 14px;
   color: #888;
@@ -321,7 +362,7 @@ nav.scrolled .btn-nav:hover {
   margin-bottom: 16px;
 }
 .tcard-text {
-  font-family: 'Playfair Display', Georgia, serif;
+  font-family: 'Geist', system-ui, sans-serif;
   font-style: italic;
   font-size: 16px;
   color: #F5F2EC;
@@ -330,7 +371,7 @@ nav.scrolled .btn-nav:hover {
   flex: 1;
 }
 .tcard-author {
-  font-family: 'IBM Plex Sans', sans-serif;
+  font-family: 'Geist', system-ui, sans-serif;
   font-weight: 300;
   font-size: 12px;
   color: #666;
@@ -352,7 +393,7 @@ nav.scrolled .btn-nav:hover {
   margin: 0 auto;
 }
 .faq-title {
-  font-family: 'Playfair Display', Georgia, serif;
+  font-family: 'Geist', system-ui, sans-serif;
   font-size: clamp(36px, 5vw, 64px);
   font-weight: 900;
   color: #1A1A1A;
@@ -374,7 +415,7 @@ nav.scrolled .btn-nav:hover {
   user-select: none;
 }
 .faq-q-text {
-  font-family: 'IBM Plex Sans', sans-serif;
+  font-family: 'Geist', system-ui, sans-serif;
   font-size: 16px;
   font-weight: 500;
   color: #1A1A1A;
@@ -406,7 +447,7 @@ nav.scrolled .btn-nav:hover {
 }
 .faq-item.open .faq-body { max-height: 300px; }
 .faq-answer {
-  font-family: 'IBM Plex Sans', sans-serif;
+  font-family: 'Geist', system-ui, sans-serif;
   font-weight: 300;
   font-size: 15px;
   color: #666;
@@ -421,17 +462,18 @@ nav.scrolled .btn-nav:hover {
   text-align: center;
 }
 .cta-h2 {
-  font-family: 'Playfair Display', Georgia, serif;
-  font-size: clamp(36px, 6vw, 72px);
+  font-family: 'Geist', system-ui, sans-serif;
+  font-size: clamp(32px, 5vw, 72px);
   font-weight: 900;
   color: #F5F2EC;
   letter-spacing: -2px;
   line-height: 1.05;
-  max-width: 700px;
+  max-width: 900px;
   margin: 0 auto 24px;
+  white-space: normal;
 }
 .cta-sub {
-  font-family: 'IBM Plex Sans', sans-serif;
+  font-family: 'Geist', system-ui, sans-serif;
   font-weight: 300;
   font-size: 16px;
   color: #666;
@@ -440,7 +482,7 @@ nav.scrolled .btn-nav:hover {
   line-height: 1.65;
 }
 .btn-cta {
-  font-family: 'IBM Plex Sans', sans-serif;
+  font-family: 'Geist', system-ui, sans-serif;
   font-size: 15px;
   font-weight: 500;
   color: #1A1A1A;
@@ -454,11 +496,100 @@ nav.scrolled .btn-nav:hover {
   transition: background 0.2s ease;
 }
 .btn-cta:hover { background: #fff; }
+.cta-form {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 20px;
+}
+.cta-email {
+  font-family: 'Geist', system-ui, sans-serif;
+  font-size: 15px;
+  font-weight: 300;
+  color: #F5F2EC;
+  background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(245,242,236,0.25);
+  border-radius: 100px;
+  padding: 14px 24px;
+  width: 260px;
+  outline: none;
+}
+.cta-email::placeholder { color: rgba(245,242,236,0.35); }
+.btn-cta-sec {
+  font-family: 'Geist', system-ui, sans-serif;
+  font-size: 15px;
+  font-weight: 500;
+  color: #F5F2EC;
+  background: transparent;
+  border: 1px solid rgba(245,242,236,0.35);
+  border-radius: 100px;
+  padding: 14px 32px;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: border-color 0.25s ease;
+  display: inline-block;
+}
+.btn-cta-sec:hover { border-color: rgba(245,242,236,0.75); }
+.cta-micro {
+  font-family: 'Geist', system-ui, sans-serif;
+  font-size: 12px;
+  font-weight: 300;
+  color: rgba(245,242,236,0.28);
+  margin-top: 20px;
+}
 
 /* ── FOOTER ── */
 footer {
   background: #111;
   padding: 40px 5%;
+}
+.footer-email-row {
+  max-width: 1200px;
+  margin: 0 auto 32px;
+  padding-bottom: 32px;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+.footer-email-label {
+  font-family: 'Geist', system-ui, sans-serif;
+  font-size: 14px;
+  color: rgba(255,255,255,0.5);
+  white-space: nowrap;
+}
+.footer-email-form {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+.footer-email-input {
+  font-family: 'Geist', system-ui, sans-serif;
+  font-size: 13px;
+  font-weight: 300;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 100px;
+  padding: 10px 20px;
+  color: #fff;
+  outline: none;
+  width: 220px;
+}
+.footer-email-input::placeholder { color: rgba(255,255,255,0.3); }
+.footer-email-btn {
+  font-family: 'Geist', system-ui, sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  background: #fff;
+  color: #111;
+  border: none;
+  border-radius: 100px;
+  padding: 10px 24px;
+  cursor: pointer;
+  white-space: nowrap;
 }
 .footer-inner {
   max-width: 1200px;
@@ -470,13 +601,13 @@ footer {
   gap: 12px;
 }
 .footer-logo {
-  font-family: 'IBM Plex Sans', sans-serif;
+  font-family: 'Geist', system-ui, sans-serif;
   font-size: 13px;
   font-weight: 500;
   color: #444;
 }
 .footer-links {
-  font-family: 'IBM Plex Sans', sans-serif;
+  font-family: 'Geist', system-ui, sans-serif;
   font-size: 12px;
   color: #333;
   display: flex;
@@ -518,34 +649,31 @@ footer {
 <nav>
   <div class="nav-inner">
     <a href="#" class="nav-logo">TalkToDeal</a>
-    <a href="https://talktodeal.com/call/" target="_blank" rel="noopener" class="btn-nav">Book a Free Demo</a>
+    <a href="https://talktodeal.com/call/" target="_blank" rel="noopener" class="btn-nav">Get Early Access</a>
   </div>
 </nav>
 
 <!-- HERO -->
-<section class="hero-section">
-  <video class="hero-bg-video" src="../img/video/feature-1.mp4" autoplay muted loop playsinline></video>
-  <div class="hero-overlay"></div>
-  <div class="hero-content">
-    <h1 class="hero-h1 reveal d1">You're Leaving Money<br>on Every Job.</h1>
-    <p class="hero-sub reveal d2">Every conversation your techs have is a revenue opportunity. Most of it disappears.</p>
-    <a href="https://talktodeal.com/call/" target="_blank" rel="noopener" class="btn-hero reveal d3">Book a Free Demo</a>
-    <span class="hero-note reveal d4">No credit card required &middot; Setup in under 10 minutes</span>
-  </div>
-  <div class="hero-scroll-hint">
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-      <polyline points="6 9 12 15 18 9"/>
-    </svg>
+<section id="hero-section">
+  <div id="hero-inner">
+    <div id="hero-text">
+      <h1 id="hero-h1-text">Your Team Is Losing $9,000 Every Week.</h1>
+      <p id="hero-sub-text">70% of quotes never get followed up. Your techs do 5 jobs a day. The math isn't pretty — but it's fixable.</p>
+    </div>
+    <div id="hero-video-wrap">
+      <div id="hero-video-overlay"></div>
+      <video src="../img/video/feature-1.mp4" autoplay muted loop playsinline></video>
+      <a href="https://talktodeal.com/call/" target="_blank" rel="noopener" id="hero-cta">Book a Free Demo</a>
+    </div>
   </div>
 </section>
 
 <!-- BIG TYPE TRANSITION -->
 <section class="bigtype-section">
   <div class="bigtype-inner">
-    <span class="bigtype-line left reveal d1">Every job</span>
-    <span class="bigtype-line right reveal d2">is a conversation.</span>
-    <span class="bigtype-line center reveal d3">Capture it.</span>
-    <p class="bigtype-sub reveal d4">TalkToDeal turns field conversations into revenue — automatically.</p>
+    <span class="bigtype-line left reveal d1">70% of your quotes</span>
+    <span class="bigtype-line right reveal d2">never get a follow-up.</span>
+    <p class="bigtype-sub reveal d3">Not because your team doesn't care. Because there's no system to catch what happens after the truck drives away.</p>
   </div>
 </section>
 
@@ -574,16 +702,16 @@ footer {
 <section class="numbers-section">
   <div class="numbers-grid">
     <div class="number-item reveal d1">
-      <span class="number-big" data-target="91" data-suffix="%">91%</span>
-      <p class="number-label">upsell captured<br>in first 30 days</p>
+      <span class="number-big" data-target="70" data-suffix="%">70%</span>
+      <p class="number-label">of HVAC quotes never receive a follow-up call &middot; Industry average</p>
     </div>
     <div class="number-item reveal d2">
-      <span class="number-big" data-target="6" data-suffix="hr">6hr</span>
-      <p class="number-label">saved per tech<br>per week</p>
+      <span class="number-big" data-target="5" data-suffix="&times;">5&times;</span>
+      <p class="number-label">jobs per technician per day &mdash; each one a missed upsell opportunity</p>
     </div>
     <div class="number-item reveal d3">
-      <span class="number-big" data-target="34" data-suffix="%">34%</span>
-      <p class="number-label">higher conversion<br>on estimates</p>
+      <span class="number-big">$9,000</span>
+      <p class="number-label">in potential weekly revenue lost per technician without a follow-up system</p>
     </div>
   </div>
 </section>
@@ -593,17 +721,17 @@ footer {
   <div class="testimonials-grid">
     <div class="tcard reveal d1">
       <div class="tcard-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-      <p class="tcard-text">&ldquo;We recovered two upsells the first week. Paperwork went to zero.&rdquo;</p>
+      <p class="tcard-text">&ldquo;We used to lose track of jobs the moment the tech drove away. Now everything&rsquo;s captured before he&rsquo;s back at the shop.&rdquo;</p>
       <p class="tcard-author">Mike R. &middot; Apex HVAC &middot; Beta User</p>
     </div>
     <div class="tcard reveal d2">
       <div class="tcard-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-      <p class="tcard-text">&ldquo;No more Sunday evenings writing up call notes. Everything&rsquo;s there Monday morning, follow-up emails ready to send.&rdquo;</p>
+      <p class="tcard-text">&ldquo;I used to spend Sunday nights catching up on call notes. That&rsquo;s just gone now.&rdquo;</p>
       <p class="tcard-author">Sarah L. &middot; CoolAir Pro &middot; Beta User</p>
     </div>
     <div class="tcard reveal d3">
       <div class="tcard-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-      <p class="tcard-text">&ldquo;Genuinely the best tool we&rsquo;ve added this year. Our conversion rate on estimates went up 34% in 60 days.&rdquo;</p>
+      <p class="tcard-text">&ldquo;Our close rate on estimates went up the first month. We were just following up faster than before.&rdquo;</p>
       <p class="tcard-author">Derek M. &middot; TempRight HVAC &middot; Beta User</p>
     </div>
   </div>
@@ -616,31 +744,31 @@ footer {
 
     <div class="faq-item reveal d2">
       <div class="faq-question" onclick="toggleFaq(this)">
-        <span class="faq-q-text">Do my techs need to change how they work?</span>
+        <span class="faq-q-text">Do my technicians need to learn new software?</span>
         <span class="faq-toggle"></span>
       </div>
       <div class="faq-body">
-        <p class="faq-answer">No. One tap to record. Everything else is automatic. No training, no new habits.</p>
+        <p class="faq-answer">No. One tap to start recording. TalkToDeal handles everything else automatically in the background.</p>
       </div>
     </div>
 
     <div class="faq-item reveal d3">
       <div class="faq-question" onclick="toggleFaq(this)">
-        <span class="faq-q-text">Does it work without internet on the job site?</span>
+        <span class="faq-q-text">What if my techs work in areas with no signal?</span>
         <span class="faq-toggle"></span>
       </div>
       <div class="faq-body">
-        <p class="faq-answer">Yes. FleetMic records offline and syncs automatically when back in range.</p>
+        <p class="faq-answer">FleetMic records offline. Everything syncs automatically when they&rsquo;re back in range.</p>
       </div>
     </div>
 
     <div class="faq-item reveal d4">
       <div class="faq-question" onclick="toggleFaq(this)">
-        <span class="faq-q-text">How fast can we get started?</span>
+        <span class="faq-q-text">How quickly can we get started?</span>
         <span class="faq-toggle"></span>
       </div>
       <div class="faq-body">
-        <p class="faq-answer">Book a demo today. Most teams are capturing deals within one week.</p>
+        <p class="faq-answer">Most teams are up and running within a week of their demo. No IT setup required.</p>
       </div>
     </div>
   </div>
@@ -648,13 +776,20 @@ footer {
 
 <!-- BOTTOM CTA -->
 <section class="cta-section" id="demo">
-  <h2 class="cta-h2 reveal d1">Stop leaving revenue<br>on the table.</h2>
-  <p class="cta-sub reveal d2">Every day without TalkToDeal is another day of missed upsells and forgotten follow-ups.</p>
-  <a href="https://talktodeal.com/call/" target="_blank" rel="noopener" class="btn-cta reveal d3">Book a Free Demo — No Credit Card Required</a>
+  <h2 class="cta-h2 reveal d1">$9,000 a week is a lot to leave on the table.</h2>
+  <p class="cta-sub reveal d2">See how HVAC teams are capturing the revenue they&rsquo;re already earning &mdash; just not collecting.</p>
+  <a href="https://talktodeal.com/call/" target="_blank" rel="noopener" class="btn-cta reveal d3">Book a Free Demo</a>
 </section>
 
 <!-- FOOTER -->
 <footer>
+  <div class="footer-email-row">
+    <span class="footer-email-label">Stay in the loop.</span>
+    <div class="footer-email-form">
+      <input type="email" placeholder="Enter your work email" class="footer-email-input">
+      <button class="footer-email-btn">Get Early Access</button>
+    </div>
+  </div>
   <div class="footer-inner">
     <span class="footer-logo">TalkToDeal</span>
     <div class="footer-links">
@@ -672,7 +807,7 @@ footer {
 (function () {
   var nav = document.querySelector('nav');
   function tick() {
-    nav.classList.toggle('scrolled', window.scrollY > 100);
+    nav.classList.toggle('scrolled', true);
   }
   window.addEventListener('scroll', tick, { passive: true });
   tick();
@@ -699,6 +834,73 @@ function toggleFaq(el) {
     });
   }, { threshold: 0.15 });
   els.forEach(function(el) { obs.observe(el); });
+})();
+
+/* ── Hero scroll-driven animation ── */
+(function() {
+  if (window.matchMedia('(max-width: 768px)').matches) return;
+
+  var heroText      = document.getElementById('hero-text');
+  var heroVideoWrap = document.getElementById('hero-video-wrap');
+  var heroOverlay   = document.getElementById('hero-video-overlay');
+  var heroCta       = document.getElementById('hero-cta');
+
+  function resetHero() {
+    heroText.style.position   = 'relative';
+    heroText.style.top        = '';
+    heroText.style.left       = '';
+    heroText.style.right      = '';
+    heroText.style.display    = 'block';
+    heroText.style.opacity    = '1';
+    heroText.style.color      = '#1A1A1A';
+    heroText.style.background = '#F5F2EC';
+    heroText.style.textShadow = 'none';
+    heroVideoWrap.style.height = '60vh';
+    heroOverlay.style.opacity  = '0';
+    heroCta.style.display      = '';
+    heroCta.style.opacity      = '1';
+  }
+
+  resetHero();
+
+  window.addEventListener('scroll', function() {
+    var scrollY = window.scrollY;
+    var vh      = window.innerHeight;
+
+    if (scrollY === 0) { resetHero(); return; }
+
+    // p1: video expansion (scrollY 0 → 1×vh, progress 0→1)
+    var p1 = Math.max(0, Math.min(scrollY / vh, 1));
+
+    /* Video grows upward: bottom-anchored 60vh → 100vh */
+    heroVideoWrap.style.height = (60 + 40 * p1) + 'vh';
+
+    /* Dark overlay fades in */
+    heroOverlay.style.opacity = (p1 * 0.85).toFixed(3);
+
+    /* Text: switch to absolute overlaid on video top when scrolling starts */
+    if (p1 > 0) {
+      heroText.style.position   = 'absolute';
+      heroText.style.top        = '0';
+      heroText.style.left       = '0';
+      heroText.style.right      = '0';
+      heroText.style.background = 'transparent';
+    }
+
+    /* Text color: #1A1A1A → #ffffff */
+    var cv = Math.round(26 + 229 * p1);
+    heroText.style.color = 'rgb(' + cv + ',' + cv + ',' + cv + ')';
+
+    /* Text shadow: 0 → 0 2px 20px rgba(0,0,0,0.6) */
+    heroText.style.textShadow = '0 2px 20px rgba(0,0,0,' + (p1 * 0.6).toFixed(3) + ')';
+
+    /* Text and CTA always fully visible — no fade-out */
+    heroText.style.display  = 'block';
+    heroText.style.opacity  = '1';
+    heroCta.style.display   = '';
+    heroCta.style.opacity   = '1';
+
+  }, { passive: true });
 })();
 
 /* ── Number counter animation ── */
