@@ -259,6 +259,29 @@ nav.scrolled .btn-nav:hover { background: #1A1A1A; color: #F4F6F9; }
 .s4-col-title { font-size: 20px; font-weight: 700; margin-bottom: 10px; color: #1A1A1A; }
 .s4-col-desc { font-size: 14px; color: #888; line-height: 1.65; }
 
+/* ── SCREEN 4.5 — PIPELINE FEATURE ── */
+.s-pipeline { background: #F4F6F9; padding: 120px 5%; text-align: center; }
+.pipeline-title {
+  font-size: clamp(28px, 3vw, 44px);
+  font-weight: 800;
+  letter-spacing: -1.5px;
+  color: #1A1A1A;
+  margin-bottom: 16px;
+}
+.pipeline-sub {
+  font-size: 16px;
+  color: #888;
+  margin-bottom: 56px;
+}
+.pipeline-img {
+  display: block;
+  max-width: 1000px;
+  width: 90%;
+  margin: 0 auto;
+  border-radius: 16px;
+  box-shadow: 0 24px 80px rgba(0,0,0,0.12);
+}
+
 /* ── SCREEN 5 — PROCESS ── */
 .s5 { background: #1A1A1A; padding: 120px 5%; text-align: center; }
 .s5-title {
@@ -419,7 +442,7 @@ footer { background: #111; padding: 40px 5%; }
 
 /* ── MOBILE ── */
 @media (max-width: 768px) {
-  .s2, .s3, .s4, .s5, .s6, .s7 { padding: 80px 24px; }
+  .s2, .s3, .s4, .s-pipeline, .s5, .s6, .s7 { padding: 80px 24px; }
   .s3 { padding: 0; }
   .s3-caption { bottom: 28px; left: 24px; font-size: clamp(18px, 5vw, 28px); max-width: calc(100% - 48px); }
   .s4-grid { grid-template-columns: 1fr; gap: 40px; }
@@ -493,6 +516,16 @@ footer { background: #111; padding: 40px 5%; }
       <p class="s4-col-desc">Because timing is everything in HVAC sales.</p>
     </div>
   </div>
+</section>
+
+<!-- SCREEN 4.5 — PIPELINE FEATURE -->
+<section class="s-pipeline">
+  <h2 class="pipeline-title reveal d1">Your whole team&rsquo;s pipeline, in one place.</h2>
+  <p class="pipeline-sub reveal d2">Every call tracked. Every follow-up triggered. Every deal visible.</p>
+  <img
+    src="../img/feature-5.png"
+    alt="Pipeline overview dashboard"
+    class="pipeline-img reveal d2">
 </section>
 
 <!-- SCREEN 5 — PROCESS -->
