@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TalkToDeal — HVAC Field Sales</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Geist', system-ui, sans-serif;
+  background: #F4F6F9;
+  color: #1A1A1A;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* ── Reveal animations ── */
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.reveal.visible { opacity: 1; transform: translateY(0); }
+.reveal.d1 { transition-delay: 0s; }
+.reveal.d2 { transition-delay: 0.15s; }
+.reveal.d3 { transition-delay: 0.3s; }
+.reveal.d4 { transition-delay: 0.45s; }
+
+/* ── NAV ── */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  height: 56px;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  transition: background 0.4s ease, backdrop-filter 0.4s ease;
+}
+nav.scrolled {
+  background: rgba(244, 246, 249, 0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+.nav-inner {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 5%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.nav-logo {
+  font-family: 'Geist', system-ui, sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  letter-spacing: 1px;
+  color: #fff;
+  text-decoration: none;
+  transition: color 0.4s ease;
+}
+nav.scrolled .nav-logo { color: #1A1A1A; }
+.btn-nav {
+  font-family: 'Geist', system-ui, sans-serif;
+  font-size: 13px;
+  font-weight: 400;
+  color: #fff;
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.5);
+  border-radius: 100px;
+  padding: 7px 20px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+}
+nav.scrolled .btn-nav { color: #1A1A1A; border-color: #1A1A1A; }
+.btn-nav:hover { background: #1A1A1A; color: #F4F6F9; border-color: #1A1A1A; }
+nav.scrolled .btn-nav:hover { background: #1A1A1A; color: #F4F6F9; }
+
+/* ── HERO SCROLL-DRIVEN ── */
+#hero-section {
+  position: relative;
+  height: 300vh;
+}
+#hero-inner {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  background: #F4F6F9;
+  overflow: hidden;
+}
+#hero-text {
+  position: relative;
+  padding: 80px 24px 40px;
+  text-align: center;
+  background: #F4F6F9;
+  color: #1A1A1A;
+  z-index: 5;
+}
+#hero-h1-text {
+  font-family: 'Geist', system-ui, sans-serif;
+  font-size: clamp(32px, 4vw, 56px);
+  font-weight: 800;
+  color: inherit;
+  line-height: 1.05;
+  letter-spacing: -2px;
+  margin: 0 auto 20px;
+  max-width: 800px;
+  width: 100%;
+  display: block;
+}
+#hero-sub-text {
+  font-family: 'Geist', system-ui, sans-serif;
+  font-size: clamp(14px, 1.4vw, 18px);
+  font-weight: 300;
+  color: inherit;
+  line-height: 1.65;
+  max-width: 640px;
+  margin: 0 auto;
+  opacity: 0.65;
+}
+#hero-detail {
+  font-size: clamp(13px, 1.2vw, 15px);
+  color: #999;
+  margin-top: 12px;
+  line-height: 1.5;
+}
+#hero-note {
+  font-size: 12px;
+  color: inherit;
+  opacity: 0.45;
+  margin-top: 14px;
+}
+#hero-video-wrap {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 60vh;
+  overflow: hidden;
+  z-index: 2;
+}
+#hero-video-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.45) 0%, rgba(0,0,0,0.1) 50%, rgba(0,0,0,0.45) 100%);
+  opacity: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+#hero-video-wrap video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+#hero-cta {
+  position: absolute;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #4578EC;
+  color: #fff;
+  border-radius: 100px;
+  padding: 14px 32px;
+  font-size: 15px;
+  font-weight: 600;
+  white-space: nowrap;
+  z-index: 10;
+  text-decoration: none;
+  font-family: 'Geist', system-ui, sans-serif;
+  display: inline-block;
+  transition: background 0.2s ease;
+}
+#hero-cta:hover { background: #5A8EFF; }
+
+@media (max-width: 768px) {
+  #hero-section { height: auto; }
+  #hero-inner { position: relative; height: auto; overflow: visible; }
+  #hero-text { padding: 80px 24px 32px; }
+  #hero-video-wrap { position: relative; height: 60vh; bottom: auto; }
+  #hero-video-overlay { display: none; }
+}
+
+/* ── SCREEN 2 — PROBLEM ── */
+.s2 {
+  background: #F4F6F9;
+  padding: 120px 5%;
+  text-align: center;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.s2-inner { max-width: 900px; margin: 0 auto; }
+.s2-heading {
+  font-size: clamp(36px, 5vw, 72px);
+  font-weight: 800;
+  letter-spacing: -2px;
+  line-height: 1.05;
+  color: #1A1A1A;
+}
+.s2-line { display: block; }
+.s2-sub { font-size: 16px; color: #888; margin-top: 32px; line-height: 1.6; }
+
+/* ── SCREEN 3 — FULL-WIDTH IMAGE + DATA ── */
+.s3 { position: relative; overflow: hidden; }
+.s3-img {
+  width: 100%;
+  height: 70vh;
+  object-fit: cover;
+  display: block;
+}
+.s3-caption {
+  position: absolute;
+  bottom: 48px;
+  left: 5%;
+  font-size: clamp(20px, 3vw, 36px);
+  font-weight: 700;
+  color: #fff;
+  max-width: 480px;
+  line-height: 1.3;
+  text-shadow: 0 2px 20px rgba(0,0,0,0.5);
+}
+
+/* ── SCREEN 4 — 3 RESULTS ── */
+.s4 { background: #F4F6F9; padding: 120px 5%; text-align: center; }
+.s4-title {
+  font-size: clamp(28px, 3vw, 48px);
+  font-weight: 800;
+  letter-spacing: -1.5px;
+  margin-bottom: 72px;
+  color: #1A1A1A;
+}
+.s4-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 48px;
+  max-width: 1000px;
+  margin: 0 auto;
+  text-align: left;
+}
+.s4-icon {
+  font-family: 'Material Symbols Outlined';
+  font-size: 40px;
+  color: #1A1A1A;
+  margin-bottom: 20px;
+  display: block;
+  font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 40;
+}
+.s4-col-title { font-size: 20px; font-weight: 700; margin-bottom: 10px; color: #1A1A1A; }
+.s4-col-desc { font-size: 14px; color: #888; line-height: 1.65; }
+
+/* ── SCREEN 5 — PROCESS ── */
+.s5 { background: #1A1A1A; padding: 120px 5%; text-align: center; }
+.s5-title {
+  font-size: clamp(28px, 3vw, 48px);
+  font-weight: 800;
+  color: #F4F6F9;
+  letter-spacing: -1.5px;
+  margin-bottom: 72px;
+}
+.s5-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 48px;
+  max-width: 900px;
+  margin: 0 auto;
+  text-align: left;
+}
+.s5-icon {
+  font-family: 'Material Symbols Outlined';
+  font-size: 40px;
+  color: #F4F6F9;
+  opacity: 0.7;
+  margin-bottom: 16px;
+  display: block;
+  font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 40;
+}
+.s5-step-title { font-size: 18px; font-weight: 700; color: #F4F6F9; margin-bottom: 8px; }
+.s5-step-desc { font-size: 13px; color: rgba(245,242,236,0.5); line-height: 1.6; }
+
+/* ── SCREEN 6 — TRUST ── */
+.s6 { background: #F4F6F9; padding: 120px 5%; }
+.s6-title {
+  font-size: clamp(28px, 3vw, 48px);
+  font-weight: 800;
+  letter-spacing: -1.5px;
+  text-align: center;
+  margin-bottom: 72px;
+  color: #1A1A1A;
+}
+.s6-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+.s6-card {
+  display: flex;
+  flex-direction: column;
+}
+.s6-stars { font-size: 13px; color: #1A1A1A; letter-spacing: 3px; margin-bottom: 20px; }
+.s6-quote {
+  font-family: 'Geist', system-ui, sans-serif;
+  font-size: clamp(16px, 2vw, 20px);
+  font-weight: 600;
+  color: #1A1A1A;
+  line-height: 1.45;
+  flex: 1;
+  margin-bottom: 24px;
+}
+.s6-author { font-size: 12px; color: #aaa; text-transform: uppercase; letter-spacing: 1px; margin-top: auto; }
+
+/* ── SCREEN 7 — CTA ── */
+.s7 { background: #1A1A1A; padding: 160px 5%; text-align: center; }
+.s7-h2 {
+  font-size: clamp(32px, 5vw, 64px);
+  font-weight: 800;
+  letter-spacing: -2px;
+  max-width: 700px;
+  margin: 0 auto 20px;
+  line-height: 1.05;
+  color: #F4F6F9;
+}
+.s7-sub { font-size: 16px; color: rgba(245,242,236,0.5); margin-bottom: 48px; }
+.s7-btn {
+  display: inline-block;
+  background: #4578EC;
+  color: #fff;
+  border-radius: 100px;
+  padding: 16px 40px;
+  font-size: 16px;
+  font-weight: 600;
+  text-decoration: none;
+  font-family: 'Geist', system-ui, sans-serif;
+  transition: background 0.2s ease;
+}
+.s7-btn:hover { background: #5A8EFF; }
+.s7-micro { font-size: 12px; color: rgba(245,242,236,0.3); margin-top: 16px; }
+.s7-risk { font-size: 12px; color: rgba(245,242,236,0.25); margin-top: 48px; }
+
+/* ── FOOTER ── */
+footer { background: #111; padding: 40px 5%; }
+.footer-email-row {
+  max-width: 1200px;
+  margin: 0 auto 32px;
+  padding-bottom: 32px;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+.footer-email-label {
+  font-family: 'Geist', system-ui, sans-serif;
+  font-size: 14px;
+  color: rgba(255,255,255,0.5);
+  white-space: nowrap;
+}
+.footer-email-form { display: flex; gap: 10px; align-items: center; }
+.footer-email-input {
+  font-family: 'Geist', system-ui, sans-serif;
+  font-size: 13px;
+  font-weight: 300;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 100px;
+  padding: 10px 20px;
+  color: #fff;
+  outline: none;
+  width: 220px;
+}
+.footer-email-input::placeholder { color: rgba(255,255,255,0.3); }
+.footer-email-btn {
+  font-family: 'Geist', system-ui, sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  background: #fff;
+  color: #111;
+  border: none;
+  border-radius: 100px;
+  padding: 10px 24px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.footer-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.footer-logo { font-family: 'Geist', system-ui, sans-serif; font-size: 13px; font-weight: 500; color: #444; }
+.footer-links {
+  font-family: 'Geist', system-ui, sans-serif;
+  font-size: 12px;
+  color: #333;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.footer-links a { color: #333; text-decoration: none; transition: color 0.2s; }
+.footer-links a:hover { color: #888; }
+.footer-sep { color: #2a2a2a; }
+
+/* ── MOBILE ── */
+@media (max-width: 768px) {
+  .s2, .s3, .s4, .s5, .s6, .s7 { padding: 80px 24px; }
+  .s3 { padding: 0; }
+  .s3-caption { bottom: 28px; left: 24px; font-size: clamp(18px, 5vw, 28px); max-width: calc(100% - 48px); }
+  .s4-grid { grid-template-columns: 1fr; gap: 40px; }
+  .s5-grid { grid-template-columns: 1fr; gap: 40px; }
+  .s6-grid { grid-template-columns: 1fr; gap: 40px; }
+  .footer-email-row { flex-direction: column; align-items: flex-start; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <a href="#" class="nav-logo">TalkToDeal</a>
+    <a href="https://talktodeal.com/call/" target="_blank" rel="noopener" class="btn-nav">Book a Demo</a>
+  </div>
+</nav>
+
+<!-- SCREEN 1 — HERO -->
+<section id="hero-section">
+  <div id="hero-inner">
+    <div id="hero-text">
+      <h1 id="hero-h1-text">Most HVAC teams lose deals after the job — not during it.</h1>
+      <p id="hero-sub-text">TalkToDeal captures what your technicians say on-site and turns it into ready-to-send follow-ups — automatically.</p>
+      <p id="hero-detail">A simple tool your techs wear to capture conversations and trigger follow-ups.</p>
+      <p id="hero-note">Takes 15 minutes. No setup required.</p>
+    </div>
+    <div id="hero-video-wrap">
+      <div id="hero-video-overlay"></div>
+      <video src="../img/video/feature-1.mp4" autoplay muted loop playsinline></video>
+      <a href="https://talktodeal.com/call/" target="_blank" rel="noopener" id="hero-cta">Book a Demo &rarr;</a>
+    </div>
+  </div>
+</section>
+
+<!-- SCREEN 2 — PROBLEM -->
+<section class="s2">
+  <div class="s2-inner">
+    <h2 class="s2-heading">
+      <span class="s2-line reveal d1">Quotes don&rsquo;t get lost during the job.</span>
+      <span class="s2-line reveal" style="transition-delay:0.2s">They get lost after.</span>
+    </h2>
+    <p class="s2-sub reveal" style="transition-delay:0.35s">TalkToDeal turns every job conversation into a follow-up automatically. Not because your team is bad &mdash; because no one owns the follow-up.</p>
+  </div>
+</section>
+
+<!-- SCREEN 3 — FULL-WIDTH IMAGE + DATA -->
+<section class="s3">
+  <img src="../img/feature-4.png" alt="HVAC technician on site" class="s3-img reveal d1">
+  <p class="s3-caption reveal d2">91% of beta users captured a missed upsell in their first 30 days.</p>
+</section>
+
+<!-- SCREEN 4 — 3 RESULTS -->
+<section class="s4">
+  <h2 class="s4-title reveal d1">What changes after you use it.</h2>
+  <div class="s4-grid">
+    <div class="reveal" style="transition-delay:0s">
+      <span class="s4-icon">check_circle</span>
+      <h3 class="s4-col-title">No missed follow-ups</h3>
+      <p class="s4-col-desc">Every quote has a next step, automatically.</p>
+    </div>
+    <div class="reveal" style="transition-delay:0.1s">
+      <span class="s4-icon">schedule</span>
+      <h3 class="s4-col-title">Faster quote response</h3>
+      <p class="s4-col-desc">Office knows what to send before the tech is back.</p>
+    </div>
+    <div class="reveal" style="transition-delay:0.2s">
+      <span class="s4-icon">trending_up</span>
+      <h3 class="s4-col-title">More jobs closed</h3>
+      <p class="s4-col-desc">Because timing is everything in HVAC sales.</p>
+    </div>
+  </div>
+</section>
+
+<!-- SCREEN 5 — PROCESS -->
+<section class="s5">
+  <h2 class="s5-title reveal d1">No new workflow. Just talk.</h2>
+  <div class="s5-grid">
+    <div class="reveal" style="transition-delay:0s">
+      <span class="s5-icon">mic</span>
+      <h3 class="s5-step-title">Tech talks</h3>
+      <p class="s5-step-desc">Just like they always do. No extra steps.</p>
+    </div>
+    <div class="reveal" style="transition-delay:0.1s">
+      <span class="s5-icon">psychology</span>
+      <h3 class="s5-step-title">We capture</h3>
+      <p class="s5-step-desc">Job context, customer details, what was discussed.</p>
+    </div>
+    <div class="reveal" style="transition-delay:0.2s">
+      <span class="s5-icon">send</span>
+      <h3 class="s5-step-title">Office follows up</h3>
+      <p class="s5-step-desc">Ready-to-send follow-ups waiting when you&rsquo;re back.</p>
+    </div>
+  </div>
+</section>
+
+<!-- SCREEN 6 — TRUST -->
+<section class="s6">
+  <h2 class="s6-title reveal d1">Used by real service teams.</h2>
+  <div class="s6-grid">
+    <div class="s6-card reveal" style="transition-delay:0s">
+      <div class="s6-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+      <p class="s6-quote">&ldquo;We didn&rsquo;t realize how many quotes were just sitting there.&rdquo;</p>
+      <p class="s6-author">Owner, HVAC Company &middot; Beta User</p>
+    </div>
+    <div class="s6-card reveal" style="transition-delay:0.1s">
+      <div class="s6-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+      <p class="s6-quote">&ldquo;Now our office knows exactly what to send after every job.&rdquo;</p>
+      <p class="s6-author">Dispatcher, Service Team &middot; Beta User</p>
+    </div>
+    <div class="s6-card reveal" style="transition-delay:0.2s">
+      <div class="s6-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+      <p class="s6-quote">&ldquo;We&rsquo;re closing jobs we used to lose without knowing why.&rdquo;</p>
+      <p class="s6-author">Service Manager &middot; Beta User</p>
+    </div>
+  </div>
+</section>
+
+<!-- SCREEN 7 — CTA -->
+<section class="s7" id="demo">
+  <h2 class="s7-h2 reveal d1">Stop losing deals you already earned.</h2>
+  <p class="s7-sub reveal d2">See how TalkToDeal fits into your workflow.</p>
+  <a href="https://talktodeal.com/call/" target="_blank" rel="noopener" class="s7-btn reveal d3">Book a Demo &rarr;</a>
+  <p class="s7-micro reveal d4">No commitment. Just see it work.</p>
+  <p class="s7-risk reveal d4">No setup required &middot; Works with your current workflow &middot; Pilot spots limited</p>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-email-row">
+    <span class="footer-email-label">Stay in the loop.</span>
+    <div class="footer-email-form">
+      <input type="email" placeholder="Enter your work email" class="footer-email-input">
+      <button class="footer-email-btn">Get Early Access</button>
+    </div>
+  </div>
+  <div class="footer-inner">
+    <span class="footer-logo">TalkToDeal</span>
+    <div class="footer-links">
+      <a href="mailto:hello@talktodeal.com">hello@talktodeal.com</a>
+      <span class="footer-sep">&middot;</span>
+      <a href="#">Privacy</a>
+      <span class="footer-sep">&middot;</span>
+      <a href="#">Terms</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ── Nav scroll ── */
+(function () {
+  var nav = document.querySelector('nav');
+  function tick() { nav.classList.toggle('scrolled', true); }
+  window.addEventListener('scroll', tick, { passive: true });
+  tick();
+})();
+
+/* ── IntersectionObserver reveal ── */
+(function () {
+  var els = document.querySelectorAll('.reveal');
+  if (!('IntersectionObserver' in window)) {
+    els.forEach(function(el) { el.classList.add('visible'); });
+    return;
+  }
+  var obs = new IntersectionObserver(function(entries) {
+    entries.forEach(function(e) {
+      if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }
+    });
+  }, { threshold: 0.12 });
+  els.forEach(function(el) { obs.observe(el); });
+})();
+
+/* ── Hero scroll-driven animation ── */
+(function() {
+  if (window.matchMedia('(max-width: 768px)').matches) return;
+
+  var heroText      = document.getElementById('hero-text');
+  var heroVideoWrap = document.getElementById('hero-video-wrap');
+  var heroOverlay   = document.getElementById('hero-video-overlay');
+  var heroCta       = document.getElementById('hero-cta');
+
+  function resetHero() {
+    heroText.style.position   = 'relative';
+    heroText.style.top        = '';
+    heroText.style.left       = '';
+    heroText.style.right      = '';
+    heroText.style.display    = 'block';
+    heroText.style.opacity    = '1';
+    heroText.style.color      = '#1A1A1A';
+    heroText.style.background = '#F4F6F9';
+    heroText.style.textShadow = 'none';
+    heroVideoWrap.style.height = '60vh';
+    heroOverlay.style.opacity  = '0';
+    heroCta.style.display      = '';
+    heroCta.style.opacity      = '1';
+  }
+
+  resetHero();
+
+  window.addEventListener('scroll', function() {
+    var scrollY = window.scrollY;
+    var vh      = window.innerHeight;
+
+    if (scrollY === 0) { resetHero(); return; }
+
+    var p1 = Math.max(0, Math.min(scrollY / vh, 1));
+
+    heroVideoWrap.style.height = (60 + 40 * p1) + 'vh';
+    heroOverlay.style.opacity  = (p1 * 0.85).toFixed(3);
+
+    if (p1 > 0) {
+      heroText.style.position   = 'absolute';
+      heroText.style.top        = '0';
+      heroText.style.left       = '0';
+      heroText.style.right      = '0';
+      heroText.style.background = 'transparent';
+    }
+
+    var cv = Math.round(26 + 229 * p1);
+    heroText.style.color      = 'rgb(' + cv + ',' + cv + ',' + cv + ')';
+    heroText.style.textShadow = '0 2px 20px rgba(0,0,0,' + (p1 * 0.6).toFixed(3) + ')';
+    heroText.style.display    = 'block';
+    heroText.style.opacity    = '1';
+    heroCta.style.display     = '';
+    heroCta.style.opacity     = '1';
+
+  }, { passive: true });
+})();
+</script>
+</body>
+</html>
