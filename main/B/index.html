@@ -1,0 +1,951 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>TalkToDeal — You came for FleetMic. Here's what it powers.</title>
+<meta name="description" content="FleetMic records what your techs say on site. TalkToDeal turns that into follow-ups, quotes, and closed deals — automatically." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+<style>
+*, *::before, *::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Geist', system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+  background:#EEF3FF;color:#1A1A1A;
+  -webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;
+  overflow-x:hidden;
+}
+img{display:block;width:100%}
+a{text-decoration:none;color:inherit}
+button{font-family:inherit;cursor:pointer;border:none;background:none}
+
+.container{max-width:1200px;margin:0 auto;padding:0 40px}
+.container-wide{max-width:1200px;margin:0 auto;padding:0 40px}
+.nav-inner{max-width:1200px;margin:0 auto;padding:0 40px;height:100%;display:flex;align-items:center;justify-content:space-between}
+.footer-inner{max-width:1200px;margin:0 auto;padding:0 40px}
+
+/* Section types */
+.s-cream{background:#EEF3FF;padding:100px 0}
+.s-white{background:#F8FAFF;padding:100px 0}
+.s-dark{background:#0d1a3a;padding:120px 0;color:#fff}
+.s-img{
+  position:relative;overflow:hidden;height:62vh;min-height:380px;
+  background:#1a2535;
+}
+.s-img > img{
+  position:absolute;inset:0;width:100%;height:100%;
+  object-fit:cover;object-position:center;
+}
+.s-img > .img-overlay{position:absolute;inset:0;pointer-events:none}
+.s-img > .img-caption{
+  position:absolute;z-index:2;inset:0;display:flex;align-items:flex-end;
+}
+.s-img > .img-caption > .container{padding-bottom:44px;max-width:1200px;width:100%}
+
+/* Typography */
+.t-hero{font-size:clamp(52px,9vw,108px);font-weight:900;letter-spacing:-4px;line-height:.92}
+.t-xl{font-size:clamp(40px,6vw,76px);font-weight:900;letter-spacing:-3px;line-height:.95}
+.t-lg{font-size:clamp(28px,3.5vw,44px);font-weight:800;letter-spacing:-1.5px;line-height:1.08}
+.t-md{font-size:clamp(22px,2.5vw,32px);font-weight:800;letter-spacing:-1px;line-height:1.1}
+.body-lg{font-size:17px;color:#666;line-height:1.7}
+.body-md{font-size:15px;color:#666;line-height:1.65}
+.body-dim{color:rgba(255,255,255,.45)}
+
+.label{
+  font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;
+  color:#4578EC;display:block;margin-bottom:16px;
+}
+.label-dim{color:rgba(255,255,255,.3)}
+.label-gold{color:#c9a84c}
+
+/* Buttons */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:6px;
+  border-radius:100px;font-family:inherit;font-size:14px;font-weight:600;
+  border:none;cursor:pointer;text-decoration:none;
+  transition:all .2s;white-space:nowrap;padding:13px 28px;
+}
+.btn-dark{background:#4578EC;color:#fff}
+.btn-dark:hover{background:#5A8EFF;transform:translateY(-1px)}
+.btn-blue{background:#4578EC;color:#fff}
+.btn-blue:hover{background:#5A8EFF;transform:translateY(-1px)}
+.btn-white{background:#fff;color:#1A1A1A}
+.btn-white:hover{opacity:.85;transform:translateY(-1px)}
+.btn-outline{background:transparent;color:#1A1A1A;border:1.5px solid rgba(0,0,0,.18)}
+.btn-outline:hover{border-color:rgba(0,0,0,.45)}
+.btn-outline-white{background:transparent;color:#fff;border:1.5px solid rgba(255,255,255,.25)}
+.btn-outline-white:hover{border-color:rgba(255,255,255,.6)}
+.btn-lg{padding:15px 34px;font-size:15px}
+.btn-sm{padding:10px 20px;font-size:13px}
+
+/* GMIC card */
+.card{
+  background:#F8FAFF;border-radius:12px;
+  box-shadow:0 2px 16px rgba(69,120,236,0.08);
+  transition:box-shadow .25s, transform .25s;
+}
+.card:hover{box-shadow:0 8px 32px rgba(69,120,236,0.15);transform:translateY(-3px)}
+
+/* Grids */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.g4{display:grid;grid-template-columns:repeat(4,1fr)}
+
+/* Reveal */
+.reveal{opacity:0;transform:translateY(22px);transition:opacity .72s ease, transform .72s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+.d1{transition-delay:0s}
+.d2{transition-delay:.12s}
+.d3{transition-delay:.24s}
+.d4{transition-delay:.36s}
+
+/* Scroll indicator */
+.scroll-ind{
+  position:absolute;bottom:28px;left:50%;transform:translateX(-50%);
+  display:flex;flex-direction:column;align-items:center;gap:8px;
+  animation:scroll-bounce 2.5s ease-in-out infinite;z-index:2;
+}
+.scroll-ind .si-line{width:1px;height:44px;background:rgba(255,255,255,.2)}
+.scroll-ind .si-text{font-size:9px;letter-spacing:.2em;color:rgba(255,255,255,.2);text-transform:uppercase}
+@keyframes scroll-bounce{
+  0%,100%{transform:translateX(-50%) translateY(0);opacity:.5}
+  50%{transform:translateX(-50%) translateY(9px);opacity:.2}
+}
+
+/* Divider */
+.divider{width:36px;height:2px;background:#4578EC;margin-bottom:20px}
+.divider-white{background:rgba(255,255,255,.2)}
+
+/* ===== NAV ===== */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:200;
+  height:58px;
+  background:rgba(248,250,255,0.95);
+  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  border-bottom:1px solid rgba(69,120,236,0.1);
+  transition:background .35s ease, border-color .35s ease;
+}
+nav.scrolled{
+  background:rgba(248,250,255,0.98);
+  border-bottom:1px solid rgba(69,120,236,0.15);
+}
+nav .logo{font-weight:700;font-size:15px;color:#1A1A1A;letter-spacing:-.2px}
+.nav-links{display:flex;gap:26px}
+.nav-links a{font-size:13.5px;color:#666;font-weight:500;transition:color .2s}
+.nav-links a:hover{color:#1A1A1A}
+.nav-actions{display:flex;align-items:center;gap:10px}
+.hamburger{
+  display:none;width:36px;height:36px;border-radius:8px;
+  align-items:center;justify-content:center;
+}
+.hamburger:hover{background:rgba(0,0,0,.05)}
+.hamburger span{position:relative;width:18px;height:1.5px;background:#1A1A1A;border-radius:1px}
+.hamburger span::before,.hamburger span::after{
+  content:"";position:absolute;left:0;width:18px;height:1.5px;background:#1A1A1A;border-radius:1px;
+}
+.hamburger span::before{top:-6px}
+.hamburger span::after{top:6px}
+
+#mobile-menu{display:none}
+#mobile-menu.open{display:flex}
+
+/* ===== HERO ===== */
+.hero{
+  position:relative;min-height:100vh;
+  display:flex;flex-direction:column;align-items:center;justify-content:flex-start;
+  padding:120px 40px 0;background:#EEF3FF;overflow:hidden;
+}
+.hero-text{text-align:center;max-width:900px;margin:0 auto}
+.hero-pill{
+  display:inline-flex;align-items:center;gap:7px;
+  background:rgba(69,120,236,.1);border:1px solid rgba(69,120,236,.2);
+  color:#4578EC;border-radius:100px;padding:5px 14px;
+  font-size:12px;font-weight:600;letter-spacing:.04em;margin-bottom:28px;
+}
+.hero-pill .dot{width:5px;height:5px;background:#4578EC;border-radius:50%}
+.hero h1{margin-bottom:22px}
+.hero-sub{
+  font-size:18px;font-weight:300;color:#666;line-height:1.65;
+  max-width:480px;margin:0 auto 36px;
+}
+.btn-row{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-bottom:16px}
+.hero-fineprint{font-size:12px;color:#999;margin-bottom:52px}
+
+.hero-img{
+  width:100%;height:56vh;min-height:340px;overflow:hidden;
+  position:relative;margin-top:auto;
+  background:linear-gradient(135deg,#0d1520,#1a2e48);
+}
+.hero-img > img{width:100%;height:100%;object-fit:cover;object-position:center top}
+
+/* Product image (FleetMic card) */
+.prod-img{
+  width:100%;height:160px;border-radius:10px;overflow:hidden;
+  margin-bottom:24px;position:relative;
+  background:linear-gradient(135deg,#1c2d4a 0%,#0d1520 100%);
+}
+.prod-img img{width:100%;height:100%;object-fit:cover}
+.hero-img-cta{
+  position:absolute;bottom:32px;left:50%;transform:translateX(-50%);z-index:2;
+}
+.hero-img-cta .btn{box-shadow:0 4px 20px rgba(0,0,0,.2)}
+
+/* ===== STATS ===== */
+.stats-cols{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:0;
+  max-width:800px;margin:0 auto;text-align:center;
+}
+.stat-col{
+  padding:0 48px;border-right:1px solid rgba(0,0,0,.08);
+}
+.stat-col:last-child{border-right:none}
+.stat-num{
+  font-size:clamp(44px,7vw,72px);font-weight:900;letter-spacing:-3px;color:#1A1A1A;
+  display:block;line-height:1;margin-bottom:8px;
+}
+.stat-desc{font-size:13px;color:#999;line-height:1.5}
+
+/* ===== Single line impact ===== */
+.impact-text{max-width:900px;text-align:left}
+.impact-text h2{margin-bottom:28px}
+.impact-text h2 .muted{color:#999}
+.impact-text p{max-width:520px}
+
+/* ===== Image overlay text ===== */
+.img-cap-h{
+  font-size:clamp(28px,4vw,52px);font-weight:900;letter-spacing:-2px;line-height:1.0;
+  color:#fff;margin-bottom:12px;
+}
+.img-cap-p{
+  font-size:15px;color:rgba(255,255,255,.6);line-height:1.6;max-width:420px;
+}
+
+/* ===== Values (cards) ===== */
+.values-head{text-align:center;margin-bottom:56px}
+.values-head .label{margin:0 auto 16px}
+.values-head .body-lg{max-width:520px;margin:0 auto}
+.value-card{padding:32px 28px}
+.value-num{
+  font-size:11px;font-weight:700;color:#4578EC;
+  letter-spacing:.14em;text-transform:uppercase;margin-bottom:14px;display:block;
+}
+.value-card h3{margin-bottom:10px}
+
+/* ===== System (cards) ===== */
+.system-head{margin-bottom:48px;max-width:760px}
+.system-head h2{margin-bottom:14px}
+.prod{padding:36px 32px;display:flex;flex-direction:column}
+.prod-tag{
+  font-size:10px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;
+  color:#4578EC;margin-bottom:14px;
+}
+.prod-name{font-size:26px;font-weight:900;letter-spacing:-1px;margin-bottom:6px}
+.prod-sub{font-size:13px;color:#999;margin-bottom:20px}
+.prod-line{width:36px;height:2px;background:#D0DEFF;margin-bottom:20px}
+.prod-desc{font-size:14.5px;color:#666;line-height:1.7;flex:1}
+.prod .btn{margin-top:28px;align-self:flex-start}
+
+/* ===== Dashboard ===== */
+.dash-grid h2{margin:14px 0 16px}
+.dash-grid > .left > p.body-lg{margin-bottom:28px}
+.dash-points{display:flex;flex-direction:column;gap:10px}
+.dash-point{display:flex;align-items:center;gap:10px}
+.dash-point .dot{width:6px;height:6px;background:#4578EC;border-radius:50%;flex-shrink:0}
+.dash-point span{font-size:14.5px;color:#444}
+
+.dash-mock{padding:28px;overflow:hidden}
+.dash-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px}
+.dash-top .ttl{font-weight:700;font-size:13px}
+.dash-top .live{display:inline-flex;align-items:center;gap:6px;font-size:11px;color:#22c55e;font-weight:600}
+.dash-top .live .ring{
+  width:6px;height:6px;border-radius:50%;background:#22c55e;
+  box-shadow:0 0 0 0 rgba(34,197,94,.5);
+  animation:pulse 1.6s ease-in-out infinite;
+}
+@keyframes pulse{
+  0%{box-shadow:0 0 0 0 rgba(34,197,94,.5)}
+  70%{box-shadow:0 0 0 8px rgba(34,197,94,0)}
+  100%{box-shadow:0 0 0 0 rgba(34,197,94,0)}
+}
+.dash-name{font-size:20px;font-weight:900;letter-spacing:-.5px;margin-bottom:3px}
+.dash-type{font-size:10px;color:#999;text-transform:uppercase;letter-spacing:.1em;margin-bottom:16px}
+.dash-divider{border-top:1px solid #EEF3FF;margin-bottom:14px}
+.dash-row{
+  display:flex;justify-content:space-between;align-items:baseline;gap:16px;
+  padding:9px 0;border-bottom:1px solid #EEF3FF;
+}
+.dash-row:last-child{border-bottom:none}
+.dash-row .k{font-size:10px;text-transform:uppercase;letter-spacing:.1em;color:#bbb;flex-shrink:0}
+.dash-row .v{font-size:13px;font-weight:600;color:#1A1A1A;text-align:right;max-width:58%}
+
+/* ===== Why HVAC (no cards) ===== */
+.why-head{margin-bottom:64px;max-width:720px}
+.why-head h2{margin-bottom:16px}
+.why-head p{max-width:480px}
+.why-cols{display:grid;grid-template-columns:repeat(3,1fr);gap:0}
+.why-col{padding:0 48px;border-right:1px solid rgba(0,0,0,.08)}
+.why-col:first-child{padding-left:0}
+.why-col:last-child{border-right:none;padding-right:0}
+.why-num{
+  font-size:10px;font-weight:700;letter-spacing:.16em;color:#bbb;
+  text-transform:uppercase;margin-bottom:20px;display:block;
+}
+.why-col h3{font-size:20px;font-weight:800;letter-spacing:-.5px;margin-bottom:10px;line-height:1.2}
+.why-col p{font-size:15px;color:#666;line-height:1.7}
+
+/* ===== Testimonials (dark, no cards) ===== */
+.test-head{margin-bottom:64px}
+.test-head h2{color:#fff;margin-bottom:0}
+.test-cols{display:grid;grid-template-columns:repeat(3,1fr);gap:0}
+.test-col{padding:0 40px;border-left:1px solid rgba(255,255,255,.08)}
+.test-col:first-child{border-left:none;padding-left:0}
+.stars{color:#c9a84c;font-size:18px;letter-spacing:.05em;margin-bottom:20px}
+.test-quote{
+  font-size:clamp(14px,1.4vw,17px);font-family:Georgia,serif;font-style:italic;
+  color:rgba(255,255,255,.75);line-height:1.75;margin-bottom:24px;
+}
+.test-author{
+  font-size:12px;color:rgba(255,255,255,.3);font-style:normal;
+  font-family:'Geist', system-ui, sans-serif;letter-spacing:.03em;
+}
+
+/* ===== FAQ ===== */
+.faq-wrap{max-width:720px;margin:0 auto}
+.faq-wrap h2{margin-bottom:48px}
+.faq-item{border-bottom:1px solid rgba(0,0,0,.1)}
+.faq-q{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:20px 0;cursor:pointer;width:100%;
+  font-size:16px;font-weight:600;color:#1A1A1A;
+  text-align:left;
+}
+.faq-q:hover{color:#4578EC}
+.faq-icon{font-size:22px;color:#999;transition:transform .3s ease;line-height:1}
+.faq-a{display:none;padding-bottom:20px;font-size:15px;color:#666;line-height:1.7;max-width:600px}
+
+/* ===== Final CTA ===== */
+.final-inner{text-align:center;max-width:680px;margin:0 auto}
+.final-inner h2{color:#fff;margin:20px 0}
+.final-inner > p{
+  font-size:17px;color:rgba(255,255,255,.45);line-height:1.65;
+  max-width:480px;margin:0 auto 40px;
+}
+.final-fine{margin-top:16px;font-size:12px;color:rgba(255,255,255,.2)}
+
+/* ===== Footer ===== */
+.foot{background:#1a2744;padding:48px 0 32px}
+.foot-top{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:28px}
+.foot-brand .logo{font-weight:700;font-size:15px;color:#fff;letter-spacing:-.2px}
+.foot-brand .email{
+  display:block;margin-top:8px;font-size:13px;color:rgba(255,255,255,.3);transition:color .2s;
+}
+.foot-brand .email:hover{color:#fff}
+.foot-links{display:flex;gap:24px;flex-wrap:wrap}
+.foot-links a{font-size:13px;color:rgba(255,255,255,.3);transition:color .2s}
+.foot-links a:hover{color:#fff}
+.foot-bot{
+  border-top:1px solid rgba(255,255,255,.06);
+  margin-top:32px;padding-top:20px;
+  display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;
+}
+.foot-bot span,.foot-bot a{font-size:12px;color:rgba(255,255,255,.18)}
+.foot-bot a{transition:color .2s}
+.foot-bot a:hover{color:#fff}
+
+/* ===== Responsive ===== */
+@media (max-width:1280px){
+  .container, .nav-inner, .footer-inner{padding:0 5%}
+}
+@media (max-width:768px){
+  .container, .nav-inner, .footer-inner{padding:0 20px}
+}
+@media (max-width:900px){
+  .g2{grid-template-columns:1fr;gap:40px}
+  .g3{grid-template-columns:1fr}
+  .g4{grid-template-columns:1fr 1fr}
+  .t-hero{font-size:clamp(40px,10vw,64px);letter-spacing:-3px}
+  .t-xl{font-size:clamp(32px,8vw,52px);letter-spacing:-2px}
+  .s-dark{padding:80px 0}
+  .s-img{height:48vh}
+  .nav-links{display:none !important}
+  .hamburger{display:flex !important}
+  .s-img > .img-caption > .container{padding-bottom:24px}
+
+  .stats-cols{grid-template-columns:1fr;gap:36px}
+  .stat-col{
+    border-right:none;border-bottom:1px solid rgba(0,0,0,.08);
+    padding:0 0 36px;
+  }
+  .stat-col:last-child{border-bottom:none;padding-bottom:0}
+
+  .why-cols{grid-template-columns:1fr;gap:36px}
+  .why-col{
+    padding:0 0 36px;border-right:none;
+    border-bottom:1px solid rgba(0,0,0,.08);
+  }
+  .why-col:last-child{border-bottom:none;padding-bottom:0}
+
+  .test-cols{grid-template-columns:1fr;gap:40px}
+  .test-col{
+    padding:40px 0 0;border-left:none;
+    border-top:1px solid rgba(255,255,255,.08);
+  }
+  .test-col:first-child{border-top:none;padding-top:0}
+
+  #mobile-menu{
+    position:fixed;inset:58px 0 0;
+    background:rgba(238,243,255,0.98);backdrop-filter:blur(16px);
+    flex-direction:column;align-items:center;justify-content:center;
+    gap:32px;z-index:199;
+  }
+  #mobile-menu a{font-size:22px;font-weight:700;color:#1A1A1A}
+  #mobile-menu .btn{font-size:15px;padding:14px 28px}
+
+  #system .container > div:last-of-type {
+    grid-template-columns: 1fr !important;
+    gap: 32px !important;
+  }
+}
+@media (max-width:600px){
+  .g4{grid-template-columns:1fr 1fr}
+  .btn-row{flex-direction:column;align-items:stretch}
+  .btn-row .btn{text-align:center;width:100%}
+}
+</style>
+</head>
+<body>
+
+<!-- ============== NAV ============== -->
+<nav>
+  <div class="nav-inner">
+    <a href="#" class="logo">TalkToDeal</a>
+    <div class="nav-links">
+      <a href="#how">How It Works</a>
+      <a href="#system">The System</a>
+      <a href="#why">Why HVAC</a>
+    </div>
+    <div class="nav-actions">
+      <a class="btn btn-dark btn-sm" href="https://talktodeal.com/call/">Book a Demo</a>
+      <button class="hamburger" id="hamburger" aria-label="Open menu"><span></span></button>
+    </div>
+  </div>
+</nav>
+
+<div id="mobile-menu">
+  <a href="#how">How It Works</a>
+  <a href="#system">The System</a>
+  <a href="#why">Why HVAC</a>
+  <a class="btn btn-dark" href="https://talktodeal.com/call/">Book a Demo</a>
+</div>
+
+<!-- ============== HERO ============== -->
+<section class="hero">
+  <div class="hero-text">
+    <span class="hero-pill reveal"><span class="dot"></span>HVAC Edition — Now in Beta</span>
+    <h1 class="t-hero reveal d1" style="margin-bottom:22px;max-width:100%">You came for FleetMic. Here's what it powers.</h1>
+    <p class="hero-sub reveal d2">FleetMic records what your techs say on site. Now see how those conversations turn into closed jobs.</p>
+    <div class="btn-row reveal d3">
+      <a class="btn btn-dark btn-lg" href="https://talktodeal.com/call/">Book a Free Demo →</a>
+    </div>
+    <div class="hero-fineprint reveal d3">Built for HVAC teams. No workflow change required.</div>
+  </div>
+  <div style="width:100%;position:relative;overflow:hidden;margin-top:32px">
+    <video
+      src="../../img/action-2.mp4"
+      autoplay muted loop playsinline
+      style="width:100%;height:auto;display:block;max-height:80vh;object-fit:cover">
+    </video>
+  </div>
+  <div class="scroll-ind" style="bottom:80px">
+    <div class="si-line"></div>
+    <span class="si-text">Scroll</span>
+  </div>
+</section>
+
+<!-- ============== STATS ============== -->
+<section class="s-cream" style="padding:0" id="how">
+  <div style="background:#EEF3FF;padding:100px 0">
+    <div style="position:relative;z-index:1">
+      <div class="container">
+        <div class="stats-cols">
+          <div class="stat-col reveal">
+            <span class="stat-num">+<span data-count="27">0</span>%</span>
+            <div class="stat-desc">more follow-ups in the first month</div>
+          </div>
+          <div class="stat-col reveal d2">
+            <span class="stat-num">2×</span>
+            <div class="stat-desc">more conversions from warm leads</div>
+          </div>
+          <div class="stat-col reveal d3">
+            <span class="stat-num">$<span data-count="9000">0</span></span>
+            <div class="stat-desc">recovered per week</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== Single Impact ============== -->
+<section class="s-cream" style="padding:120px 0">
+  <div class="container">
+    <div class="impact-text">
+      <h2 class="t-xl reveal">70% of your quotes<br /><span class="muted">never get a follow-up.</span></h2>
+      <p class="body-lg reveal d2">Do the math: if FleetMic users alone recover an average of $9,000 per week — that's what your team is already earning and leaving behind.</p>
+      <p style="font-size:17px;font-weight:600;color:#4578EC;margin-top:16px">That's where TalkToDeal changes everything.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============== Full Image A ============== -->
+<section class="s-img reveal" style="background:linear-gradient(135deg,#0d1520,#1a3050)">
+  <img src="../../img/feature-10.png" alt=""
+       onerror="imgFallback(this)" />
+  <div class="img-overlay" style="background:linear-gradient(to right,rgba(0,0,0,0.7) 0%,rgba(0,0,0,0.15) 65%,transparent 100%)"></div>
+  <div class="img-caption">
+    <div class="container">
+      <div style="max-width:700px">
+        <div class="img-cap-h">91% of beta users captured<br />a missed upsell in 30 days.</div>
+        <p class="img-cap-p">Not because they worked harder. Because TalkToDeal made it visible.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== 3 Values (GMIC cards) ============== -->
+<section class="s-white">
+  <div class="container">
+    <div class="values-head">
+      <span class="label reveal">What Makes This Work</span>
+      <h2 class="t-lg reveal d1" style="margin-bottom:14px">From conversation to closed deal.</h2>
+      <p class="body-lg reveal d2">Three things happen automatically after every job visit — without changing how your team works.</p>
+    </div>
+    <div class="g3">
+      <div class="card value-card reveal d1">
+        <span class="value-num">01</span>
+        <div class="divider"></div>
+        <h3 class="t-md">Capture what was said</h3>
+        <p class="body-md">FleetMic records customer needs, objections, equipment details, and upsell opportunities during every visit.</p>
+      </div>
+      <div class="card value-card reveal d2">
+        <span class="value-num">02</span>
+        <div class="divider"></div>
+        <h3 class="t-md">Turn it into action</h3>
+        <p class="body-md">TalkToDeal organizes the conversation into summaries, quote notes, callbacks, and follow-up tasks.</p>
+      </div>
+      <div class="card value-card reveal d3">
+        <span class="value-num">03</span>
+        <div class="divider"></div>
+        <h3 class="t-md">Make missed revenue visible</h3>
+        <p class="body-md">Owners and office teams see which jobs need attention before warm leads go cold.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== System (Tabs) ============== -->
+<section class="s-cream" id="system">
+  <div class="container">
+
+    <!-- 顶部标题 -->
+    <div style="margin-bottom:48px;text-align:center">
+      <span class="label">HOW THIS ACTUALLY WORKS</span>
+      <h2 class="t-lg" style="margin-bottom:14px">Three connected parts. One job.</h2>
+      <p class="body-lg" style="max-width:500px;margin:0 auto">Help field teams close more of the work they already earned.</p>
+    </div>
+
+    <!-- 产品切换 Tab (Pill) -->
+    <div style="display:flex;justify-content:center;margin-bottom:48px">
+      <div style="display:inline-flex;background:#fff;border-radius:100px;padding:4px;gap:4px;box-shadow:0 2px 12px rgba(69,120,236,0.1)">
+
+        <button class="prod-tab active" data-tab="fleetmic"
+          style="font-family:'Geist',sans-serif;font-size:14px;font-weight:600;
+                 color:#fff;background:#4578EC;border:none;
+                 border-radius:100px;padding:10px 24px;
+                 cursor:pointer;transition:all 0.25s">
+          FleetMic
+        </button>
+
+        <button class="prod-tab" data-tab="telalive"
+          style="font-family:'Geist',sans-serif;font-size:14px;font-weight:600;
+                 color:#999;background:transparent;border:none;
+                 border-radius:100px;padding:10px 24px;
+                 cursor:pointer;transition:all 0.25s">
+          TelALive
+        </button>
+
+        <button class="prod-tab" data-tab="services"
+          style="font-family:'Geist',sans-serif;font-size:14px;font-weight:600;
+                 color:#999;background:transparent;border:none;
+                 border-radius:100px;padding:10px 24px;
+                 cursor:pointer;transition:all 0.25s">
+          Services
+        </button>
+
+      </div>
+    </div>
+
+    <!-- 左右内容区 -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;min-height:400px">
+
+      <!-- 左：文字 -->
+      <div id="prod-text" style="transition:opacity 0.4s ease">
+
+        <!-- FleetMic -->
+        <div class="prod-content" data-content="fleetmic">
+          <span style="font-size:10px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:#4578EC;margin-bottom:14px;display:block">HARDWARE</span>
+          <h3 style="font-size:clamp(28px,3vw,40px);font-weight:900;letter-spacing:-1.5px;margin-bottom:12px">FleetMic</h3>
+          <p style="font-size:14px;color:#999;margin-bottom:20px">Field Recording</p>
+          <div style="width:32px;height:2px;background:#4578EC;margin-bottom:20px"></div>
+          <p style="font-size:16px;color:#666;line-height:1.75;margin-bottom:32px">A simple wearable mic for HVAC techs. Captures job conversations hands-free so important details don't disappear after the visit.</p>
+          <a href="#" class="btn btn-dark btn-sm">See FleetMic</a>
+        </div>
+
+        <!-- TelALive -->
+        <div class="prod-content" data-content="telalive" style="display:none">
+          <span style="font-size:10px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:#4578EC;margin-bottom:14px;display:block">SOFTWARE</span>
+          <h3 style="font-size:clamp(28px,3vw,40px);font-weight:900;letter-spacing:-1.5px;margin-bottom:12px">TelALive</h3>
+          <p style="font-size:14px;color:#999;margin-bottom:20px">AI Processing &amp; Follow-up</p>
+          <div style="width:32px;height:2px;background:#4578EC;margin-bottom:20px"></div>
+          <p style="font-size:16px;color:#666;line-height:1.75;margin-bottom:32px">Turns recordings into structured records, follow-up reminders, quote notes, and full team visibility — automatically after every job.</p>
+          <a href="#" class="btn btn-dark btn-sm">See TelALive</a>
+        </div>
+
+        <!-- Services -->
+        <div class="prod-content" data-content="services" style="display:none">
+          <span style="font-size:10px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:#4578EC;margin-bottom:14px;display:block">SERVICES</span>
+          <h3 style="font-size:clamp(28px,3vw,40px);font-weight:900;letter-spacing:-1.5px;margin-bottom:12px">Services</h3>
+          <p style="font-size:14px;color:#999;margin-bottom:20px">Setup &amp; Growth Support</p>
+          <div style="width:32px;height:2px;background:#4578EC;margin-bottom:20px"></div>
+          <p style="font-size:16px;color:#666;line-height:1.75;margin-bottom:32px">Onboarding, workflow setup, reporting, and sales support to help your team actually use the system and close more jobs.</p>
+          <a href="#" class="btn btn-dark btn-sm">See Services</a>
+        </div>
+
+      </div>
+
+      <!-- 右：图片 -->
+      <div id="prod-img" style="transition:opacity 0.4s ease">
+
+        <div class="prod-img-content" data-img="fleetmic">
+          <div style="width:100%;aspect-ratio:4/3;overflow:hidden;border-radius:16px;background:#dde8ff">
+            <img src="../../img/feature-2.png" alt="FleetMic"
+              style="width:100%;height:100%;object-fit:cover"
+              onerror="this.style.display='none'">
+          </div>
+        </div>
+
+        <div class="prod-img-content" data-img="telalive" style="display:none">
+          <div style="width:100%;aspect-ratio:4/3;overflow:hidden;border-radius:16px;background:#dde8ff">
+            <img src="../../img/feature-5.png" alt="TelALive"
+              style="width:100%;height:100%;object-fit:cover"
+              onerror="this.style.display='none'">
+          </div>
+        </div>
+
+        <div class="prod-img-content" data-img="services" style="display:none">
+          <div style="width:100%;aspect-ratio:4/3;overflow:hidden;border-radius:16px;background:#dde8ff">
+            <img src="../../img/feature-11.png" alt="Services"
+              style="width:100%;height:100%;object-fit:cover"
+              onerror="this.style.display='none'">
+          </div>
+        </div>
+
+      </div>
+    </div><!-- /grid -->
+  </div><!-- /container -->
+</section>
+
+<!-- ============== Full Image B ============== -->
+<section class="s-img reveal" style="height:55vh;background:linear-gradient(135deg,#0a1a10,#1a3020)">
+  <img src="../../img/feature-10.png" alt=""
+       onerror="imgFallback(this)" />
+  <div class="img-overlay" style="background:linear-gradient(to top,rgba(0,0,0,0.75) 0%,rgba(0,0,0,0.1) 60%,transparent 100%)"></div>
+  <div class="img-caption">
+    <div class="container">
+      <div style="max-width:700px">
+        <div class="img-cap-h" style="font-size:clamp(26px,3.5vw,48px)">Your office sees it all — before the tech drives back.</div>
+        <p class="img-cap-p" style="color:rgba(255,255,255,.55);max-width:400px">Every job. Every note. Every follow-up. Already organized.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== Dashboard (GMIC two-col) ============== -->
+<section class="s-white">
+  <div class="container">
+    <div class="g2 dash-grid">
+      <div class="left">
+        <span class="label reveal">What Your Office Sees</span>
+        <h2 class="t-lg reveal d1">After every job. Already organized.</h2>
+        <p class="body-lg reveal d2">Instead of asking the tech to remember everything, your office gets the important parts ready to act on.</p>
+        <div class="dash-points reveal d3">
+          <div class="dash-point"><span class="dot"></span><span>Customer needs</span></div>
+          <div class="dash-point"><span class="dot"></span><span>Equipment notes</span></div>
+          <div class="dash-point"><span class="dot"></span><span>Objections and budget concerns</span></div>
+          <div class="dash-point"><span class="dot"></span><span>Promised callbacks</span></div>
+          <div class="dash-point"><span class="dot"></span><span>Quote opportunities</span></div>
+          <div class="dash-point"><span class="dot"></span><span>Follow-up priority</span></div>
+        </div>
+      </div>
+      <div class="reveal d3" style="width:100%;aspect-ratio:4/3;overflow:hidden;border-radius:16px">
+        <img src="../../img/telalive.png" alt="TelALive Dashboard"
+          style="width:100%;height:100%;object-fit:cover"
+          onerror="this.style.display='none'">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== Why HVAC (no cards) ============== -->
+<section class="s-cream" id="why">
+  <div class="container">
+    <div class="why-head">
+      <span class="label reveal">Why HVAC Teams Care</span>
+      <h2 class="t-xl reveal d1">The problem is specific.</h2>
+      <p class="body-lg reveal d2">Service calls create sales opportunities. But those opportunities often disappear after the visit.</p>
+    </div>
+    <div class="why-cols">
+      <div class="why-col reveal d1">
+        <div style="width:44px;height:44px;background:#EEF3FF;border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:20px">
+          <i data-lucide="file-x" style="width:22px;height:22px;color:#4578EC;stroke-width:1.75"></i>
+        </div>
+        <h3>Quotes get forgotten</h3>
+        <p>The job goes well, but the follow-up never happens fast enough.</p>
+      </div>
+      <div class="why-col reveal d2">
+        <div style="width:44px;height:44px;background:#EEF3FF;border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:20px">
+          <i data-lucide="pencil-off" style="width:22px;height:22px;color:#4578EC;stroke-width:1.75"></i>
+        </div>
+        <h3>Tech notes are inconsistent</h3>
+        <p>Some techs write detailed notes. Some remember later. Some forget.</p>
+      </div>
+      <div class="why-col reveal d3">
+        <div style="width:44px;height:44px;background:#EEF3FF;border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:20px">
+          <i data-lucide="trending-down" style="width:22px;height:22px;color:#4578EC;stroke-width:1.75"></i>
+        </div>
+        <h3>Owners can't see missed revenue</h3>
+        <p>If a lead goes cold, most teams never know where it was lost.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== Testimonials (dark, no cards) ============== -->
+<section class="s-dark">
+  <div class="container">
+    <div class="test-head">
+      <span class="label label-dim reveal">Beta Users</span>
+      <h2 class="t-xl reveal d1">Built with real teams.</h2>
+    </div>
+    <div class="test-cols">
+      <div class="test-col reveal d1">
+        <div class="stars">★★★★★</div>
+        <p class="test-quote">"We used to lose track of jobs the moment the tech drove away. Now everything is captured before he's back at the shop."</p>
+        <div class="test-author">Owner, HVAC Company · Beta User</div>
+      </div>
+      <div class="test-col reveal d2">
+        <div class="stars">★★★★★</div>
+        <p class="test-quote">"I used to spend Sunday nights catching up on call notes. That's just gone now."</p>
+        <div class="test-author">Dispatcher, Service Team · Beta User</div>
+      </div>
+      <div class="test-col reveal d3">
+        <div class="stars">★★★★★</div>
+        <p class="test-quote">"Our close rate on estimates went up the first month. We were just following up faster than before."</p>
+        <div class="test-author">Service Manager · Beta User</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== FAQ ============== -->
+<section class="s-cream">
+  <div class="container">
+    <div class="faq-wrap">
+      <h2 class="t-lg reveal">Quick answers.</h2>
+      <div class="faq-item reveal d1">
+        <button class="faq-q">Do my technicians need to learn new software?<span class="faq-icon">+</span></button>
+        <div class="faq-a">No. FleetMic is a one-tap device. TalkToDeal runs in the background. Your team keeps working exactly as they do now.</div>
+      </div>
+      <div class="faq-item reveal d1">
+        <button class="faq-q">When is my team notified about a missed follow-up?<span class="faq-icon">+</span></button>
+        <div class="faq-a">The moment the recording is processed — usually within minutes of the job ending.</div>
+      </div>
+      <div class="faq-item reveal d1">
+        <button class="faq-q">Does this work with our current dispatch software?<span class="faq-icon">+</span></button>
+        <div class="faq-a">TalkToDeal works alongside your existing tools. No migration, no integration required to start.</div>
+      </div>
+      <div class="faq-item reveal d1">
+        <button class="faq-q">How quickly can we get started?<span class="faq-icon">+</span></button>
+        <div class="faq-a">Most teams are set up and recording within a single afternoon. We handle the onboarding.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== Final CTA (dark) ============== -->
+<section class="s-dark">
+  <div class="container">
+    <div class="final-inner">
+      <span class="label label-dim reveal">Get Started</span>
+      <h2 class="t-xl reveal d1" style="color:#fff;margin:20px 0 20px;max-width:100%">$9,000 a week is a lot to leave on the table.</h2>
+      <p class="reveal d2">Book a quick demo and see the complete workflow: tech conversation → AI record → office follow-up → closed job.</p>
+      <div class="btn-row reveal d3" style="justify-content:center">
+        <a class="btn btn-white btn-lg" href="https://talktodeal.com/call/">See This On Your Jobs</a>
+      </div>
+      <div class="final-fine reveal d3">No commitment. See the workflow first.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== Footer ============== -->
+<footer class="foot">
+  <div class="footer-inner">
+    <div class="foot-top">
+      <div class="foot-brand">
+        <div class="logo">TalkToDeal</div>
+        <a class="email" href="mailto:hello@talktodeal.com">hello@talktodeal.com</a>
+      </div>
+      <div class="foot-links">
+        <a href="https://talktodeal.com/fleetmic/">FleetMic</a>
+        <a href="https://talktodeal.com/telalive/">TelALive</a>
+        <a href="https://talktodeal.com/services/">Services</a>
+        <a href="#">Privacy</a>
+        <a href="#">Terms</a>
+      </div>
+    </div>
+    <div class="foot-bot">
+      <span>© 2025 TalkToDeal</span>
+      <div class="foot-links">
+        <a href="#">Privacy</a>
+        <a href="#">Terms</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+// 0. Image fallback chain — try each path in data-fallbacks until one loads
+function imgFallback(img){
+  const list = (img.dataset.fallbacks || '').split(',').map(s=>s.trim()).filter(Boolean);
+  if(list.length === 0){ img.style.display = 'none'; return; }
+  img.src = list.shift();
+  img.dataset.fallbacks = list.join(',');
+}
+window.imgFallback = imgFallback;
+
+// 1. NAV scroll state
+const nav = document.querySelector('nav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 60);
+}, {passive:true});
+
+// 2. Reveal
+const revObs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+      revObs.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.08 });
+document.querySelectorAll('.reveal').forEach(el => revObs.observe(el));
+
+// 3. Number count-up
+const cntObs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (!e.isIntersecting) return;
+    const el = e.target;
+    const target = parseFloat(el.dataset.count);
+    const isFloat = target % 1 !== 0;
+    const dur = 1500;
+    let t0 = null;
+    const step = ts => {
+      if (!t0) t0 = ts;
+      const p = Math.min((ts - t0) / dur, 1);
+      const ease = 1 - Math.pow(1 - p, 3);
+      el.textContent = isFloat
+        ? (ease * target).toFixed(1)
+        : Math.round(ease * target).toLocaleString();
+      if (p < 1) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+    cntObs.unobserve(el);
+  });
+}, { threshold: 0.5 });
+document.querySelectorAll('[data-count]').forEach(el => cntObs.observe(el));
+
+// 4. FAQ accordion
+document.querySelectorAll('.faq-item').forEach(item => {
+  const q = item.querySelector('.faq-q');
+  const a = item.querySelector('.faq-a');
+  const icon = item.querySelector('.faq-icon');
+  q.addEventListener('click', () => {
+    const open = a.style.display === 'block';
+    document.querySelectorAll('.faq-a').forEach(el => el.style.display = 'none');
+    document.querySelectorAll('.faq-icon').forEach(el => el.style.transform = '');
+    if (!open) {
+      a.style.display = 'block';
+      icon.style.transform = 'rotate(45deg)';
+    }
+  });
+});
+
+// 5. Mobile hamburger
+const hamburger = document.getElementById('hamburger');
+const mobileMenu = document.getElementById('mobile-menu');
+if (hamburger && mobileMenu) {
+  hamburger.addEventListener('click', () => mobileMenu.classList.toggle('open'));
+  mobileMenu.querySelectorAll('a').forEach(a =>
+    a.addEventListener('click', () => mobileMenu.classList.remove('open'))
+  );
+}
+
+// 6. Product tab 切换 + 自动轮播
+const tabs = ['fleetmic', 'telalive', 'services'];
+let currentTab = 0;
+let autoTimer = null;
+
+function switchTab(name) {
+  document.querySelectorAll('.prod-tab').forEach(btn => {
+    const active = btn.dataset.tab === name;
+    btn.style.color = active ? '#fff' : '#999';
+    btn.style.background = active ? '#4578EC' : 'transparent';
+  });
+  document.querySelectorAll('.prod-content').forEach(el => {
+    el.style.display = el.dataset.content === name ? 'block' : 'none';
+  });
+  document.querySelectorAll('.prod-img-content').forEach(el => {
+    el.style.display = el.dataset.img === name ? 'block' : 'none';
+  });
+  currentTab = tabs.indexOf(name);
+}
+
+function startAuto() {
+  autoTimer = setInterval(() => {
+    currentTab = (currentTab + 1) % tabs.length;
+    switchTab(tabs[currentTab]);
+  }, 3500);
+}
+
+function resetAuto() {
+  clearInterval(autoTimer);
+  startAuto();
+}
+
+document.querySelectorAll('.prod-tab').forEach(btn => {
+  btn.addEventListener('click', () => {
+    switchTab(btn.dataset.tab);
+    resetAuto();
+  });
+});
+
+startAuto();
+</script>
+
+<script>lucide.createIcons();</script>
+
+</body>
+</html>
