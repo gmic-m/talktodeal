@@ -1,0 +1,914 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#4578EC">
+  <title>Owner Dashboard · Bay Area Cooling &amp; Heating · 2026-04-23</title>
+
+  <!-- Geist Sans woff2（四个字重）-->
+  <style>
+    @font-face {
+      font-family: 'Geist';
+      src: url('https://cdn.jsdelivr.net/npm/geist@1.3.1/dist/fonts/geist-sans/Geist-Regular.woff2') format('woff2');
+      font-weight: 400; font-style: normal; font-display: swap;
+    }
+    @font-face {
+      font-family: 'Geist';
+      src: url('https://cdn.jsdelivr.net/npm/geist@1.3.1/dist/fonts/geist-sans/Geist-Medium.woff2') format('woff2');
+      font-weight: 500; font-style: normal; font-display: swap;
+    }
+    @font-face {
+      font-family: 'Geist';
+      src: url('https://cdn.jsdelivr.net/npm/geist@1.3.1/dist/fonts/geist-sans/Geist-SemiBold.woff2') format('woff2');
+      font-weight: 600; font-style: normal; font-display: swap;
+    }
+    @font-face {
+      font-family: 'Geist';
+      src: url('https://cdn.jsdelivr.net/npm/geist@1.3.1/dist/fonts/geist-sans/Geist-Bold.woff2') format('woff2');
+      font-weight: 700; font-style: normal; font-display: swap;
+    }
+  </style>
+
+  <!-- DM Sans fallback -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+/* ── 变量（移除 --serif，更新主色与背景）── */
+:root {
+  --ink:  #1e293b; --ink2: #475569; --ink3: #64748b; --ink4: #94a3b8;
+  --bg:   #f8fafc; --card: #fff;    --border: #e2e8f0;
+  --accent: #4578EC; --accent-bg: rgba(69,120,236,.08);
+  --pos:  #16a34a; --pos-bg: #f0fdf4;
+  --neg:  #dc2626; --neg-bg: #fef2f2;
+  --warn: #d97706; --warn-bg: #fffbeb;
+  --hot:  #ea580c; --hot-bg: #fff7ed;
+  --radius: 14px;
+  --max-w:  520px;
+}
+*{ margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent }
+html,body { overflow-x:hidden }
+body {
+  font-family: 'Geist','DM Sans',system-ui,sans-serif;
+  background: var(--bg); color: var(--ink);
+  font-size: 15px; line-height: 1.55;
+  padding-bottom: 100px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.stream { max-width:var(--max-w); margin:0 auto; padding:20px 16px }
+
+/* ── Hero（hero-title 改用 Geist Bold，移除 --serif）── */
+.hero { padding:24px 4px 16px }
+.hero-date  { font-size:11px; font-weight:700; color:var(--ink3); letter-spacing:2px; text-transform:uppercase }
+.hero-title { font-size:28px; font-weight:700; margin-top:6px; letter-spacing:-.5px; line-height:1.15 }
+.hero-greet { color:var(--ink2); font-size:15px; margin-top:6px; line-height:1.5 }
+.hero-stats { display:flex; gap:14px; margin-top:14px; font-size:12px; color:var(--ink3); flex-wrap:wrap }
+.hero-stats b { color:var(--ink); font-weight:700 }
+.hero-stats span + span::before { content:"·"; margin-right:14px; color:var(--ink4) }
+
+/* ── Card（移除 border 和 border-left，改用阴影）── */
+.card {
+  background: var(--card);
+  border-radius: var(--radius);
+  padding: 16px; margin-bottom: 10px;
+  box-shadow: 0 1px 3px rgba(15,23,42,.06), 0 1px 2px rgba(15,23,42,.04);
+  transition: transform .15s ease, box-shadow .15s ease;
+  position: relative;
+}
+.card:active  { transform: scale(.995) }
+.card:hover   { transform: translateY(-2px); box-shadow: 0 12px 32px rgba(15,23,42,.10) }
+
+.card-urgent { background: #ffffff }
+.card-hot    { background: #ffffff }
+.card-warm   { background: #ffffff }
+.card-calm   { background: #ffffff }
+
+/* ── Kicker / Title / Body / Meta ── */
+.c-kicker { font-size:10px; font-weight:800; text-transform:uppercase; letter-spacing:1.3px;
+            color:var(--ink3); margin-bottom:6px; display:flex; align-items:center; gap:6px }
+.c-kicker.red  { color:var(--neg) }
+.c-kicker.hot  { color:var(--hot) }
+.c-kicker.warm { color:var(--warn) }
+.c-kicker.pos  { color:var(--pos) }
+.c-title  { font-size:16px; font-weight:700; line-height:1.35; letter-spacing:-.2px }
+.c-body   { color:var(--ink2); margin-top:8px; font-size:14px; line-height:1.55 }
+.c-body p { margin-bottom:6px }
+.c-meta   { display:flex; gap:10px; margin-top:10px; font-size:12px; color:var(--ink3); flex-wrap:wrap }
+.c-meta b { color:var(--ink2) }
+
+/* ── Buttons ── */
+.c-actions { display:grid; grid-template-columns:repeat(auto-fit, minmax(80px, 1fr)); gap:8px; margin-top:12px }
+.c-actions .btn { width:100%; justify-content:center }
+.btn {
+  display:inline-flex; align-items:center; gap:5px;
+  padding:8px 12px; border-radius:8px;
+  font-size:13px; font-weight:600; cursor:pointer; border:none;
+  text-decoration:none; transition:transform .1s; font-family:inherit;
+}
+.btn:active   { transform:scale(.97) }
+.btn-primary  { background:var(--ink); color:#fff }
+.btn-ghost    { background:var(--card); color:var(--ink2); border:1px solid var(--border) }
+.btn-accent   { background:var(--accent); color:#fff }
+/* btn-mic：更新主色 border */
+.btn-mic      { background:var(--accent-bg); color:var(--accent); border:1px solid rgba(69,120,236,.2) }
+
+/* ── Chips ── */
+.chip { display:inline-flex; align-items:center; gap:4px; padding:2px 8px; border-radius:12px;
+        font-size:11px; font-weight:700; white-space:nowrap; letter-spacing:.2px }
+.chip-red  { background:var(--neg-bg);   color:var(--neg) }
+.chip-hot  { background:var(--hot-bg);   color:var(--hot) }
+.chip-warm { background:var(--warn-bg);  color:var(--warn) }
+.chip-pos  { background:var(--pos-bg);   color:var(--pos) }
+.chip-info { background:var(--accent-bg);color:var(--accent) }
+.chip-gray { background:#f1f5f9; color:var(--ink3) }
+
+/* ── People-chip row ── */
+.p-row  { display:flex; flex-wrap:wrap; gap:6px; margin-top:10px }
+.p-chip { display:inline-flex; align-items:center; gap:5px; padding:4px 10px; border-radius:14px;
+          background:var(--bg); border:1px solid var(--border); font-size:12px; cursor:pointer;
+          color:var(--ink2); transition:border-color .15s,background .15s }
+.p-chip:hover { border-color:var(--accent); background:var(--accent-bg) }
+.p-chip .dot      { width:6px; height:6px; border-radius:50%; background:var(--pos) }
+.p-chip .dot.warn { background:var(--warn) }
+.p-chip .dot.unk  { background:var(--ink4) }
+.p-chip .tag-unk  { font-size:10px; color:var(--warn); font-weight:700 }
+
+/* ── Section dividers ── */
+.divider {
+  display:flex; align-items:center; gap:8px;
+  margin:24px 4px 8px; color:var(--ink3);
+  font-size:11px; font-weight:800; letter-spacing:2px; text-transform:uppercase;
+}
+.divider::after { content:""; flex:1; height:1px; background:var(--border) }
+
+/* ── Collapsible details ── */
+details.more { background:transparent; margin-top:20px; padding:0 4px }
+details.more>summary {
+  cursor:pointer; padding:12px; border-radius:8px;
+  background:var(--card); border:1px dashed var(--border);
+  font-size:13px; font-weight:600; color:var(--ink3);
+  list-style:none; display:flex; align-items:center; justify-content:space-between;
+}
+details.more>summary::-webkit-details-marker { display:none }
+details.more[open]>summary { background:var(--bg); color:var(--ink) }
+details.more>summary .plus { font-size:18px; transition:transform .2s }
+details.more[open]>summary .plus { transform:rotate(45deg) }
+
+/* ── Empty state（SVG 替换 emoji，CSS 仅保留布局）── */
+.empty-state {
+  position:relative; margin:40px 0; padding:40px 24px;
+  border-radius:var(--radius);
+  background:linear-gradient(160deg,#fff 0%,#f8fafc 100%);
+  border:1px solid var(--border); text-align:center;
+}
+.empty-state::before {
+  content:""; position:absolute; inset:0; border-radius:var(--radius);
+  background:radial-gradient(circle at 50% 0%,rgba(69,120,236,.06) 0%,transparent 60%);
+  pointer-events:none;
+}
+.empty-state .emoji { font-size:44px; margin-bottom:10px; filter:grayscale(.3) }
+.empty-state h2     { font-size:22px; font-weight:500; letter-spacing:-.3px }
+.empty-state p      { color:var(--ink2); font-size:14px; margin-top:10px; line-height:1.65;
+                      max-width:380px; margin-left:auto; margin-right:auto }
+.empty-state .big-mic {
+  margin:22px auto 6px; width:72px; height:72px; border-radius:50%;
+  background:linear-gradient(135deg,var(--accent),#6366f1);
+  display:flex; align-items:center; justify-content:center; color:#fff;
+  box-shadow:0 10px 32px rgba(69,120,236,.35); cursor:pointer; transition:transform .15s;
+}
+.empty-state .big-mic:active { transform:scale(.95) }
+.empty-state .hint      { font-size:12px; color:var(--ink3); margin-top:10px }
+.empty-state .secondary { display:inline-block; margin-top:14px; color:var(--accent);
+                          font-size:12px; text-decoration:underline;
+                          text-decoration-style:dotted; cursor:pointer }
+
+/* ── 浮动 Mic 按钮（隐藏，由页面内居中按钮替代）── */
+.mic-wrap { display:none }
+.mic-btn  {
+  width:56px; height:56px; border-radius:50%;
+  background:linear-gradient(135deg,#1e40af,#6366f1); color:#fff;
+  display:flex; align-items:center; justify-content:center;
+  border:none; cursor:pointer; box-shadow:0 12px 28px rgba(30,64,175,.4);
+  transition:transform .15s;
+}
+.mic-btn:active   { transform:scale(.93) }
+.mic-btn.recording { background:var(--neg); animation:pulse 1.2s infinite }
+@keyframes pulse {
+  0%,100% { box-shadow:0 0 0 0 rgba(220,38,38,.5) }
+  50%      { box-shadow:0 0 0 12px rgba(220,38,38,0) }
+}
+
+/* ── Sheet（底部弹层，颜色跟随变量）── */
+.sheet-mask {
+  position:fixed; inset:0; background:rgba(15,23,42,.55); z-index:70;
+  display:none; align-items:flex-end; justify-content:center;
+  opacity:0; transition:opacity .2s;
+}
+.sheet-mask.show { display:flex; opacity:1 }
+.sheet {
+  background:#fff; border-top-left-radius:18px; border-top-right-radius:18px;
+  width:100%; max-width:var(--max-w); padding:20px 18px 28px;
+  transform:translateY(100%); transition:transform .25s ease-out;
+}
+.sheet-mask.show .sheet { transform:translateY(0) }
+.sheet h3 { font-size:17px; font-weight:700; margin-bottom:4px }
+.sheet .sub { color:var(--ink3); font-size:13px; margin-bottom:14px }
+.target-list { display:flex; flex-direction:column; gap:6px; max-height:45vh; overflow-y:auto }
+.target {
+  display:flex; align-items:center; gap:12px; padding:11px 12px; border-radius:10px;
+  border:1px solid var(--border); background:#fff; cursor:pointer;
+  text-align:left; width:100%; font:inherit; color:inherit;
+}
+.target:hover { border-color:var(--accent); background:var(--accent-bg) }
+.target .ic   { width:34px; height:34px; border-radius:50%; background:var(--bg);
+                display:flex; align-items:center; justify-content:center;
+                font-weight:700; font-size:14px; color:var(--ink2) }
+.target .tmain  { flex:1; min-width:0 }
+.target .tname  { font-weight:600; font-size:14px }
+.target .tsub   { font-size:11px; color:var(--ink3); margin-top:1px }
+.target .tbadge { font-size:10px; padding:2px 7px; border-radius:10px;
+                  background:var(--warn-bg); color:var(--warn); font-weight:700; white-space:nowrap }
+.sheet-close { display:block; width:100%; margin-top:14px; padding:10px; border:none;
+               background:none; color:var(--ink3); font-size:13px; cursor:pointer; font-weight:600 }
+
+/* ── Recording banner ── */
+.rec-banner {
+  position:fixed; bottom:94px; left:50%; transform:translateX(-50%);
+  background:var(--neg); color:#fff; padding:10px 16px; border-radius:24px;
+  display:none; align-items:center; gap:10px;
+  box-shadow:0 6px 20px rgba(220,38,38,.4); z-index:65; font-size:13px;
+}
+.rec-banner.show { display:flex }
+.rec-dot  { width:8px; height:8px; border-radius:50%; background:#fff; animation:blink 1s infinite }
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:.2} }
+.rec-stop { background:#fff; color:var(--neg); border:none; padding:3px 10px;
+            border-radius:14px; font-weight:700; font-size:11px; cursor:pointer }
+
+/* ── Quality hint mask ── */
+.qmask {
+  position:fixed; inset:0; background:rgba(15,23,42,.6); z-index:80;
+  display:none; align-items:center; justify-content:center; padding:20px;
+}
+.qmask.show { display:flex }
+.qpanel { background:#fff; border-radius:16px; max-width:400px; padding:22px }
+.qpanel h3 { font-size:17px; font-weight:700; margin-bottom:4px }
+.qpanel .ctx {
+  margin:10px 0; padding:10px 12px; background:var(--accent-bg);
+  border-radius:6px; font-size:13px;
+}
+.qtip    { display:flex; gap:10px; margin:8px 0; font-size:13px; color:var(--ink2); align-items:start }
+.qtip .em { font-size:15px }
+.qactions { display:flex; gap:8px; justify-content:flex-end; margin-top:14px }
+
+/* ── Diff preview ── */
+.diff { background:var(--pos-bg); border:1px solid var(--pos); border-radius:10px;
+        padding:12px 14px; margin-top:10px; font-size:13px }
+.diff-title { font-weight:700; color:var(--pos); font-size:13px; margin-bottom:6px; display:flex; gap:6px }
+.diff-row   { display:flex; gap:10px; padding:4px 0 }
+.diff-row + .diff-row { border-top:1px dashed rgba(22,163,74,.2) }
+.diff-from  { text-decoration:line-through; color:var(--ink3); flex:1 }
+.diff-arrow { color:var(--pos); font-weight:700 }
+.diff-to    { color:var(--ink); font-weight:600; flex:1 }
+
+/* ── Toast ── */
+.toast {
+  position:fixed; bottom:96px; left:50%; transform:translateX(-50%);
+  background:var(--ink); color:#fff; padding:9px 16px; border-radius:18px;
+  font-size:12px; opacity:0; pointer-events:none; transition:opacity .2s; z-index:90;
+}
+.toast.show { opacity:1 }
+
+/* ── Privacy banner ── */
+.priv {
+  background:#eff6ff; border:1px solid rgba(69,120,236,.18); border-radius:10px;
+  padding:10px 12px; margin-bottom:12px; font-size:12px; color:var(--ink2);
+  display:flex; align-items:center; justify-content:space-between; gap:8px; flex-wrap:wrap;
+}
+.priv-tog { background:#fff; border:1px solid var(--border); padding:4px 10px;
+            border-radius:6px; font-size:11px; cursor:pointer; font-weight:600; color:var(--ink2) }
+
+/* ── Footer ── */
+.foot { text-align:center; color:var(--ink4); font-size:11px; padding:30px 20px 40px }
+.foot a { color:var(--accent); text-decoration:none }
+
+/* ── Highlights ── */
+mark.hl { background:#fef08a; color:var(--ink); padding:1px 3px; border-radius:2px }
+
+/* ── Reminder cards ── */
+.rem-card {
+  background:#fff; border-radius:var(--radius);
+  padding:14px 16px; margin-bottom:10px; position:relative;
+  box-shadow:0 1px 3px rgba(15,23,42,.06), 0 1px 2px rgba(15,23,42,.04);
+}
+.rem-card.rem-due     { background: #ffffff }
+.rem-card.rem-overdue { background: #ffffff }
+.rem-card.rem-weak    { opacity:.85 }
+.rem-head { display:flex; align-items:center; gap:8px; font-size:11px; font-weight:800;
+            text-transform:uppercase; letter-spacing:1.3px; color:var(--accent) }
+.rem-head.red { color:var(--neg) }
+.rem-head.hot { color:var(--hot) }
+.rem-time   { font-size:20px; font-weight:800; margin:4px 0 2px; font-variant-numeric:tabular-nums }
+.rem-action { font-size:15px; font-weight:700; color:var(--ink); margin-bottom:4px }
+.rem-evidence {
+  margin:10px 0 8px; padding:10px 12px; background:var(--bg);
+  border-radius:4px;
+  font-size:13px; color:var(--ink2);
+}
+.rem-evidence .quote { font-style:italic }
+.rem-evidence .meta  { font-size:11px; color:var(--ink3); margin-top:6px;
+                       display:flex; gap:8px; flex-wrap:wrap; align-items:center }
+.rem-warn { display:inline-flex; align-items:center; gap:4px; padding:2px 7px; border-radius:10px;
+            font-size:10px; font-weight:700; background:var(--warn-bg); color:var(--warn); margin-left:4px }
+.rem-warn.unknown { background:#fef3c7; color:#b45309 }
+.rem-warn.low     { background:#fee2e2; color:var(--neg) }
+.rem-actions { display:flex; gap:6px; margin-top:12px; flex-wrap:wrap }
+.rem-btn {
+  display:inline-flex; align-items:center; gap:4px; padding:6px 10px; border-radius:7px;
+  font-size:12px; font-weight:600; cursor:pointer; border:1px solid var(--border);
+  background:#fff; color:var(--ink2); font-family:inherit;
+}
+.rem-btn.done    { background:var(--pos); color:#fff; border-color:var(--pos) }
+.rem-btn.ignore  { background:#fff; color:var(--ink3) }
+.rem-btn.correct { background:var(--accent-bg); color:var(--accent); border-color:rgba(69,120,236,.2) }
+.rem-btn.play    { background:var(--bg); color:var(--ink2) }
+
+/* ── Fixed mic button ── */
+.fixed-mic {
+  position: fixed;
+  bottom: 24px;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  z-index: 60;
+  pointer-events: none;
+}
+.btn-fixed-mic {
+  pointer-events: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 13px 28px;
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: 100px;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 4px 20px rgba(69,120,236,0.35);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.btn-fixed-mic:hover  { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(69,120,236,0.4) }
+.btn-fixed-mic:active { transform: scale(0.97) }
+
+/* ── Flash animation ── */
+.flash { animation:flash 1.6s ease }
+@keyframes flash {
+  0%  { box-shadow:0 0 0 0 rgba(69,120,236,0) }
+  30% { box-shadow:0 0 0 6px rgba(69,120,236,.3) }
+  100%{ box-shadow:0 0 0 0 rgba(69,120,236,0) }
+}
+  </style>
+  <style>
+/* ── 第二块 CSS（内容专用，颜色跟随变量）── */
+.big-amt   { font-variant-numeric:tabular-nums; font-weight:800 }
+.stat-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:6px; margin-top:12px }
+.stat      { text-align:center; padding:8px; background:var(--bg); border-radius:8px }
+.stat .v   { font-size:18px; font-weight:800 }
+.stat .l   { font-size:10px; color:var(--ink3); text-transform:uppercase; letter-spacing:.5px; margin-top:2px }
+
+.brief-card { background: #ffffff;
+              border-radius:var(--radius); padding:16px; margin:12px 0; font-size:14px; line-height:1.65;
+              box-shadow:0 1px 3px rgba(15,23,42,.06), 0 1px 2px rgba(15,23,42,.04) }
+.brief-hdr  { font-size:11px; font-weight:800; text-transform:uppercase; letter-spacing:2px;
+              color:var(--accent); margin-bottom:8px }
+
+.act-item   { padding:0; border-radius:0; margin-bottom:0; background:transparent }
+.act-item.p1{ background:transparent }
+.act-item.p2{ background:transparent }
+.act-item.p3{ background:transparent }
+.act-pri    { display:inline-block; padding:2px 8px; border-radius:10px; font-size:10px;
+              font-weight:800; background:var(--neg); color:#fff; margin-right:6px }
+.act-item.p2 .act-pri { background:var(--warn) }
+.act-item.p3 .act-pri { background:var(--ink3) }
+.act-body   { margin-top:4px; font-weight:700; font-size:14px }
+.act-why    { font-size:12px; color:var(--ink3); margin-top:4px; display:flex; align-items:center; gap:5px }
+.act-meta   { font-size:11px; margin-top:6px; display:flex; gap:10px; align-items:center; flex-wrap:wrap }
+.act-val    { font-weight:800; color:var(--neg) }
+
+.risk-row  { padding:0; background:transparent; border-radius:0; margin:0 }
+.risk-hdr  { display:flex; justify-content:space-between; align-items:center }
+.risk-cust { font-weight:700; font-size:14px }
+.risk-amt  { font-weight:800; color:var(--hot) }
+.risk-desc { font-size:12px; color:var(--ink2); margin-top:4px }
+.risk-prob { display:flex; gap:10px; font-size:11px; margin-top:6px; color:var(--ink2) }
+.risk-prob b       { font-weight:700 }
+.risk-prob b.low   { color:var(--neg) }
+.risk-prob b.high  { color:var(--pos) }
+.risk-fix  { background:#f8fafc; border-radius:8px; padding:10px 12px; font-size:13px; margin-top:10px;
+             display:flex; align-items:center; gap:5px }
+
+.tech-row        { padding:0; border-radius:0; margin:0; display:flex; align-items:center; gap:8px }
+.tech-row.alert  { background:transparent }
+.tech-row.star   { background:transparent }
+.tech-name       { font-weight:700; font-size:13px; display:flex; align-items:center; gap:5px }
+.tech-detail     { font-size:12px; color:var(--ink2); margin-top:6px }
+
+.win-row    { padding:0; background:transparent; border-radius:0; margin:0 }
+.win-event  { font-weight:600; font-size:13px }
+.win-val    { font-size:16px; font-weight:800; color:var(--pos); margin-top:2px }
+.win-action { font-size:11px; color:var(--ink2); margin-top:4px; font-style:italic;
+              display:flex; align-items:center; gap:5px }
+
+.pipe-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:6px; margin:10px 0; background:transparent }
+.pipe-box  { padding:12px 0; background:transparent }
+.pipe-box.warn { background:transparent }
+.pipe-box.neg  { background:transparent }
+.pipe-l    { font-size:10px; color:var(--ink3); font-weight:700; text-transform:uppercase; letter-spacing:.5px }
+.pipe-v    { font-size:20px; font-weight:800; margin-top:3px }
+
+.q-list    { list-style:none; counter-reset:q; padding:0 }
+.q-list li { counter-increment:q; padding:12px 14px 12px 46px; background:var(--bg);
+             border-radius:8px; margin-bottom:6px; position:relative; font-size:13px; font-weight:500 }
+.q-list li::before {
+  content:counter(q); position:absolute; left:14px; top:12px;
+  width:22px; height:22px; background:var(--accent); color:#fff; border-radius:50%;
+  display:flex; align-items:center; justify-content:center; font-weight:800; font-size:12px;
+}
+  </style>
+</head>
+<body>
+
+<div class="stream">
+
+  <!-- ── Hero ── -->
+  <div class="hero">
+    <div class="hero-date">2026-04-23 · Owner Brief</div>
+    <div class="hero-title"><span class="correctable">Bay Area Cooling &amp; Heating</span></div>
+    <div class="hero-greet">Good morning · here's what matters today.</div>
+    <div class="stat-grid">
+      <div class="stat"><div class="v">12</div><div class="l">Techs</div></div>
+      <div class="stat"><div class="v">18</div><div class="l">Jobs</div></div>
+      <div class="stat"><div class="v">31</div><div class="l">Estimates</div></div>
+      <div class="stat"><div class="v">28%</div><div class="l">Conv</div></div>
+    </div>
+  </div>
+
+  <!-- ── Privacy banner（🔒 非替换列表，保留文字）── -->
+  <div class="priv">
+    <span style="display:inline-flex;align-items:center;gap:5px">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+      Names masked · toggle for full view
+    </span>
+    <button class="priv-tog" id="privTog" style="display:inline-flex;align-items:center;gap:4px">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+      Masked
+    </button>
+  </div>
+
+  <!-- ── AI 60-sec brief（🤖 非替换列表，保留）── -->
+  <div class="brief-card">
+    <div class="brief-hdr" style="display:flex;align-items:center;gap:5px">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="10" rx="2"/><circle cx="12" cy="5" r="2"/><path d="M12 7v4"/><line x1="8" y1="16" x2="8.01" y2="16"/><line x1="16" y1="16" x2="16.01" y2="16"/></svg>
+      AI · 60-second brief
+    </div>
+    <div>Owner, three fires today. 1. Chen deal ($11.5k) is slipping because Derek ghosted the client—call them by 10am. 2. Ramirez left a 2-star review about lateness—respond by 4pm or reputation takes a hit. 3. Galloway is price-shocked on $4.8k repair—needs your authority to close. Sarah is top performer; keep her fueled. Trucks 4, 7, 11 are low on R-410A. Pipeline conversion is 7% below target; we need to wake up the 14 stale estimates.</div>
+  </div>
+
+  <!-- ── Must-do today（🚨 非替换列表，保留）── -->
+  <div class="divider">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+    Must-do today
+  </div>
+
+  <div class="card" data-card-id="act-p1">
+    <div class="act-item p1">
+      <div><span class="act-pri">P1</span></div>
+      <div class="act-body">Call Chen residence regarding $11,500 replacement</div>
+      <!-- 💡 → lightbulb SVG -->
+      <div class="act-why">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0">
+          <line x1="9" y1="18" x2="15" y2="18"/><line x1="10" y1="22" x2="14" y2="22"/>
+          <path d="M15.09 14c.18-.98.65-1.74 1.41-2.5A4.65 4.65 0 0 0 18 8 6 6 0 0 0 6 8c0 1 .23 2.23 1.5 3.5A4.61 4.61 0 0 1 8.91 14"/>
+        </svg>
+        Derek failed follow-up; customer shopping 3 quotes; decision Friday
+      </div>
+      <div class="act-meta">
+        <!-- ⏱ → clock SVG -->
+        <span style="display:inline-flex;align-items:center;gap:4px">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg>
+          10:00 AM
+        </span>
+        <span class="act-val">$11,500</span>
+      </div>
+    </div>
+    <div class="c-actions">
+      <button class="btn btn-primary" onclick="actCall('p1')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 14a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 3.12h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 10.36a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        Call now
+      </button>
+      <button class="btn btn-ghost" onclick="actDone('p1')">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        Handled
+      </button>
+      <!-- 🎙 → mic SVG -->
+      <button class="btn btn-mic" onclick="openMic('Action P1')">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="9" y="2" width="6" height="11" rx="3"/>
+          <path d="M5 10a7 7 0 0 0 14 0"/>
+          <line x1="12" y1="19" x2="12" y2="22"/>
+          <line x1="8"  y1="22" x2="16" y2="22"/>
+        </svg>
+        Add note
+      </button>
+    </div>
+  </div>
+
+  <div class="card" data-card-id="act-p2">
+    <div class="act-item p2">
+      <div><span class="act-pri">P2</span></div>
+      <div class="act-body">Call Galloway family regarding $4,800 repair</div>
+      <!-- 💡 → lightbulb SVG -->
+      <div class="act-why">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0">
+          <line x1="9" y1="18" x2="15" y2="18"/><line x1="10" y1="22" x2="14" y2="22"/>
+          <path d="M15.09 14c.18-.98.65-1.74 1.41-2.5A4.65 4.65 0 0 0 18 8 6 6 0 0 0 6 8c0 1 .23 2.23 1.5 3.5A4.61 4.61 0 0 1 8.91 14"/>
+        </svg>
+        Customer price objection; needs owner validation to close
+      </div>
+      <div class="act-meta">
+        <!-- ⏱ → clock SVG -->
+        <span style="display:inline-flex;align-items:center;gap:4px">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg>
+          11:00 AM
+        </span>
+        <span class="act-val">$4,800</span>
+      </div>
+    </div>
+    <div class="c-actions">
+      <button class="btn btn-primary" onclick="actCall('p2')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 14a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 3.12h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 10.36a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        Call now
+      </button>
+      <button class="btn btn-ghost" onclick="actDone('p2')">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        Handled
+      </button>
+      <!-- 🎙 → mic SVG -->
+      <button class="btn btn-mic" onclick="openMic('Action P2')">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="9" y="2" width="6" height="11" rx="3"/>
+          <path d="M5 10a7 7 0 0 0 14 0"/>
+          <line x1="12" y1="19" x2="12" y2="22"/>
+          <line x1="8"  y1="22" x2="16" y2="22"/>
+        </svg>
+        Add note
+      </button>
+    </div>
+  </div>
+
+  <div class="card" data-card-id="act-p3">
+    <div class="act-item p3">
+      <div><span class="act-pri">P3</span></div>
+      <div class="act-body">Respond to Ramirez Google Review</div>
+      <!-- 💡 → lightbulb SVG -->
+      <div class="act-why">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0">
+          <line x1="9" y1="18" x2="15" y2="18"/><line x1="10" y1="22" x2="14" y2="22"/>
+          <path d="M15.09 14c.18-.98.65-1.74 1.41-2.5A4.65 4.65 0 0 0 18 8 6 6 0 0 0 6 8c0 1 .23 2.23 1.5 3.5A4.61 4.61 0 0 1 8.91 14"/>
+        </svg>
+        2-star rating regarding lateness; impacts local SEO and trust
+      </div>
+      <div class="act-meta">
+        <!-- ⏱ → clock SVG -->
+        <span style="display:inline-flex;align-items:center;gap:4px">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg>
+          4:00 PM
+        </span>
+      </div>
+    </div>
+    <div class="c-actions">
+      <button class="btn btn-primary" onclick="actCall('p3')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 14a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 3.12h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 10.36a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        Call now
+      </button>
+      <button class="btn btn-ghost" onclick="actDone('p3')">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        Handled
+      </button>
+      <!-- 🎙 → mic SVG -->
+      <button class="btn btn-mic" onclick="openMic('Action P3')">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="9" y="2" width="6" height="11" rx="3"/>
+          <path d="M5 10a7 7 0 0 0 14 0"/>
+          <line x1="12" y1="19" x2="12" y2="22"/>
+          <line x1="8"  y1="22" x2="16" y2="22"/>
+        </svg>
+        Add note
+      </button>
+    </div>
+  </div>
+
+  <!-- ── At-risk deals（💸 非替换列表，保留）── -->
+  <div class="divider">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+    At-risk deals
+  </div>
+
+  <div class="card" data-card-id="risk-Chen">
+    <div class="risk-hdr">
+      <div class="risk-cust"><span class="correctable">Chen residence</span></div>
+      <div class="risk-amt">$11,500</div>
+    </div>
+    <div class="risk-desc">Derek missed 2nd follow-up; customer shopping competitors</div>
+    <div class="risk-prob">
+      <span>Current: <b class="low">30%</b></span>
+      <span>→ If fixed: <b class="high">70%</b></span>
+    </div>
+    <div class="risk-fix">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--ink3)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0">
+        <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
+      </svg>
+      Owner personal call today 10am
+    </div>
+  </div>
+
+  <div class="card" data-card-id="risk-Tran">
+    <div class="risk-hdr">
+      <div class="risk-cust"><span class="correctable">Tran residence</span></div>
+      <div class="risk-amt">$22,000</div>
+    </div>
+    <div class="risk-desc">Commercial package unit; references requested yesterday</div>
+    <div class="risk-prob">
+      <span>Current: <b class="low">60%</b></span>
+      <span>→ If fixed: <b class="high">85%</b></span>
+    </div>
+    <div class="risk-fix">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--ink3)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0">
+        <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
+      </svg>
+      Sarah must send references by EOD
+    </div>
+  </div>
+
+  <!-- ── Tech watchlist（👥 → users SVG）── -->
+  <div class="divider">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+      <circle cx="9" cy="7" r="4"/>
+      <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+      <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+    </svg>
+    Tech watchlist
+  </div>
+
+  <div class="card" data-card-id="tech-Derek">
+    <span class="tech-name">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--warn)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+        <line x1="12" y1="9" x2="12" y2="13"/>
+        <line x1="12" y1="17" x2="12.01" y2="17"/>
+      </svg>
+      <span class="correctable">Derek</span>
+    </span>
+    <div class="tech-detail">2nd missed follow-up this month<br><span style="color:var(--ink3);font-style:italic">→ 1:1 conversation with HR present</span></div>
+  </div>
+
+  <div class="card" data-card-id="tech-Sarah">
+    <span class="tech-name">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--warn)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+        <line x1="12" y1="9" x2="12" y2="13"/>
+        <line x1="12" y1="17" x2="12.01" y2="17"/>
+      </svg>
+      <span class="correctable">Sarah</span>
+    </span>
+    <div class="tech-detail">Top performer (6 stops, $715 avg)<br><span style="color:var(--ink3);font-style:italic">→ Check in to retain; ensure references sent for Tran job</span></div>
+  </div>
+
+  <div class="card" data-card-id="tech-Luis">
+    <span class="tech-name">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--warn)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+        <line x1="12" y1="9" x2="12" y2="13"/>
+        <line x1="12" y1="17" x2="12.01" y2="17"/>
+      </svg>
+      <span class="correctable">Luis</span>
+    </span>
+    <div class="tech-detail">Quote pending on $4,800 repair<br><span style="color:var(--ink3);font-style:italic">→ Support owner call with Galloway</span></div>
+  </div>
+
+  <!-- ── Hidden wins（🏆 → award SVG）── -->
+  <div class="divider">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="8" r="6"/>
+      <path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/>
+    </svg>
+    Hidden wins · yesterday
+  </div>
+
+  <div class="card" data-card-id="wins">
+    <div style="font-size:15px;font-weight:600;color:var(--ink)">Mike saved Ortiz from $8,900 Sunrise loss</div>
+    <div style="font-size:18px;font-weight:700;color:var(--pos);margin-top:4px">+$12,816 LTV</div>
+    <div style="font-size:13px;color:var(--ink3);margin-top:8px;display:flex;align-items:center;gap:6px">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0">
+        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+      </svg>
+      Public recognition in team huddle
+    </div>
+  </div>
+
+  <!-- ── Pipeline health（📈 → trending-up SVG）── -->
+  <div class="divider">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="23,6 13.5,15.5 8.5,10.5 1,18"/>
+      <polyline points="17,6 23,6 23,12"/>
+    </svg>
+    Pipeline health
+  </div>
+
+  <div class="card" data-card-id="pipe">
+    <div class="pipe-grid">
+      <div class="pipe-box">
+        <div class="pipe-l">Open est.</div>
+        <div class="pipe-v">31</div>
+      </div>
+      <div class="pipe-box warn">
+        <div class="pipe-l">&gt;14d old</div>
+        <div class="pipe-v" style="color:var(--warn)">14</div>
+      </div>
+      <div class="pipe-box neg">
+        <div class="pipe-l">Stale $</div>
+        <div class="pipe-v" style="color:var(--warn)">85000</div>
+      </div>
+      <div class="pipe-box">
+        <div class="pipe-l">Conv now</div>
+        <div class="pipe-v">28%</div>
+      </div>
+      <div class="pipe-box">
+        <div class="pipe-l">Target</div>
+        <div class="pipe-v" style="color:var(--accent)">35%</div>
+      </div>
+      <div class="pipe-box warn">
+        <div class="pipe-l">Gap/mo</div>
+        <div class="pipe-v" style="color:var(--warn)">$12,460</div>
+      </div>
+    </div>
+    <!-- 💡 → lightbulb SVG -->
+    <div style="margin-top:10px;padding:10px 12px;background:#f8fafc;border-radius:8px;font-size:13px;color:var(--ink2);display:flex;align-items:center;gap:6px">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--ink3)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0">
+        <line x1="9" y1="18" x2="15" y2="18"/><line x1="10" y1="22" x2="14" y2="22"/>
+        <path d="M15.09 14c.18-.98.65-1.74 1.41-2.5A4.65 4.65 0 0 0 18 8 6 6 0 0 0 6 8c0 1 .23 2.23 1.5 3.5A4.61 4.61 0 0 1 8.91 14"/>
+      </svg>
+      <b>Recommended:</b>&nbsp;Call all 14 stale estimates this week
+    </div>
+  </div>
+
+  <!-- ── Review alerts（⭐ → star SVG）── -->
+  <div class="divider">
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/>
+    </svg>
+    Review alerts
+  </div>
+
+  <div class="card" data-card-id="review-Ramirez">
+    <!-- ⭐⭐ in c-kicker → 2× star SVG -->
+    <div class="c-kicker red">
+      Google &nbsp;·&nbsp;
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
+    </div>
+    <div class="c-title"><span class="correctable">Ramirez</span></div>
+    <div class="c-body">
+      <div style="padding:10px;background:var(--bg);border-radius:6px;font-style:italic">
+        "tech was 90 min late, didn't explain what he did"
+      </div>
+      <div style="margin-top:10px;padding:10px;background:var(--accent-bg);border-radius:6px;font-size:13px">
+        <b>Draft response:</b> Hi Ramirez, I'm the owner. I'm truly sorry you waited 90 minutes. That is not our standard of service. I want to make this right and understand what happened. Please call me directly at [Phone Number] so I can resolve this personally.
+      </div>
+      <!-- ⏱ → clock SVG，颜色 var(--neg) -->
+      <div style="font-size:11px;color:var(--neg);margin-top:8px;display:flex;align-items:center;gap:4px">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--neg)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/>
+        </svg>
+        Respond by 4:00 PM today
+      </div>
+    </div>
+    <div class="c-actions">
+      <button class="btn btn-primary">Send draft</button>
+      <!-- 🎙 → mic SVG -->
+      <button class="btn btn-mic" onclick="openMic('Review response')">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="9" y="2" width="6" height="11" rx="3"/>
+          <path d="M5 10a7 7 0 0 0 14 0"/>
+          <line x1="12" y1="19" x2="12" y2="22"/>
+          <line x1="8"  y1="22" x2="16" y2="22"/>
+        </svg>
+        Record custom
+      </button>
+    </div>
+  </div>
+
+  <!-- ── Trucks（🚐 → truck SVG）── -->
+  <div class="divider">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="1" y="3" width="15" height="13"/>
+      <polygon points="16,8 20,8 23,11 23,16 16,16 16,8"/>
+      <circle cx="5.5" cy="18.5" r="2.5"/>
+      <circle cx="18.5" cy="18.5" r="2.5"/>
+    </svg>
+    Trucks &amp; ops
+  </div>
+
+  <div class="card" data-card-id="trucks">
+    <b>Trucks 4, 7, 11 low on R-410A</b>
+    <div style="font-size:11px;color:var(--ink3);margin-top:4px">Urgency: Order today · minor</div>
+  </div>
+
+  <!-- ── Monday questions（❓ → help-circle SVG）── -->
+  <div class="divider">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="10"/>
+      <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
+      <line x1="12" y1="17" x2="12.01" y2="17"/>
+    </svg>
+    Three questions for Monday
+  </div>
+
+  <div class="card" data-card-id="questions">
+    <ol class="q-list">
+      <li>Why did Derek miss 2 follow-ups in 30 days?</li>
+      <li>Can we shift one of Mike's weekly routes to higher-ticket zone to boost his revenue?</li>
+      <li>What do we do about the 14 stale estimates totaling $85k?</li>
+    </ol>
+  </div>
+
+  <!-- ── Footer ── -->
+  <div class="foot">
+    TalkToDeal · Owner brief · Auto-generated from today's dispatch<br>
+    <span style="font-size:10px;opacity:.8;display:inline-flex;align-items:center;gap:4px">
+      <!-- ⚠️ → alert-triangle SVG 11px -->
+      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+        <line x1="12" y1="9" x2="12" y2="13"/>
+        <line x1="12" y1="17" x2="12.01" y2="17"/>
+      </svg>
+      AI analysis · click
+      <!-- 🎙 → mic SVG 11px -->
+      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="9" y="2" width="6" height="11" rx="3"/>
+        <path d="M5 10a7 7 0 0 0 14 0"/>
+        <line x1="12" y1="19" x2="12" y2="22"/>
+        <line x1="8"  y1="22" x2="16" y2="22"/>
+      </svg>
+      on any card to add voice note
+    </span>
+  </div>
+
+</div><!-- /stream -->
+
+<!-- 浮动 mic 按钮（display:none，保留 DOM 和 JS 引用）-->
+<div class="mic-wrap">
+  <button id="globalMic" class="mic-btn" onclick="openMic()">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="9" y="2" width="6" height="11" rx="3"/>
+      <path d="M5 10a7 7 0 0 0 14 0"/>
+      <line x1="12" y1="19" x2="12" y2="22"/>
+      <line x1="8"  y1="22" x2="16" y2="22"/>
+    </svg>
+  </button>
+</div>
+<div class="fixed-mic">
+  <button class="btn-fixed-mic" onclick="openMic()">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="9" y="2" width="6" height="11" rx="3"/>
+      <path d="M5 10a7 7 0 0 0 14 0"/>
+      <line x1="12" y1="19" x2="12" y2="22"/>
+      <line x1="8"  y1="22" x2="16" y2="22"/>
+    </svg>
+    Add voice note
+  </button>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+function openMic(target){
+  alert(target ? `Voice note for: ${target}\n(Demo mode)` : `Free add (Demo mode)`);
+}
+function toast(txt){
+  const t = document.getElementById('toast');
+  if(!t) return; t.textContent = txt;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2400);
+}
+function actDone(id){ toast('Marked done'); }
+function actCall(id){ toast('Calling...'); }
+</script>
+</body>
+</html>

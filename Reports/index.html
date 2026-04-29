@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#4578EC">
+  <title>TalkToDeal for HVAC · v4 Reports</title>
+
+  <!-- Geist Sans woff2（四个字重）-->
+  <style>
+    @font-face {
+      font-family: 'Geist';
+      src: url('https://cdn.jsdelivr.net/npm/geist@1.3.1/dist/fonts/geist-sans/Geist-Regular.woff2') format('woff2');
+      font-weight: 400; font-style: normal; font-display: swap;
+    }
+    @font-face {
+      font-family: 'Geist';
+      src: url('https://cdn.jsdelivr.net/npm/geist@1.3.1/dist/fonts/geist-sans/Geist-Medium.woff2') format('woff2');
+      font-weight: 500; font-style: normal; font-display: swap;
+    }
+    @font-face {
+      font-family: 'Geist';
+      src: url('https://cdn.jsdelivr.net/npm/geist@1.3.1/dist/fonts/geist-sans/Geist-SemiBold.woff2') format('woff2');
+      font-weight: 600; font-style: normal; font-display: swap;
+    }
+    @font-face {
+      font-family: 'Geist';
+      src: url('https://cdn.jsdelivr.net/npm/geist@1.3.1/dist/fonts/geist-sans/Geist-Bold.woff2') format('woff2');
+      font-weight: 700; font-style: normal; font-display: swap;
+    }
+  </style>
+
+  <!-- DM Sans fallback -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+/* ── 变量 ── */
+:root {
+  --ink:  #1e293b;
+  --ink2: #475569;
+  --ink3: #64748b;
+  --ink4: #94a3b8;
+  --bg:   #f8fafc;
+  --card: #fff;
+  --border: #e2e8f0;
+  --accent: #4578EC;
+  --accent-bg: rgba(69,120,236,.08);
+  --pos: #16a34a;
+  --pos-bg: #f0fdf4;
+  --neg: #dc2626;
+  --warn: #d97706;
+  --hot: #ea580c;
+  --serif: "Source Serif Pro","Georgia",serif;
+  --radius: 14px;
+}
+
+/* ── 基础重置 ── */
+*{ margin:0; padding:0; box-sizing:border-box }
+body {
+  font-family: 'Geist','DM Sans',system-ui,sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  line-height: 1.55;
+  font-size: 15px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ── 主容器 ── */
+.stream { max-width:720px; margin:0 auto; padding:32px 20px 60px }
+
+/* ── Hero ── */
+.hero { padding:20px 4px 24px; text-align:center }
+.hero-kicker {
+  font-size:11px; font-weight:800;
+  color:var(--accent); letter-spacing:2.5px; text-transform:uppercase;
+}
+.hero-title {
+  font-family: var(--serif);
+  font-size:36px; font-weight:700;
+  line-height:1.1; margin:10px 0 10px; letter-spacing:-1px;
+}
+.hero-title .gr {
+  background: linear-gradient(135deg,var(--accent),#8b5cf6);
+  -webkit-background-clip:text; background-clip:text;
+  -webkit-text-fill-color:transparent;
+}
+.hero-sub { font-size:15px; color:var(--ink2); max-width:520px; margin:0 auto; line-height:1.55 }
+
+/* Hero badge（绿色圆点替换 🟢）*/
+.hero-badge {
+  display:inline-flex; align-items:center; gap:7px;
+  margin-top:12px; padding:6px 14px;
+  background:var(--pos-bg);
+  border:1px solid rgba(22,163,74,.2);
+  border-radius:20px;
+  font-size:12px; font-weight:700; color:var(--pos);
+}
+
+/* 6px 绿色 pulse 圆点 */
+.pulse-dot {
+  display:inline-block;
+  width:6px; height:6px; border-radius:50%;
+  background:#16a34a; flex-shrink:0;
+  animation: pulse-dot 2s ease-in-out infinite;
+}
+@keyframes pulse-dot {
+  0%,100% { box-shadow: 0 0 0 0 rgba(22,163,74,.45); }
+  50%      { box-shadow: 0 0 0 5px rgba(22,163,74,0); }
+}
+
+/* ── Stats 条 ── */
+.stats {
+  display:grid; grid-template-columns:repeat(3,1fr);
+  gap:10px; margin:24px 0; padding:18px 12px;
+  background:#fff;
+  border-radius:var(--radius);
+  box-shadow: 0 1px 3px rgba(15,23,42,.06), 0 1px 2px rgba(15,23,42,.04);
+}
+.stat { text-align:center }
+.stat-v {
+  font-size:26px; font-weight:800;
+  color:var(--accent);
+  font-variant-numeric:tabular-nums;
+  font-family:'Geist','DM Sans',system-ui,sans-serif;
+}
+.stat-l { font-size:11px; color:var(--ink3); margin-top:4px; line-height:1.3 }
+
+/* ── Section 分隔标签 ── */
+.divider {
+  display:flex; align-items:center; gap:10px;
+  margin:32px 4px 12px;
+  color:var(--ink3); font-size:11px;
+  font-weight:800; letter-spacing:2px; text-transform:uppercase;
+}
+.divider::after { content:""; flex:1; height:1px; background:var(--border) }
+
+/* ── Report / Demo 卡片（demo-link）
+     移除所有 border 和 border-left，改用阴影
+── */
+.demo-link {
+  display:block;
+  background:var(--card);
+  border-radius:var(--radius);
+  padding:18px;
+  margin-bottom:12px;
+  text-decoration:none;
+  color:inherit;
+  box-shadow: 0 1px 3px rgba(15,23,42,.06), 0 1px 2px rgba(15,23,42,.04);
+  transition: transform .15s ease, box-shadow .15s ease;
+}
+.demo-link:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 32px rgba(15,23,42,.10);
+}
+
+/* 背景渐变 tint（保留原有色调，但去掉 border-left）*/
+.demo-link.urgent { background: linear-gradient(90deg,#fef2f2 0%,#fff 60%); }
+.demo-link.hot    { background: linear-gradient(90deg,#fff7ed 0%,#fff 60%); }
+.demo-link.calm   { background: var(--card); }
+
+/* ── 卡片内部 ── */
+.d-kicker {
+  font-size:11px; font-weight:800;
+  text-transform:uppercase; letter-spacing:1.5px;
+  color:var(--ink3);
+  margin-bottom:6px;
+  display:flex; align-items:center; gap:8px;
+}
+.d-kicker .role {
+  background:var(--accent-bg); color:var(--accent);
+  padding:2px 8px; border-radius:10px; font-size:10px;
+}
+.d-title { font-size:18px; font-weight:700; margin-bottom:6px; letter-spacing:-.3px; line-height:1.3 }
+.d-desc  { font-size:14px; color:var(--ink2); line-height:1.55 }
+.d-desc strong { color:var(--ink); font-weight:700 }
+.d-cta {
+  font-size:13px; color:var(--accent);
+  font-weight:700; margin-top:12px;
+  display:inline-flex; align-items:center; gap:5px;
+}
+
+/* ── How it Works ── */
+.how {
+  background: linear-gradient(135deg,#eff6ff,#e0e7ff);
+  border-radius:var(--radius);
+  padding:20px; margin:16px 0;
+}
+.how-hdr {
+  font-size:11px; font-weight:800;
+  color:var(--accent);
+  text-transform:uppercase; letter-spacing:2px;
+  margin-bottom:10px;
+}
+.how-steps {
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(120px,1fr));
+  gap:10px; margin-top:12px;
+}
+.how-step { padding:12px; background:#fff; border-radius:10px; text-align:center }
+.how-step .n {
+  display:inline-flex; width:24px; height:24px;
+  background:var(--accent); color:#fff;
+  border-radius:50%; align-items:center; justify-content:center;
+  font-weight:800; font-size:12px;
+}
+.how-step .t { font-weight:700; font-size:13px; margin-top:8px }
+.how-step .s { font-size:11px; color:var(--ink3); margin-top:2px }
+
+/* ── CTA Box ── */
+.cta-box {
+  background: linear-gradient(135deg,var(--accent),#7c3aed);
+  color:#fff; border-radius:var(--radius);
+  padding:24px 20px; text-align:center; margin:24px 0;
+}
+.cta-box h3 { font-size:20px; font-weight:800; margin-bottom:8px }
+.cta-box p  { font-size:14px; opacity:.9; max-width:440px; margin:0 auto 14px; line-height:1.55 }
+.cta-btn {
+  display:inline-flex; align-items:center; gap:6px;
+  padding:12px 22px;
+  background:#fff; color:var(--accent);
+  border-radius:8px; text-decoration:none;
+  font-weight:700; font-size:14px;
+  transition: transform .15s ease, box-shadow .15s ease;
+}
+.cta-btn:hover { transform:translateY(-1px); box-shadow:0 8px 24px rgba(0,0,0,.18) }
+
+/* ── Footer ── */
+.foot { text-align:center; color:var(--ink4); font-size:11px; padding:30px 10px }
+.foot a { color:var(--accent); text-decoration:none }
+  </style>
+</head>
+<body>
+
+<div class="stream">
+
+  <!-- ── Hero ── -->
+  <div class="hero">
+    <div class="hero-kicker">TalkToDeal for HVAC</div>
+    <h1 class="hero-title">See how AI reports <span class="gr">your field work</span></h1>
+    <p class="hero-sub">These are real reports your techs, dispatchers, and you will see — auto-generated by Qwen3.5-122B from on-site audio conversations.</p>
+    <!-- 🟢 → 6px 绿色 pulse 圆点 -->
+    <div class="hero-badge">
+      <span class="pulse-dot"></span>
+      Template v4 &nbsp;&middot;&nbsp; one-stream cards &nbsp;&middot;&nbsp; voice-correctable
+    </div>
+  </div>
+
+  <!-- ── Stats 条 ── -->
+  <div class="stats">
+    <div class="stat">
+      <div class="stat-v">$8,480</div>
+      <div class="stat-l">Customer saved<br>on one visit</div>
+    </div>
+    <div class="stat">
+      <div class="stat-v">$12,816</div>
+      <div class="stat-l">3yr LTV from<br>saved relationship</div>
+    </div>
+    <div class="stat">
+      <div class="stat-v">122B</div>
+      <div class="stat-l">Qwen3.5 params<br>with 256K context</div>
+    </div>
+  </div>
+
+  <div class="divider">Three real reports from one visit</div>
+
+  <!-- Card 1：Competitive Save（⚔ → shield SVG，红色）-->
+  <a class="demo-link urgent" href="http://192.168.1.203:8000/static/demos/hvac-visit-report.html">
+    <div class="d-kicker">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+      </svg>
+      Competitive Save <span class="role">Tech / Dispatcher</span>
+    </div>
+    <div class="d-title">Ortiz family · Sunrise $8,900 → our $420</div>
+    <div class="d-desc">
+      Competitor pushed <strong>$8,900 full replacement</strong>. Our tech diagnosed a <strong>$420 Schrader valve leak</strong>. AI report shows customer psychology quotes, coaching moments, and the 3-year <strong>$12,816 LTV</strong> this save created.
+    </div>
+    <div class="d-cta">Open report →</div>
+  </a>
+
+  <!-- Card 2：Weekly Coaching（📊 → bar-chart-2 SVG，主色）-->
+  <a class="demo-link calm" href="http://192.168.1.203:8000/static/demos/hvac-tech-coaching.html">
+    <div class="d-kicker">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4578EC" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="18" y1="20" x2="18" y2="10"/>
+        <line x1="12" y1="20" x2="12" y2="4"/>
+        <line x1="6"  y1="20" x2="6"  y2="14"/>
+      </svg>
+      Weekly Coaching <span class="role">Technician</span>
+    </div>
+    <div class="d-title">Mike's week · honest, specific, kind</div>
+    <div class="d-desc">
+      Biggest win (saved customer $8,480), biggest miss ($8,500 lost deal with root cause), <strong>fair peer comparison</strong> (not apples-to-apples), 3 patterns detected across 5 jobs, next-week practice goals.
+    </div>
+    <div class="d-cta">Open report →</div>
+  </a>
+
+  <!-- Card 3：Owner Dashboard（🏢 → layout-grid SVG，橙色）-->
+  <a class="demo-link hot" href="http://192.168.1.203:8000/static/demos/hvac-owner-dashboard.html">
+    <div class="d-kicker">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ea580c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="3"  y="3"  width="7" height="7" rx="1"/>
+        <rect x="14" y="3"  width="7" height="7" rx="1"/>
+        <rect x="3"  y="14" width="7" height="7" rx="1"/>
+        <rect x="14" y="14" width="7" height="7" rx="1"/>
+      </svg>
+      Owner Dashboard <span class="role">Owner</span>
+    </div>
+    <div class="d-title">Bay Area Cooling · 60-second AI brief</div>
+    <div class="d-desc">
+      12 techs, 18 jobs today, $31K in at-risk deals, <strong>3 must-do actions</strong> by deadline, tech watchlist (2 flags), hidden wins from yesterday, pipeline health + stale estimate nurture plan.
+    </div>
+    <div class="d-cta">Open dashboard →</div>
+  </a>
+
+  <!-- Card 4：Teach the AI（🎙 → mic SVG，cyan）-->
+  <a class="demo-link calm" href="http://192.168.1.203:8000/static/demos/hvac-entity-correction.html">
+    <div class="d-kicker">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0891b2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="9" y="2" width="6" height="11" rx="3"/>
+        <path d="M5 10a7 7 0 0 0 14 0"/>
+        <line x1="12" y1="19" x2="12" y2="22"/>
+        <line x1="8"  y1="22" x2="16" y2="22"/>
+      </svg>
+      Teach the AI <span class="role">Interactive · NEW</span>
+    </div>
+    <div class="d-title">Voice correction · one card at a time</div>
+    <div class="d-desc">
+      When AI is unsure — you spell the name, say the phone, identify the stranger. <strong>One card, one voice, no ambiguity.</strong> AI remembers next visit. Try the live mic.
+    </div>
+    <div class="d-cta">Try the live mic →</div>
+  </a>
+
+  <div class="divider">How it works</div>
+
+  <!-- ── How it Works ── -->
+  <div class="how">
+    <div class="how-hdr">4 steps · voice to value</div>
+    <div class="how-steps">
+      <div class="how-step">
+        <div class="n">1</div>
+        <div class="t">Tech speaks</div>
+        <div class="s">Normal conversation at customer site</div>
+      </div>
+      <div class="how-step">
+        <div class="n">2</div>
+        <div class="t">AI transcribes</div>
+        <div class="s">Speaker-separated, language-aware</div>
+      </div>
+      <div class="how-step">
+        <div class="n">3</div>
+        <div class="t">122B analyzes</div>
+        <div class="s">Pattern detection, LTV, coaching</div>
+      </div>
+      <div class="how-step">
+        <div class="n">4</div>
+        <div class="t">Reports delivered</div>
+        <div class="s">To tech, dispatcher, and owner</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider">Why TalkToDeal wins</div>
+
+  <!-- Principle 1（🎯 → target SVG，主色）-->
+  <div class="demo-link calm">
+    <div class="d-kicker">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4578EC" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="10"/>
+        <circle cx="12" cy="12" r="6"/>
+        <circle cx="12" cy="12" r="2"/>
+      </svg>
+      Principle 1
+    </div>
+    <div class="d-title">Diagnose before you sell</div>
+    <div class="d-desc">Competitors push replacement. Our AI surfaces the <strong>real problem first</strong> — so your techs earn trust, and your company earns 3-year relationships instead of one-time deals.</div>
+  </div>
+
+  <!-- Principle 2（🔒 → lock SVG，主色）-->
+  <div class="demo-link calm">
+    <div class="d-kicker">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4578EC" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+        <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+      </svg>
+      Principle 2
+    </div>
+    <div class="d-title">Privacy first, full-view on login</div>
+    <div class="d-desc">Shared reports mask names and phones. Owner toggles to full view with one tap. Your customers' data never leaks.</div>
+  </div>
+
+  <!-- Principle 3（🎙 → mic SVG，主色）-->
+  <div class="demo-link calm">
+    <div class="d-kicker">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4578EC" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="9" y="2" width="6" height="11" rx="3"/>
+        <path d="M5 10a7 7 0 0 0 14 0"/>
+        <line x1="12" y1="19" x2="12" y2="22"/>
+        <line x1="8"  y1="22" x2="16" y2="22"/>
+      </svg>
+      Principle 3
+    </div>
+    <div class="d-title">Voice correction is the moat</div>
+    <div class="d-desc">Every time your team corrects a name or amount with their voice, the AI remembers. <strong>Month over month, accuracy compounds</strong>.</div>
+  </div>
+
+  <!-- ── CTA Box ── -->
+  <div class="cta-box">
+    <h3>Ready to pilot with your team?</h3>
+    <p>10 techs · 30 days · no contract. We set up the microphones, you see the reports.</p>
+    <!-- phone SVG + 原有文字 -->
+    <a href="mailto:sales@talktodeal.com?subject=HVAC%20pilot%20inquiry" class="cta-btn">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#4578EC" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.07 11.67 19.79 19.79 0 0 1 1 3.05 2 2 0 0 1 2.98 1h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.09 8.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+      </svg>
+      Start a 30-day pilot →
+    </a>
+  </div>
+
+  <!-- ── Footer ── -->
+  <div class="foot">
+    TalkToDeal · AI reports from voice · Template v4 live · <a href="http://192.168.1.203:8000/static/demos/hvac-demos-index.html#">privacy</a><br>
+    <span style="font-size:10px;opacity:.7">
+      <!-- ⚠️ → warning SVG -->
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;margin-right:3px">
+        <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+        <line x1="12" y1="9"  x2="12"   y2="13"/>
+        <line x1="12" y1="17" x2="12.01" y2="17"/>
+      </svg>
+      Demo data shown. Real reports use your company's calls.
+    </span>
+  </div>
+
+</div>
+
+</body>
+</html>

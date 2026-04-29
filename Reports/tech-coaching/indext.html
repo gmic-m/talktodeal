@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<!-- saved from url=(0056)https://biz.gmic.ai/static/demos/hvac-tech-coaching.html -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#2563eb">
+<title>Mike's Weekly · Apr 16-22 2026</title>
+<style>
+:root{
+  --ink:#1e293b;--ink2:#475569;--ink3:#64748b;--ink4:#94a3b8;
+  --bg:#fafaf7;--card:#fff;--border:#e2e8f0;
+  --accent:#2563eb;--accent-bg:rgba(37,99,235,.06);
+  --pos:#16a34a;--pos-bg:#f0fdf4;
+  --neg:#dc2626;--neg-bg:#fef2f2;
+  --warn:#d97706;--warn-bg:#fffbeb;
+  --hot:#ea580c;--hot-bg:#fff7ed;
+  --serif:"Source Serif Pro","Georgia",serif;
+  --radius:14px;
+  --max-w:520px;
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{overflow-x:hidden}
+body{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","PingFang SC",sans-serif;
+     background:var(--bg);color:var(--ink);font-size:15px;line-height:1.55;padding-bottom:120px}
+.stream{max-width:var(--max-w);margin:0 auto;padding:20px 16px}
+
+/* ---------- Hero (minimal) ---------- */
+.hero{padding:24px 4px 16px}
+.hero-date{font-size:11px;font-weight:700;color:var(--ink3);letter-spacing:2px;text-transform:uppercase}
+.hero-title{font-family:var(--serif);font-size:28px;font-weight:600;margin-top:6px;letter-spacing:-.5px;line-height:1.15}
+.hero-greet{color:var(--ink2);font-size:15px;margin-top:6px;line-height:1.5}
+.hero-stats{display:flex;gap:14px;margin-top:14px;font-size:12px;color:var(--ink3);flex-wrap:wrap}
+.hero-stats b{color:var(--ink);font-weight:700}
+.hero-stats span + span::before{content:"·";margin-right:14px;color:var(--ink4)}
+
+/* ---------- Card base ---------- */
+.card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);
+      padding:16px;margin-bottom:10px;transition:transform .15s ease,box-shadow .15s ease;position:relative}
+.card:active{transform:scale(.995)}
+.card-urgent{border-left:4px solid var(--neg);background:linear-gradient(90deg,var(--neg-bg) 0%,var(--card) 40%)}
+.card-hot   {border-left:4px solid var(--hot); background:linear-gradient(90deg,var(--hot-bg) 0%,var(--card) 40%)}
+.card-warm  {border-left:4px solid var(--warn)}
+.card-calm  {border-left:4px solid var(--border)}
+
+.c-kicker{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:1.3px;
+          color:var(--ink3);margin-bottom:6px;display:flex;align-items:center;gap:6px}
+.c-kicker.red  {color:var(--neg)}
+.c-kicker.hot  {color:var(--hot)}
+.c-kicker.warm {color:var(--warn)}
+.c-kicker.pos  {color:var(--pos)}
+.c-title{font-size:16px;font-weight:700;line-height:1.35;letter-spacing:-.2px}
+.c-body{color:var(--ink2);margin-top:8px;font-size:14px;line-height:1.55}
+.c-body p{margin-bottom:6px}
+.c-meta{display:flex;gap:10px;margin-top:10px;font-size:12px;color:var(--ink3);flex-wrap:wrap}
+.c-meta b{color:var(--ink2)}
+
+.c-actions{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:5px;padding:8px 12px;border-radius:8px;
+     font-size:13px;font-weight:600;cursor:pointer;border:none;text-decoration:none;
+     transition:transform .1s}
+.btn:active{transform:scale(.97)}
+.btn-primary{background:var(--ink);color:#fff}
+.btn-ghost  {background:var(--card);color:var(--ink2);border:1px solid var(--border)}
+.btn-accent {background:var(--accent);color:#fff}
+.btn-mic    {background:var(--accent-bg);color:var(--accent);border:1px solid rgba(37,99,235,.2)}
+
+/* ---------- Chips ---------- */
+.chip{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:12px;
+      font-size:11px;font-weight:700;white-space:nowrap;letter-spacing:.2px}
+.chip-red  {background:var(--neg-bg); color:var(--neg)}
+.chip-hot  {background:var(--hot-bg); color:var(--hot)}
+.chip-warm {background:var(--warn-bg);color:var(--warn)}
+.chip-pos  {background:var(--pos-bg); color:var(--pos)}
+.chip-info {background:var(--accent-bg);color:var(--accent)}
+.chip-gray {background:#f1f5f9;color:var(--ink3)}
+
+/* ---------- People-chip row (inside cards) ---------- */
+.p-row{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.p-chip{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:14px;
+        background:var(--bg);border:1px solid var(--border);font-size:12px;cursor:pointer;
+        color:var(--ink2);transition:border-color .15s,background .15s}
+.p-chip:hover{border-color:var(--accent);background:var(--accent-bg)}
+.p-chip .dot{width:6px;height:6px;border-radius:50%;background:var(--pos)}
+.p-chip .dot.warn{background:var(--warn)}
+.p-chip .dot.unk{background:var(--ink4)}
+.p-chip .tag-unk{font-size:10px;color:var(--warn);font-weight:700}
+
+/* ---------- Section dividers (not tabs!) ---------- */
+.divider{display:flex;align-items:center;gap:10px;margin:24px 4px 8px;color:var(--ink3);font-size:11px;
+         font-weight:800;letter-spacing:2px;text-transform:uppercase}
+.divider::after{content:"";flex:1;height:1px;background:var(--border)}
+
+/* ---------- Collapsible "nerdy details" ---------- */
+details.more{background:transparent;margin-top:20px;padding:0 4px}
+details.more>summary{cursor:pointer;padding:12px;border-radius:8px;
+                     background:var(--card);border:1px dashed var(--border);
+                     font-size:13px;font-weight:600;color:var(--ink3);list-style:none;
+                     display:flex;align-items:center;justify-content:space-between}
+details.more>summary::-webkit-details-marker{display:none}
+details.more[open]>summary{background:var(--bg);color:var(--ink)}
+details.more>summary .plus{font-size:18px;transition:transform .2s}
+details.more[open]>summary .plus{transform:rotate(45deg)}
+
+/* ---------- Empty state overlay ---------- */
+.empty-state{position:relative;margin:40px 0;padding:40px 24px;border-radius:var(--radius);
+             background:linear-gradient(160deg,#fff 0%,#f8fafc 100%);
+             border:1px solid var(--border);text-align:center}
+.empty-state::before{content:"";position:absolute;inset:0;border-radius:var(--radius);
+                     background:radial-gradient(circle at 50% 0%,rgba(37,99,235,.06) 0%,transparent 60%);
+                     pointer-events:none}
+.empty-state .emoji{font-size:44px;margin-bottom:10px;filter:grayscale(.3)}
+.empty-state h2{font-family:var(--serif);font-size:22px;font-weight:500;letter-spacing:-.3px}
+.empty-state p{color:var(--ink2);font-size:14px;margin-top:10px;line-height:1.65;max-width:380px;margin-left:auto;margin-right:auto}
+.empty-state .big-mic{margin:22px auto 6px;width:72px;height:72px;border-radius:50%;
+                      background:linear-gradient(135deg,var(--accent),#6366f1);
+                      display:flex;align-items:center;justify-content:center;color:#fff;font-size:32px;
+                      box-shadow:0 10px 32px rgba(37,99,235,.35);cursor:pointer;transition:transform .15s}
+.empty-state .big-mic:active{transform:scale(.95)}
+.empty-state .hint{font-size:12px;color:var(--ink3);margin-top:10px}
+.empty-state .secondary{display:inline-block;margin-top:14px;color:var(--accent);font-size:12px;
+                        text-decoration:underline;text-decoration-style:dotted;cursor:pointer}
+
+/* ---------- Floating mic (global) ---------- */
+.mic-wrap{position:fixed;bottom:22px;right:22px;z-index:60}
+.mic-btn{width:56px;height:56px;border-radius:50%;
+         background:linear-gradient(135deg,#1e40af,#6366f1);color:#fff;
+         display:flex;align-items:center;justify-content:center;font-size:22px;
+         border:none;cursor:pointer;box-shadow:0 12px 28px rgba(30,64,175,.4);
+         transition:transform .15s}
+.mic-btn:active{transform:scale(.93)}
+.mic-btn.recording{background:var(--neg);animation:pulse 1.2s infinite}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(220,38,38,.5)}
+                 50%{box-shadow:0 0 0 12px rgba(220,38,38,0)}}
+
+/* ---------- Mic target sheet (pick which card) ---------- */
+.sheet-mask{position:fixed;inset:0;background:rgba(15,23,42,.55);z-index:70;
+            display:none;align-items:flex-end;justify-content:center;opacity:0;transition:opacity .2s}
+.sheet-mask.show{display:flex;opacity:1}
+.sheet{background:#fff;border-top-left-radius:18px;border-top-right-radius:18px;
+       width:100%;max-width:var(--max-w);padding:20px 18px 28px;
+       transform:translateY(100%);transition:transform .25s ease-out}
+.sheet-mask.show .sheet{transform:translateY(0)}
+.sheet h3{font-size:17px;font-weight:700;margin-bottom:4px}
+.sheet .sub{color:var(--ink3);font-size:13px;margin-bottom:14px}
+.target-list{display:flex;flex-direction:column;gap:6px;max-height:45vh;overflow-y:auto}
+.target{display:flex;align-items:center;gap:12px;padding:11px 12px;border-radius:10px;
+        border:1px solid var(--border);background:#fff;cursor:pointer;text-align:left;width:100%;font:inherit;color:inherit}
+.target:hover{border-color:var(--accent);background:var(--accent-bg)}
+.target .ic{width:34px;height:34px;border-radius:50%;background:var(--bg);display:flex;
+            align-items:center;justify-content:center;font-weight:700;font-size:14px;color:var(--ink2)}
+.target .tmain{flex:1;min-width:0}
+.target .tname{font-weight:600;font-size:14px}
+.target .tsub{font-size:11px;color:var(--ink3);margin-top:1px}
+.target .tbadge{font-size:10px;padding:2px 7px;border-radius:10px;background:var(--warn-bg);color:var(--warn);font-weight:700;white-space:nowrap}
+.sheet-close{display:block;width:100%;margin-top:14px;padding:10px;border:none;background:none;
+             color:var(--ink3);font-size:13px;cursor:pointer;font-weight:600}
+
+/* ---------- Active-record banner ---------- */
+.rec-banner{position:fixed;bottom:94px;left:50%;transform:translateX(-50%);
+            background:var(--neg);color:#fff;padding:10px 16px;border-radius:24px;
+            display:none;align-items:center;gap:10px;box-shadow:0 6px 20px rgba(220,38,38,.4);z-index:65;font-size:13px}
+.rec-banner.show{display:flex}
+.rec-dot{width:8px;height:8px;border-radius:50%;background:#fff;animation:blink 1s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
+.rec-stop{background:#fff;color:var(--neg);border:none;padding:3px 10px;border-radius:14px;font-weight:700;font-size:11px;cursor:pointer}
+
+/* ---------- Quality hint before recording ---------- */
+.qmask{position:fixed;inset:0;background:rgba(15,23,42,.6);z-index:80;display:none;
+       align-items:center;justify-content:center;padding:20px}
+.qmask.show{display:flex}
+.qpanel{background:#fff;border-radius:16px;max-width:400px;padding:22px}
+.qpanel h3{font-size:17px;font-weight:700;margin-bottom:4px}
+.qpanel .ctx{margin:10px 0;padding:10px 12px;background:var(--accent-bg);border-left:3px solid var(--accent);border-radius:6px;font-size:13px}
+.qtip{display:flex;gap:10px;margin:8px 0;font-size:13px;color:var(--ink2);align-items:start}
+.qtip .em{font-size:15px}
+.qactions{display:flex;gap:8px;justify-content:flex-end;margin-top:14px}
+
+/* ---------- Diff preview (after correction) ---------- */
+.diff{background:var(--pos-bg);border:1px solid var(--pos);border-radius:10px;
+      padding:12px 14px;margin-top:10px;font-size:13px}
+.diff-title{font-weight:700;color:var(--pos);font-size:13px;margin-bottom:6px;display:flex;gap:6px}
+.diff-row{display:flex;gap:10px;padding:4px 0}
+.diff-row + .diff-row{border-top:1px dashed rgba(22,163,74,.2)}
+.diff-from{text-decoration:line-through;color:var(--ink3);flex:1}
+.diff-arrow{color:var(--pos);font-weight:700}
+.diff-to{color:var(--ink);font-weight:600;flex:1}
+
+/* ---------- Toast ---------- */
+.toast{position:fixed;bottom:96px;left:50%;transform:translateX(-50%);
+       background:var(--ink);color:#fff;padding:9px 16px;border-radius:18px;font-size:12px;
+       opacity:0;pointer-events:none;transition:opacity .2s;z-index:90}
+.toast.show{opacity:1}
+
+/* ---------- Privacy banner ---------- */
+.priv{background:#eff6ff;border:1px solid rgba(37,99,235,.18);border-radius:10px;
+      padding:10px 12px;margin-bottom:12px;font-size:12px;color:var(--ink2);display:flex;
+      align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.priv-tog{background:#fff;border:1px solid var(--border);padding:4px 10px;border-radius:6px;
+          font-size:11px;cursor:pointer;font-weight:600;color:var(--ink2)}
+
+/* ---------- Footer ---------- */
+.foot{text-align:center;color:var(--ink4);font-size:11px;padding:30px 20px 60px}
+.foot a{color:var(--accent);text-decoration:none}
+
+/* ---------- Highlights ---------- */
+mark.hl{background:#fef08a;color:var(--ink);padding:1px 3px;border-radius:2px}
+
+/* ---------- Reminder cards (Route C · 2026-04-23) ---------- */
+.rem-card{background:#fff;border:1px solid var(--border);border-radius:var(--radius);
+          padding:14px 16px;margin-bottom:10px;position:relative;border-left:4px solid var(--accent)}
+.rem-card.rem-due{border-left-color:var(--hot);background:linear-gradient(90deg,var(--hot-bg) 0%,#fff 40%)}
+.rem-card.rem-overdue{border-left-color:var(--neg);background:linear-gradient(90deg,var(--neg-bg) 0%,#fff 40%)}
+.rem-card.rem-weak{opacity:.85}  /* low-confidence / unknown-speaker */
+
+.rem-head{display:flex;align-items:center;gap:8px;font-size:11px;font-weight:800;
+          text-transform:uppercase;letter-spacing:1.3px;color:var(--accent)}
+.rem-head.red{color:var(--neg)}
+.rem-head.hot{color:var(--hot)}
+
+.rem-time{font-size:20px;font-weight:800;margin:4px 0 2px;font-variant-numeric:tabular-nums}
+.rem-action{font-size:15px;font-weight:700;color:var(--ink);margin-bottom:4px}
+
+.rem-evidence{margin:10px 0 8px;padding:10px 12px;background:var(--bg);
+              border-left:2px solid var(--border);border-radius:4px;
+              font-size:13px;color:var(--ink2)}
+.rem-evidence .quote{font-style:italic}
+.rem-evidence .meta{font-size:11px;color:var(--ink3);margin-top:6px;display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+
+.rem-warn{display:inline-flex;align-items:center;gap:4px;padding:2px 7px;border-radius:10px;
+          font-size:10px;font-weight:700;background:var(--warn-bg);color:var(--warn);
+          margin-left:4px}
+.rem-warn.unknown{background:#fef3c7;color:#b45309}
+.rem-warn.low{background:#fee2e2;color:var(--neg)}
+
+.rem-actions{display:flex;gap:6px;margin-top:12px;flex-wrap:wrap}
+.rem-btn{display:inline-flex;align-items:center;gap:4px;padding:6px 10px;border-radius:7px;
+         font-size:12px;font-weight:600;cursor:pointer;border:1px solid var(--border);background:#fff;color:var(--ink2)}
+.rem-btn.done{background:var(--pos);color:#fff;border-color:var(--pos)}
+.rem-btn.ignore{background:#fff;color:var(--ink3)}
+.rem-btn.correct{background:var(--accent-bg);color:var(--accent);border-color:rgba(37,99,235,.2)}
+.rem-btn.play{background:var(--bg);color:var(--ink2)}
+
+/* ---------- Animations ---------- */
+.flash{animation:flash 1.6s ease}
+@keyframes flash{
+  0%  {box-shadow:0 0 0 0 rgba(37,99,235,0)}
+  30% {box-shadow:0 0 0 6px rgba(37,99,235,.3)}
+  100%{box-shadow:0 0 0 0 rgba(37,99,235,0)}
+}
+</style>
+<style>
+.big-amt{font-variant-numeric:tabular-nums;font-weight:800}
+.story{background:var(--accent-bg);border-left:3px solid var(--accent);
+       padding:14px 16px;border-radius:8px;margin:12px 0;
+       font-style:italic;color:var(--ink);font-size:14px;line-height:1.6}
+.peer-row{display:flex;justify-content:space-between;align-items:center;
+         padding:10px 12px;border-radius:8px;margin:6px 0;background:var(--bg)}
+.peer-row.ok{background:var(--pos-bg);border-left:3px solid var(--pos)}
+.peer-row.gap{background:var(--warn-bg);border-left:3px solid var(--warn)}
+.peer-row .k{font-size:12px;font-weight:600;color:var(--ink2)}
+.peer-row .v{font-weight:800;font-size:13px}
+.pattern{padding:10px 12px;border-radius:8px;margin:6px 0;background:var(--bg)}
+.pattern.keep{background:var(--pos-bg);border-left:3px solid var(--pos)}
+.pattern.stop{background:var(--neg-bg);border-left:3px solid var(--neg)}
+.pattern-label{font-weight:700;font-size:13px}
+.pattern-ev{font-size:11px;color:var(--ink3);margin-top:4px;font-style:italic}
+.focus-item{padding:12px;background:var(--bg);border-radius:8px;margin:8px 0;border-left:3px solid var(--accent)}
+.focus-item .skill{font-weight:700;font-size:14px}
+.focus-item .how{font-size:13px;color:var(--ink2);margin-top:4px}
+.focus-item .pract{font-size:11px;color:var(--accent);margin-top:6px;font-weight:600}
+.boost{background:linear-gradient(135deg,var(--warn-bg),#fde68a);
+       border:1px solid var(--warn);border-radius:var(--radius);
+       padding:16px;text-align:center;margin-top:14px;
+       font-size:14px;font-weight:600;color:var(--ink)}
+.stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:12px}
+.stat{text-align:center;padding:8px;background:var(--bg);border-radius:8px}
+.stat .v{font-size:18px;font-weight:800}
+.stat .l{font-size:10px;color:var(--ink3);text-transform:uppercase;letter-spacing:.5px;margin-top:2px}
+</style>
+</head>
+<body>
+
+<div class="stream">
+
+  <div class="hero">
+    <div class="hero-date">Apr 16-22 2026 · Weekly Coaching</div>
+    <div class="hero-title"><span class="correctable">Mike</span>'s week</div>
+    <div class="hero-greet">Bay Area Cooling &amp; Heating</div>
+
+    <div class="stat-grid">
+      <div class="stat"><div class="v">5</div><div class="l">Jobs</div></div>
+      <div class="stat"><div class="v">$1,418</div><div class="l">Revenue</div></div>
+      <div class="stat"><div class="v">2</div><div class="l">Plans</div></div>
+      <div class="stat"><div class="v">1</div><div class="l">Lost</div></div>
+    </div>
+  </div>
+
+  <div class="priv">
+    <span>🔒 Names masked · toggle for full view</span>
+    <button class="priv-tog" id="privTog">🙈 Masked</button>
+  </div>
+
+  <div class="divider">The Week in One Line</div>
+
+  <div class="story">"Mike demonstrated exceptional diagnostic integrity on the Ortiz job, saving the customer nearly $8,500 by identifying a minor leak instead of pushing a replacement. However, this strength in trust-building was offset by the Chan loss, where leading with price too early cost the company a significant replacement deal."</div>
+
+  <!-- BIGGEST WIN -->
+  <div class="divider">🏆 Biggest Win</div>
+
+  <div class="card card-calm" data-card-id="win" style="border-left:4px solid var(--pos);background:linear-gradient(90deg,var(--pos-bg) 0%,var(--card) 40%)">
+    <div class="c-kicker pos">✨ Ortiz save</div>
+    <div class="c-title">Saved customer <span class="big-amt">$8,480</span> · LTV created <span class="big-amt">$4,819</span></div>
+    <div class="c-body">
+      <p>Mike diagnosed a minor Schrader valve leak instead of accepting the competitor's $8,900 replacement quote, fixing the issue for $420.</p>
+    </div>
+    <div style="margin-top:12px;padding:10px 12px;background:#fff;border-radius:6px;border-left:3px solid var(--pos)">
+      <div class="c-kicker pos" style="margin-bottom:4px">🎓 Replicable Lesson</div>
+      <div style="font-size:13px">When a customer mentions a competitor's replacement quote, diagnose the specific failure first to validate if replacement is actually necessary.</div>
+    </div>
+  </div>
+
+  <!-- BIGGEST MISS -->
+  <div class="divider">📉 Biggest Miss</div>
+
+  <div class="card card-urgent" data-card-id="miss">
+    <div class="c-kicker red">💸 Chan deal · Cost $8,500</div>
+    <div class="c-title">Led with price too early, didn't build trust first, lost to LowCost Heating.</div>
+    <div class="c-body">
+      <p><b>Root cause:</b> trust not built before price</p>
+      <p><b>Specific fix for next time:</b> next time do 3 discovery questions before quoting</p>
+    </div>
+    <div class="c-actions">
+      <button class="btn btn-mic" onclick="openMic(&#39;Miss post-mortem&#39;)">🎙 Add context</button>
+    </div>
+  </div>
+
+  <!-- PEER COMPARISON -->
+  <div class="divider">👥 Honest Peer Comparison</div>
+
+  <div class="card card-calm" data-card-id="peer">
+    <div class="peer-row ok">
+      <div class="k">Your strength</div>
+      <div class="v" style="color:var(--pos)">2 plans sold highest in team</div>
+    </div>
+    <div class="peer-row gap">
+      <div class="k">Gap to close</div>
+      <div class="v" style="color:var(--warn)">revenue $1418 vs team avg $2570</div>
+    </div>
+    <div style="font-size:12px;color:var(--ink3);margin:10px 0;padding:10px;background:var(--bg);border-radius:6px">
+      <b>Fair context:</b> your routes had lower avg ticket potential
+    </div>
+    <div style="font-size:14px;font-weight:600;padding:12px;background:var(--accent-bg);
+                border-left:3px solid var(--accent);border-radius:6px">
+      💬 you're the best RELATIONSHIP closer, not yet the best revenue closer
+    </div>
+  </div>
+
+  <!-- PATTERNS -->
+  <div class="divider">🔍 Patterns Across 5 Jobs</div>
+
+  <div class="card card-calm" data-card-id="patterns">
+    <div class="pattern keep">
+      <div class="pattern-label">✅ you diagnose before you sell (rare strength)</div>
+      <div class="pattern-ev">Evidence: Ortiz quote, Peterson quote</div>
+    </div>
+    <div class="pattern stop">
+      <div class="pattern-label">🛑 you undersell yourself on first-call pricing</div>
+      <div class="pattern-ev">Evidence: Chan</div>
+    </div>
+  </div>
+
+  <!-- NEXT WEEK FOCUS -->
+  <div class="divider">🎯 Next Week · Practice These</div>
+
+  <div class="card card-calm" data-card-id="focus-Build trus">
+    <div class="focus-item">
+      <div class="skill">Build trust in first 90 seconds</div>
+      <div class="how">How: ask 2 discovery questions before quoting</div>
+      <div class="pract">⏱ Practice in: next 3 calls</div>
+    </div>
+    <div class="c-actions">
+      <button class="btn btn-mic" onclick="openMic(&#39;Focus: Build trust in first 90 seconds&#39;)">🎙 Add personal note</button>
+    </div>
+  </div>
+
+  <!-- CONFIDENCE BOOST -->
+  <div class="boost">
+    💙 Your integrity on the Ortiz job proved that honesty is your best sales tool, and customers notice when you prioritize their wallet over your commission.
+  </div>
+
+  <div class="foot">
+    TalkToDeal · Weekly coaching from your calls<br>
+    <span style="font-size:10px">⚠️ AI analysis · click 🎙 on any card to add context</span>
+  </div>
+</div>
+
+<div class="mic-wrap">
+  <button id="globalMic" class="mic-btn" onclick="openMic()">🎙</button>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+function openMic(target){
+  alert(target ? `🎙 Voice correction for: ${target}\n(Demo mode)` : `🎙 Free add (Demo mode)`);
+}
+function toast(txt){
+  const t = document.getElementById('toast');
+  if(!t) return; t.textContent = txt;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2400);
+}
+</script>
+<script defer="" src="./Mike&#39;s Weekly · Apr 16-22 2026_files/v8c78df7c7c0f484497ecbca7046644da1771523124516" integrity="sha512-8DS7rgIrAmghBFwoOTujcf6D9rXvH8xm8JQ1Ja01h9QX8EzXldiszufYa4IFfKdLUKTTrnSFXLDkUEOTrZQ8Qg==" data-cf-beacon="{&quot;version&quot;:&quot;2024.11.0&quot;,&quot;token&quot;:&quot;69c441252d5a4e03908b3f5136ff6943&quot;,&quot;r&quot;:1,&quot;server_timing&quot;:{&quot;name&quot;:{&quot;cfCacheStatus&quot;:true,&quot;cfEdge&quot;:true,&quot;cfExtPri&quot;:true,&quot;cfL4&quot;:true,&quot;cfOrigin&quot;:true,&quot;cfSpeedBrain&quot;:true},&quot;location_startswith&quot;:null}}" crossorigin="anonymous"></script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9f102ef4ee952b65',t:'MTc3Njk4MjA3Mw=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script><iframe height="1" width="1" style="position: absolute; top: 0px; left: 0px; border-width: medium; border-style: none; border-color: currentcolor; border-image: initial; visibility: hidden;" src="./Mike&#39;s Weekly · Apr 16-22 2026_files/saved_resource.html"></iframe></body></html>

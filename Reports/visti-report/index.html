@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<!-- saved from url=(0055)https://biz.gmic.ai/static/demos/hvac-visit-report.html -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#2563eb">
+<title>Service Visit · Ortiz Family · 2026-04-22</title>
+<style>
+:root{
+  --ink:#1e293b;--ink2:#475569;--ink3:#64748b;--ink4:#94a3b8;
+  --bg:#fafaf7;--card:#fff;--border:#e2e8f0;
+  --accent:#2563eb;--accent-bg:rgba(37,99,235,.06);
+  --pos:#16a34a;--pos-bg:#f0fdf4;
+  --neg:#dc2626;--neg-bg:#fef2f2;
+  --warn:#d97706;--warn-bg:#fffbeb;
+  --hot:#ea580c;--hot-bg:#fff7ed;
+  --serif:"Source Serif Pro","Georgia",serif;
+  --radius:14px;
+  --max-w:520px;
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{overflow-x:hidden}
+body{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","PingFang SC",sans-serif;
+     background:var(--bg);color:var(--ink);font-size:15px;line-height:1.55;padding-bottom:120px}
+.stream{max-width:var(--max-w);margin:0 auto;padding:20px 16px}
+
+/* ---------- Hero (minimal) ---------- */
+.hero{padding:24px 4px 16px}
+.hero-date{font-size:11px;font-weight:700;color:var(--ink3);letter-spacing:2px;text-transform:uppercase}
+.hero-title{font-family:var(--serif);font-size:28px;font-weight:600;margin-top:6px;letter-spacing:-.5px;line-height:1.15}
+.hero-greet{color:var(--ink2);font-size:15px;margin-top:6px;line-height:1.5}
+.hero-stats{display:flex;gap:14px;margin-top:14px;font-size:12px;color:var(--ink3);flex-wrap:wrap}
+.hero-stats b{color:var(--ink);font-weight:700}
+.hero-stats span + span::before{content:"·";margin-right:14px;color:var(--ink4)}
+
+/* ---------- Card base ---------- */
+.card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);
+      padding:16px;margin-bottom:10px;transition:transform .15s ease,box-shadow .15s ease;position:relative}
+.card:active{transform:scale(.995)}
+.card-urgent{border-left:4px solid var(--neg);background:linear-gradient(90deg,var(--neg-bg) 0%,var(--card) 40%)}
+.card-hot   {border-left:4px solid var(--hot); background:linear-gradient(90deg,var(--hot-bg) 0%,var(--card) 40%)}
+.card-warm  {border-left:4px solid var(--warn)}
+.card-calm  {border-left:4px solid var(--border)}
+
+.c-kicker{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:1.3px;
+          color:var(--ink3);margin-bottom:6px;display:flex;align-items:center;gap:6px}
+.c-kicker.red  {color:var(--neg)}
+.c-kicker.hot  {color:var(--hot)}
+.c-kicker.warm {color:var(--warn)}
+.c-kicker.pos  {color:var(--pos)}
+.c-title{font-size:16px;font-weight:700;line-height:1.35;letter-spacing:-.2px}
+.c-body{color:var(--ink2);margin-top:8px;font-size:14px;line-height:1.55}
+.c-body p{margin-bottom:6px}
+.c-meta{display:flex;gap:10px;margin-top:10px;font-size:12px;color:var(--ink3);flex-wrap:wrap}
+.c-meta b{color:var(--ink2)}
+
+.c-actions{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:5px;padding:8px 12px;border-radius:8px;
+     font-size:13px;font-weight:600;cursor:pointer;border:none;text-decoration:none;
+     transition:transform .1s}
+.btn:active{transform:scale(.97)}
+.btn-primary{background:var(--ink);color:#fff}
+.btn-ghost  {background:var(--card);color:var(--ink2);border:1px solid var(--border)}
+.btn-accent {background:var(--accent);color:#fff}
+.btn-mic    {background:var(--accent-bg);color:var(--accent);border:1px solid rgba(37,99,235,.2)}
+
+/* ---------- Chips ---------- */
+.chip{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:12px;
+      font-size:11px;font-weight:700;white-space:nowrap;letter-spacing:.2px}
+.chip-red  {background:var(--neg-bg); color:var(--neg)}
+.chip-hot  {background:var(--hot-bg); color:var(--hot)}
+.chip-warm {background:var(--warn-bg);color:var(--warn)}
+.chip-pos  {background:var(--pos-bg); color:var(--pos)}
+.chip-info {background:var(--accent-bg);color:var(--accent)}
+.chip-gray {background:#f1f5f9;color:var(--ink3)}
+
+/* ---------- People-chip row (inside cards) ---------- */
+.p-row{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.p-chip{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:14px;
+        background:var(--bg);border:1px solid var(--border);font-size:12px;cursor:pointer;
+        color:var(--ink2);transition:border-color .15s,background .15s}
+.p-chip:hover{border-color:var(--accent);background:var(--accent-bg)}
+.p-chip .dot{width:6px;height:6px;border-radius:50%;background:var(--pos)}
+.p-chip .dot.warn{background:var(--warn)}
+.p-chip .dot.unk{background:var(--ink4)}
+.p-chip .tag-unk{font-size:10px;color:var(--warn);font-weight:700}
+
+/* ---------- Section dividers (not tabs!) ---------- */
+.divider{display:flex;align-items:center;gap:10px;margin:24px 4px 8px;color:var(--ink3);font-size:11px;
+         font-weight:800;letter-spacing:2px;text-transform:uppercase}
+.divider::after{content:"";flex:1;height:1px;background:var(--border)}
+
+/* ---------- Collapsible "nerdy details" ---------- */
+details.more{background:transparent;margin-top:20px;padding:0 4px}
+details.more>summary{cursor:pointer;padding:12px;border-radius:8px;
+                     background:var(--card);border:1px dashed var(--border);
+                     font-size:13px;font-weight:600;color:var(--ink3);list-style:none;
+                     display:flex;align-items:center;justify-content:space-between}
+details.more>summary::-webkit-details-marker{display:none}
+details.more[open]>summary{background:var(--bg);color:var(--ink)}
+details.more>summary .plus{font-size:18px;transition:transform .2s}
+details.more[open]>summary .plus{transform:rotate(45deg)}
+
+/* ---------- Empty state overlay ---------- */
+.empty-state{position:relative;margin:40px 0;padding:40px 24px;border-radius:var(--radius);
+             background:linear-gradient(160deg,#fff 0%,#f8fafc 100%);
+             border:1px solid var(--border);text-align:center}
+.empty-state::before{content:"";position:absolute;inset:0;border-radius:var(--radius);
+                     background:radial-gradient(circle at 50% 0%,rgba(37,99,235,.06) 0%,transparent 60%);
+                     pointer-events:none}
+.empty-state .emoji{font-size:44px;margin-bottom:10px;filter:grayscale(.3)}
+.empty-state h2{font-family:var(--serif);font-size:22px;font-weight:500;letter-spacing:-.3px}
+.empty-state p{color:var(--ink2);font-size:14px;margin-top:10px;line-height:1.65;max-width:380px;margin-left:auto;margin-right:auto}
+.empty-state .big-mic{margin:22px auto 6px;width:72px;height:72px;border-radius:50%;
+                      background:linear-gradient(135deg,var(--accent),#6366f1);
+                      display:flex;align-items:center;justify-content:center;color:#fff;font-size:32px;
+                      box-shadow:0 10px 32px rgba(37,99,235,.35);cursor:pointer;transition:transform .15s}
+.empty-state .big-mic:active{transform:scale(.95)}
+.empty-state .hint{font-size:12px;color:var(--ink3);margin-top:10px}
+.empty-state .secondary{display:inline-block;margin-top:14px;color:var(--accent);font-size:12px;
+                        text-decoration:underline;text-decoration-style:dotted;cursor:pointer}
+
+/* ---------- Floating mic (global) ---------- */
+.mic-wrap{position:fixed;bottom:22px;right:22px;z-index:60}
+.mic-btn{width:56px;height:56px;border-radius:50%;
+         background:linear-gradient(135deg,#1e40af,#6366f1);color:#fff;
+         display:flex;align-items:center;justify-content:center;font-size:22px;
+         border:none;cursor:pointer;box-shadow:0 12px 28px rgba(30,64,175,.4);
+         transition:transform .15s}
+.mic-btn:active{transform:scale(.93)}
+.mic-btn.recording{background:var(--neg);animation:pulse 1.2s infinite}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(220,38,38,.5)}
+                 50%{box-shadow:0 0 0 12px rgba(220,38,38,0)}}
+
+/* ---------- Mic target sheet (pick which card) ---------- */
+.sheet-mask{position:fixed;inset:0;background:rgba(15,23,42,.55);z-index:70;
+            display:none;align-items:flex-end;justify-content:center;opacity:0;transition:opacity .2s}
+.sheet-mask.show{display:flex;opacity:1}
+.sheet{background:#fff;border-top-left-radius:18px;border-top-right-radius:18px;
+       width:100%;max-width:var(--max-w);padding:20px 18px 28px;
+       transform:translateY(100%);transition:transform .25s ease-out}
+.sheet-mask.show .sheet{transform:translateY(0)}
+.sheet h3{font-size:17px;font-weight:700;margin-bottom:4px}
+.sheet .sub{color:var(--ink3);font-size:13px;margin-bottom:14px}
+.target-list{display:flex;flex-direction:column;gap:6px;max-height:45vh;overflow-y:auto}
+.target{display:flex;align-items:center;gap:12px;padding:11px 12px;border-radius:10px;
+        border:1px solid var(--border);background:#fff;cursor:pointer;text-align:left;width:100%;font:inherit;color:inherit}
+.target:hover{border-color:var(--accent);background:var(--accent-bg)}
+.target .ic{width:34px;height:34px;border-radius:50%;background:var(--bg);display:flex;
+            align-items:center;justify-content:center;font-weight:700;font-size:14px;color:var(--ink2)}
+.target .tmain{flex:1;min-width:0}
+.target .tname{font-weight:600;font-size:14px}
+.target .tsub{font-size:11px;color:var(--ink3);margin-top:1px}
+.target .tbadge{font-size:10px;padding:2px 7px;border-radius:10px;background:var(--warn-bg);color:var(--warn);font-weight:700;white-space:nowrap}
+.sheet-close{display:block;width:100%;margin-top:14px;padding:10px;border:none;background:none;
+             color:var(--ink3);font-size:13px;cursor:pointer;font-weight:600}
+
+/* ---------- Active-record banner ---------- */
+.rec-banner{position:fixed;bottom:94px;left:50%;transform:translateX(-50%);
+            background:var(--neg);color:#fff;padding:10px 16px;border-radius:24px;
+            display:none;align-items:center;gap:10px;box-shadow:0 6px 20px rgba(220,38,38,.4);z-index:65;font-size:13px}
+.rec-banner.show{display:flex}
+.rec-dot{width:8px;height:8px;border-radius:50%;background:#fff;animation:blink 1s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
+.rec-stop{background:#fff;color:var(--neg);border:none;padding:3px 10px;border-radius:14px;font-weight:700;font-size:11px;cursor:pointer}
+
+/* ---------- Quality hint before recording ---------- */
+.qmask{position:fixed;inset:0;background:rgba(15,23,42,.6);z-index:80;display:none;
+       align-items:center;justify-content:center;padding:20px}
+.qmask.show{display:flex}
+.qpanel{background:#fff;border-radius:16px;max-width:400px;padding:22px}
+.qpanel h3{font-size:17px;font-weight:700;margin-bottom:4px}
+.qpanel .ctx{margin:10px 0;padding:10px 12px;background:var(--accent-bg);border-left:3px solid var(--accent);border-radius:6px;font-size:13px}
+.qtip{display:flex;gap:10px;margin:8px 0;font-size:13px;color:var(--ink2);align-items:start}
+.qtip .em{font-size:15px}
+.qactions{display:flex;gap:8px;justify-content:flex-end;margin-top:14px}
+
+/* ---------- Diff preview (after correction) ---------- */
+.diff{background:var(--pos-bg);border:1px solid var(--pos);border-radius:10px;
+      padding:12px 14px;margin-top:10px;font-size:13px}
+.diff-title{font-weight:700;color:var(--pos);font-size:13px;margin-bottom:6px;display:flex;gap:6px}
+.diff-row{display:flex;gap:10px;padding:4px 0}
+.diff-row + .diff-row{border-top:1px dashed rgba(22,163,74,.2)}
+.diff-from{text-decoration:line-through;color:var(--ink3);flex:1}
+.diff-arrow{color:var(--pos);font-weight:700}
+.diff-to{color:var(--ink);font-weight:600;flex:1}
+
+/* ---------- Toast ---------- */
+.toast{position:fixed;bottom:96px;left:50%;transform:translateX(-50%);
+       background:var(--ink);color:#fff;padding:9px 16px;border-radius:18px;font-size:12px;
+       opacity:0;pointer-events:none;transition:opacity .2s;z-index:90}
+.toast.show{opacity:1}
+
+/* ---------- Privacy banner ---------- */
+.priv{background:#eff6ff;border:1px solid rgba(37,99,235,.18);border-radius:10px;
+      padding:10px 12px;margin-bottom:12px;font-size:12px;color:var(--ink2);display:flex;
+      align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.priv-tog{background:#fff;border:1px solid var(--border);padding:4px 10px;border-radius:6px;
+          font-size:11px;cursor:pointer;font-weight:600;color:var(--ink2)}
+
+/* ---------- Footer ---------- */
+.foot{text-align:center;color:var(--ink4);font-size:11px;padding:30px 20px 60px}
+.foot a{color:var(--accent);text-decoration:none}
+
+/* ---------- Highlights ---------- */
+mark.hl{background:#fef08a;color:var(--ink);padding:1px 3px;border-radius:2px}
+
+/* ---------- Reminder cards (Route C · 2026-04-23) ---------- */
+.rem-card{background:#fff;border:1px solid var(--border);border-radius:var(--radius);
+          padding:14px 16px;margin-bottom:10px;position:relative;border-left:4px solid var(--accent)}
+.rem-card.rem-due{border-left-color:var(--hot);background:linear-gradient(90deg,var(--hot-bg) 0%,#fff 40%)}
+.rem-card.rem-overdue{border-left-color:var(--neg);background:linear-gradient(90deg,var(--neg-bg) 0%,#fff 40%)}
+.rem-card.rem-weak{opacity:.85}  /* low-confidence / unknown-speaker */
+
+.rem-head{display:flex;align-items:center;gap:8px;font-size:11px;font-weight:800;
+          text-transform:uppercase;letter-spacing:1.3px;color:var(--accent)}
+.rem-head.red{color:var(--neg)}
+.rem-head.hot{color:var(--hot)}
+
+.rem-time{font-size:20px;font-weight:800;margin:4px 0 2px;font-variant-numeric:tabular-nums}
+.rem-action{font-size:15px;font-weight:700;color:var(--ink);margin-bottom:4px}
+
+.rem-evidence{margin:10px 0 8px;padding:10px 12px;background:var(--bg);
+              border-left:2px solid var(--border);border-radius:4px;
+              font-size:13px;color:var(--ink2)}
+.rem-evidence .quote{font-style:italic}
+.rem-evidence .meta{font-size:11px;color:var(--ink3);margin-top:6px;display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+
+.rem-warn{display:inline-flex;align-items:center;gap:4px;padding:2px 7px;border-radius:10px;
+          font-size:10px;font-weight:700;background:var(--warn-bg);color:var(--warn);
+          margin-left:4px}
+.rem-warn.unknown{background:#fef3c7;color:#b45309}
+.rem-warn.low{background:#fee2e2;color:var(--neg)}
+
+.rem-actions{display:flex;gap:6px;margin-top:12px;flex-wrap:wrap}
+.rem-btn{display:inline-flex;align-items:center;gap:4px;padding:6px 10px;border-radius:7px;
+         font-size:12px;font-weight:600;cursor:pointer;border:1px solid var(--border);background:#fff;color:var(--ink2)}
+.rem-btn.done{background:var(--pos);color:#fff;border-color:var(--pos)}
+.rem-btn.ignore{background:#fff;color:var(--ink3)}
+.rem-btn.correct{background:var(--accent-bg);color:var(--accent);border-color:rgba(37,99,235,.2)}
+.rem-btn.play{background:var(--bg);color:var(--ink2)}
+
+/* ---------- Animations ---------- */
+.flash{animation:flash 1.6s ease}
+@keyframes flash{
+  0%  {box-shadow:0 0 0 0 rgba(37,99,235,0)}
+  30% {box-shadow:0 0 0 6px rgba(37,99,235,.3)}
+  100%{box-shadow:0 0 0 0 rgba(37,99,235,0)}
+}
+</style>
+<style>
+/* HVAC-specific additions over v4 base */
+.hero-pill{display:inline-flex;align-items:center;gap:5px;padding:3px 10px;border-radius:12px;
+           font-size:11px;font-weight:700;background:var(--pos-bg);color:var(--pos);margin-top:8px}
+.big-amt{font-variant-numeric:tabular-nums;font-weight:800}
+.vs-row{display:flex;gap:10px;margin-top:10px}
+.vs-col{flex:1;padding:10px;border-radius:8px;background:var(--bg)}
+.vs-col.ours{background:var(--pos-bg);border:1px solid var(--pos)}
+.vs-col.theirs{background:var(--neg-bg);border:1px solid var(--neg)}
+.vs-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--ink3)}
+.vs-val{font-size:22px;font-weight:800;margin-top:2px}
+.vs-sub{font-size:11px;color:var(--ink3);margin-top:3px}
+
+.ltv-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:10px}
+.ltv-item{padding:10px;background:var(--bg);border-radius:8px}
+.ltv-item.total{grid-column:1/-1;background:linear-gradient(135deg,var(--pos-bg),var(--accent-bg));border:1px solid var(--pos)}
+.ltv-k{font-size:10px;font-weight:700;text-transform:uppercase;color:var(--ink3);letter-spacing:.8px}
+.ltv-v{font-size:18px;font-weight:800;margin-top:2px}
+.ltv-item.total .ltv-v{font-size:24px;color:var(--pos)}
+
+.quote-block{background:var(--bg);border-left:3px solid var(--accent);padding:10px 12px;
+             border-radius:6px;margin-top:8px}
+.quote-text{font-style:italic;color:var(--ink);font-size:13px;line-height:1.5}
+.quote-insight{font-size:12px;color:var(--ink3);margin-top:6px;padding-top:6px;border-top:1px dashed var(--border)}
+
+.fu-row{display:flex;justify-content:space-between;align-items:center;
+        padding:10px 0;border-bottom:1px solid var(--border)}
+.fu-row:last-child{border:none}
+.fu-left .fu-title{font-weight:600;font-size:14px}
+.fu-left .fu-when{font-size:11px;color:var(--ink3);margin-top:2px}
+.fu-val{font-weight:800;color:var(--pos);font-size:14px}
+
+.coach-item{padding:10px 0;border-bottom:1px solid var(--border)}
+.coach-item:last-child{border:none}
+.coach-good{border-left:3px solid var(--pos);padding-left:10px;background:var(--pos-bg);border-radius:0 6px 6px 0;margin:4px 0;padding:8px 10px}
+.coach-improve{border-left:3px solid var(--warn);background:var(--warn-bg);border-radius:0 6px 6px 0;margin:4px 0;padding:8px 10px}
+</style>
+</head>
+<body>
+
+<div class="stream">
+
+  <!-- Hero -->
+  <div class="hero">
+    <div class="hero-date">2026-04-22 · Service Visit</div>
+    <div class="hero-title"><span class="correctable">O*** F***</span></div>
+    <div class="hero-greet">
+      <span class="correctable">1453 O** V*** D*, C*** C*</span> · Tech <span class="correctable">M***</span>
+    </div>
+    <div class="hero-pill">
+      💰 Saved customer <span class="big-amt">$8,480</span> vs Sunrise Heating
+    </div>
+    <div class="hero-stats">
+      <span>🎯 <b>Repair</b> $420</span>
+      <span>📈 <b>LTV</b> $12,816</span>
+      <span>⏱ <b>136</b> min</span>
+    </div>
+  </div>
+
+  <!-- Privacy bar -->
+  <div class="priv">
+    <span>🔒 Names masked · toggle for full view</span>
+    <button class="priv-tog" id="privTog">🙈 Masked</button>
+  </div>
+
+  <!-- Card 1: Competitive save (HOT - top priority) -->
+  <div class="divider">Today's Story</div>
+
+  <div class="card card-hot" data-card-id="save-vs-sunrise">
+    <div class="c-kicker hot">⚔ Competitive Save · Sunrise Heating</div>
+    <div class="c-title">Diagnosed before selling — saved customer $8,480</div>
+    <div class="c-body">
+      <p>Sunrise Heating had pitched <b>$8,900</b> for full replacement, claiming "end of life" at 12 years old.</p>
+      <p>Mike read the serial plate — system is actually <b>9 years old</b>, not 12. Ran leak detection. Found: <b>Schrader valve leak on liquid line</b>.</p>
+    </div>
+    <div class="vs-row">
+      <div class="vs-col theirs">
+        <div class="vs-label">❌ Sunrise Heating quote</div>
+        <div class="vs-val">$8,900</div>
+        <div class="vs-sub">Full replacement</div>
+      </div>
+      <div class="vs-col ours">
+        <div class="vs-label">✅ Our solution</div>
+        <div class="vs-val">$420</div>
+        <div class="vs-sub">Schrader valve leak on liquid line, 2yr warranty</div>
+      </div>
+    </div>
+    <div class="c-meta">
+      <span class="chip chip-pos">Won · repair + plan</span>
+      <span class="chip chip-info">Tactic: diagnosed before selling</span>
+    </div>
+    <div class="c-actions">
+      <button class="btn btn-mic" onclick="openMic(&#39;Competitive Save · Sunrise Heating&#39;)">🎙 Voice correct</button>
+      <button class="btn btn-ghost" onclick="remPlay(&#39;save&#39;)">▶ Hear key moment</button>
+    </div>
+  </div>
+
+  <!-- Card 2: Diagnosis -->
+  <div class="card card-warm" data-card-id="diagnosis">
+    <div class="c-kicker warm">🔧 Diagnosis · Root Cause</div>
+    <div class="c-title">Schrader valve leak on liquid line</div>
+    <div class="c-body">
+      <p>R-410A low by 20%, Schrader valve on liquid line leaking approx 2 oz/month</p>
+    </div>
+    <div class="c-actions">
+      <button class="btn btn-mic" onclick="openMic(&#39;Diagnosis&#39;)">🎙 Add detail</button>
+    </div>
+  </div>
+
+  <!-- Card 3: Customer psychology (key quotes) -->
+  <div class="divider">Customer Psychology</div>
+
+  <div class="card card-calm" data-card-id="quote-0">
+    <div class="c-kicker">💬 Key moment · 10:05 AM - Initial diagnosis discussion</div>
+    <div class="quote-block">
+      <div class="quote-text">"Sunrise said the system was at end of life. SEER 10, they said newer units are SEER 16 so I'd save on electric."</div>
+      <div class="quote-insight">💡 <b>Insight:</b> Customer is anxious about efficiency and cost, using competitor's authority to validate fear of obsolescence.</div>
+    </div>
+    <div class="c-actions">
+      <button class="btn btn-mic" onclick="openMic(&#39;Quote: Sunrise said the system was at...&#39;)">🎙 Re-interpret</button>
+    </div>
+  </div>
+
+  <div class="card card-calm" data-card-id="quote-1">
+    <div class="c-kicker">💬 Key moment · 10:21 AM - Leak detection results</div>
+    <div class="quote-block">
+      <div class="quote-text">"That's... a lot less."</div>
+      <div class="quote-insight">💡 <b>Insight:</b> Immediate emotional shift from anxiety to relief upon hearing the repair cost vs. replacement quote.</div>
+    </div>
+    <div class="c-actions">
+      <button class="btn btn-mic" onclick="openMic(&#39;Quote: That&#39;s... a lot less....&#39;)">🎙 Re-interpret</button>
+    </div>
+  </div>
+
+  <div class="card card-calm" data-card-id="quote-2">
+    <div class="c-kicker">💬 Key moment · 10:34 AM - Decision to proceed</div>
+    <div class="quote-block">
+      <div class="quote-text">"Sunrise was kind of pushy and I liked that you talked us out of replacing."</div>
+      <div class="quote-insight">💡 <b>Insight:</b> Trust established through honesty. Customer values long-term relationship over immediate sales pressure.</div>
+    </div>
+    <div class="c-actions">
+      <button class="btn btn-mic" onclick="openMic(&#39;Quote: Sunrise was kind of pushy and ...&#39;)">🎙 Re-interpret</button>
+    </div>
+  </div>
+
+  <!-- Card: LTV projection -->
+  <div class="divider">Lifetime Value</div>
+
+  <div class="card card-calm" data-card-id="ltv">
+    <div class="c-kicker pos">📊 Why this $420 repair became $12,816</div>
+    <div class="c-title">3-year relationship projection</div>
+    <div class="ltv-grid">
+      <div class="ltv-item">
+        <div class="ltv-k">Today's ticket</div>
+        <div class="ltv-v">$619</div>
+      </div>
+      <div class="ltv-item">
+        <div class="ltv-k">3yr maintenance</div>
+        <div class="ltv-v">$597</div>
+      </div>
+      <div class="ltv-item">
+        <div class="ltv-k">Water heater 2026</div>
+        <div class="ltv-v">$4,200</div>
+      </div>
+      <div class="ltv-item">
+        <div class="ltv-k">AC replacement 2028</div>
+        <div class="ltv-v">$7,400</div>
+      </div>
+      <div class="ltv-item total">
+        <div class="ltv-k">Total 3yr LTV</div>
+        <div class="ltv-v">$12,816</div>
+        <div class="vs-sub">vs Sunrise Heating one-shot $8,900</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Coaching -->
+  <div class="divider">Coaching · Mike</div>
+
+  <div class="card card-calm" data-card-id="coach-good-what_mike_">
+    <div class="c-kicker pos">✅ What Mike did right</div>
+    <div class="c-body">Verified system age via serial plate ('it's not 12, it's 9 based on the serial plate I just read'), directly countering competitor misinformation without bashing them.</div>
+  </div>
+
+  <div class="card card-calm" data-card-id="coach-good-what_mike_">
+    <div class="c-kicker pos">✅ What Mike did right</div>
+    <div class="c-body">Transparent pricing on diagnostics ('I want to do a leak detection first. That's another 150'), building trust before revealing the fix cost.</div>
+  </div>
+
+  <div class="card card-calm" data-card-id="coach-good-what_mike_">
+    <div class="c-kicker pos">✅ What Mike did right</div>
+    <div class="c-body">Professional boundary on competitor pricing ('Not my place to say'), maintaining integrity while offering competitive value later.</div>
+  </div>
+
+  <div class="card card-warm" data-card-id="coach-imp">
+    <div class="c-kicker warm">📝 Opportunity to grow</div>
+    <div class="c-body">
+      <p><b>Observation:</b> Water heater mention was verbal and at the very end of the visit.</p>
+      <p><b>Next time:</b> Pull up a visual spec sheet or photo on the tablet when mentioning the tankless swap to make the $4,200 value tangible before leaving.</p>
+    </div>
+  </div>
+
+  <div class="card card-warm" data-card-id="coach-imp">
+    <div class="c-kicker warm">📝 Opportunity to grow</div>
+    <div class="c-body">
+      <p><b>Observation:</b> Did not explicitly close the maintenance plan sale before asking for approval on the repair.</p>
+      <p><b>Next time:</b> Bundle the maintenance plan as a 'protection' for the new repair ('Since we're fixing this, let's lock in the 15% repair discount') to increase attachment rate.</p>
+    </div>
+  </div>
+
+  <!-- Follow-ups -->
+  <div class="divider">Follow-ups Seeded</div>
+
+  <div class="card card-calm" data-card-id="followups">
+    <div class="fu-row">
+      <div class="fu-left">
+        <div class="fu-title">Text water heater quote with tax credit details</div>
+        <div class="fu-when">⏱ 2026-04-22 Afternoon</div>
+      </div>
+      <div class="fu-val">$4,200</div>
+    </div>
+    <div class="fu-row">
+      <div class="fu-left">
+        <div class="fu-title">Schedule Spring 2027 Tune-up</div>
+        <div class="fu-when">⏱ 2027-03-01</div>
+      </div>
+      <div class="fu-val">$199</div>
+    </div>
+    <div class="fu-row">
+      <div class="fu-left">
+        <div class="fu-title">Monitor Schrader valve leak under warranty</div>
+        <div class="fu-when">⏱ 2026-10-01</div>
+      </div>
+      
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="foot">
+    TalkToDeal · Auto-generated from Mike's on-site audio<br>
+    <span style="font-size:10px">⚠️ AI auto-summary · click 🎙 on any card to voice-correct</span>
+  </div>
+</div>
+
+<!-- Global mic button -->
+<div class="mic-wrap">
+  <button id="globalMic" class="mic-btn" onclick="openMic()">🎙</button>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// Privacy mask toggle
+(function(){
+  const toggle = document.getElementById('privTog');
+  if(!toggle) return;
+  let masked = true;
+  const maskText = (s) => {
+    if(!s) return s;
+    return s.replace(/([A-Z\u4e00-\u9fff])([a-zA-Z\u4e00-\u9fff]{1,})/g, (_, a, b) => a + '*'.repeat(Math.min(3, b.length)))
+            .replace(/(\d{3})\d{4}(\d{4})/, '$1****$2');
+  };
+  const originals = new WeakMap();
+  const apply = () => {
+    document.querySelectorAll('.correctable').forEach(el => {
+      if(!originals.has(el)) originals.set(el, el.textContent.trim());
+      el.textContent = masked ? maskText(originals.get(el)) : originals.get(el);
+    });
+    toggle.textContent = masked ? '🙈 Masked' : '👁 Full view';
+  };
+  toggle.addEventListener('click', () => { masked = !masked; apply(); });
+  apply();
+})();
+
+// Demo mic (no backend required)
+function openMic(target){
+  const msg = target ? `🎙 Voice correction for: ${target}\n(Demo mode — AI would process 10 seconds of your voice and re-generate this card)` : `🎙 Free journal (Demo mode)\nAfter 30s, tomorrow's report would include your added context.`;
+  alert(msg);
+}
+function toast(txt){
+  const t = document.getElementById('toast');
+  if(!t) return;
+  t.textContent = txt;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2400);
+}
+function remDone(id){ toast('✓ Marked done'); }
+function remIgnore(id){ toast('Dismissed'); }
+function remPlay(id){ toast('▶ Playing audio snippet...'); }
+</script>
+<script defer="" src="./Service Visit · Ortiz Family · 2026-04-22_files/v8c78df7c7c0f484497ecbca7046644da1771523124516" integrity="sha512-8DS7rgIrAmghBFwoOTujcf6D9rXvH8xm8JQ1Ja01h9QX8EzXldiszufYa4IFfKdLUKTTrnSFXLDkUEOTrZQ8Qg==" data-cf-beacon="{&quot;version&quot;:&quot;2024.11.0&quot;,&quot;token&quot;:&quot;69c441252d5a4e03908b3f5136ff6943&quot;,&quot;r&quot;:1,&quot;server_timing&quot;:{&quot;name&quot;:{&quot;cfCacheStatus&quot;:true,&quot;cfEdge&quot;:true,&quot;cfExtPri&quot;:true,&quot;cfL4&quot;:true,&quot;cfOrigin&quot;:true,&quot;cfSpeedBrain&quot;:true},&quot;location_startswith&quot;:null}}" crossorigin="anonymous"></script>
+</body></html>

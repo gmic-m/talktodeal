@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#4578EC">
+<title>Mike's Weekly · Apr 16-22 2026</title>
+
+<!-- Geist Sans woff2 -->
+<style>
+@font-face {
+  font-family: 'Geist';
+  src: url('https://cdn.jsdelivr.net/npm/geist@1.3.1/dist/fonts/geist-sans/Geist-Regular.woff2') format('woff2');
+  font-weight: 400; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: 'Geist';
+  src: url('https://cdn.jsdelivr.net/npm/geist@1.3.1/dist/fonts/geist-sans/Geist-Medium.woff2') format('woff2');
+  font-weight: 500; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: 'Geist';
+  src: url('https://cdn.jsdelivr.net/npm/geist@1.3.1/dist/fonts/geist-sans/Geist-SemiBold.woff2') format('woff2');
+  font-weight: 600; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: 'Geist';
+  src: url('https://cdn.jsdelivr.net/npm/geist@1.3.1/dist/fonts/geist-sans/Geist-Bold.woff2') format('woff2');
+  font-weight: 700; font-style: normal; font-display: swap;
+}
+</style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --ink:#1e293b; --ink2:#475569; --ink3:#64748b; --ink4:#94a3b8;
+  --bg:#f8fafc; --card:#fff; --border:#e2e8f0;
+  --accent:#4578EC; --accent-bg:rgba(69,120,236,0.08);
+  --pos:#16a34a; --pos-bg:#f0fdf4;
+  --neg:#dc2626; --neg-bg:#fef2f2;
+  --warn:#d97706; --warn-bg:#fffbeb;
+  --hot:#ea580c; --hot-bg:#fff7ed;
+  --radius:14px;
+  --max-w:520px;
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{overflow-x:hidden}
+body {
+  font-family:'Geist','DM Sans',system-ui,sans-serif;
+  background:var(--bg); color:var(--ink);
+  font-size:15px; line-height:1.55; padding-bottom:100px;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+}
+.stream{max-width:var(--max-w);margin:0 auto;padding:20px 16px}
+
+/* ── Hero ── */
+.hero{padding:24px 4px 16px}
+.hero-date{font-size:11px;font-weight:700;color:var(--ink3);letter-spacing:2px;text-transform:uppercase}
+.hero-title{font-size:28px;font-weight:700;margin-top:6px;letter-spacing:-.5px;line-height:1.15}
+.hero-greet{color:var(--ink2);font-size:15px;margin-top:6px;line-height:1.5}
+.hero-stats{display:flex;gap:14px;margin-top:14px;font-size:12px;color:var(--ink3);flex-wrap:wrap}
+.hero-stats b{color:var(--ink);font-weight:700}
+.hero-stats span + span::before{content:"·";margin-right:14px;color:var(--ink4)}
+
+/* ── Card base ── */
+.card {
+  background:#ffffff;
+  border-radius:var(--radius);
+  padding:16px; margin-bottom:10px;
+  box-shadow:0 1px 3px rgba(15,23,42,.06), 0 1px 2px rgba(15,23,42,.04);
+  transition:transform .15s ease, box-shadow .15s ease;
+  position:relative;
+}
+.card:active{transform:scale(.995)}
+.card:hover{transform:translateY(-2px);box-shadow:0 12px 32px rgba(15,23,42,.10)}
+.card-urgent{background:#ffffff}
+.card-hot   {background:#ffffff}
+.card-warm  {background:#ffffff}
+.card-calm  {background:#ffffff}
+
+.c-kicker{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:1.3px;
+          color:var(--ink3);margin-bottom:6px;display:flex;align-items:center;gap:6px}
+.c-kicker.red  {color:var(--neg)}
+.c-kicker.hot  {color:var(--hot)}
+.c-kicker.warm {color:var(--warn)}
+.c-kicker.pos  {color:var(--pos)}
+.c-title{font-size:16px;font-weight:700;line-height:1.35;letter-spacing:-.2px}
+.c-body{color:var(--ink2);margin-top:8px;font-size:14px;line-height:1.55}
+.c-body p{margin-bottom:6px}
+.c-meta{display:flex;gap:10px;margin-top:10px;font-size:12px;color:var(--ink3);flex-wrap:wrap}
+.c-meta b{color:var(--ink2)}
+
+.c-actions{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:5px;padding:8px 12px;border-radius:8px;
+     font-size:13px;font-weight:600;cursor:pointer;border:none;text-decoration:none;
+     transition:transform .1s;font-family:inherit}
+.btn:active{transform:scale(.97)}
+.btn-primary{background:var(--ink);color:#fff}
+.btn-ghost  {background:var(--card);color:var(--ink2);border:1px solid var(--border)}
+.btn-accent {background:var(--accent);color:#fff}
+.btn-mic    {background:var(--accent-bg);color:var(--accent);
+             border:1px solid rgba(69,120,236,.2);
+             width:100%;justify-content:center}
+
+/* ── Chips ── */
+.chip{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:12px;
+      font-size:11px;font-weight:700;white-space:nowrap;letter-spacing:.2px}
+.chip-red  {background:var(--neg-bg); color:var(--neg)}
+.chip-hot  {background:var(--hot-bg); color:var(--hot)}
+.chip-warm {background:var(--warn-bg);color:var(--warn)}
+.chip-pos  {background:var(--pos-bg); color:var(--pos)}
+.chip-info {background:var(--accent-bg);color:var(--accent)}
+.chip-gray {background:#f1f5f9;color:var(--ink3)}
+
+/* ── People-chip row ── */
+.p-row{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.p-chip{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:14px;
+        background:var(--bg);border:1px solid var(--border);font-size:12px;cursor:pointer;
+        color:var(--ink2);transition:border-color .15s,background .15s}
+.p-chip:hover{border-color:var(--accent);background:var(--accent-bg)}
+.p-chip .dot{width:6px;height:6px;border-radius:50%;background:var(--pos)}
+.p-chip .dot.warn{background:var(--warn)}
+.p-chip .dot.unk{background:var(--ink4)}
+.p-chip .tag-unk{font-size:10px;color:var(--warn);font-weight:700}
+
+/* ── Section dividers ── */
+.divider{display:flex;align-items:center;gap:10px;margin:24px 4px 8px;color:var(--ink3);font-size:11px;
+         font-weight:800;letter-spacing:2px;text-transform:uppercase}
+.divider::after{content:"";flex:1;height:1px;background:var(--border)}
+
+/* ── Collapsible "nerdy details" ── */
+details.more{background:transparent;margin-top:20px;padding:0 4px}
+details.more>summary{cursor:pointer;padding:12px;border-radius:8px;
+                     background:var(--card);
+                     box-shadow:0 1px 3px rgba(15,23,42,.06);
+                     font-size:13px;font-weight:600;color:var(--ink3);list-style:none;
+                     display:flex;align-items:center;justify-content:space-between}
+details.more>summary::-webkit-details-marker{display:none}
+details.more[open]>summary{background:var(--bg);color:var(--ink)}
+details.more>summary .plus{font-size:18px;transition:transform .2s}
+details.more[open]>summary .plus{transform:rotate(45deg)}
+
+/* ── Empty state ── */
+.empty-state{position:relative;margin:40px 0;padding:40px 24px;border-radius:var(--radius);
+             background:linear-gradient(160deg,#fff 0%,#f8fafc 100%);
+             border:1px solid var(--border);text-align:center}
+.empty-state::before{content:"";position:absolute;inset:0;border-radius:var(--radius);
+                     background:radial-gradient(circle at 50% 0%,rgba(69,120,236,.06) 0%,transparent 60%);
+                     pointer-events:none}
+.empty-state .emoji{font-size:44px;margin-bottom:10px;filter:grayscale(.3)}
+.empty-state h2{font-size:22px;font-weight:500;letter-spacing:-.3px}
+.empty-state p{color:var(--ink2);font-size:14px;margin-top:10px;line-height:1.65;max-width:380px;margin-left:auto;margin-right:auto}
+.empty-state .big-mic{margin:22px auto 6px;width:72px;height:72px;border-radius:50%;
+                      background:linear-gradient(135deg,var(--accent),#6366f1);
+                      display:flex;align-items:center;justify-content:center;color:#fff;
+                      box-shadow:0 10px 32px rgba(69,120,236,.35);cursor:pointer;transition:transform .15s}
+.empty-state .big-mic:active{transform:scale(.95)}
+.empty-state .hint{font-size:12px;color:var(--ink3);margin-top:10px}
+.empty-state .secondary{display:inline-block;margin-top:14px;color:var(--accent);font-size:12px;
+                        text-decoration:underline;text-decoration-style:dotted;cursor:pointer}
+
+/* ── Fixed mic button ── */
+.mic-wrap {
+  position: fixed;
+  bottom: 24px;
+  left: 0; right: 0;
+  display: flex;
+  justify-content: center;
+  z-index: 60;
+  pointer-events: none;
+}
+.mic-btn {
+  pointer-events: auto;
+  width: auto; height: auto;
+  border-radius: 100px;
+  padding: 13px 28px;
+  background: var(--accent);
+  color: #fff;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 4px 20px rgba(69,120,236,0.35);
+  transition: transform .15s ease, box-shadow .15s ease;
+}
+.mic-btn:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(69,120,236,0.4)}
+.mic-btn:active{transform:scale(.97)}
+.mic-btn.recording{background:var(--neg);animation:pulse 1.2s infinite}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(220,38,38,.5)}
+                 50%{box-shadow:0 0 0 12px rgba(220,38,38,0)}}
+
+/* ── Sheet ── */
+.sheet-mask{position:fixed;inset:0;background:rgba(15,23,42,.55);z-index:70;
+            display:none;align-items:flex-end;justify-content:center;opacity:0;transition:opacity .2s}
+.sheet-mask.show{display:flex;opacity:1}
+.sheet{background:#fff;border-top-left-radius:18px;border-top-right-radius:18px;
+       width:100%;max-width:var(--max-w);padding:20px 18px 28px;
+       transform:translateY(100%);transition:transform .25s ease-out}
+.sheet-mask.show .sheet{transform:translateY(0)}
+.sheet h3{font-size:17px;font-weight:700;margin-bottom:4px}
+.sheet .sub{color:var(--ink3);font-size:13px;margin-bottom:14px}
+.target-list{display:flex;flex-direction:column;gap:6px;max-height:45vh;overflow-y:auto}
+.target{display:flex;align-items:center;gap:12px;padding:11px 12px;border-radius:10px;
+        border:1px solid var(--border);background:#fff;cursor:pointer;text-align:left;width:100%;font:inherit;color:inherit}
+.target:hover{border-color:var(--accent);background:var(--accent-bg)}
+.target .ic{width:34px;height:34px;border-radius:50%;background:var(--bg);display:flex;
+            align-items:center;justify-content:center;font-weight:700;font-size:14px;color:var(--ink2)}
+.target .tmain{flex:1;min-width:0}
+.target .tname{font-weight:600;font-size:14px}
+.target .tsub{font-size:11px;color:var(--ink3);margin-top:1px}
+.target .tbadge{font-size:10px;padding:2px 7px;border-radius:10px;background:var(--warn-bg);color:var(--warn);font-weight:700;white-space:nowrap}
+.sheet-close{display:block;width:100%;margin-top:14px;padding:10px;border:none;background:none;
+             color:var(--ink3);font-size:13px;cursor:pointer;font-weight:600}
+
+/* ── Record banner ── */
+.rec-banner{position:fixed;bottom:94px;left:50%;transform:translateX(-50%);
+            background:var(--neg);color:#fff;padding:10px 16px;border-radius:24px;
+            display:none;align-items:center;gap:10px;box-shadow:0 6px 20px rgba(220,38,38,.4);z-index:65;font-size:13px}
+.rec-banner.show{display:flex}
+.rec-dot{width:8px;height:8px;border-radius:50%;background:#fff;animation:blink 1s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
+.rec-stop{background:#fff;color:var(--neg);border:none;padding:3px 10px;border-radius:14px;font-weight:700;font-size:11px;cursor:pointer}
+
+/* ── Quality hint ── */
+.qmask{position:fixed;inset:0;background:rgba(15,23,42,.6);z-index:80;display:none;
+       align-items:center;justify-content:center;padding:20px}
+.qmask.show{display:flex}
+.qpanel{background:#fff;border-radius:16px;max-width:400px;padding:22px}
+.qpanel h3{font-size:17px;font-weight:700;margin-bottom:4px}
+.qpanel .ctx{margin:10px 0;padding:10px 12px;background:var(--accent-bg);border-radius:6px;font-size:13px}
+.qtip{display:flex;gap:10px;margin:8px 0;font-size:13px;color:var(--ink2);align-items:start}
+.qtip .em{font-size:15px}
+.qactions{display:flex;gap:8px;justify-content:flex-end;margin-top:14px}
+
+/* ── Diff preview ── */
+.diff{background:var(--pos-bg);border:1px solid var(--pos);border-radius:10px;
+      padding:12px 14px;margin-top:10px;font-size:13px}
+.diff-title{font-weight:700;color:var(--pos);font-size:13px;margin-bottom:6px;display:flex;gap:6px}
+.diff-row{display:flex;gap:10px;padding:4px 0}
+.diff-row + .diff-row{border-top:1px dashed rgba(22,163,74,.2)}
+.diff-from{text-decoration:line-through;color:var(--ink3);flex:1}
+.diff-arrow{color:var(--pos);font-weight:700}
+.diff-to{color:var(--ink);font-weight:600;flex:1}
+
+/* ── Toast ── */
+.toast{position:fixed;bottom:96px;left:50%;transform:translateX(-50%);
+       background:var(--ink);color:#fff;padding:9px 16px;border-radius:18px;font-size:12px;
+       opacity:0;pointer-events:none;transition:opacity .2s;z-index:90}
+.toast.show{opacity:1}
+
+/* ── Privacy banner ── */
+.priv{background:#eff6ff;border:1px solid rgba(69,120,236,.18);border-radius:10px;
+      padding:10px 12px;margin-bottom:12px;font-size:12px;color:var(--ink2);display:flex;
+      align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.priv-tog{background:#fff;border:1px solid var(--border);padding:4px 10px;border-radius:6px;
+          font-size:11px;cursor:pointer;font-weight:600;color:var(--ink2)}
+
+/* ── Footer ── */
+.foot{text-align:center;color:var(--ink4);font-size:11px;padding:30px 20px 60px}
+.foot a{color:var(--accent);text-decoration:none}
+
+/* ── Highlights ── */
+mark.hl{background:#fef08a;color:var(--ink);padding:1px 3px;border-radius:2px}
+
+/* ── Reminder cards ── */
+.rem-card{background:#ffffff;border-radius:var(--radius);
+          padding:14px 16px;margin-bottom:10px;position:relative;
+          box-shadow:0 1px 3px rgba(15,23,42,.06), 0 1px 2px rgba(15,23,42,.04)}
+.rem-card.rem-due{background:#ffffff}
+.rem-card.rem-overdue{background:#ffffff}
+.rem-card.rem-weak{opacity:.85}
+.rem-head{display:flex;align-items:center;gap:8px;font-size:11px;font-weight:800;
+          text-transform:uppercase;letter-spacing:1.3px;color:var(--accent)}
+.rem-head.red{color:var(--neg)}
+.rem-head.hot{color:var(--hot)}
+.rem-time{font-size:20px;font-weight:800;margin:4px 0 2px;font-variant-numeric:tabular-nums}
+.rem-action{font-size:15px;font-weight:700;color:var(--ink);margin-bottom:4px}
+.rem-evidence{margin:10px 0 8px;padding:10px 12px;background:var(--bg);
+              border-radius:4px;font-size:13px;color:var(--ink2)}
+.rem-evidence .quote{font-style:italic}
+.rem-evidence .meta{font-size:11px;color:var(--ink3);margin-top:6px;display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.rem-warn{display:inline-flex;align-items:center;gap:4px;padding:2px 7px;border-radius:10px;
+          font-size:10px;font-weight:700;background:var(--warn-bg);color:var(--warn);margin-left:4px}
+.rem-warn.unknown{background:#fef3c7;color:#b45309}
+.rem-warn.low{background:#fee2e2;color:var(--neg)}
+.rem-actions{display:flex;gap:6px;margin-top:12px;flex-wrap:wrap}
+.rem-btn{display:inline-flex;align-items:center;gap:4px;padding:6px 10px;border-radius:7px;
+         font-size:12px;font-weight:600;cursor:pointer;border:1px solid var(--border);background:#fff;color:var(--ink2)}
+.rem-btn.done{background:var(--pos);color:#fff;border-color:var(--pos)}
+.rem-btn.ignore{background:#fff;color:var(--ink3)}
+.rem-btn.correct{background:var(--accent-bg);color:var(--accent);border-color:rgba(69,120,236,.2)}
+.rem-btn.play{background:var(--bg);color:var(--ink2)}
+
+/* ── Flash ── */
+.flash{animation:flash 1.6s ease}
+@keyframes flash{
+  0%  {box-shadow:0 0 0 0 rgba(69,120,236,0)}
+  30% {box-shadow:0 0 0 6px rgba(69,120,236,.3)}
+  100%{box-shadow:0 0 0 0 rgba(69,120,236,0)}
+}
+</style>
+<style>
+.big-amt{font-variant-numeric:tabular-nums;font-weight:800}
+.story{background:#f8fafc;
+       padding:14px 16px;border-radius:8px;margin:12px 0;
+       font-style:italic;color:var(--ink);font-size:14px;line-height:1.6}
+.peer-row{display:flex;justify-content:space-between;align-items:center;
+          padding:10px 12px;border-radius:8px;margin:6px 0;background:var(--bg)}
+.peer-row.ok {background:var(--pos-bg)}
+.peer-row.gap{background:var(--warn-bg)}
+.peer-row .k{font-size:12px;font-weight:600;color:var(--ink2)}
+.peer-row .v{font-weight:800;font-size:13px}
+.pattern{padding:10px 12px;border-radius:8px;margin:6px 0;background:var(--bg)}
+.pattern.keep{background:var(--pos-bg)}
+.pattern.stop{background:var(--neg-bg)}
+.pattern-label{font-weight:700;font-size:13px;display:flex;align-items:center;gap:6px}
+.pattern-ev{font-size:11px;color:var(--ink3);margin-top:4px;font-style:italic}
+.focus-item{padding:12px;background:var(--bg);border-radius:8px;margin:8px 0}
+.focus-item .skill{font-weight:700;font-size:14px}
+.focus-item .how{font-size:13px;color:var(--ink2);margin-top:4px}
+.focus-item .pract{font-size:11px;color:var(--accent);margin-top:6px;font-weight:600;
+                   display:flex;align-items:center;gap:4px}
+.boost{background:#f0f5ff;border-radius:12px;
+       padding:16px;text-align:center;margin-top:14px;
+       font-size:14px;font-weight:600;color:var(--accent)}
+.stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:12px}
+.stat{text-align:center;padding:8px;background:var(--bg);border-radius:8px}
+.stat .v{font-size:18px;font-weight:800}
+.stat .l{font-size:10px;color:var(--ink3);text-transform:uppercase;letter-spacing:.5px;margin-top:2px}
+</style>
+</head>
+<body>
+
+<div class="stream">
+
+  <div class="hero">
+    <div class="hero-date">Apr 16-22 2026 · Weekly Coaching</div>
+    <div class="hero-title"><span class="correctable">Mike</span>'s week</div>
+    <div class="hero-greet">Bay Area Cooling &amp; Heating</div>
+
+    <div class="stat-grid">
+      <div class="stat"><div class="v">5</div><div class="l">Jobs</div></div>
+      <div class="stat"><div class="v">$1,418</div><div class="l">Revenue</div></div>
+      <div class="stat"><div class="v">2</div><div class="l">Plans</div></div>
+      <div class="stat"><div class="v">1</div><div class="l">Lost</div></div>
+    </div>
+  </div>
+
+  <div class="priv">
+    <span style="display:inline-flex;align-items:center;gap:5px">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+      Names masked · toggle for full view
+    </span>
+    <button class="priv-tog" id="privTog" style="display:inline-flex;align-items:center;gap:4px">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+      Masked
+    </button>
+  </div>
+
+  <div class="divider">The Week in One Line</div>
+
+  <div class="story">"Mike demonstrated exceptional diagnostic integrity on the Ortiz job, saving the customer nearly $8,500 by identifying a minor leak instead of pushing a replacement. However, this strength in trust-building was offset by the Chan loss, where leading with price too early cost the company a significant replacement deal."</div>
+
+  <!-- BIGGEST WIN -->
+  <div class="divider">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="8" r="6"/>
+      <path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/>
+    </svg>
+    Biggest Win
+  </div>
+
+  <div class="card" data-card-id="win">
+    <div class="c-kicker pos">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--pos)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/>
+      </svg>
+      Ortiz save
+    </div>
+    <div class="c-title">Saved customer <span class="big-amt">$8,480</span> · LTV created <span class="big-amt">$4,819</span></div>
+    <div class="c-body">
+      <p>Mike diagnosed a minor Schrader valve leak instead of accepting the competitor's $8,900 replacement quote, fixing the issue for $420.</p>
+    </div>
+    <div style="margin-top:12px;padding:10px 12px;background:#f8fafc;border-radius:8px">
+      <div class="c-kicker pos" style="margin-bottom:4px">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--pos)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
+          <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
+        </svg>
+        Replicable Lesson
+      </div>
+      <div style="font-size:13px">When a customer mentions a competitor's replacement quote, diagnose the specific failure first to validate if replacement is actually necessary.</div>
+    </div>
+  </div>
+
+  <!-- BIGGEST MISS -->
+  <div class="divider">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="23,18 13.5,8.5 8.5,13.5 1,6"/>
+      <polyline points="17,18 23,18 23,12"/>
+    </svg>
+    Biggest Miss
+  </div>
+
+  <div class="card" data-card-id="miss">
+    <div class="c-kicker red">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--neg)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="10"/>
+        <line x1="12" y1="8" x2="12" y2="12"/>
+        <line x1="12" y1="16" x2="12.01" y2="16"/>
+      </svg>
+      Chan deal · Cost $8,500
+    </div>
+    <div class="c-title">Led with price too early, didn't build trust first, lost to LowCost Heating.</div>
+    <div class="c-body">
+      <p><b>Root cause:</b> trust not built before price</p>
+      <p><b>Specific fix for next time:</b> next time do 3 discovery questions before quoting</p>
+    </div>
+    <div class="c-actions">
+      <button class="btn btn-mic" onclick="openMic(&#39;Miss post-mortem&#39;)">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="9" y="2" width="6" height="11" rx="3"/>
+          <path d="M5 10a7 7 0 0 0 14 0"/>
+          <line x1="12" y1="19" x2="12" y2="22"/>
+          <line x1="8" y1="22" x2="16" y2="22"/>
+        </svg>
+        Add context
+      </button>
+    </div>
+  </div>
+
+  <!-- PEER COMPARISON -->
+  <div class="divider">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+      <circle cx="9" cy="7" r="4"/>
+      <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+      <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+    </svg>
+    Honest Peer Comparison
+  </div>
+
+  <div class="card" data-card-id="peer">
+    <div class="peer-row ok">
+      <div class="k">Your strength</div>
+      <div class="v" style="color:var(--pos)">2 plans sold highest in team</div>
+    </div>
+    <div class="peer-row gap">
+      <div class="k">Gap to close</div>
+      <div class="v" style="color:var(--warn)">revenue $1418 vs team avg $2570</div>
+    </div>
+    <div style="font-size:12px;color:var(--ink3);margin:10px 0;padding:10px;background:var(--bg);border-radius:6px">
+      <b>Fair context:</b> your routes had lower avg ticket potential
+    </div>
+    <div style="font-size:14px;font-weight:600;padding:12px;background:#f8fafc;border-radius:6px;display:flex;align-items:center;gap:6px">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0">
+        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+      </svg>
+      you're the best RELATIONSHIP closer, not yet the best revenue closer
+    </div>
+  </div>
+
+  <!-- PATTERNS -->
+  <div class="divider">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="11" cy="11" r="8"/>
+      <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+    </svg>
+    Patterns Across 5 Jobs
+  </div>
+
+  <div class="card" data-card-id="patterns">
+    <div class="pattern keep">
+      <div class="pattern-label">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--pos)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+          <polyline points="22 4 12 14.01 9 11.01"/>
+        </svg>
+        you diagnose before you sell (rare strength)
+      </div>
+      <div class="pattern-ev">Evidence: Ortiz quote, Peterson quote</div>
+    </div>
+    <div class="pattern stop">
+      <div class="pattern-label">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--neg)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"/>
+          <line x1="15" y1="9" x2="9" y2="15"/>
+          <line x1="9" y1="9" x2="15" y2="15"/>
+        </svg>
+        you undersell yourself on first-call pricing
+      </div>
+      <div class="pattern-ev">Evidence: Chan</div>
+    </div>
+  </div>
+
+  <!-- NEXT WEEK FOCUS -->
+  <div class="divider">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="10"/>
+      <circle cx="12" cy="12" r="6"/>
+      <circle cx="12" cy="12" r="2"/>
+    </svg>
+    Next Week · Practice These
+  </div>
+
+  <div class="card" data-card-id="focus-Build trus">
+    <div class="focus-item">
+      <div class="skill">Build trust in first 90 seconds</div>
+      <div class="how">How: ask 2 discovery questions before quoting</div>
+      <div class="pract">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--ink3)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"/>
+          <polyline points="12,6 12,12 16,14"/>
+        </svg>
+        Practice in: next 3 calls
+      </div>
+    </div>
+    <div class="c-actions">
+      <button class="btn btn-mic" onclick="openMic(&#39;Focus: Build trust in first 90 seconds&#39;)">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="9" y="2" width="6" height="11" rx="3"/>
+          <path d="M5 10a7 7 0 0 0 14 0"/>
+          <line x1="12" y1="19" x2="12" y2="22"/>
+          <line x1="8" y1="22" x2="16" y2="22"/>
+        </svg>
+        Add personal note
+      </button>
+    </div>
+  </div>
+
+  <!-- CONFIDENCE BOOST -->
+  <div class="boost">
+    Your integrity on the Ortiz job proved that honesty is your best sales tool, and customers notice when you prioritize their wallet over your commission.
+  </div>
+
+  <div class="foot">
+    TalkToDeal · Weekly coaching from your calls<br>
+    <span style="font-size:10px;opacity:.8;display:inline-flex;align-items:center;gap:4px">
+      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+        <line x1="12" y1="9" x2="12" y2="13"/>
+        <line x1="12" y1="17" x2="12.01" y2="17"/>
+      </svg>
+      AI analysis · click
+      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="9" y="2" width="6" height="11" rx="3"/>
+        <path d="M5 10a7 7 0 0 0 14 0"/>
+        <line x1="12" y1="19" x2="12" y2="22"/>
+        <line x1="8" y1="22" x2="16" y2="22"/>
+      </svg>
+      on any card to add context
+    </span>
+  </div>
+
+</div>
+
+<div class="mic-wrap">
+  <button id="globalMic" class="mic-btn" onclick="openMic()">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="9" y="2" width="6" height="11" rx="3"/>
+      <path d="M5 10a7 7 0 0 0 14 0"/>
+      <line x1="12" y1="19" x2="12" y2="22"/>
+      <line x1="8" y1="22" x2="16" y2="22"/>
+    </svg>
+    Add voice note
+  </button>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+function openMic(target){
+  alert(target ? `🎙 Voice correction for: ${target}\n(Demo mode)` : `🎙 Free add (Demo mode)`);
+}
+function toast(txt){
+  const t = document.getElementById('toast');
+  if(!t) return; t.textContent = txt;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2400);
+}
+</script>
+</body>
+</html>
