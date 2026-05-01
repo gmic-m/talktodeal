@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TalkToDeal — Your techs forget. You never get paid for it.</title>
+<meta name="description" content="TalkToDeal captures every on-site HVAC conversation automatically. Nothing gets lost. Book a 15-minute demo.">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --bg:#F4F4F2;
+  --bg-card:#ECEAE6;
+  --bg-dark:#111110;
+  --text:#111110;
+  --text-mid:#555550;
+  --text-dim:#999990;
+  --border:#E0DED9;
+  --blue:#1E6FFF;
+  --font:'IBM Plex Sans',system-ui,sans-serif;
+}
+html{scroll-behavior:smooth;}
+body{font-family:var(--font);background:var(--bg-dark);color:var(--text);-webkit-font-smoothing:antialiased;}
+.page-body{background:var(--bg);border-radius:0 0 24px 24px;padding-bottom:80px;}
+
+/* NAV */
+nav{
+  position:sticky;top:0;z-index:100;
+  background:rgba(244,244,242,0.88);
+  backdrop-filter:blur(12px);
+  -webkit-backdrop-filter:blur(12px);
+  padding:0 40px;
+  height:52px;
+  display:flex;align-items:center;justify-content:space-between;
+  max-width:1440px;margin:0 auto;
+}
+.nav-logo{font-size:15px;font-weight:600;color:var(--text);text-decoration:none;letter-spacing:-0.3px;}
+.nav-btn{
+  background:var(--text);color:#fff;
+  border:none;border-radius:100px;
+  padding:7px 18px;font-size:13px;font-weight:500;
+  font-family:var(--font);cursor:pointer;
+  text-decoration:none;display:inline-block;
+  transition:opacity .15s;
+}
+.nav-btn:hover{opacity:.85;}
+
+/* HERO */
+.hero{
+  text-align:center;
+  padding:72px 24px 0;
+  max-width:1440px;margin:0 auto;
+}
+.hero-eyebrow{
+  font-size:12px;font-weight:500;
+  color:var(--text-dim);letter-spacing:.5px;
+  text-transform:uppercase;margin-bottom:20px;
+}
+.hero h1{
+  font-size:clamp(44px,8vw,80px);
+  font-weight:700;
+  line-height:1.04;
+  letter-spacing:-2.5px;
+  color:var(--text);
+  margin-bottom:18px;
+}
+.hero h1 .accent{color:var(--blue);}
+.hero-sub{
+  font-size:15px;color:var(--text-mid);
+  line-height:1.6;max-width:420px;
+  margin:0 auto 28px;font-weight:400;
+}
+.hero-cta{
+  background:var(--text);color:#fff;
+  border:none;border-radius:100px;
+  padding:12px 28px;font-size:14px;font-weight:500;
+  font-family:var(--font);cursor:pointer;
+  transition:opacity .15s;display:inline-block;
+  text-decoration:none;
+}
+.hero-cta:hover{opacity:.8;}
+.hero-microcopy{
+  font-size:12px;color:var(--text-dim);
+  margin-top:14px;
+}
+
+/* HERO DEVICE */
+.hero-device-wrap{
+  margin:56px auto 0;
+  max-width:500px;
+  position:relative;
+  padding:0 24px;
+  height:480px;
+}
+.hero-glow{
+  position:absolute;
+  bottom:-20px;left:50%;transform:translateX(-50%);
+  width:70%;height:60%;
+  background:radial-gradient(ellipse,rgba(180,200,220,0.6) 0%,transparent 70%);
+  filter:blur(40px);
+  pointer-events:none;
+  z-index:0;
+}
+.device-wrap{
+  position:relative;
+  width:100%;height:100%;
+  z-index:1;
+}
+.device-img{
+  position:absolute;
+  filter:drop-shadow(0 24px 40px rgba(0,0,0,.18));
+}
+.device-img:first-child{
+  width:210px;
+  top:45px;right:70px;
+  z-index:2;
+  transform:rotate(6deg);
+}
+.device-img:last-child{
+  width:233px;
+  bottom:15px;left:55px;
+  z-index:3;
+  transform:rotate(-4deg);
+}
+
+/* PAIN POINTS — 3 columns w/ 1px dividers */
+.pain-row{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  max-width:1440px;margin:48px auto 0;
+  padding:0 40px;gap:0;
+}
+.pain-item{
+  text-align:center;
+  padding:0 24px;
+  border-right:1px solid var(--border);
+}
+.pain-item:last-child{border-right:none;}
+.pain-icon{
+  width:32px;height:32px;margin:0 auto 14px;
+  display:flex;align-items:center;justify-content:center;
+}
+.pain-icon svg{width:24px;height:24px;stroke:var(--text);fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;}
+.pain-item h3{font-size:15px;font-weight:600;margin-bottom:8px;letter-spacing:-.2px;}
+.pain-item p{font-size:13px;color:var(--text-mid);line-height:1.55;}
+
+/* HOW IT WORKS */
+.how-section{
+  max-width:1440px;margin:96px auto 0;
+  padding:0 40px;text-align:center;
+}
+.how-section h2{
+  font-size:clamp(32px,5vw,52px);
+  font-weight:700;letter-spacing:-2px;
+  line-height:1.05;margin-bottom:12px;
+}
+.how-section .sub{
+  font-size:14px;color:var(--text-mid);
+  margin:0 auto 40px;line-height:1.6;
+}
+.how-cards{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:14px;
+}
+.how-card{
+  background:var(--bg-card);
+  border-radius:18px;
+  padding:28px 24px;
+  text-align:left;
+  display:flex;flex-direction:column;
+}
+.how-num{
+  font-size:13px;font-weight:600;
+  color:var(--text-dim);letter-spacing:.3px;
+  margin-bottom:18px;
+}
+.how-card h3{
+  font-size:16px;font-weight:600;
+  margin-bottom:8px;letter-spacing:-.2px;
+}
+.how-card p{
+  font-size:13px;color:var(--text-mid);
+  line-height:1.6;
+}
+
+/* STATS */
+.stats-section{
+  max-width:1440px;margin:96px auto 0;
+  padding:36px 40px;
+  border-top:1px solid var(--border);
+  border-bottom:1px solid var(--border);
+}
+.stats-row{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:0;
+}
+.stat-item{
+  text-align:center;
+  border-right:1px solid var(--border);
+  padding:0 16px;
+}
+.stat-item:last-child{border-right:none;}
+.stat-num{
+  font-size:clamp(40px,5vw,52px);
+  font-weight:700;
+  letter-spacing:-2px;
+  color:var(--text);
+  line-height:1;margin-bottom:8px;
+  font-feature-settings:"tnum";
+  font-variant-numeric:tabular-nums;
+}
+.stat-num .unit{font-weight:700;}
+.stat-lbl{
+  font-size:13px;color:var(--text-mid);
+  line-height:1.5;
+}
+
+/* EMAIL CAPTURE */
+.email-section{
+  max-width:1440px;margin:96px auto 0;
+  padding:0 24px;text-align:center;
+}
+/* 邮箱表单内层宽度限制（避免在 1440 容器内被拉到通屏宽） */
+.email-form{max-width:540px;margin:0 auto;}
+.email-section h3{
+  font-size:18px;font-weight:600;
+  margin-bottom:8px;letter-spacing:-.2px;
+}
+.email-section .email-sub{
+  font-size:14px;color:var(--text-mid);
+  margin-bottom:24px;line-height:1.55;
+}
+.email-form{
+  display:flex;gap:8px;
+}
+.email-input{
+  flex:1;
+  border:1.5px solid var(--border);
+  border-radius:100px;
+  padding:13px 22px;
+  font-family:var(--font);
+  font-size:14px;color:var(--text);
+  background:transparent;
+  transition:border-color .2s ease;
+}
+.email-input::placeholder{color:var(--text-dim);}
+.email-input:focus{
+  outline:none;
+  border-color:var(--text);
+}
+.email-btn{
+  background:var(--text);color:#fff;
+  border:none;border-radius:100px;
+  padding:13px 24px;
+  font-family:var(--font);font-size:14px;font-weight:500;
+  cursor:pointer;transition:opacity .15s;
+  flex-shrink:0;
+}
+.email-btn:hover{opacity:.85;}
+.email-btn:disabled{
+  background:#aaa;color:#fff;
+  cursor:default;opacity:1;
+}
+.email-microcopy{
+  font-size:12px;color:var(--text-dim);
+  margin-top:14px;
+}
+
+/* TESTIMONIALS */
+.testimonials-section{
+  max-width:1440px;margin:96px auto 0;
+  padding:0 24px;
+}
+.testimonials-section h2{
+  font-size:clamp(28px,4vw,44px);
+  font-weight:700;letter-spacing:-1.2px;
+  text-align:center;margin-bottom:36px;
+}
+.testimonials-row{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:12px;
+}
+.testimonial-card{
+  background:#fff;
+  border-radius:16px;
+  padding:20px 18px;
+  display:flex;flex-direction:column;
+  min-height:180px;
+}
+.t-stars{
+  font-size:11px;color:#F5A623;letter-spacing:2px;
+  margin-bottom:12px;
+}
+.t-quote{
+  font-size:13px;line-height:1.6;
+  color:var(--text);margin-bottom:14px;
+  font-style:normal;
+}
+.t-author{font-size:11px;color:var(--text-dim);margin-top:auto;}
+
+/* FAQ */
+.faq-section{
+  max-width:1440px;margin:96px auto 0;
+  padding:0 24px;
+}
+.section-eyebrow-center{
+  font-size:11px;font-weight:500;color:var(--text-dim);
+  letter-spacing:.5px;text-transform:uppercase;
+  text-align:center;margin-bottom:16px;
+}
+.faq-section h2{
+  font-size:clamp(28px,4vw,44px);
+  font-weight:700;letter-spacing:-1.2px;
+  text-align:center;margin-bottom:32px;
+}
+.faq-items-wrap{display:flex;flex-direction:column;gap:8px;max-width:600px;margin:0 auto;}
+.faq-item{background:#fff;border-radius:12px;overflow:hidden;}
+.faq-q{
+  width:100%;background:none;border:none;
+  text-align:left;font-family:var(--font);
+  font-size:14px;font-weight:500;color:var(--text);
+  padding:16px 20px;cursor:pointer;
+  display:flex;justify-content:space-between;align-items:center;
+  gap:16px;
+}
+.faq-q svg{width:16px;height:16px;stroke:var(--text-dim);fill:none;stroke-width:2;flex-shrink:0;transition:transform .25s;}
+.faq-q.open svg{transform:rotate(180deg);}
+.faq-a{
+  font-size:13px;color:var(--text-mid);
+  line-height:1.65;
+  max-height:0;overflow:hidden;
+  transition:max-height .35s ease,padding .35s ease;
+  padding:0 20px;
+}
+.faq-a.open{max-height:280px;padding-bottom:16px;}
+
+/* BOTTOM CTA */
+.bottom-cta{margin:96px auto 0;padding:40px 24px;}
+.cta-grid{
+  display:grid;grid-template-columns:1fr 1fr;
+  max-width:1440px;margin:0 auto;
+  overflow:visible;
+}
+.cta-left{
+  background:linear-gradient(160deg,#eef1ff 0%,#dde4ff 60%,#cdd8ff 100%);
+  border-radius:24px;
+  padding:40px;
+  position:relative;z-index:1;
+}
+.cta-left h2{
+  font-size:22px;font-weight:700;color:#111;
+  letter-spacing:-.5px;line-height:1.3;
+  margin-bottom:20px;
+}
+.cta-steps{list-style:none;}
+.cta-steps li{
+  margin-bottom:12px;
+  font-size:13px;color:#333;
+  display:flex;align-items:center;gap:10px;
+}
+.cta-steps li:last-child{margin-bottom:0;}
+.cta-step-num{
+  width:20px;height:20px;min-width:20px;
+  background:rgba(0,0,0,.08);border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:11px;font-weight:600;color:#444;
+}
+.cta-right{
+  background:#111110;
+  border-radius:24px;
+  padding:40px 40px 40px 160px;
+  position:relative;
+  display:flex;flex-direction:column;justify-content:center;
+  text-align:right;
+}
+.cta-img{
+  position:absolute;
+  left:0;top:50%;
+  transform:translate(-50%,-50%);
+  height:168%;width:auto;
+  z-index:10;pointer-events:none;
+  filter:drop-shadow(0 20px 60px rgba(0,0,0,.5));
+}
+.cta-price-label{font-size:13px;color:rgba(255,255,255,.5);margin-bottom:6px;}
+.cta-price{font-size:72px;font-weight:700;color:#fff;letter-spacing:-3px;line-height:1;}
+.cta-period{font-size:12px;color:rgba(255,255,255,.4);margin-bottom:24px;}
+.cta-btn{
+  background:#fff;color:#111;
+  border:none;border-radius:100px;
+  padding:11px 28px;font-size:14px;font-weight:600;
+  font-family:var(--font);cursor:pointer;
+  width:100%;transition:opacity .15s;
+  text-decoration:none;display:inline-block;text-align:center;
+}
+.cta-btn:hover{opacity:.85;}
+
+/* FOOTER */
+footer{background:#111110;padding:0;}
+.footer-inner{max-width:1440px;margin:0 auto;padding:56px 40px 0;}
+.footer-logo-sq{
+  width:14px;height:14px;
+  background:#fff;
+  border-radius:2px;
+  margin-bottom:40px;
+}
+.footer-top{
+  display:flex;justify-content:space-between;
+  align-items:flex-start;
+  margin-bottom:64px;
+  flex-wrap:wrap;gap:32px;
+}
+.footer-col h4{
+  font-size:12px;font-weight:500;color:rgba(255,255,255,.35);
+  letter-spacing:.3px;
+  margin-bottom:16px;
+}
+.footer-col a{
+  display:block;font-size:14px;
+  color:rgba(255,255,255,.55);text-decoration:none;
+  margin-bottom:10px;transition:color .15s;
+}
+.footer-col a:hover{color:#fff;}
+.footer-big{
+  font-weight:700;
+  letter-spacing:-4px;
+  color:#fff;
+  line-height:1;
+  display:block;
+  white-space:nowrap;
+  padding-bottom:48px;
+}
+
+/* SCROLL REVEAL */
+.reveal{opacity:0;transform:translateY(20px);transition:opacity .6s ease,transform .6s ease;}
+.reveal.visible{opacity:1;transform:translateY(0);}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+  nav{padding:0 20px;}
+  .hero{padding:56px 20px 0;}
+  .pain-row{
+    grid-template-columns:1fr;padding:0 20px;
+    margin-top:48px;
+  }
+  .pain-item{
+    border-right:none;
+    border-bottom:1px solid var(--border);
+    padding:24px 0;
+    text-align:left;
+    display:flex;gap:16px;align-items:flex-start;
+  }
+  .pain-item:last-child{border-bottom:none;}
+  .pain-icon{margin:0;flex-shrink:0;}
+  .pain-item h3{margin-bottom:4px;}
+  .how-section{padding:0 20px;}
+  .how-cards{grid-template-columns:1fr;}
+  .stats-section{padding:32px 24px;}
+  .stats-row{grid-template-columns:1fr;gap:24px;}
+  .stat-item{
+    border-right:none;
+    border-bottom:1px solid var(--border);
+    padding:0 0 24px;
+  }
+  .stat-item:last-child{border-bottom:none;padding-bottom:0;}
+  .email-form{flex-direction:column;}
+  .email-input{width:100%;border-radius:12px;padding:14px 18px;}
+  .email-btn{width:100%;border-radius:12px;padding:14px 24px;}
+  .testimonials-row{grid-template-columns:1fr;}
+  .cta-grid{grid-template-columns:1fr;gap:0;}
+  .cta-left{
+    border-radius:24px 24px 0 0;
+    padding:40px 32px;
+    text-align:center;
+    background:linear-gradient(160deg,#eef1ff,#dde4ff);
+  }
+  .cta-left h2{font-size:24px;margin-bottom:24px;}
+  .cta-steps li{
+    background:rgba(255,255,255,.65);
+    border-radius:12px;padding:14px 18px;
+    margin-bottom:10px;text-align:left;
+  }
+  .cta-right{
+    border-radius:0 0 24px 24px;
+    padding:40px 32px;
+    text-align:center;
+    background:#1a1a1a;
+  }
+  .cta-price-label{font-size:22px;font-weight:600;color:#fff;line-height:1.3;margin-bottom:16px;}
+  .cta-price{font-size:72px;}
+  .cta-period{font-size:13px;color:rgba(255,255,255,.45);margin-bottom:28px;}
+  .cta-btn{padding:13px 40px;font-size:15px;width:auto;}
+  .cta-img{display:none !important;}
+  .footer-top{flex-direction:column;}
+  .footer-inner{padding:40px 24px 0;}
+}
+</style>
+</head>
+<body>
+<div class="page-body">
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">TalkToDeal</a>
+  <a href="https://talktodeal.com/call/" class="nav-btn">See What You Missed This Week</a>
+</nav>
+
+<!-- HERO -->
+<div class="hero reveal">
+  <p class="hero-eyebrow">For HVAC Field Teams</p>
+  <h1>Your techs forget.<br><span class="accent">You never get paid for it.</span></h1>
+  <p class="hero-sub">It's not that your techs don't care. It's that they can't type while their hands are in the unit.</p>
+  <a href="https://talktodeal.com/call/" class="hero-cta">See What You Missed This Week</a>
+  <p class="hero-microcopy">15-minute call. No credit card.</p>
+</div>
+
+<!-- HERO DEVICES -->
+<div class="hero-device-wrap reveal">
+  <div class="device-wrap">
+    <img class="device-img" src="../img/mic05-1.png" alt="FleetMic device">
+    <img class="device-img" src="../img/mic05-2.png" alt="FleetMic device">
+  </div>
+  <div class="hero-glow"></div>
+</div>
+
+<!-- PAIN POINTS -->
+<div class="pain-row reveal">
+  <div class="pain-item">
+    <div class="pain-icon">
+      <svg viewBox="0 0 24 24"><rect x="8" y="2" width="8" height="4" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><line x1="9" y1="13" x2="15" y2="19"/><line x1="15" y1="13" x2="9" y2="19"/></svg>
+    </div>
+    <h3>The work happens. The words don't.</h3>
+    <p>Your tech knows exactly what he found. By the time his hands are clean, that knowledge is already gone.</p>
+  </div>
+  <div class="pain-item">
+    <div class="pain-icon">
+      <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/><line x1="22" y1="2" x2="16" y2="8"/><line x1="16" y1="2" x2="22" y2="8"/></svg>
+    </div>
+    <h3>It's a shape problem, not a people problem.</h3>
+    <p>You can't ask someone with their hands in the unit to also be a typist. The format was wrong from the start.</p>
+  </div>
+  <div class="pain-item">
+    <div class="pain-icon">
+      <svg viewBox="0 0 24 24"><polyline points="23 18 13.5 8.5 8.5 13.5 1 6"/><polyline points="17 18 23 18 23 12"/></svg>
+    </div>
+    <h3>The gap is where margin disappears.</h3>
+    <p>Rework. Callbacks. A senior tech who becomes irreplaceable. It all starts with the same missing record.</p>
+  </div>
+</div>
+
+<!-- HOW IT WORKS -->
+<div class="how-section reveal">
+  <h2>How it works</h2>
+  <p class="sub">Meet the work where the work actually is.</p>
+  <div class="how-cards">
+    <div class="how-card">
+      <div class="how-num">01</div>
+      <h3>Tech records the job</h3>
+      <p>One button on FleetMic. The conversation is captured automatically &mdash; no typing, no notes.</p>
+    </div>
+    <div class="how-card">
+      <div class="how-num">02</div>
+      <h3>AI processes it</h3>
+      <p>TalkToDeal generates a summary, customer profile, and flags any upsell opportunities.</p>
+    </div>
+    <div class="how-card">
+      <div class="how-num">03</div>
+      <h3>You see everything</h3>
+      <p>All job details in your dashboard before the tech drives back to the shop.</p>
+    </div>
+  </div>
+</div>
+
+<!-- STATS -->
+<div class="stats-section reveal">
+  <div class="stats-row">
+    <div class="stat-item">
+      <div class="stat-num"><span class="unit">$</span><span data-count="9000">0</span></div>
+      <div class="stat-lbl">recovered per week, on average</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num"><span data-count="2">0</span><span class="unit"> hrs</span></div>
+      <div class="stat-lbl">saved per tech per day</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num"><span data-count="0">0</span></div>
+      <div class="stat-lbl">manual notes required</div>
+    </div>
+  </div>
+</div>
+
+<!-- EMAIL CAPTURE -->
+<div class="email-section reveal">
+  <h3>Not ready to book?</h3>
+  <p class="email-sub">Get a 2-minute product overview sent to your inbox.</p>
+  <form class="email-form" id="email-form" novalidate>
+    <input type="email" name="email" class="email-input" id="email-input" placeholder="Your work email" required autocomplete="email">
+    <button type="submit" class="email-btn" id="email-btn">Send It</button>
+  </form>
+  <p class="email-microcopy">No spam. Unsubscribe anytime.</p>
+</div>
+
+<!-- TESTIMONIALS -->
+<div class="testimonials-section reveal">
+  <h2>They stopped losing details</h2>
+  <div class="testimonials-row">
+    <div class="testimonial-card">
+      <div class="t-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+      <p class="t-quote">"My techs used to come back with half the story. Now I have the full job recap before they're back in the truck."</p>
+      <div class="t-author">Mike R. &middot; Apex HVAC</div>
+    </div>
+    <div class="testimonial-card">
+      <div class="t-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+      <p class="t-quote">"A customer called back about a quote from two weeks ago. We had the whole conversation logged. Closed it on the spot."</p>
+      <div class="t-author">Sarah L. &middot; CoolAir Pro</div>
+    </div>
+    <div class="testimonial-card">
+      <div class="t-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+      <p class="t-quote">"Recovered three upsells in the first month that would have been completely forgotten. Pays for itself every week."</p>
+      <div class="t-author">Derek M. &middot; TempRight HVAC</div>
+    </div>
+  </div>
+</div>
+
+<!-- FAQ -->
+<div class="faq-section reveal" id="faq">
+  <p class="section-eyebrow-center">FAQ</p>
+  <h2>Questions?<br>Here's the answers.</h2>
+
+  <div class="faq-items-wrap">
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">
+        Does my tech have to remember to press record?
+        <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+      <div class="faq-a">No. TalkToDeal can auto-trigger when a job starts. Zero behavior change required from your field team.</div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">
+        Where do the job details go?
+        <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+      <div class="faq-a">Straight to your dashboard. Every job is searchable by customer name, date, or job number. Nothing gets buried.</div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">
+        Does it work with our existing software?
+        <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+      <div class="faq-a">We integrate with most HVAC service platforms. Ask us during the demo and we'll confirm your setup on the spot.</div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">
+        How fast can we get started?
+        <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+      <div class="faq-a">Book a 15-minute demo today. We'll ship a FleetMic trial unit and have your team capturing jobs within a week. No IT setup needed.</div>
+    </div>
+  </div>
+</div>
+
+<!-- BOTTOM CTA -->
+<div class="bottom-cta reveal" id="contact">
+  <div class="cta-grid">
+    <div class="cta-left">
+      <h2>Close the gap.<br>Keep every detail.</h2>
+      <ul class="cta-steps">
+        <li><span class="cta-step-num">1</span> Book your free 15-min demo</li>
+        <li><span class="cta-step-num">2</span> Receive FleetMic trial unit</li>
+        <li><span class="cta-step-num">3</span> Every detail captured from day one</li>
+      </ul>
+    </div>
+    <div class="cta-right">
+      <img class="cta-img" src="../img/HCJD5.png" alt="FleetMic" onerror="this.style.display='none'">
+      <div class="cta-price-label">One plan, one price.</div>
+      <div class="cta-price">$99</div>
+      <div class="cta-period">Per Month</div>
+      <a href="https://talktodeal.com/call/" class="cta-btn">See What You Missed This Week</a>
+    </div>
+  </div>
+</div>
+
+</div><!-- /.page-body -->
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-logo-sq"></div>
+    <div class="footer-top">
+      <div class="footer-col">
+        <h4>Product</h4>
+        <a href="#">Home</a>
+        <a href="#">How it Works</a>
+        <a href="#faq">FAQ</a>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms</a>
+      </div>
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <a href="mailto:hello@talktodeal.com">hello@talktodeal.com</a>
+      </div>
+    </div>
+    <div class="footer-big">TalkToDeal</div>
+  </div>
+</footer>
+
+<script>
+// FAQ toggle: 单一展开，点击切换
+function toggleFaq(btn) {
+  const a = btn.nextElementSibling;
+  const isOpen = a.classList.contains('open');
+  document.querySelectorAll('.faq-a').forEach(el => el.classList.remove('open'));
+  document.querySelectorAll('.faq-q').forEach(el => el.classList.remove('open'));
+  if (!isOpen) { a.classList.add('open'); btn.classList.add('open'); }
+}
+
+// Footer 大字自适应宽度铺满容器
+function fitFooterText() {
+  const big = document.querySelector('.footer-big');
+  if (!big) return;
+  const containerW = big.offsetWidth;
+  if (!containerW) return;
+  let lo = 10, hi = 600;
+  while (hi - lo > 0.5) {
+    const mid = (lo + hi) / 2;
+    big.style.fontSize = mid + 'px';
+    if (big.scrollWidth > containerW) hi = mid;
+    else lo = mid;
+  }
+  big.style.fontSize = lo + 'px';
+}
+window.addEventListener('load', fitFooterText);
+window.addEventListener('resize', fitFooterText);
+
+// Scroll reveal
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
+}, { threshold: 0.1 });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// 数字计数动画（IntersectionObserver + RAF, easeOutCubic 1.2s）
+const countObs = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (!entry.isIntersecting) return;
+    const el = entry.target;
+    const target = parseInt(el.dataset.count, 10);
+    if (target === 0) { el.textContent = '0'; countObs.unobserve(el); return; }
+    const duration = 1200;
+    let start = null;
+    const step = ts => {
+      if (!start) start = ts;
+      const p = Math.min((ts - start) / duration, 1);
+      const eased = 1 - Math.pow(1 - p, 3);
+      el.textContent = Math.round(eased * target).toLocaleString();
+      if (p < 1) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+    countObs.unobserve(el);
+  });
+}, { threshold: 0.5 });
+document.querySelectorAll('[data-count]').forEach(el => countObs.observe(el));
+
+// Email 表单：提交后按钮变 "Sent!" 灰色禁用，不跳转
+const form = document.getElementById('email-form');
+const btn = document.getElementById('email-btn');
+const input = document.getElementById('email-input');
+if (form && btn && input) {
+  form.addEventListener('submit', e => {
+    e.preventDefault();
+    const v = input.value.trim();
+    if (!v || !/.+@.+\..+/.test(v)) return;
+    btn.textContent = 'Sent!';
+    btn.disabled = true;
+    input.disabled = true;
+  });
+}
+</script>
+</body>
+</html>
