@@ -1,0 +1,1136 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>TalkToDeal &mdash; Stop writing notes manually</title>
+<meta name="description" content="TalkToDeal captures every on-site conversation automatically. Nothing gets lost. Nothing gets missed.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+<style>
+/* ========== Reset / Base ========== */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Inter',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+  background:#F0F4FF;color:#0A1628;
+  -webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;
+  line-height:1.5;
+  overflow-x:hidden;
+}
+a{color:inherit;text-decoration:none}
+button,input{font-family:inherit;color:inherit}
+button{cursor:pointer;border:none;background:none}
+img{display:block;max-width:100%}
+
+/* ========== Container (max-width 1440) ========== */
+.container{
+  max-width:1440px;
+  margin:0 auto;
+  padding:0 20px;
+  width:100%;
+}
+@media (min-width:768px){
+  .container{padding:0 80px}
+}
+
+/* ========== Common typography ========== */
+.eyebrow{
+  display:inline-block;
+  font-family:'Inter',sans-serif;
+  font-size:11px;font-weight:600;
+  letter-spacing:2px;text-transform:uppercase;
+  color:#4285F4;
+  margin-bottom:20px;
+}
+@media (min-width:768px){
+  .eyebrow{margin-bottom:24px}
+}
+
+/* ========== Section heading pattern ========== */
+.s-head{
+  text-align:center;
+  max-width:780px;margin:0 auto 56px;
+}
+.s-head h2{
+  font-family:'Inter',sans-serif;
+  font-size:clamp(28px,4.5vw,40px);
+  font-weight:800;letter-spacing:-1px;line-height:1.15;
+  color:#0A1628;
+  margin-bottom:14px;
+}
+.s-head p{
+  font-size:16px;color:#5A6B8A;line-height:1.7;
+  max-width:560px;margin:0 auto;
+}
+@media (min-width:768px){
+  .s-head{margin:0 auto 64px}
+  .s-head p{font-size:17px}
+}
+
+/* ========== Buttons (pill 50px) ========== */
+.btn-primary{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  background:#4285F4;color:#fff;
+  font-family:'Inter',sans-serif;
+  font-size:15px;font-weight:700;letter-spacing:-.1px;
+  border-radius:50px;
+  padding:16px 32px;
+  transition:transform .25s cubic-bezier(0.16,1,0.3,1), box-shadow .25s cubic-bezier(0.16,1,0.3,1), background .2s ease;
+}
+.btn-primary:hover{
+  transform:translateY(-2px);
+  background:#2C6FDB;
+  box-shadow:0 0 20px rgba(66,133,244,0.4);
+}
+.btn-primary.btn-block{width:100%}
+.btn-nav{
+  display:inline-flex;align-items:center;
+  background:#4285F4;color:#fff;
+  font-family:'Inter',sans-serif;
+  font-size:13px;font-weight:700;
+  border-radius:50px;
+  padding:9px 18px;
+  transition:background .2s ease, transform .25s ease, box-shadow .25s ease;
+}
+.btn-nav:hover{background:#2C6FDB;transform:translateY(-1px);box-shadow:0 0 16px rgba(66,133,244,0.4)}
+.btn-nav-outline{
+  display:inline-flex;align-items:center;
+  background:transparent;color:#4285F4;
+  font-family:'Inter',sans-serif;
+  font-size:13px;font-weight:700;
+  border:1.5px solid #4285F4;
+  border-radius:50px;
+  padding:7.5px 16px;
+  transition:background .2s ease, transform .25s ease;
+}
+.btn-nav-outline:hover{background:rgba(66,133,244,0.08);transform:translateY(-1px)}
+.btn-text{
+  display:inline-flex;align-items:center;gap:6px;
+  color:#4285F4;
+  font-family:'Inter',sans-serif;
+  font-size:15px;font-weight:600;
+  transition:gap .2s ease, color .2s ease;
+}
+.btn-text:hover{gap:10px;color:#2C6FDB}
+.btn-text i{width:16px;height:16px}
+
+/* ========== Reveal Animation ========== */
+.reveal{
+  opacity:0;transform:translateY(24px);
+  transition:opacity .6s cubic-bezier(0.16,1,0.3,1), transform .6s cubic-bezier(0.16,1,0.3,1);
+}
+.reveal.visible{opacity:1;transform:translateY(0)}
+
+/* ========== Hero floating animation ========== */
+@keyframes float-y{
+  0%,100%{transform:translateY(-8px)}
+  50%{transform:translateY(8px)}
+}
+
+/* ========== Nav (sticky) ========== */
+nav{
+  position:sticky;top:0;z-index:100;
+  background:rgba(240,244,255,0.92);
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  height:64px;
+  display:flex;align-items:center;
+  position:relative;
+}
+nav.scrolled::after{
+  content:"";
+  position:absolute;left:0;right:0;bottom:0;
+  height:1px;background:#D8E4FF;
+}
+.nav-inner{
+  width:100%;
+  display:flex;align-items:center;justify-content:space-between;
+  gap:24px;
+}
+.logo{
+  font-family:'Inter',sans-serif;
+  font-size:18px;font-weight:800;letter-spacing:-.3px;
+  color:#0A1628;
+}
+.nav-links{display:none;flex:1;justify-content:center;gap:28px}
+.nav-links a{
+  font-family:'Inter',sans-serif;
+  font-size:14px;font-weight:500;
+  color:#5A6B8A;
+  transition:color .2s ease;
+}
+.nav-links a:hover{color:#4285F4}
+.nav-actions{
+  display:flex;align-items:center;gap:10px;
+}
+.nav-actions .btn-nav-outline{display:none}
+@media (min-width:900px){
+  .nav-links{display:flex}
+  .nav-actions .btn-nav-outline{display:inline-flex}
+}
+
+/* ========== Section: Hero (asymmetric overlapping) ========== */
+.hero{
+  padding:72px 0 96px;
+  position:relative;
+  background:#F0F4FF;
+  overflow:hidden;
+}
+.hero::before{
+  content:"";
+  position:absolute;inset:0;
+  background:radial-gradient(circle at 80% 0%, rgba(66,133,244,0.10), transparent 55%);
+  pointer-events:none;
+}
+.hero-stage{position:relative;z-index:1}
+.hero-text-top, .hero-text-bot{
+  text-align:center;
+  max-width:640px;margin:0 auto;
+}
+.hero h1.hero-title{
+  font-family:'Inter',sans-serif;
+  font-size:clamp(32px,7vw,56px);
+  line-height:1.08;
+  letter-spacing:-1.6px;
+  margin:0;
+}
+.hero h1.hero-title .line-1{
+  display:block;
+  font-weight:800;
+  color:#0A1628;
+}
+.hero h1.hero-title .line-2{
+  display:block;
+  font-weight:800;
+  color:#4285F4;
+  margin-top:6px;
+}
+.hero-img-wrap{
+  display:flex;justify-content:center;align-items:center;
+  margin:24px 0;
+  position:relative;z-index:2;
+}
+.hero-img{
+  width:80vw;max-width:520px;
+  height:auto;
+  filter:drop-shadow(0 24px 48px rgba(66,133,244,0.30));
+  animation:float-y 3s ease-in-out infinite;
+}
+.hero-line-3{
+  font-family:'Inter',sans-serif;
+  font-weight:500;
+  font-size:18px;
+  line-height:1.5;
+  letter-spacing:-.3px;
+  color:#5A6B8A;
+  margin-bottom:12px;
+}
+.hero-sub{
+  font-family:'Inter',sans-serif;
+  font-size:16px;font-weight:400;line-height:1.7;
+  color:#5A6B8A;
+  margin-bottom:0;
+}
+.hero-actions{
+  display:flex;flex-direction:column;align-items:center;gap:14px;
+  margin-top:24px;
+  width:100%;
+}
+.hero-actions .btn-primary{width:100%;max-width:340px}
+@media (min-width:768px){
+  .hero{padding:96px 0 120px}
+  .hero-text-top{
+    max-width:55%;
+    margin:0 0 0 0;
+    text-align:left;
+    position:relative;z-index:1;
+  }
+  .hero-img-wrap{
+    margin-top:-40px;
+    margin-bottom:0;
+    z-index:2;
+  }
+  .hero-img{
+    width:520px;max-width:65vw;
+  }
+  .hero-text-bot{
+    max-width:55%;
+    margin:-40px 0 0 auto;
+    text-align:right;
+    position:relative;z-index:1;
+  }
+  .hero-line-3{font-size:22px;line-height:1.45;letter-spacing:-.4px}
+  .hero-sub{font-size:17px}
+  .hero-actions{
+    flex-direction:row;justify-content:flex-end;align-items:center;
+    gap:24px;
+    width:auto;
+  }
+  .hero-actions .btn-primary{width:auto;max-width:none}
+}
+
+/* ========== Section: Pain (cards, no shadow no border) ========== */
+.s-pain{
+  padding:96px 0;
+  background:#E8EEFF;
+}
+@media (min-width:768px){.s-pain{padding:120px 0}}
+.pain-grid{
+  max-width:1280px;
+  margin:0 auto;
+  display:grid;
+  grid-template-columns:1fr;
+  gap:4px;
+  border-radius:20px;
+  overflow:hidden;
+}
+@media (min-width:768px){
+  .pain-grid{
+    grid-template-columns:1fr 1fr;
+    grid-template-areas:
+      "a a"
+      "b c";
+  }
+  .pain-large{grid-area:a}
+  .pain-small-1{grid-area:b}
+  .pain-small-2{grid-area:c}
+}
+.pain-card{
+  position:relative;
+  height:260px;
+  border-radius:20px;
+  overflow:hidden;
+  border:none;
+  box-shadow:none;
+  transition:transform 0.3s ease;
+}
+.pain-card:hover{transform:scale(1.02)}
+.pain-card.fb-1{background:#C8D8FF}
+.pain-card.fb-2{background:#B8CCFF}
+.pain-card.fb-3{background:#A8BCFF}
+.pain-card-bg{
+  position:absolute;inset:0;
+  width:100%;height:100%;
+  object-fit:cover;object-position:center;
+  display:block;
+}
+.pain-card::after{
+  content:"";
+  position:absolute;
+  bottom:0;left:0;right:0;
+  height:75%;
+  background:linear-gradient(
+    to top,
+    rgba(0,0,0,0.72) 0%,
+    rgba(0,0,0,0.45) 40%,
+    rgba(0,0,0,0.10) 70%,
+    transparent 100%
+  );
+  pointer-events:none;
+  z-index:1;
+}
+.pain-card-overlay{
+  position:absolute;
+  bottom:0;left:0;right:0;
+  z-index:2;
+  padding:22px 28px;
+  background:transparent;
+}
+.pain-card-title-row{
+  display:flex;align-items:center;gap:12px;
+  margin-bottom:8px;
+}
+.pain-card-title-row i,
+.pain-card-title-row svg{
+  flex-shrink:0;
+  color:#FFFFFF;
+  stroke:#FFFFFF;
+  width:20px;height:20px;
+}
+.pain-card-overlay h3{
+  font-family:'Inter',sans-serif;
+  font-size:17px;font-weight:700;
+  color:#FFFFFF;
+  letter-spacing:-.2px;
+  margin:0;
+}
+.pain-card-overlay p{
+  font-family:'Inter',sans-serif;
+  font-size:13px;font-weight:400;
+  color:rgba(255,255,255,0.85);
+  line-height:1.55;
+}
+@media (min-width:768px){
+  .pain-large{height:480px}
+  .pain-small-1, .pain-small-2{height:320px}
+  .pain-large .pain-card-overlay{padding:28px 36px}
+  .pain-large .pain-card-title-row i,
+  .pain-large .pain-card-title-row svg{width:22px;height:22px}
+  .pain-large .pain-card-overlay h3{font-size:20px}
+  .pain-large .pain-card-overlay p{font-size:14px}
+}
+
+/* ========== Section: How It Works (horizontal timeline) ========== */
+.s-how{
+  padding:96px 0 0;
+  background:#F0F4FF;
+}
+.s-how-img{
+  width:100%;
+  aspect-ratio:16 / 9;
+  object-fit:cover;
+  object-position:center;
+  display:block;
+  margin-top:64px;
+}
+.how-grid{
+  display:grid;grid-template-columns:1fr;gap:24px;
+  max-width:1080px;margin:0 auto;
+}
+.how-card{
+  background:#FFFFFF;
+  border:none;
+  border-radius:14px;
+  padding:32px 28px;
+  box-shadow:0 4px 20px rgba(66,133,244,0.08);
+  transition:transform 0.25s cubic-bezier(0.16,1,0.3,1);
+}
+.how-card:hover{transform:translateY(-4px)}
+.how-card-icon{
+  display:inline-flex;align-items:center;justify-content:center;
+  background:rgba(66,133,244,0.10);
+  border-radius:12px;
+  padding:12px;
+  margin-bottom:20px;
+}
+.how-card-icon i{
+  width:32px;height:32px;
+  color:#4285F4;
+}
+.how-card h3{
+  font-family:'Inter',sans-serif;
+  font-size:17px;font-weight:700;
+  color:#0A1628;
+  margin-bottom:8px;letter-spacing:-.2px;
+}
+.how-card p{
+  font-family:'Inter',sans-serif;
+  font-size:14px;font-weight:400;
+  color:#5A6B8A;
+  line-height:1.65;
+}
+@media (min-width:768px){
+  .s-how{padding:120px 0 0}
+  .s-how-img{margin-top:96px}
+  .how-grid{grid-template-columns:repeat(3,1fr);gap:24px}
+}
+
+/* ========== Section: Stats ========== */
+.s-stats{
+  position:relative;
+  padding:96px 0;
+  background:#4285F4;
+  overflow:hidden;
+}
+@media (min-width:768px){.s-stats{padding:120px 0}}
+.stats-bg{
+  position:absolute;inset:0;
+  width:100%;height:100%;
+  object-fit:cover;
+  opacity:0.12;
+  pointer-events:none;
+  z-index:0;
+}
+.s-stats > .container{position:relative;z-index:1}
+.s-stats .s-head h2{color:#fff}
+.s-stats .eyebrow{color:rgba(255,255,255,0.7)}
+.stats-grid{
+  display:grid;grid-template-columns:1fr;gap:48px;
+  max-width:900px;margin:0 auto 28px;
+  text-align:center;
+}
+.stat-num{
+  display:block;
+  font-family:'Inter',sans-serif;
+  font-size:clamp(48px,8vw,72px);
+  font-weight:800;
+  color:#fff;
+  letter-spacing:-2.5px;
+  line-height:1;
+  font-variant-numeric:tabular-nums;
+  font-feature-settings:"tnum";
+  margin-bottom:14px;
+}
+.stat-num .unit{font-weight:700;color:rgba(255,255,255,0.85)}
+.stat-lbl{
+  font-family:'Inter',sans-serif;
+  font-size:15px;font-weight:500;
+  color:rgba(255,255,255,0.85);
+  line-height:1.5;
+}
+.stats-foot{
+  text-align:center;
+  font-size:13px;color:rgba(255,255,255,0.5);
+  margin-top:16px;
+}
+@media (min-width:768px){
+  .stats-grid{grid-template-columns:repeat(3,1fr);gap:48px;margin-bottom:36px}
+  .stat-lbl{font-size:16px}
+}
+
+/* ========== Section: Social Proof (carousel) ========== */
+.s-quote{
+  padding:96px 0;
+  background:#E8EEFF;
+}
+@media (min-width:768px){.s-quote{padding:120px 0}}
+.carousel{
+  position:relative;
+  max-width:780px;margin:0 auto;
+}
+.carousel-stage{
+  position:relative;
+  min-height:320px;
+}
+.quote-slide{
+  position:absolute;inset:0;
+  opacity:0;
+  transition:opacity .4s ease;
+  display:flex;flex-direction:column;align-items:center;text-align:center;
+  padding:0 16px;
+  pointer-events:none;
+}
+.quote-slide.active{opacity:1;pointer-events:auto}
+.quote-mark-deco{
+  font-family:'Inter',sans-serif;
+  font-size:80px;font-weight:800;line-height:0.5;
+  color:#4285F4;
+  opacity:0.3;
+  margin-bottom:8px;
+}
+.quote-text{
+  font-family:'Inter',sans-serif;
+  font-style:italic;
+  font-weight:500;
+  font-size:18px;
+  line-height:1.6;
+  color:#0A1628;
+  max-width:680px;
+  margin-bottom:16px;
+  letter-spacing:-.2px;
+}
+.quote-attr-row{
+  display:flex;align-items:center;justify-content:center;
+  margin-top:16px;
+}
+.quote-avatar{
+  width:44px;height:44px;
+  border-radius:50%;
+  background:#4285F4;
+  color:#fff;
+  font-family:'Inter',sans-serif;
+  font-size:18px;font-weight:700;
+  display:flex;align-items:center;justify-content:center;
+  margin-right:10px;
+  flex-shrink:0;
+}
+.quote-attr{
+  font-family:'Inter',sans-serif;
+  font-size:14px;color:#5A6B8A;font-weight:400;
+}
+.carousel-controls{
+  display:flex;justify-content:center;align-items:center;gap:14px;
+  margin-top:32px;
+}
+.carousel-arrow{
+  width:36px;height:36px;
+  border-radius:50%;
+  background:transparent;
+  color:#4285F4;
+  display:flex;align-items:center;justify-content:center;
+  transition:background .2s ease;
+}
+.carousel-arrow:hover{background:rgba(66,133,244,0.08)}
+.carousel-arrow i{width:20px;height:20px}
+.carousel-dots{display:flex;gap:8px;align-items:center}
+.carousel-dot{
+  width:8px;height:8px;
+  border-radius:50%;
+  background:rgba(66,133,244,0.3);
+  transition:background .2s ease, transform .2s ease;
+  cursor:pointer;
+}
+.carousel-dot.active{background:#4285F4;transform:scale(1.2)}
+@media (min-width:768px){
+  .quote-text{font-size:20px}
+}
+
+/* ========== Section: Lead Capture (flush 50/50) ========== */
+.s-capture{
+  padding:96px 0;
+  background:#F0F4FF;
+}
+@media (min-width:768px){.s-capture{padding:120px 0}}
+.capture-wrap{
+  display:grid;grid-template-columns:1fr;
+  max-width:1200px;margin:0 auto;
+  border-radius:16px;
+  overflow:hidden;
+}
+@media (min-width:768px){
+  .capture-wrap{grid-template-columns:1fr 1fr;border-radius:20px}
+}
+.capture-left{
+  background:#E8EEFF;
+  padding:48px 24px;
+  border:none;box-shadow:none;
+}
+@media (min-width:768px){
+  .capture-left{padding:64px 48px}
+}
+.capture-left .eyebrow{margin-bottom:16px}
+.capture-left h2{
+  font-family:'Inter',sans-serif;
+  font-size:clamp(28px,4vw,36px);
+  line-height:1.15;letter-spacing:-1px;
+  color:#0A1628;
+  font-weight:800;
+}
+.capture-left h2 .line-1{display:block}
+.capture-left h2 .line-2{
+  display:block;
+  font-weight:700;
+  color:#4285F4;
+}
+.capture-sub{
+  font-family:'Inter',sans-serif;
+  font-size:15px;font-weight:400;
+  color:#5A6B8A;
+  margin-top:12px;line-height:1.65;
+}
+.capture-form{
+  display:flex;flex-direction:column;gap:14px;
+  margin-top:28px;
+}
+.capture-form input{
+  width:100%;
+  background:#FFFFFF;
+  border:1px solid #C8D8FF;
+  border-radius:10px;
+  padding:14px 18px;
+  font-family:'Inter',sans-serif;
+  font-size:15px;font-weight:400;
+  color:#0A1628;
+  transition:border-color .2s ease, box-shadow .2s ease;
+}
+.capture-form input::placeholder{color:#5A6B8A}
+.capture-form input:focus{
+  outline:none;
+  border-color:#4285F4;
+  box-shadow:0 0 0 3px rgba(66,133,244,0.12);
+}
+.capture-form .btn-primary{margin-top:6px;border-radius:50px}
+.capture-form .btn-primary.success{background:#0a7c3e;cursor:default}
+.capture-form .btn-primary.success:hover{background:#0a7c3e;transform:none;box-shadow:none}
+.capture-foot{
+  font-family:'Inter',sans-serif;
+  font-size:12px;color:#5A6B8A;
+  margin-top:18px;
+}
+.capture-right{
+  display:none;
+  position:relative;
+  background:#4285F4;
+  min-height:300px;
+}
+.capture-right img{
+  width:100%;height:100%;
+  object-fit:cover;
+  display:block;
+}
+.capture-fallback{
+  display:none;
+  position:absolute;inset:0;
+  flex-direction:column;align-items:center;justify-content:center;
+  padding:40px;text-align:center;
+}
+.capture-fallback .fb-logo{
+  font-family:'Inter',sans-serif;
+  font-size:36px;font-weight:800;
+  color:#fff;
+  letter-spacing:-1px;
+  margin-bottom:14px;
+}
+.capture-fallback .fb-slogan{
+  font-family:'Inter',sans-serif;
+  font-size:16px;font-weight:500;
+  color:rgba(255,255,255,0.85);
+  line-height:1.5;
+  max-width:300px;
+}
+@media (min-width:768px){
+  .capture-right{display:block}
+}
+
+/* ========== Section: FAQ ========== */
+.s-faq{
+  padding:96px 0;
+  background:#E8EEFF;
+}
+@media (min-width:768px){.s-faq{padding:120px 0}}
+.faq-wrap{max-width:680px;margin:0 auto}
+.faq-item{border-bottom:1px solid #D8E4FF}
+.faq-q{
+  display:flex;justify-content:space-between;align-items:center;
+  width:100%;padding:24px 0;gap:16px;
+  font-family:'Inter',sans-serif;
+  font-size:16px;font-weight:600;
+  color:#0A1628;
+  text-align:left;
+  letter-spacing:-.2px;
+  transition:color .2s ease;
+}
+.faq-q:hover{color:#4285F4}
+.faq-q i{
+  flex-shrink:0;
+  width:20px;height:20px;
+  color:#4285F4;
+  transition:transform .25s ease;
+}
+.faq-item.open .faq-q i{transform:rotate(180deg)}
+.faq-a{
+  max-height:0;overflow:hidden;
+  transition:max-height .25s ease;
+}
+.faq-a-inner{
+  padding:0 0 24px;
+  font-family:'Inter',sans-serif;
+  font-size:15px;font-weight:400;
+  color:#5A6B8A;line-height:1.75;
+  max-width:560px;
+}
+
+/* ========== Footer ========== */
+footer{
+  background:#0A1628;
+  padding:32px 0;
+}
+.foot-inner{
+  display:flex;flex-direction:column;gap:14px;
+  align-items:center;text-align:center;
+}
+.foot-inner > div, .foot-inner > a{
+  font-family:'Inter',sans-serif;
+  font-size:13px;color:rgba(255,255,255,0.45);
+}
+.foot-inner .logo{
+  color:#FFFFFF;
+  font-size:15px;font-weight:800;
+}
+.foot-explore{
+  color:rgba(255,255,255,0.5);
+  transition:color .2s ease;
+}
+.foot-explore:hover{color:#fff}
+@media (min-width:768px){
+  footer{padding:40px 0}
+  .foot-inner{flex-direction:row;justify-content:space-between;text-align:left}
+}
+</style>
+</head>
+<body>
+
+<!-- ========== Nav ========== -->
+<nav>
+  <div class="container nav-inner">
+    <a class="logo" href="#">TalkToDeal</a>
+    <div class="nav-links">
+      <a href="#how">How It Works</a>
+      <a href="#stats">Results</a>
+      <a href="#capture">Demo</a>
+      <a href="#faq">FAQ</a>
+    </div>
+    <div class="nav-actions">
+      <a class="btn-nav-outline" href="https://talktodeal.pages.dev/" target="_blank" rel="noopener">Explore More</a>
+      <a class="btn-nav" href="https://talktodeal.com/call/" target="_blank" rel="noopener">Book Free Demo</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ========== Section 1: Hero (asymmetric overlapping) ========== -->
+<section class="hero">
+  <div class="container hero-stage">
+    <div class="hero-text-top reveal" data-delay="0">
+      <span class="eyebrow">For HVAC Professionals</span>
+      <h1 class="hero-title">
+        <span class="line-1">Still writing notes after every job?</span>
+        <span class="line-2">Or missing what actually gets sold?</span>
+      </h1>
+    </div>
+    <div class="hero-img-wrap reveal" data-delay="120">
+      <img class="hero-img" src="../img/HCJD5.png" alt="FleetMic device" onerror="this.style.display='none'">
+    </div>
+    <div class="hero-text-bot reveal" data-delay="200">
+      <p class="hero-line-3">Because no one follows up on what was said.</p>
+      <p class="hero-sub">TalkToDeal captures every on-site conversation automatically &mdash; so nothing gets lost, and nothing gets missed.</p>
+      <div class="hero-actions">
+        <a class="btn-primary" href="https://talktodeal.com/call/" target="_blank" rel="noopener">See What You Missed This Week</a>
+        <a class="btn-text" href="https://talktodeal.com/call/" target="_blank" rel="noopener">Book a Free Demo <i data-lucide="arrow-right"></i></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== Section 2: Pain (image cards, no shadow no border) ========== -->
+<section class="s-pain">
+  <div class="container">
+    <div class="s-head reveal">
+      <h2>Every job ends with a pile of paperwork</h2>
+    </div>
+    <div class="pain-grid">
+      <div class="pain-card pain-large fb-1 reveal" data-delay="0">
+        <img class="pain-card-bg" src="../img/problem-1.png" alt="" loading="lazy" onerror="this.style.display='none'">
+        <div class="pain-card-overlay">
+          <div class="pain-card-title-row">
+            <i data-lucide="clipboard-list"></i>
+            <h3>Writing notes in the truck</h3>
+          </div>
+          <p>Every call ends with 20 min of scribbling.</p>
+        </div>
+      </div>
+      <div class="pain-card pain-small-1 fb-2 reveal" data-delay="80">
+        <img class="pain-card-bg" src="../img/problem-2.png" alt="" loading="lazy" onerror="this.style.display='none'">
+        <div class="pain-card-overlay">
+          <div class="pain-card-title-row">
+            <i data-lucide="clock"></i>
+            <h3>30 min lost per job</h3>
+          </div>
+          <p>Manual notes eat your time, every single day.</p>
+        </div>
+      </div>
+      <div class="pain-card pain-small-2 fb-3 reveal" data-delay="160">
+        <img class="pain-card-bg" src="../img/problem-3.png" alt="" loading="lazy" onerror="this.style.display='none'">
+        <div class="pain-card-overlay">
+          <div class="pain-card-title-row">
+            <i data-lucide="trending-down"></i>
+            <h3>Missed details = missed revenue</h3>
+          </div>
+          <p>One forgotten upsell costs more than you think.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== Section 3: How It Works (3 cards + bottom hero image) ========== -->
+<section class="s-how" id="how">
+  <div class="container">
+    <div class="s-head reveal">
+      <span class="eyebrow">How it works</span>
+      <h2>One tap. Everything captured.</h2>
+    </div>
+    <div class="how-grid">
+      <div class="how-card reveal" data-delay="0">
+        <div class="how-card-icon"><i data-lucide="mic"></i></div>
+        <h3>Press Record</h3>
+        <p>Your tech talks on-site as usual. One button to start.</p>
+      </div>
+      <div class="how-card reveal" data-delay="80">
+        <div class="how-card-icon"><i data-lucide="cpu"></i></div>
+        <h3>AI Processes</h3>
+        <p>Every word transcribed and summarized instantly.</p>
+      </div>
+      <div class="how-card reveal" data-delay="160">
+        <div class="how-card-icon"><i data-lucide="file-text"></i></div>
+        <h3>Notes Done</h3>
+        <p>Full report ready &mdash; and nothing missed.</p>
+      </div>
+    </div>
+  </div>
+  <img class="s-how-img" src="../img/feature-12.png" alt="" loading="lazy" onerror="this.style.display='none'">
+</section>
+
+<!-- ========== Section 4: Stats ========== -->
+<section class="s-stats" id="stats">
+  <img class="stats-bg" src="../img/feature-10.png" alt="" loading="lazy" onerror="this.style.display='none'">
+  <div class="container">
+    <div class="s-head reveal">
+      <span class="eyebrow">Results</span>
+      <h2>Numbers that matter</h2>
+    </div>
+    <div class="stats-grid">
+      <div class="reveal" data-delay="0">
+        <span class="stat-num"><span data-count="87">0</span><span class="unit">%</span></span>
+        <div class="stat-lbl">less time on paperwork</div>
+      </div>
+      <div class="reveal" data-delay="80">
+        <span class="stat-num"><span data-count="0">0</span></span>
+        <div class="stat-lbl">details missed per job</div>
+      </div>
+      <div class="reveal" data-delay="160">
+        <span class="stat-num"><span class="unit">$</span><span data-count="9000">0</span></span>
+        <div class="stat-lbl">recovered revenue per week</div>
+      </div>
+    </div>
+    <div class="stats-foot reveal">Based on beta user feedback</div>
+  </div>
+</section>
+
+<!-- ========== Section 5: Social Proof (carousel) ========== -->
+<section class="s-quote">
+  <div class="container">
+    <div class="s-head reveal">
+      <span class="eyebrow">From the field</span>
+      <h2>What HVAC pros are saying</h2>
+    </div>
+    <div class="carousel reveal">
+      <div class="carousel-stage">
+        <div class="quote-slide active" data-idx="0">
+          <div class="quote-mark-deco">&ldquo;</div>
+          <p class="quote-text">I used to spend 30 minutes after every job just writing things down. Now it's done before I get back in the truck.</p>
+          <div class="quote-attr-row">
+            <div class="quote-avatar">M</div>
+            <span class="quote-attr">&mdash; Mike R., HVAC Service Tech</span>
+          </div>
+        </div>
+        <div class="quote-slide" data-idx="1">
+          <div class="quote-mark-deco">&ldquo;</div>
+          <p class="quote-text">We stopped losing follow-up opportunities. TalkToDeal catches everything our techs used to forget.</p>
+          <div class="quote-attr-row">
+            <div class="quote-avatar">S</div>
+            <span class="quote-attr">&mdash; Sarah L., HVAC Business Owner</span>
+          </div>
+        </div>
+        <div class="quote-slide" data-idx="2">
+          <div class="quote-mark-deco">&ldquo;</div>
+          <p class="quote-text">Setup took 8 minutes. Now every job has a clean report automatically. Our office team loves it.</p>
+          <div class="quote-attr-row">
+            <div class="quote-avatar">J</div>
+            <span class="quote-attr">&mdash; James T., HVAC Operations Manager</span>
+          </div>
+        </div>
+      </div>
+      <div class="carousel-controls">
+        <button class="carousel-arrow" id="carousel-prev" type="button" aria-label="Previous quote"><i data-lucide="chevron-left"></i></button>
+        <div class="carousel-dots">
+          <button class="carousel-dot active" data-idx="0" type="button" aria-label="Quote 1"></button>
+          <button class="carousel-dot" data-idx="1" type="button" aria-label="Quote 2"></button>
+          <button class="carousel-dot" data-idx="2" type="button" aria-label="Quote 3"></button>
+        </div>
+        <button class="carousel-arrow" id="carousel-next" type="button" aria-label="Next quote"><i data-lucide="chevron-right"></i></button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== Section 6: Lead Capture (flush 50/50) ========== -->
+<section class="s-capture" id="capture">
+  <div class="container">
+    <div class="capture-wrap reveal">
+      <div class="capture-left">
+        <span class="eyebrow">Get started</span>
+        <h2>
+          <span class="line-1">Stop writing.</span>
+          <span class="line-2">Start capturing what actually gets sold.</span>
+        </h2>
+        <p class="capture-sub">Free demo. No credit card. No commitment.</p>
+        <form class="capture-form" id="lead-form" novalidate>
+          <input type="email" name="email" placeholder="Email address" required autocomplete="email">
+          <input type="text" name="company" placeholder="Company name" required autocomplete="organization">
+          <button type="submit" class="btn-primary btn-block" id="lead-submit">Book My Free Demo</button>
+        </form>
+        <div class="capture-foot">No spam. Cancel anytime.</div>
+      </div>
+      <div class="capture-right" id="capture-img-col">
+        <div class="capture-fallback" id="capture-fallback">
+          <div class="fb-logo">TalkToDeal</div>
+          <div class="fb-slogan">Capture every conversation. Close every deal.</div>
+        </div>
+        <img src="../img/feature-6.png" alt="HVAC technician using FleetMic on-site" loading="lazy"
+          onload="document.getElementById('capture-fallback').style.display='none'"
+          onerror="this.style.display='none';document.getElementById('capture-fallback').style.display='flex'">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== Section 7: FAQ ========== -->
+<section class="s-faq" id="faq">
+  <div class="container">
+    <div class="s-head reveal">
+      <span class="eyebrow">FAQ</span>
+      <h2>Quick answers</h2>
+    </div>
+    <div class="faq-wrap">
+      <div class="faq-item reveal" data-delay="0">
+        <button class="faq-q" type="button" aria-expanded="false">
+          <span>Does it work without internet on-site?</span>
+          <i data-lucide="chevron-down"></i>
+        </button>
+        <div class="faq-a"><div class="faq-a-inner">Yes. FleetMic records offline and syncs when back in range.</div></div>
+      </div>
+      <div class="faq-item reveal" data-delay="80">
+        <button class="faq-q" type="button" aria-expanded="false">
+          <span>Do my techs need to learn new software?</span>
+          <i data-lucide="chevron-down"></i>
+        </button>
+        <div class="faq-a"><div class="faq-a-inner">No app, no login. One button. That's it.</div></div>
+      </div>
+      <div class="faq-item reveal" data-delay="160">
+        <button class="faq-q" type="button" aria-expanded="false">
+          <span>How long does setup take?</span>
+          <i data-lucide="chevron-down"></i>
+        </button>
+        <div class="faq-a"><div class="faq-a-inner">Under 10 minutes. We guide you through the demo.</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== Footer ========== -->
+<footer>
+  <div class="container">
+    <div class="foot-inner">
+      <a class="logo" href="#">TalkToDeal</a>
+      <a class="foot-explore" href="https://talktodeal.pages.dev/" target="_blank" rel="noopener">Explore More</a>
+      <div>&copy; 2025 TalkToDeal &middot; Privacy</div>
+    </div>
+  </div>
+</footer>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  // ===== Lucide icons init =====
+  if (window.lucide) { lucide.createIcons(); }
+
+  // ===== Nav scroll state =====
+  const nav = document.querySelector('nav');
+  const onNavScroll = () => nav.classList.toggle('scrolled', window.scrollY > 20);
+  onNavScroll();
+  window.addEventListener('scroll', onNavScroll, { passive: true });
+
+  // ===== Reveal-on-scroll =====
+  const revealObs = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (!entry.isIntersecting) return;
+      const el = entry.target;
+      const delay = parseInt(el.dataset.delay || '0', 10);
+      setTimeout(() => el.classList.add('visible'), delay);
+      revealObs.unobserve(el);
+    });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.reveal').forEach((el) => revealObs.observe(el));
+
+  // ===== Hero items: trigger immediately on load =====
+  document.querySelectorAll('.hero .reveal').forEach((el) => {
+    const delay = parseInt(el.dataset.delay || '0', 10);
+    setTimeout(() => el.classList.add('visible'), delay);
+    revealObs.unobserve(el);
+  });
+
+  // ===== Number count-up =====
+  const countObs = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (!entry.isIntersecting) return;
+      const el = entry.target;
+      const target = parseInt(el.dataset.count, 10);
+      if (target === 0) { el.textContent = '0'; countObs.unobserve(el); return; }
+      const duration = 1300;
+      let start = null;
+      const step = (ts) => {
+        if (!start) start = ts;
+        const p = Math.min((ts - start) / duration, 1);
+        const eased = 1 - Math.pow(1 - p, 3);
+        el.textContent = Math.round(eased * target).toLocaleString();
+        if (p < 1) requestAnimationFrame(step);
+      };
+      requestAnimationFrame(step);
+      countObs.unobserve(el);
+    });
+  }, { threshold: 0.5 });
+  document.querySelectorAll('[data-count]').forEach((el) => countObs.observe(el));
+
+  // ===== FAQ accordion =====
+  document.querySelectorAll('.faq-item').forEach((item) => {
+    const q = item.querySelector('.faq-q');
+    const a = item.querySelector('.faq-a');
+    q.addEventListener('click', () => {
+      const isOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item.open').forEach((other) => {
+        other.classList.remove('open');
+        const oa = other.querySelector('.faq-a');
+        if (oa) oa.style.maxHeight = '0px';
+        const oq = other.querySelector('.faq-q');
+        if (oq) oq.setAttribute('aria-expanded', 'false');
+      });
+      if (!isOpen) {
+        item.classList.add('open');
+        a.style.maxHeight = a.scrollHeight + 'px';
+        q.setAttribute('aria-expanded', 'true');
+      }
+    });
+  });
+
+  // ===== Lead form (open demo URL + green confirmation, no redirect) =====
+  const form = document.getElementById('lead-form');
+  const submitBtn = document.getElementById('lead-submit');
+  if (form && submitBtn) {
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const email = form.email.value.trim();
+      const company = form.company.value.trim();
+      if (!email || !company) return;
+      window.open('https://talktodeal.com/call/', '_blank', 'noopener');
+      submitBtn.textContent = "Thanks! We'll be in touch soon.";
+      submitBtn.classList.add('success');
+      submitBtn.disabled = true;
+      form.email.disabled = true;
+      form.company.disabled = true;
+    });
+  }
+
+  // ===== Carousel (Social Proof) =====
+  const slides = document.querySelectorAll('.quote-slide');
+  const dots = document.querySelectorAll('.carousel-dot');
+  const prevBtn = document.getElementById('carousel-prev');
+  const nextBtn = document.getElementById('carousel-next');
+  let currentIdx = 0;
+  let autoTimer = null;
+
+  function showSlide(idx) {
+    slides.forEach((s, i) => s.classList.toggle('active', i === idx));
+    dots.forEach((d, i) => d.classList.toggle('active', i === idx));
+    currentIdx = idx;
+  }
+  function startAuto() {
+    autoTimer = setInterval(() => {
+      showSlide((currentIdx + 1) % slides.length);
+    }, 4000);
+  }
+  function resetAuto() {
+    clearInterval(autoTimer);
+    startAuto();
+  }
+  dots.forEach((d) => {
+    d.addEventListener('click', () => {
+      const idx = parseInt(d.dataset.idx, 10);
+      showSlide(idx);
+      resetAuto();
+    });
+  });
+  if (prevBtn) prevBtn.addEventListener('click', () => {
+    showSlide((currentIdx - 1 + slides.length) % slides.length);
+    resetAuto();
+  });
+  if (nextBtn) nextBtn.addEventListener('click', () => {
+    showSlide((currentIdx + 1) % slides.length);
+    resetAuto();
+  });
+  if (slides.length > 1) startAuto();
+});
+</script>
+
+</body>
+</html>
