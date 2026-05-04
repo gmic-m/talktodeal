@@ -3,13 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TalkToDeal — See what your techs missed this week</title>
-<meta name="description" content="See your lost revenue in 15 minutes. We'll walk through a real HVAC job and show you exactly what was missed.">
+<title>TalkToDeal — Your techs forget. You're losing money on every job.</title>
+<meta name="description" content="See exactly how much revenue your HVAC team missed this week. 15-minute demo on a real job.">
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
-/* ========================================================
-   CSS 直接复用 index.html，UI 风格完全一致
-   ======================================================== */
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
 :root{
   --bg:#F4F4F2;
@@ -23,17 +20,17 @@
   --font:'IBM Plex Sans',system-ui,sans-serif;
 }
 html{scroll-behavior:smooth;}
-body{font-family:var(--font);background:var(--bg-dark);color:var(--text);-webkit-font-smoothing:antialiased;}
+body{font-family:var(--font);background:var(--bg-dark);color:var(--text);-webkit-font-smoothing:antialiased;font-size:16px;}
 .page-body{background:var(--bg);border-radius:0 0 24px 24px;padding-bottom:80px;}
 
-/* NAV — 完全一致 */
+/* NAV */
 nav{
   position:sticky;top:0;z-index:100;
   background:rgba(244,244,242,0.88);
   backdrop-filter:blur(12px);
   -webkit-backdrop-filter:blur(12px);
   padding:0 40px;
-  height:52px;
+  height:60px;
   display:flex;align-items:center;justify-content:space-between;
   max-width:1440px;margin:0 auto;
 }
@@ -41,14 +38,14 @@ nav{
 .nav-btn{
   background:var(--text);color:#fff;
   border:none;border-radius:100px;
-  padding:7px 18px;font-size:16px;font-weight:500;
+  padding:9px 20px;font-size:16px;font-weight:500;
   font-family:var(--font);cursor:pointer;
   text-decoration:none;display:inline-block;
   transition:opacity .15s;
 }
 .nav-btn:hover{opacity:.85;}
 
-/* HERO — 完全一致 */
+/* HERO */
 .hero{
   text-align:center;
   padding:72px 24px 0;
@@ -69,14 +66,14 @@ nav{
 }
 .hero h1 .accent{color:var(--blue);}
 .hero-sub{
-  font-size:17px;color:var(--text-mid);
-  line-height:1.6;max-width:480px;
+  font-size:18px;color:var(--text-mid);
+  line-height:1.6;max-width:520px;
   margin:0 auto 28px;font-weight:400;
 }
 .hero-cta{
   background:var(--text);color:#fff;
   border:none;border-radius:100px;
-  padding:12px 28px;font-size:16px;font-weight:500;
+  padding:14px 30px;font-size:16px;font-weight:500;
   font-family:var(--font);cursor:pointer;
   transition:opacity .15s;display:inline-block;
   text-decoration:none;
@@ -84,10 +81,10 @@ nav{
 .hero-cta:hover{opacity:.8;}
 .hero-microcopy{
   font-size:16px;color:var(--text-dim);
-  margin-top:14px;
+  margin-top:16px;
 }
 
-/* HERO DEVICE — 完全一致 */
+/* HERO DEVICE */
 .hero-device-wrap{
   margin:56px auto 0;
   max-width:500px;
@@ -126,10 +123,10 @@ nav{
   transform:rotate(-4deg);
 }
 
-/* STATS — 完全一致 */
+/* STATS */
 .stats-section{
   max-width:1440px;margin:96px auto 0;
-  padding:36px 40px;
+  padding:40px 40px 36px;
   border-top:1px solid var(--border);
   border-bottom:1px solid var(--border);
 }
@@ -144,11 +141,11 @@ nav{
 }
 .stat-item:last-child{border-right:none;}
 .stat-num{
-  font-size:clamp(40px,5vw,52px);
+  font-size:clamp(44px,5.5vw,60px);
   font-weight:700;
   letter-spacing:-2px;
   color:var(--text);
-  line-height:1;margin-bottom:8px;
+  line-height:1;margin-bottom:10px;
   font-feature-settings:"tnum";
   font-variant-numeric:tabular-nums;
 }
@@ -157,40 +154,25 @@ nav{
   font-size:16px;color:var(--text-mid);
   line-height:1.5;
 }
-
-/* SCROLL REVEAL — 完全一致 */
-.reveal{opacity:0;transform:translateY(20px);transition:opacity .6s ease,transform .6s ease;}
-.reveal.visible{opacity:1;transform:translateY(0);}
-
-/* ========================================================
-   新增类（仅为新内容模式，沿用 index.html 视觉语言）
-   ======================================================== */
-
-/* Stats 下方 CTA 居中包装 */
 .stats-cta-wrap{
-  text-align:center;
-  margin-top:36px;
+  text-align:center;margin-top:36px;
 }
 
-/* Section 3 — 模拟 AI 输出的结果展示 */
-.result-section{
-  max-width:1440px;
-  margin:96px auto 0;
-  padding:0 24px;
-  text-align:center;
+/* RESULTS */
+.results-section{
+  max-width:1440px;margin:96px auto 0;
+  padding:0 40px;
 }
-.result-section h2{
-  font-size:clamp(28px,4vw,44px);
-  font-weight:700;
-  letter-spacing:-1.2px;
-  line-height:1.1;
-  margin-bottom:36px;
+.results-section h2{
+  font-size:clamp(28px,4.5vw,44px);
+  font-weight:700;letter-spacing:-1.4px;
+  line-height:1.15;text-align:center;
+  margin:0 auto 40px;
+  max-width:760px;
 }
-/* result-cards 网格 — 桌面三列，移动单列；卡片视觉沿用 index.html 的 .how-card */
-.result-cards{
+.results-cards{
   display:grid;grid-template-columns:repeat(3,1fr);
   gap:14px;
-  max-width:1100px;margin:0 auto;
 }
 .result-card{
   background:var(--bg-card);
@@ -198,25 +180,23 @@ nav{
   padding:28px 24px;
   text-align:left;
   display:flex;flex-direction:column;
-  gap:14px;
 }
 .result-tag{
   display:inline-block;
   background:var(--text);color:#fff;
   font-size:16px;font-weight:500;
-  padding:6px 14px;border-radius:100px;
-  letter-spacing:.2px;
+  padding:5px 14px;
+  border-radius:100px;
+  margin-bottom:18px;
   align-self:flex-start;
-  white-space:nowrap;
+  letter-spacing:-.1px;
 }
-.result-desc{
-  font-size:16px;
-  color:var(--text);
-  line-height:1.7;
-  font-weight:400;
+.result-body{
+  font-size:18px;color:var(--text);
+  line-height:1.6;font-weight:400;
 }
 
-/* Section 4 — BOTTOM CTA（完全复用 index.html 的 cta-grid 两栏布局） */
+/* BOTTOM CTA */
 .bottom-cta{margin:96px auto 0;padding:40px 24px;}
 .cta-grid{
   display:grid;grid-template-columns:1fr 1fr;
@@ -228,15 +208,26 @@ nav{
   border-radius:24px;
   padding:40px;
   position:relative;z-index:1;
+  display:flex;flex-direction:column;justify-content:center;
 }
 .cta-left h2{
-  font-size:22px;font-weight:700;color:#111;
-  letter-spacing:-.5px;line-height:1.3;
-  margin-bottom:20px;
+  font-size:26px;font-weight:700;color:#111;
+  letter-spacing:-.6px;line-height:1.25;
+  margin-bottom:24px;
 }
-.cta-microcopy{
-  font-size:16px;color:rgba(0,0,0,.5);
-  margin-top:14px;line-height:1.5;
+.cta-left .cta-btn-dark{
+  background:var(--text);color:#fff;
+  border:none;border-radius:100px;
+  padding:13px 28px;font-size:16px;font-weight:500;
+  font-family:var(--font);cursor:pointer;
+  text-decoration:none;display:inline-block;
+  align-self:flex-start;
+  transition:opacity .15s;
+  margin-bottom:16px;
+}
+.cta-left .cta-btn-dark:hover{opacity:.85;}
+.cta-left .micro{
+  font-size:16px;color:#444;line-height:1.5;
 }
 .cta-right{
   background:#111110;
@@ -254,62 +245,42 @@ nav{
   z-index:10;pointer-events:none;
   filter:drop-shadow(0 20px 60px rgba(0,0,0,.5));
 }
-.cta-price-label{font-size:16px;color:rgba(255,255,255,.5);margin-bottom:6px;}
+.cta-price-label{font-size:16px;color:rgba(255,255,255,.55);margin-bottom:8px;}
 .cta-price{font-size:72px;font-weight:700;color:#fff;letter-spacing:-3px;line-height:1;}
-.cta-period{font-size:16px;color:rgba(255,255,255,.4);margin-bottom:24px;}
+.cta-period{font-size:16px;color:rgba(255,255,255,.45);margin-bottom:24px;margin-top:4px;}
 .cta-btn{
   background:#fff;color:#111;
   border:none;border-radius:100px;
-  padding:12px 28px;font-size:16px;font-weight:600;
+  padding:13px 28px;font-size:16px;font-weight:600;
   font-family:var(--font);cursor:pointer;
   width:100%;transition:opacity .15s;
   text-decoration:none;display:inline-block;text-align:center;
 }
 .cta-btn:hover{opacity:.85;}
 
-/* 极简单行 footer — 沿用 index.html footer 的深色风格（#111110 背景 + 暗白色文字） */
-footer{
-  background:var(--bg-dark);
-  padding:28px 24px;
+/* FOOTER */
+footer{background:#111110;padding:0;}
+.footer-inner{
+  max-width:1440px;margin:0 auto;
+  padding:28px 40px;
+  display:flex;justify-content:center;align-items:center;
+  font-size:16px;color:rgba(255,255,255,.55);
 }
-.footer-min{
-  max-width:1440px;
-  margin:0 auto;
-  font-size:16px;
-  color:rgba(255,255,255,0.45);
-  text-align:center;
-  letter-spacing:.2px;
-}
-.footer-min a{
-  color:rgba(255,255,255,0.55);
-  text-decoration:none;
+.footer-inner a{
+  color:rgba(255,255,255,.55);text-decoration:none;
   transition:color .15s;
 }
-.footer-min a:hover{color:#fff;}
+.footer-inner a:hover{color:#fff;}
+.footer-sep{margin:0 10px;color:rgba(255,255,255,.3);}
 
-/* ========================================================
-   响应式：移动端断点 768px（沿用 index.html 已有的 nav/hero 移动样式）
-   ======================================================== */
+/* SCROLL REVEAL */
+.reveal{opacity:0;transform:translateY(20px);transition:opacity .6s ease,transform .6s ease;}
+.reveal.visible{opacity:1;transform:translateY(0);}
+
+/* RESPONSIVE */
 @media(max-width:768px){
-  /* 沿用 index.html */
   nav{padding:0 20px;}
   .hero{padding:56px 20px 0;}
-
-  /* index-2 移动端 CTA 全宽（spec 要求） */
-  .hero-cta{
-    width:100%;
-    box-sizing:border-box;
-    text-align:center;
-    padding:14px 24px;
-  }
-  .nav-btn{
-    /* 导航按钮保持原大小，不撑满 */
-    width:auto;
-    padding:7px 14px;
-    font-size:16px;
-  }
-
-  /* Stats 移动端 — 沿用 index.html 单列堆叠 + 底部分隔线 */
   .stats-section{padding:32px 24px;}
   .stats-row{grid-template-columns:1fr;gap:24px;}
   .stat-item{
@@ -318,14 +289,9 @@ footer{
     padding:0 0 24px;
   }
   .stat-item:last-child{border-bottom:none;padding-bottom:0;}
-
-  /* Section 3 移动端 — 三列变单列 */
-  .result-section{margin-top:64px;}
-  .result-cards{grid-template-columns:1fr;gap:12px;}
-  .result-card{padding:24px;}
-
-  /* Section 4 cta-grid 上下叠 — 完全沿用 index.html 移动端规则 */
-  .bottom-cta{margin-top:64px;padding:24px 20px;}
+  .stats-cta-wrap .hero-cta{width:100%;}
+  .results-section{padding:0 20px;}
+  .results-cards{grid-template-columns:1fr;}
   .cta-grid{grid-template-columns:1fr;gap:0;}
   .cta-left{
     border-radius:24px 24px 0 0;
@@ -334,17 +300,19 @@ footer{
     background:linear-gradient(160deg,#eef1ff,#dde4ff);
   }
   .cta-left h2{font-size:24px;margin-bottom:24px;}
+  .cta-left .cta-btn-dark{align-self:center;width:100%;}
   .cta-right{
     border-radius:0 0 24px 24px;
     padding:40px 32px;
     text-align:center;
     background:#1a1a1a;
   }
-  .cta-price-label{font-size:22px;font-weight:600;color:#fff;line-height:1.3;margin-bottom:16px;}
+  .cta-price-label{font-size:18px;font-weight:500;color:#fff;line-height:1.3;margin-bottom:14px;}
   .cta-price{font-size:72px;}
   .cta-period{font-size:16px;color:rgba(255,255,255,.45);margin-bottom:28px;}
-  .cta-btn{padding:13px 40px;font-size:16px;width:auto;}
   .cta-img{display:none !important;}
+  .footer-inner{padding:22px 24px;flex-wrap:wrap;justify-content:center;text-align:center;}
+  .hero-cta{width:100%;}
 }
 </style>
 </head>
@@ -354,16 +322,16 @@ footer{
 <!-- NAV -->
 <nav>
   <a href="#" class="nav-logo">TalkToDeal</a>
-  <a href="https://talktodeal.com/call/" class="nav-btn">See What You Missed This Week</a>
+  <a href="https://talktodeal.com/call/" class="nav-btn">Show Me My Lost Revenue</a>
 </nav>
 
-<!-- SECTION 1: HERO -->
+<!-- HERO -->
 <div class="hero reveal">
   <p class="hero-eyebrow">For HVAC Field Teams</p>
-  <h1>Your techs forget.<br><span class="accent">You never get paid for it.</span></h1>
-  <p class="hero-sub">We'll show you exactly what your team missed this week &mdash; on a real HVAC job.</p>
+  <h1>Your techs forget.<br><span class="accent">You're losing money on jobs you've already sold.</span></h1>
+  <p class="hero-sub">We'll show you exactly how much revenue your team missed this week &mdash; on a real HVAC job.</p>
   <a href="https://talktodeal.com/call/" class="hero-cta">See What You Missed This Week</a>
-  <p class="hero-microcopy">15-minute demo &middot; No slides &middot; No commitment</p>
+  <p class="hero-microcopy">15-minute demo &middot; See real lost revenue &middot; No commitment</p>
 </div>
 
 <!-- HERO DEVICES -->
@@ -375,12 +343,12 @@ footer{
   <div class="hero-glow"></div>
 </div>
 
-<!-- SECTION 2: STATS -->
+<!-- STATS -->
 <div class="stats-section reveal">
   <div class="stats-row">
     <div class="stat-item">
       <div class="stat-num"><span class="unit">$</span><span data-count="9000">0</span></div>
-      <div class="stat-lbl">recovered per week, on average</div>
+      <div class="stat-lbl">lost every week &mdash; without knowing it</div>
     </div>
     <div class="stat-item">
       <div class="stat-num"><span data-count="27">0</span><span class="unit">%</span></div>
@@ -388,83 +356,78 @@ footer{
     </div>
     <div class="stat-item">
       <div class="stat-num"><span data-count="2">0</span><span class="unit">x</span></div>
-      <div class="stat-lbl">faster follow-up</div>
+      <div class="stat-lbl">more jobs closed</div>
     </div>
   </div>
   <div class="stats-cta-wrap">
-    <a href="https://talktodeal.com/call/" class="hero-cta">See Your Lost Revenue in 15 Minutes</a>
+    <a href="https://talktodeal.com/call/" class="hero-cta">See exactly where you're losing money &mdash; in 15 minutes</a>
   </div>
 </div>
 
-<!-- SECTION 3: 模拟 AI 输出展示 — 三张横排卡片 -->
-<div class="result-section reveal">
-  <h2>Here's what you missed after the last job.</h2>
-  <div class="result-cards">
+<!-- RESULTS -->
+<div class="results-section reveal">
+  <h2>Here's what you already sold &mdash; but never followed up.</h2>
+  <div class="results-cards">
     <div class="result-card">
       <span class="result-tag">Follow-up needed</span>
-      <p class="result-desc">Customer interested in full system replacement</p>
+      <p class="result-body">System replacement (~$8,200) discussed on-site</p>
     </div>
     <div class="result-card">
       <span class="result-tag">Reminder</span>
-      <p class="result-desc">Call back in 48 hours &mdash; tech noted urgency</p>
+      <p class="result-body">Customer waiting 48 hours &mdash; interest was high</p>
     </div>
     <div class="result-card">
       <span class="result-tag">Upsell opportunity</span>
-      <p class="result-desc">Air quality package mentioned twice</p>
+      <p class="result-body">Air quality package (~$1,200) mentioned twice</p>
     </div>
   </div>
 </div>
 
-<!-- SECTION 4: BOTTOM CTA — 复用 index.html 的 cta-grid 两栏布局 -->
+<!-- BOTTOM CTA -->
 <div class="bottom-cta reveal">
   <div class="cta-grid">
     <div class="cta-left">
-      <h2>See this on your jobs<br>in 15 minutes.</h2>
-      <a href="https://talktodeal.com/call/" class="hero-cta">See What You Missed This Week &mdash; on a real job</a>
-      <p class="cta-microcopy">We'll walk through a real job example. No setup needed.</p>
+      <h2>Find the revenue you're already missing.</h2>
+      <a href="https://talktodeal.com/call/" class="cta-btn-dark">Show Me My Lost Revenue</a>
+      <p class="micro">We'll walk through a real job example. No setup needed.</p>
     </div>
     <div class="cta-right">
       <img class="cta-img" src="../img/HCJD5.png" alt="FleetMic" onerror="this.style.display='none'">
       <div class="cta-price-label">One plan, one price.</div>
       <div class="cta-price">$99</div>
       <div class="cta-period">Per Month</div>
-      <a href="https://talktodeal.com/call/" class="cta-btn">See What You Missed This Week</a>
+      <a href="https://talktodeal.com/call/" class="cta-btn">Show Me My Lost Revenue</a>
     </div>
   </div>
 </div>
 
 </div><!-- /.page-body -->
 
-<!-- FOOTER —— 极简一行 -->
+<!-- FOOTER -->
 <footer>
-  <div class="footer-min">
-    TalkToDeal &copy; 2026 &middot; <a href="#">Privacy</a> &middot; <a href="mailto:hello@talktodeal.com">hello@talktodeal.com</a>
+  <div class="footer-inner">
+    <span>TalkToDeal &copy; 2026</span>
+    <span class="footer-sep">&middot;</span>
+    <a href="#">Privacy</a>
+    <span class="footer-sep">&middot;</span>
+    <a href="mailto:hello@talktodeal.com">hello@talktodeal.com</a>
   </div>
 </footer>
 
 <script>
-// Scroll reveal — 完全沿用 index.html 的 IntersectionObserver
+// Scroll reveal
 const observer = new IntersectionObserver(entries => {
-  entries.forEach(e => {
-    if (e.isIntersecting) {
-      e.target.classList.add('visible');
-      observer.unobserve(e.target);
-    }
-  });
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
 }, { threshold: 0.1 });
 document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-// 数字计数动画 — 完全沿用 index.html 的 easeOutCubic 1.2s
+// Number count-up animation
 const countObs = new IntersectionObserver(entries => {
   entries.forEach(entry => {
     if (!entry.isIntersecting) return;
     const el = entry.target;
     const target = parseInt(el.dataset.count, 10);
-    if (target === 0) {
-      el.textContent = '0';
-      countObs.unobserve(el);
-      return;
-    }
+    if (target === 0) { el.textContent = '0'; countObs.unobserve(el); return; }
     const duration = 1200;
     let start = null;
     const step = ts => {
