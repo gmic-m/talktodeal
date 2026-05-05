@@ -3,84 +3,102 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TalkToDeal — Your techs forget. You're losing money on every job.</title>
-<meta name="description" content="See exactly how much revenue your HVAC team missed this week. 15-minute demo on a real job.">
+<title>TalkToDeal — Records every HVAC job, turns missed quotes into follow-ups</title>
+<meta name="description" content="A small device your tech wears on-site. It records HVAC conversations and turns missed quotes into follow-ups automatically.">
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
 :root{
-  --bg:#F4F4F2;
-  --bg-card:#ECEAE6;
-  --bg-dark:#111110;
-  --text:#111110;
-  --text-mid:#555550;
-  --text-dim:#999990;
-  --border:#E0DED9;
+  --bg:#EEF2F8;
+  --bg-card:#E2E8F4;
+  --bg-dark:#0A1628;
+  --text:#0D1B2A;
+  --text-mid:#4A5E7A;
   --blue:#1E6FFF;
+  --blue-deep:#0A3FA0;
+  --border:#C8D4E8;
+  --red:#CC3333;
   --font:'IBM Plex Sans',system-ui,sans-serif;
 }
 html{scroll-behavior:smooth;}
-body{font-family:var(--font);background:var(--bg-dark);color:var(--text);-webkit-font-smoothing:antialiased;font-size:16px;}
-.page-body{background:var(--bg);border-radius:0 0 24px 24px;padding-bottom:80px;}
+body{
+  font-family:var(--font);
+  background:var(--bg);
+  color:var(--text);
+  -webkit-font-smoothing:antialiased;
+  font-size:16px;
+  line-height:1.5;
+}
 
 /* NAV */
 nav{
   position:sticky;top:0;z-index:100;
-  background:rgba(244,244,242,0.88);
-  backdrop-filter:blur(12px);
-  -webkit-backdrop-filter:blur(12px);
+  width:100%;
+  background:transparent;
+  transition:background-color .25s ease, backdrop-filter .25s ease;
+}
+nav.scrolled{
+  background:rgba(238,242,248,0.82);
+  backdrop-filter:blur(16px);
+  -webkit-backdrop-filter:blur(16px);
+}
+.nav-inner{
+  max-width:1440px;margin:0 auto;
   padding:0 40px;
   height:60px;
   display:flex;align-items:center;justify-content:space-between;
-  max-width:1440px;margin:0 auto;
 }
-.nav-logo{font-size:16px;font-weight:600;color:var(--text);text-decoration:none;letter-spacing:-0.3px;}
+.nav-logo{
+  font-size:17px;font-weight:600;
+  color:var(--text);
+  text-decoration:none;
+  letter-spacing:-0.3px;
+}
 .nav-btn{
-  background:var(--text);color:#fff;
+  background:var(--blue);color:#fff;
   border:none;border-radius:100px;
-  padding:9px 20px;font-size:16px;font-weight:500;
-  font-family:var(--font);cursor:pointer;
+  padding:10px 22px;
+  font-size:14px;font-weight:500;
+  font-family:var(--font);
   text-decoration:none;display:inline-block;
   transition:opacity .15s;
 }
-.nav-btn:hover{opacity:.85;}
+.nav-btn:hover{opacity:.88;}
 
 /* HERO */
 .hero{
   text-align:center;
-  padding:72px 24px 0;
+  padding:80px 24px 0;
   max-width:1440px;margin:0 auto;
 }
 .hero-eyebrow{
-  font-size:16px;font-weight:500;
-  color:var(--text-dim);letter-spacing:.5px;
-  text-transform:uppercase;margin-bottom:20px;
+  font-size:12px;font-weight:500;
+  color:var(--text-mid);
+  letter-spacing:.6px;text-transform:uppercase;
+  margin-bottom:24px;
 }
 .hero h1{
-  font-size:clamp(44px,8vw,80px);
+  font-size:clamp(40px,7vw,72px);
   font-weight:700;
-  line-height:1.04;
-  letter-spacing:-2.5px;
+  line-height:1.05;
+  letter-spacing:-2px;
   color:var(--text);
-  margin-bottom:18px;
+  margin:0 auto 32px;
+  max-width:900px;
 }
 .hero h1 .accent{color:var(--blue);}
-.hero-sub{
-  font-size:18px;color:var(--text-mid);
-  line-height:1.6;max-width:520px;
-  margin:0 auto 28px;font-weight:400;
-}
 .hero-cta{
-  background:var(--text);color:#fff;
+  background:var(--blue);color:#fff;
   border:none;border-radius:100px;
-  padding:14px 30px;font-size:16px;font-weight:500;
-  font-family:var(--font);cursor:pointer;
-  transition:opacity .15s;display:inline-block;
-  text-decoration:none;
+  padding:14px 30px;
+  font-size:15px;font-weight:600;
+  font-family:var(--font);
+  text-decoration:none;display:inline-block;
+  transition:opacity .15s;
 }
-.hero-cta:hover{opacity:.8;}
+.hero-cta:hover{opacity:.88;}
 .hero-microcopy{
-  font-size:16px;color:var(--text-dim);
+  font-size:14px;color:var(--text-mid);
   margin-top:16px;
 }
 
@@ -96,7 +114,7 @@ nav{
   position:absolute;
   bottom:-20px;left:50%;transform:translateX(-50%);
   width:70%;height:60%;
-  background:radial-gradient(ellipse,rgba(180,200,220,0.6) 0%,transparent 70%);
+  background:radial-gradient(ellipse,rgba(30,111,255,0.18) 0%,transparent 70%);
   filter:blur(40px);
   pointer-events:none;
   z-index:0;
@@ -108,7 +126,7 @@ nav{
 }
 .device-img{
   position:absolute;
-  filter:drop-shadow(0 24px 40px rgba(0,0,0,.18));
+  filter:drop-shadow(0 24px 40px rgba(10,22,40,.18));
 }
 .device-img:first-child{
   width:210px;
@@ -123,10 +141,123 @@ nav{
   transform:rotate(-4deg);
 }
 
+/* BLUE BAND (one-line product statement) */
+.blue-band{
+  background:var(--blue);
+  padding:48px 24px;
+  text-align:center;
+  margin-top:96px;
+}
+.blue-band p{
+  color:#fff;
+  font-size:clamp(20px,3vw,28px);
+  font-weight:600;
+  line-height:1.4;
+  letter-spacing:-.3px;
+  max-width:880px;
+  margin:0 auto;
+}
+
+/* EXPLAIN — three icon cards */
+.explain-section{
+  max-width:1440px;margin:96px auto 0;
+  padding:0 40px;
+}
+.explain-section h2{
+  font-size:clamp(32px,5vw,52px);
+  font-weight:700;letter-spacing:-1.6px;
+  line-height:1.05;text-align:center;
+  margin-bottom:48px;
+  color:var(--text);
+}
+.step-cards{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:14px;
+}
+.step-card{
+  background:var(--bg-card);
+  border-radius:18px;
+  padding:32px 28px;
+  text-align:left;
+  display:flex;flex-direction:column;
+}
+.step-icon{
+  margin-bottom:20px;
+  width:28px;height:28px;
+}
+.step-icon svg{display:block;}
+.step-card h3{
+  font-size:18px;font-weight:600;
+  margin-bottom:10px;letter-spacing:-.2px;
+  color:var(--text);
+}
+.step-card p{
+  font-size:15px;color:var(--text-mid);
+  line-height:1.65;
+}
+
+/* RESULTS — HVAC scenarios */
+.results-section{
+  max-width:1440px;margin:96px auto 0;
+  padding:0 40px;
+}
+.results-section h2{
+  font-size:clamp(28px,4.5vw,44px);
+  font-weight:700;letter-spacing:-1.4px;
+  line-height:1.15;text-align:center;
+  margin:0 auto 48px;
+  max-width:760px;
+  color:var(--text);
+}
+.results-cards{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:14px;
+}
+.result-card{
+  background:var(--bg-card);
+  border-radius:18px;
+  padding:0;
+  text-align:left;
+  display:flex;flex-direction:column;
+  overflow:hidden;
+}
+.result-card-img{
+  width:100%;
+  height:180px;
+  object-fit:cover;
+  display:block;
+  border-radius:14px 14px 0 0;
+}
+.result-card-content{
+  padding:24px 24px 28px;
+  display:flex;flex-direction:column;
+  flex:1;
+}
+.result-tag{
+  display:inline-block;
+  background:var(--bg-dark);color:#fff;
+  font-size:13px;font-weight:500;
+  padding:5px 14px;
+  border-radius:100px;
+  margin-bottom:16px;
+  align-self:flex-start;
+  letter-spacing:.1px;
+}
+.result-body{
+  font-size:16px;color:var(--text);
+  line-height:1.55;font-weight:400;
+  margin-bottom:14px;
+}
+.result-flag{
+  font-size:14px;color:var(--red);
+  line-height:1.5;font-weight:500;
+  margin-top:auto;
+}
+
 /* STATS */
 .stats-section{
   max-width:1440px;margin:96px auto 0;
-  padding:40px 40px 36px;
+  padding:48px 40px;
   border-top:1px solid var(--border);
   border-bottom:1px solid var(--border);
 }
@@ -144,95 +275,61 @@ nav{
   font-size:clamp(44px,5.5vw,60px);
   font-weight:700;
   letter-spacing:-2px;
-  color:var(--text);
+  color:var(--blue);
   line-height:1;margin-bottom:10px;
   font-feature-settings:"tnum";
   font-variant-numeric:tabular-nums;
 }
 .stat-num .unit{font-weight:700;}
 .stat-lbl{
-  font-size:16px;color:var(--text-mid);
+  font-size:14px;color:var(--text-mid);
   line-height:1.5;
 }
 .stats-cta-wrap{
-  text-align:center;margin-top:36px;
-}
-
-/* RESULTS */
-.results-section{
-  max-width:1440px;margin:96px auto 0;
-  padding:0 40px;
-}
-.results-section h2{
-  font-size:clamp(28px,4.5vw,44px);
-  font-weight:700;letter-spacing:-1.4px;
-  line-height:1.15;text-align:center;
-  margin:0 auto 40px;
-  max-width:760px;
-}
-.results-cards{
-  display:grid;grid-template-columns:repeat(3,1fr);
-  gap:14px;
-}
-.result-card{
-  background:var(--bg-card);
-  border-radius:18px;
-  padding:28px 24px;
-  text-align:left;
-  display:flex;flex-direction:column;
-}
-.result-tag{
-  display:inline-block;
-  background:var(--text);color:#fff;
-  font-size:16px;font-weight:500;
-  padding:5px 14px;
-  border-radius:100px;
-  margin-bottom:18px;
-  align-self:flex-start;
-  letter-spacing:-.1px;
-}
-.result-body{
-  font-size:18px;color:var(--text);
-  line-height:1.6;font-weight:400;
+  text-align:center;margin-top:40px;
 }
 
 /* BOTTOM CTA */
-.bottom-cta{margin:96px auto 0;padding:40px 24px;}
+.bottom-cta{margin:96px auto 0;padding:0 24px 80px;}
 .cta-grid{
   display:grid;grid-template-columns:1fr 1fr;
-  max-width:1440px;margin:0 auto;
+  max-width:1200px;margin:0 auto;
   overflow:visible;
 }
 .cta-left{
-  background:linear-gradient(160deg,#eef1ff 0%,#dde4ff 60%,#cdd8ff 100%);
+  background:linear-gradient(160deg,var(--blue) 0%,var(--blue-deep) 100%);
   border-radius:24px;
-  padding:40px;
+  padding:48px;
   position:relative;z-index:1;
   display:flex;flex-direction:column;justify-content:center;
+  color:#fff;
 }
 .cta-left h2{
-  font-size:26px;font-weight:700;color:#111;
+  font-size:26px;font-weight:700;
+  color:#fff;
   letter-spacing:-.6px;line-height:1.25;
   margin-bottom:24px;
 }
-.cta-left .cta-btn-dark{
-  background:var(--text);color:#fff;
+.cta-btn-on-blue{
+  background:#fff;color:var(--blue);
   border:none;border-radius:100px;
-  padding:13px 28px;font-size:16px;font-weight:500;
-  font-family:var(--font);cursor:pointer;
+  padding:13px 28px;
+  font-size:15px;font-weight:600;
+  font-family:var(--font);
   text-decoration:none;display:inline-block;
   align-self:flex-start;
   transition:opacity .15s;
   margin-bottom:16px;
 }
-.cta-left .cta-btn-dark:hover{opacity:.85;}
+.cta-btn-on-blue:hover{opacity:.92;}
 .cta-left .micro{
-  font-size:16px;color:#444;line-height:1.5;
+  font-size:14px;color:rgba(255,255,255,0.85);
+  line-height:1.5;
 }
 .cta-right{
-  background:#111110;
+  background:var(--bg-dark);
   border-radius:24px;
-  padding:40px 40px 40px 160px;
+  padding:48px 48px 48px 160px;
   position:relative;
   display:flex;flex-direction:column;justify-content:center;
   text-align:right;
@@ -245,43 +342,67 @@ nav{
   z-index:10;pointer-events:none;
   filter:drop-shadow(0 20px 60px rgba(0,0,0,.5));
 }
-.cta-price-label{font-size:16px;color:rgba(255,255,255,.55);margin-bottom:8px;}
-.cta-price{font-size:72px;font-weight:700;color:#fff;letter-spacing:-3px;line-height:1;}
-.cta-period{font-size:16px;color:rgba(255,255,255,.45);margin-bottom:24px;margin-top:4px;}
-.cta-btn{
-  background:#fff;color:#111;
-  border:none;border-radius:100px;
-  padding:13px 28px;font-size:16px;font-weight:600;
-  font-family:var(--font);cursor:pointer;
-  width:100%;transition:opacity .15s;
-  text-decoration:none;display:inline-block;text-align:center;
+.cta-price-label{font-size:14px;color:#fff;margin-bottom:8px;}
+.cta-price{
+  font-size:72px;font-weight:700;
+  color:#fff;
+  letter-spacing:-3px;line-height:1;
 }
-.cta-btn:hover{opacity:.85;}
+.cta-period{
+  font-size:14px;
+  color:rgba(255,255,255,0.5);
+  margin-bottom:24px;margin-top:4px;
+}
+.cta-btn-on-dark{
+  background:#fff;color:var(--text);
+  border:none;border-radius:100px;
+  padding:13px 28px;
+  font-size:15px;font-weight:600;
+  font-family:var(--font);
+  text-decoration:none;display:inline-block;
+  width:100%;text-align:center;
+  transition:opacity .15s;
+}
+.cta-btn-on-dark:hover{opacity:.92;}
 
 /* FOOTER */
-footer{background:#111110;padding:0;}
+footer{
+  background:var(--bg-dark);
+  padding:0;
+}
 .footer-inner{
   max-width:1440px;margin:0 auto;
   padding:28px 40px;
   display:flex;justify-content:center;align-items:center;
-  font-size:16px;color:rgba(255,255,255,.55);
+  font-size:14px;
+  color:rgba(255,255,255,0.5);
 }
 .footer-inner a{
-  color:rgba(255,255,255,.55);text-decoration:none;
+  color:rgba(255,255,255,0.5);
+  text-decoration:none;
   transition:color .15s;
 }
 .footer-inner a:hover{color:#fff;}
-.footer-sep{margin:0 10px;color:rgba(255,255,255,.3);}
+.footer-sep{margin:0 10px;color:rgba(255,255,255,0.3);}
 
 /* SCROLL REVEAL */
-.reveal{opacity:0;transform:translateY(20px);transition:opacity .6s ease,transform .6s ease;}
+.reveal{
+  opacity:0;transform:translateY(20px);
+  transition:opacity .6s ease, transform .6s ease;
+}
 .reveal.visible{opacity:1;transform:translateY(0);}
 
 /* RESPONSIVE */
 @media(max-width:768px){
-  nav{padding:0 20px;}
+  .nav-inner{padding:0 20px;height:56px;}
   .hero{padding:56px 20px 0;}
-  .stats-section{padding:32px 24px;}
+  .hero-cta{width:100%;}
+  .blue-band{margin-top:72px;padding:36px 20px;}
+  .explain-section{padding:0 20px;margin-top:72px;}
+  .step-cards{grid-template-columns:1fr;}
+  .results-section{padding:0 20px;margin-top:72px;}
+  .results-cards{grid-template-columns:1fr;}
+  .stats-section{padding:32px 24px;margin-top:72px;}
   .stats-row{grid-template-columns:1fr;gap:24px;}
   .stat-item{
     border-right:none;
@@ -290,48 +411,44 @@ footer{background:#111110;padding:0;}
   }
   .stat-item:last-child{border-bottom:none;padding-bottom:0;}
   .stats-cta-wrap .hero-cta{width:100%;}
-  .results-section{padding:0 20px;}
-  .results-cards{grid-template-columns:1fr;}
+  .bottom-cta{margin-top:72px;padding:0 20px 60px;}
   .cta-grid{grid-template-columns:1fr;gap:0;}
   .cta-left{
     border-radius:24px 24px 0 0;
     padding:40px 32px;
     text-align:center;
-    background:linear-gradient(160deg,#eef1ff,#dde4ff);
   }
   .cta-left h2{font-size:24px;margin-bottom:24px;}
-  .cta-left .cta-btn-dark{align-self:center;width:100%;}
+  .cta-btn-on-blue{align-self:center;width:100%;}
   .cta-right{
     border-radius:0 0 24px 24px;
     padding:40px 32px;
     text-align:center;
-    background:#1a1a1a;
   }
   .cta-price-label{font-size:18px;font-weight:500;color:#fff;line-height:1.3;margin-bottom:14px;}
   .cta-price{font-size:72px;}
-  .cta-period{font-size:16px;color:rgba(255,255,255,.45);margin-bottom:28px;}
+  .cta-period{margin-bottom:28px;}
   .cta-img{display:none !important;}
   .footer-inner{padding:22px 24px;flex-wrap:wrap;justify-content:center;text-align:center;}
-  .hero-cta{width:100%;}
 }
 </style>
 </head>
 <body>
-<div class="page-body">
 
 <!-- NAV -->
 <nav>
-  <a href="#" class="nav-logo">TalkToDeal</a>
-  <a href="https://talktodeal.com/call/" class="nav-btn">Show Me My Lost Revenue</a>
+  <div class="nav-inner">
+    <a href="#" class="nav-logo">TalkToDeal</a>
+    <a href="https://talktodeal.com/call/" class="nav-btn">Show Me What My Team Is Missing</a>
+  </div>
 </nav>
 
 <!-- HERO -->
 <div class="hero reveal">
-  <p class="hero-eyebrow">For HVAC Field Teams</p>
-  <h1>Your techs forget.<br><span class="accent">You're losing money on jobs you've already sold.</span></h1>
-  <p class="hero-sub">We'll show you exactly how much revenue your team missed this week &mdash; on a real HVAC job.</p>
-  <a href="https://talktodeal.com/call/" class="hero-cta">See What You Missed This Week</a>
-  <p class="hero-microcopy">15-minute demo &middot; See real lost revenue &middot; No commitment</p>
+  <p class="hero-eyebrow">For HVAC Business Owners</p>
+  <h1>That $8,000 job your tech just finished?<br><span class="accent">The most valuable parts were never followed up.</span></h1>
+  <a href="https://talktodeal.com/call/" class="hero-cta">Show Me What My Team Is Missing</a>
+  <p class="hero-microcopy">No setup &middot; 15-minute demo &middot; Real HVAC example</p>
 </div>
 
 <!-- HERO DEVICES -->
@@ -343,12 +460,84 @@ footer{background:#111110;padding:0;}
   <div class="hero-glow"></div>
 </div>
 
+<!-- BLUE BAND (Section 2) -->
+<div class="blue-band reveal">
+  <p>TalkToDeal records every on-site HVAC conversation &mdash; and turns missed quotes into follow-ups automatically.</p>
+</div>
+
+<!-- EXPLAIN: What this actually is -->
+<div class="explain-section reveal">
+  <h2>What this actually is</h2>
+  <div class="step-cards">
+    <div class="step-card">
+      <div class="step-icon">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#1E6FFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/>
+          <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+          <line x1="12" x2="12" y1="19" y2="22"/>
+        </svg>
+      </div>
+      <h3>A small wearable device</h3>
+      <p>Your tech clips it on before the job. No buttons to remember. No behavior change required.</p>
+    </div>
+    <div class="step-card">
+      <div class="step-icon">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#1E6FFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M2 13a2 2 0 0 0 2-2V7a2 2 0 0 1 4 0v13a2 2 0 0 0 4 0V4a2 2 0 0 1 4 0v13a2 2 0 0 0 4 0v-4a2 2 0 0 1 2-2"/>
+        </svg>
+      </div>
+      <h3>It records on-site conversations</h3>
+      <p>Every quote, concern, and upsell opportunity your customer mentions &mdash; captured automatically.</p>
+    </div>
+    <div class="step-card">
+      <div class="step-icon">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#1E6FFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"/>
+        </svg>
+      </div>
+      <h3>AI turns it into action</h3>
+      <p>Follow-ups, job summaries, and missed quotes in your dashboard before the tech drives back.</p>
+    </div>
+  </div>
+</div>
+
+<!-- RESULTS: HVAC scenarios -->
+<div class="results-section reveal">
+  <h2>Here's what your team is missing right now.</h2>
+  <div class="results-cards">
+    <div class="result-card">
+      <img class="result-card-img" src="../img/problem-4.png" alt="System replacement scenario" loading="lazy">
+      <div class="result-card-content">
+        <span class="result-tag">System Replacement</span>
+        <p class="result-body">Customer asked about upgrading unit (~$8,200)</p>
+        <p class="result-flag">No follow-up sent</p>
+      </div>
+    </div>
+    <div class="result-card">
+      <img class="result-card-img" src="../img/problem-5.png" alt="Maintenance visit scenario" loading="lazy">
+      <div class="result-card-content">
+        <span class="result-tag">Maintenance Visit</span>
+        <p class="result-body">Customer mentioned airflow issue &mdash; never quoted</p>
+        <p class="result-flag">No follow-up sent</p>
+      </div>
+    </div>
+    <div class="result-card">
+      <img class="result-card-img" src="../img/problem-6.png" alt="Upsell opportunity scenario" loading="lazy">
+      <div class="result-card-content">
+        <span class="result-tag">Upsell Opportunity</span>
+        <p class="result-body">Air quality package (~$1,200) mentioned twice</p>
+        <p class="result-flag">Lost opportunity</p>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- STATS -->
 <div class="stats-section reveal">
   <div class="stats-row">
     <div class="stat-item">
       <div class="stat-num"><span class="unit">$</span><span data-count="9000">0</span></div>
-      <div class="stat-lbl">lost every week &mdash; without knowing it</div>
+      <div class="stat-lbl">lost per week &mdash; without knowing it</div>
     </div>
     <div class="stat-item">
       <div class="stat-num"><span data-count="27">0</span><span class="unit">%</span></div>
@@ -360,26 +549,7 @@ footer{background:#111110;padding:0;}
     </div>
   </div>
   <div class="stats-cta-wrap">
-    <a href="https://talktodeal.com/call/" class="hero-cta">See exactly where you're losing money &mdash; in 15 minutes</a>
-  </div>
-</div>
-
-<!-- RESULTS -->
-<div class="results-section reveal">
-  <h2>Here's what you already sold &mdash; but never followed up.</h2>
-  <div class="results-cards">
-    <div class="result-card">
-      <span class="result-tag">Follow-up needed</span>
-      <p class="result-body">System replacement (~$8,200) discussed on-site</p>
-    </div>
-    <div class="result-card">
-      <span class="result-tag">Reminder</span>
-      <p class="result-body">Customer waiting 48 hours &mdash; interest was high</p>
-    </div>
-    <div class="result-card">
-      <span class="result-tag">Upsell opportunity</span>
-      <p class="result-body">Air quality package (~$1,200) mentioned twice</p>
-    </div>
+    <a href="https://talktodeal.com/call/" class="hero-cta">Show Me What My Team Is Missing</a>
   </div>
 </div>
 
@@ -387,8 +557,8 @@ footer{background:#111110;padding:0;}
 <div class="bottom-cta reveal">
   <div class="cta-grid">
     <div class="cta-left">
-      <h2>Find the revenue you're already missing.</h2>
-      <a href="https://talktodeal.com/call/" class="cta-btn-dark">Show Me My Lost Revenue</a>
+      <h2>See this on a real HVAC job in 15 minutes.</h2>
+      <a href="https://talktodeal.com/call/" class="cta-btn-on-blue">Show Me What My Team Is Missing</a>
       <p class="micro">We'll walk through a real job example. No setup needed.</p>
     </div>
     <div class="cta-right">
@@ -396,12 +566,10 @@ footer{background:#111110;padding:0;}
       <div class="cta-price-label">One plan, one price.</div>
       <div class="cta-price">$99</div>
       <div class="cta-period">Per Month</div>
-      <a href="https://talktodeal.com/call/" class="cta-btn">Show Me My Lost Revenue</a>
+      <a href="https://talktodeal.com/call/" class="cta-btn-on-dark">Show Me What My Team Is Missing</a>
     </div>
   </div>
 </div>
-
-</div><!-- /.page-body -->
 
 <!-- FOOTER -->
 <footer>
@@ -415,19 +583,34 @@ footer{background:#111110;padding:0;}
 </footer>
 
 <script>
-// Scroll reveal
+const navEl = document.querySelector('nav');
+const onNavScroll = () => {
+  if (window.scrollY > 10) navEl.classList.add('scrolled');
+  else navEl.classList.remove('scrolled');
+};
+window.addEventListener('scroll', onNavScroll, { passive: true });
+onNavScroll();
+
 const observer = new IntersectionObserver(entries => {
-  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+      observer.unobserve(e.target);
+    }
+  });
 }, { threshold: 0.1 });
 document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-// Number count-up animation
 const countObs = new IntersectionObserver(entries => {
   entries.forEach(entry => {
     if (!entry.isIntersecting) return;
     const el = entry.target;
     const target = parseInt(el.dataset.count, 10);
-    if (target === 0) { el.textContent = '0'; countObs.unobserve(el); return; }
+    if (target === 0) {
+      el.textContent = '0';
+      countObs.unobserve(el);
+      return;
+    }
     const duration = 1200;
     let start = null;
     const step = ts => {
