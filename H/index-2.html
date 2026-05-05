@@ -58,7 +58,7 @@ nav.scrolled{
   background:var(--blue);color:#fff;
   border:none;border-radius:100px;
   padding:10px 22px;
-  font-size:14px;font-weight:500;
+  font-size:16px;font-weight:500;
   font-family:var(--font);
   text-decoration:none;display:inline-block;
   transition:opacity .15s;
@@ -72,7 +72,7 @@ nav.scrolled{
   max-width:1440px;margin:0 auto;
 }
 .hero-eyebrow{
-  font-size:12px;font-weight:500;
+  font-size:16px;font-weight:500;
   color:var(--text-mid);
   letter-spacing:.6px;text-transform:uppercase;
   margin-bottom:24px;
@@ -91,54 +91,30 @@ nav.scrolled{
   background:var(--blue);color:#fff;
   border:none;border-radius:100px;
   padding:14px 30px;
-  font-size:15px;font-weight:600;
+  font-size:16px;font-weight:600;
   font-family:var(--font);
   text-decoration:none;display:inline-block;
   transition:opacity .15s;
 }
 .hero-cta:hover{opacity:.88;}
 .hero-microcopy{
-  font-size:14px;color:var(--text-mid);
+  font-size:16px;color:var(--text-mid);
   margin-top:16px;
 }
 
-/* HERO DEVICE */
-.hero-device-wrap{
+/* HERO VIDEO */
+.hero-video-wrap{
   margin:56px auto 0;
-  max-width:500px;
-  position:relative;
+  max-width:980px;
   padding:0 24px;
-  height:480px;
 }
-.hero-glow{
-  position:absolute;
-  bottom:-20px;left:50%;transform:translateX(-50%);
-  width:70%;height:60%;
-  background:radial-gradient(ellipse,rgba(30,111,255,0.18) 0%,transparent 70%);
-  filter:blur(40px);
-  pointer-events:none;
-  z-index:0;
-}
-.device-wrap{
-  position:relative;
-  width:100%;height:100%;
-  z-index:1;
-}
-.device-img{
-  position:absolute;
-  filter:drop-shadow(0 24px 40px rgba(10,22,40,.18));
-}
-.device-img:first-child{
-  width:210px;
-  top:45px;right:70px;
-  z-index:2;
-  transform:rotate(6deg);
-}
-.device-img:last-child{
-  width:233px;
-  bottom:15px;left:55px;
-  z-index:3;
-  transform:rotate(-4deg);
+.hero-video{
+  width:100%;
+  height:auto;
+  display:block;
+  border-radius:16px;
+  filter:drop-shadow(0 24px 48px rgba(10,22,40,0.18));
+  background:var(--bg-dark);
 }
 
 /* BLUE BAND (one-line product statement) */
@@ -192,7 +168,7 @@ nav.scrolled{
   color:var(--text);
 }
 .step-card p{
-  font-size:15px;color:var(--text-mid);
+  font-size:16px;color:var(--text-mid);
   line-height:1.65;
 }
 
@@ -236,7 +212,7 @@ nav.scrolled{
 .result-tag{
   display:inline-block;
   background:var(--bg-dark);color:#fff;
-  font-size:13px;font-weight:500;
+  font-size:16px;font-weight:500;
   padding:5px 14px;
   border-radius:100px;
   margin-bottom:16px;
@@ -249,7 +225,7 @@ nav.scrolled{
   margin-bottom:14px;
 }
 .result-flag{
-  font-size:14px;color:var(--red);
+  font-size:16px;color:var(--red);
   line-height:1.5;font-weight:500;
   margin-top:auto;
 }
@@ -282,7 +258,7 @@ nav.scrolled{
 }
 .stat-num .unit{font-weight:700;}
 .stat-lbl{
-  font-size:14px;color:var(--text-mid);
+  font-size:16px;color:var(--text-mid);
   line-height:1.5;
 }
 .stats-cta-wrap{
@@ -314,7 +290,7 @@ nav.scrolled{
   background:#fff;color:var(--blue);
   border:none;border-radius:100px;
   padding:13px 28px;
-  font-size:15px;font-weight:600;
+  font-size:16px;font-weight:600;
   font-family:var(--font);
   text-decoration:none;display:inline-block;
   align-self:flex-start;
@@ -323,7 +299,7 @@ nav.scrolled{
 }
 .cta-btn-on-blue:hover{opacity:.92;}
 .cta-left .micro{
-  font-size:14px;color:rgba(255,255,255,0.85);
+  font-size:16px;color:rgba(255,255,255,0.85);
   line-height:1.5;
 }
 .cta-right{
@@ -342,14 +318,14 @@ nav.scrolled{
   z-index:10;pointer-events:none;
   filter:drop-shadow(0 20px 60px rgba(0,0,0,.5));
 }
-.cta-price-label{font-size:14px;color:#fff;margin-bottom:8px;}
+.cta-price-label{font-size:16px;color:#fff;margin-bottom:8px;}
 .cta-price{
   font-size:72px;font-weight:700;
   color:#fff;
   letter-spacing:-3px;line-height:1;
 }
 .cta-period{
-  font-size:14px;
+  font-size:16px;
   color:rgba(255,255,255,0.5);
   margin-bottom:24px;margin-top:4px;
 }
@@ -357,7 +333,7 @@ nav.scrolled{
   background:#fff;color:var(--text);
   border:none;border-radius:100px;
   padding:13px 28px;
-  font-size:15px;font-weight:600;
+  font-size:16px;font-weight:600;
   font-family:var(--font);
   text-decoration:none;display:inline-block;
   width:100%;text-align:center;
@@ -374,7 +350,7 @@ footer{
   max-width:1440px;margin:0 auto;
   padding:28px 40px;
   display:flex;justify-content:center;align-items:center;
-  font-size:14px;
+  font-size:16px;
   color:rgba(255,255,255,0.5);
 }
 .footer-inner a{
@@ -451,13 +427,11 @@ footer{
   <p class="hero-microcopy">No setup &middot; 15-minute demo &middot; Real HVAC example</p>
 </div>
 
-<!-- HERO DEVICES -->
-<div class="hero-device-wrap reveal">
-  <div class="device-wrap">
-    <img class="device-img" src="../img/mic05-1.png" alt="FleetMic device">
-    <img class="device-img" src="../img/mic05-2.png" alt="FleetMic device">
-  </div>
-  <div class="hero-glow"></div>
+<!-- HERO VIDEO -->
+<div class="hero-video-wrap reveal">
+  <video class="hero-video" autoplay loop muted playsinline>
+    <source src="../img/video/feature-1.mp4" type="video/mp4">
+  </video>
 </div>
 
 <!-- BLUE BAND (Section 2) -->
