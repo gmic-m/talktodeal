@@ -1383,6 +1383,86 @@ footer{
   .alert-h-cell:nth-child(-n+2){border-bottom:1px solid rgba(13,24,41,0.06);}
   .alert-h-cell:last-child{border-bottom:none;}
 }
+
+/* ============================================================
+   EXPLAIN FINAL — single explanation block before footer
+   ============================================================ */
+.explain-final{
+  background:#F9FAFB;
+  padding:96px 80px;
+}
+.explain-final-inner{
+  max-width:680px;
+  margin:0 auto;
+}
+.explain-final-label{
+  font-family:var(--font-mono);
+  font-size:13px;
+  font-weight:700;
+  text-transform:uppercase;
+  letter-spacing:0.1em;
+  color:#9CA3AF;
+  text-align:center;
+  margin-bottom:40px;
+  line-height:1.5;
+}
+.explain-final-body{
+  display:flex;
+  flex-direction:column;
+  gap:28px;
+}
+.explain-final-text{
+  font-size:16px;
+  color:#6B7280;
+  line-height:1.5;
+}
+.explain-final-subtitle{
+  font-size:15px;
+  font-weight:700;
+  color:#111827;
+  margin-bottom:12px;
+  line-height:1.5;
+}
+.explain-final-list{
+  list-style:none;
+  padding:0;
+  margin:0;
+}
+.explain-final-list li{
+  font-size:15px;
+  color:#111827;
+  padding:10px 0;
+  border-bottom:1px solid #F3F4F6;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  line-height:1.5;
+}
+.explain-final-list li:last-child{
+  border-bottom:none;
+}
+.explain-final-list li::before{
+  content:'';
+  width:6px;
+  height:6px;
+  border-radius:50%;
+  background:#16A34A;
+  flex-shrink:0;
+}
+.explain-final-list--arrow li::before{
+  content:'\2192';
+  background:none;
+  color:#2563EB;
+  font-weight:700;
+  width:auto;
+  height:auto;
+  border-radius:0;
+}
+@media(max-width:480px){
+  .explain-final{
+    padding:64px 24px;
+  }
+}
 </style>
 </head>
 <body>
@@ -1422,7 +1502,6 @@ footer{
       <a href="tel:+16699000008" class="cta-primary hero-anim" style="animation-delay:180ms;">
         <span>Call about the last job you just finished</span>
       </a>
-      <a href="https://calendar.app.google/aU3fdfyDQUxhAjFu5" target="_blank" rel="noopener noreferrer" class="cta-secondary-btn hero-anim" style="animation-delay:240ms;">Book a Walkthrough <span aria-hidden="true">&rarr;</span></a>
     </div>
     <div class="hero-trust hero-anim" style="animation-delay:300ms;">
       <span><span class="dot-live"></span>Live now</span>
@@ -1483,55 +1562,6 @@ footer{
 </section>
 
 <!-- ============================================================
-     EXP2 — what actually happens during the call (text-only)
-     ============================================================ -->
-<section class="exp2-section">
-  <div class="exp2-inner">
-    <div class="exp2-title reveal">What actually happens during the call</div>
-    <div class="exp2-grid">
-
-      <div class="exp2-col reveal">
-        <div class="exp2-heading">Tech calls after a job</div>
-        <p class="exp2-para">Describes what happened &mdash; naturally, like talking to dispatch. No special format required.</p>
-        <div class="exp2-heading exp2-heading--spaced">AI listens for</div>
-        <ul class="exp2-list">
-          <li><span class="exp2-dot"></span>System age</li>
-          <li><span class="exp2-dot"></span>Replacement mentions</li>
-          <li><span class="exp2-dot"></span>Customer intent signals</li>
-          <li><span class="exp2-dot"></span>Missed quotes</li>
-        </ul>
-      </div>
-
-      <div class="exp2-col reveal">
-        <div class="exp2-heading">Within 60 seconds, you receive</div>
-        <div class="exp2-row">
-          <i data-lucide="file-text" style="width:18px;height:18px;color:#2563EB;flex-shrink:0;margin-top:2px;"></i>
-          <div class="exp2-row-body">
-            <span class="exp2-row-title">Structured work order</span>
-            <span class="exp2-row-desc">Job details and next steps &mdash; formatted and ready.</span>
-          </div>
-        </div>
-        <div class="exp2-row">
-          <i data-lucide="flag" style="width:18px;height:18px;color:#2563EB;flex-shrink:0;margin-top:2px;"></i>
-          <div class="exp2-row-body">
-            <span class="exp2-row-title">Opportunity flags</span>
-            <span class="exp2-row-desc">Replacement interest, missed quotes, upsell signals highlighted.</span>
-          </div>
-        </div>
-        <div class="exp2-row">
-          <i data-lucide="calendar-check" style="width:18px;height:18px;color:#2563EB;flex-shrink:0;margin-top:2px;"></i>
-          <div class="exp2-row-body">
-            <span class="exp2-row-title">Follow-up priority</span>
-            <span class="exp2-row-desc">Timing and action item sent with every report.</span>
-          </div>
-        </div>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-<!-- ============================================================
      BOTTOM CTA
      ============================================================ -->
 <section class="bottom-cta">
@@ -1544,11 +1574,28 @@ footer{
         <a href="tel:+16699000008" class="cta-primary">
           <span>Call about the last job you just finished</span>
         </a>
-        <a href="https://calendar.app.google/aU3fdfyDQUxhAjFu5" target="_blank" rel="noopener noreferrer" class="cta-secondary-btn">
-          <span>Book a walkthrough</span>
-          <span aria-hidden="true">&rarr;</span>
-        </a>
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     EXPLAIN FINAL — what actually happens during the call
+     ============================================================ -->
+<section class="explain-final">
+  <div class="explain-final-inner">
+    <p class="explain-final-label">Optional: how it works</p>
+    <div class="explain-final-body">
+      <p class="explain-final-text">
+        Your tech calls in after a job and describes what happened.
+        AI listens for replacement mentions, missed quotes, and customer intent.
+      </p>
+      <ul class="explain-final-list explain-final-list--arrow"
+          style="margin-top:16px;">
+        <li>Work order created in 60 seconds</li>
+        <li>Missed opportunities flagged</li>
+        <li>Follow-up actions suggested &mdash; sent to your phone</li>
+      </ul>
     </div>
   </div>
 </section>
