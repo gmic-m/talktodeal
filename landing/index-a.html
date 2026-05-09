@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TalkToDeal — Turn after-job calls into structured SMS summaries.</title>
-<meta name="description" content="An AI phone line for HVAC service teams. Tech calls in after the job, AI asks what happened, owner gets a structured SMS summary. No app, no typing.">
+<title>TalkToDeal — What Did Your Customer Say After the Last Job?</title>
+<meta name="description" content="A phone line for HVAC service teams. Your tech calls in after the job. The owner gets a clear SMS report — what the customer said and what to do next.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -155,6 +155,14 @@ nav{
   max-width:680px;
   margin:0 auto 36px;
   line-height:1.5;
+}
+.hero-bridge{
+  font-size:18px;
+  color:var(--text);
+  font-weight:600;
+  max-width:620px;
+  margin:0 auto 36px;
+  line-height:1.6;
 }
 .cta-primary{
   display:inline-flex;
@@ -424,16 +432,19 @@ footer{
   <div class="hero-text">
     <span class="hero-pill hero-anim" style="animation-delay:0ms;">FOR HVAC BUSINESS OWNERS</span>
     <h1 class="hero-anim" style="animation-delay:60ms;">
-      Every HVAC job creates useful business information.<br>Most of it never makes it back to the owner.
+      After every job,<br>your tech walks away.
     </h1>
-    <p class="hero-sub hero-anim" style="animation-delay:120ms;">TalkToDeal turns after-job technician calls into structured SMS summaries.<br>No app to install. No typing. One call after the job.</p>
-    <a href="tel:+16699000008" class="cta-primary hero-anim" style="animation-delay:180ms;">Call about your last job</a>
-    <div class="hero-trust hero-anim" style="animation-delay:220ms;">
-      <span><span class="dot-live"></span>Live now</span>
+    <p class="hero-sub hero-anim" style="animation-delay:120ms;">What the customer said? Gone.<br>No notes. No follow-up. No next step.</p>
+    <p class="hero-bridge hero-anim" style="animation-delay:160ms;">
+      TalkToDeal lets your tech call in after the job.<br>You get a clear SMS: what was said, what needs to happen next.<br>No app. No typing. One call.
+    </p>
+    <a href="tel:+16699000008" class="cta-primary hero-anim" style="animation-delay:200ms;">Call about your last job</a>
+    <div class="hero-trust hero-anim" style="animation-delay:240ms;">
+      <span><span class="dot-live"></span>No credit card</span>
       <span class="sep">&middot;</span>
-      <span>AI answers in 1 ring</span>
+      <span>Works on any phone</span>
       <span class="sep">&middot;</span>
-      <span>No signup</span>
+      <span>2-min setup</span>
     </div>
   </div>
 </section>
@@ -450,19 +461,23 @@ footer{
      ============================================================ -->
 <section class="sample-section">
   <div class="sample-inner">
-    <p class="section-eyebrow section-eyebrow--tight reveal">Sample SMS report</p>
+    <p class="section-eyebrow section-eyebrow--tight reveal">What gets captured after the job</p>
     <div class="sample-card reveal">
       <div class="sample-header">
         <span class="dot-live dot-live--header"></span>
-        <span>TalkToDeal &mdash; Job summary via SMS</span>
+        <span>TalkToDeal &mdash; Field report via SMS</span>
       </div>
       <div class="sample-row">
-        <div class="sample-row-key">Possible opportunity</div>
-        <div class="sample-row-val">Customer mentioned thinking about replacement.</div>
+        <div class="sample-row-key">Customer said</div>
+        <div class="sample-row-val">&ldquo;We're thinking about replacing the whole unit before summer.&rdquo;</div>
       </div>
       <div class="sample-row">
-        <div class="sample-row-key">Follow-up</div>
-        <div class="sample-row-val">Send estimate or call back today.</div>
+        <div class="sample-row-key">No note saved</div>
+        <div class="sample-row-val">Nothing was logged after the visit. No follow-up was scheduled.</div>
+      </div>
+      <div class="sample-row">
+        <div class="sample-row-key">Next step</div>
+        <div class="sample-row-val">Call customer today. Send replacement estimate.</div>
       </div>
     </div>
   </div>
@@ -473,8 +488,8 @@ footer{
      ============================================================ -->
 <section class="bottom-cta">
   <div class="bottom-cta-inner">
-    <h2 class="reveal">What actually happened on your last job?</h2>
-    <p class="reveal">Call in. Describe it. Hang up.<br>Get a structured summary by SMS in 60 seconds.</p>
+    <h2 class="reveal">Stop losing what your customers tell you.</h2>
+    <p class="reveal">Every job has information. Most of it disappears.<br>TalkToDeal makes sure it doesn't.</p>
     <a href="tel:+16699000008" class="cta-primary reveal">Call about your last job</a>
     <img class="bottom-cta-img reveal" src="../img/hero-2.png" alt="HVAC tech" loading="lazy">
   </div>
@@ -487,7 +502,7 @@ footer{
   <div class="footer-inner">
     <a href="https://talktodeal.com" target="_blank" rel="noopener">talktodeal.com</a> &middot; <a href="mailto:trigg@talktodeal.com">trigg@talktodeal.com</a>
     <br>
-    By calling, you'll talk to an AI that may text you a sample report.
+    By calling, you'll be connected to an automated voice line that may text you a sample report.
   </div>
 </footer>
 
