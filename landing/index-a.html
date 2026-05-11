@@ -183,6 +183,30 @@ nav{
   transform:translateY(-1px);
   box-shadow:0 8px 28px rgba(37,99,235,0.40);
 }
+.hero-btns{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:16px;
+  flex-wrap:wrap;
+}
+.cta-secondary{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  background:#ffffff;
+  color:var(--text);
+  border:1px solid rgba(17,24,39,0.15);
+  border-radius:9999px;
+  font-size:17px;
+  font-weight:600;
+  padding:16px 40px;
+  transition:border-color .2s ease, transform .2s ease;
+}
+.cta-secondary:hover{
+  border-color:rgba(17,24,39,0.35);
+  transform:translateY(-1px);
+}
 .hero-trust{
   margin-top:16px;
   display:flex;
@@ -400,6 +424,8 @@ footer{
   .hero h1{font-size:clamp(30px,8vw,44px);letter-spacing:-1.2px;}
   .hero-sub{font-size:16px;}
   .cta-primary{width:100%;padding:16px 24px;font-size:16px;}
+  .hero-btns{flex-direction:column;align-items:stretch;width:100%;}
+  .cta-secondary{width:100%;font-size:16px;padding:16px 24px;}
   .flow-section{padding:56px 20px;}
   .flow-grid{grid-template-columns:1fr;}
   .flow-cell{padding:28px 24px;}
@@ -438,7 +464,18 @@ footer{
     <p class="hero-bridge hero-anim" style="animation-delay:160ms;">
       TalkToDeal lets your tech call in after the job.<br>You get a clear SMS: what was said, what needs to happen next.<br>No app. No typing. One call.
     </p>
-    <a href="tel:+16699000008" class="cta-primary hero-anim" style="animation-delay:200ms;">Call about your last job</a>
+    <div class="hero-btns hero-anim" style="animation-delay:200ms;">
+      <a href="https://calendar.app.google/aU3fdfyDQUxhAjFu5"
+         target="_blank" rel="noopener"
+         class="cta-primary">
+        Book a Free Demo
+      </a>
+      <a href="https://talktodeal.com"
+         target="_blank" rel="noopener"
+         class="cta-secondary">
+        Visit TalkToDeal.com
+      </a>
+    </div>
     <div class="hero-trust hero-anim" style="animation-delay:240ms;">
       <span><span class="dot-live"></span>No credit card</span>
       <span class="sep">&middot;</span>
