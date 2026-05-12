@@ -149,13 +149,31 @@ nav{
   margin:0 auto 36px;
   line-height:1.6;
 }
+.hero-values{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:32px;
+  flex-wrap:wrap;
+  margin:0 auto 36px;
+}
+.hero-value{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  font-size:16px;
+  font-weight:600;
+  color:#111827;
+}
+@media(max-width:480px){
+  .hero-values{gap:16px;flex-direction:column;align-items:flex-start;padding:0 20px;}
+}
 .cta-primary{
   display:inline-flex;align-items:center;justify-content:center;
   background:var(--blue);color:#fff;
-  font-size:18px;font-weight:700;
-  padding:18px 40px;
+  font-size:17px;font-weight:700;
+  padding:16px 40px;
   border-radius:9999px;
-  margin-top:36px;
   transition:background-color .2s ease, transform .2s ease;
   letter-spacing:-0.1px;
   line-height:1.5;
@@ -163,6 +181,35 @@ nav{
 .cta-primary:hover{
   background:var(--blue-deep);
   transform:translateY(-1px);
+}
+.hero-btns{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:16px;
+  flex-wrap:wrap;
+}
+.cta-secondary{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  background:#ffffff;
+  color:#111827;
+  border:1px solid rgba(17,24,39,0.15);
+  border-radius:9999px;
+  font-size:17px;
+  font-weight:600;
+  padding:16px 40px;
+  line-height:1.5;
+  transition:border-color .2s ease, transform .2s ease;
+}
+.cta-secondary:hover{
+  border-color:rgba(17,24,39,0.35);
+  transform:translateY(-1px);
+}
+@media(max-width:480px){
+  .hero-btns{flex-direction:column;align-items:stretch;width:100%;}
+  .cta-secondary{width:100%;font-size:16px;padding:16px 24px;}
 }
 .hero-trust{
   display:flex;align-items:center;flex-wrap:wrap;
@@ -199,27 +246,43 @@ nav{
 }
 
 /* ============================================================
+   TIMELINE — vertical timeline (replaces day-flow)
+   ============================================================ */
+.timeline{max-width:680px;margin:0 auto;display:flex;flex-direction:column;}
+.tl-item{display:flex;gap:0;}
+.tl-item--highlight .tl-content{background:#EFF6FF;border-radius:12px;padding:16px;margin-bottom:4px;}
+.tl-left{display:flex;flex-direction:column;align-items:center;width:48px;flex-shrink:0;padding-top:14px;}
+.tl-dot{width:12px;height:12px;border-radius:50%;background:#D1D5DB;flex-shrink:0;}
+.tl-dot--blue{background:#2563EB;}
+.tl-dot--green{background:#16A34A;}
+.tl-line{width:2px;flex:1;background:#E5E7EB;margin-top:6px;min-height:32px;}
+.tl-content{flex:1;display:flex;align-items:flex-start;gap:14px;padding:8px 0 32px;}
+.tl-icon{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.tl-title{font-size:16px;font-weight:700;color:#111827;margin-bottom:4px;line-height:1.5;}
+.tl-desc{font-size:14px;color:#6B7280;line-height:1.6;}
+@media(max-width:640px){.how{padding:64px 28px;}}
+@media(max-width:480px){.timeline{padding:0 4px;}.tl-left{width:36px;}}
+
+/* ============================================================
    HOW IT WORKS
    ============================================================ */
 .how{
   background:var(--bg-soft);
-  padding:96px 48px;
+  padding:96px 80px;
 }
 .how-inner{
+  width:100%;
   max-width:1440px;
   margin:0 auto;
 }
 .how-label{margin-bottom:48px;}
 .how-card{
-  background:#fff;
-  border:1px solid #E5E7EB;
-  border-radius:16px;
-  overflow:hidden;
-  max-width:1440px;
-  margin:0 auto;
-  box-shadow:0 2px 16px rgba(0,0,0,0.05);
-  display:grid;
-  grid-template-columns:1fr 1fr 1fr;
+  width:100%;
+  max-width:100%;
+  background:transparent;
+  border:none;
+  box-shadow:none;
+  padding:0;
 }
 .how-row{
   display:flex;
@@ -479,12 +542,35 @@ footer a:hover{color:var(--blue);}
       Most techs don't write<br>anything down after the job.
     </h1>
     <p class="hero-sub hero-anim" style="animation-delay:120ms;">
-      Too slow. Too messy. Too easy to skip.<br>So nothing gets logged.
+      Every day, details get missed. One call fixes that.
     </p>
-    <p class="hero-bridge hero-anim" style="animation-delay:160ms;">
-      With TalkToDeal, they just make one call after the job.<br>That's it. You get a clear SMS: what happened, what needs follow-up.
-    </p>
-    <a href="tel:+16699000008" class="cta-primary hero-anim" style="animation-delay:200ms;">Call about your last job</a>
+
+    <div class="hero-values hero-anim" style="animation-delay:160ms;">
+      <div class="hero-value">
+        <i data-lucide="clock" style="width:18px;height:18px;color:#2563EB;flex-shrink:0;"></i>
+        <span>Save time</span>
+      </div>
+      <div class="hero-value">
+        <i data-lucide="mic" style="width:18px;height:18px;color:#2563EB;flex-shrink:0;"></i>
+        <span>Capture every job</span>
+      </div>
+      <div class="hero-value">
+        <i data-lucide="check-circle" style="width:18px;height:18px;color:#2563EB;flex-shrink:0;"></i>
+        <span>Miss nothing</span>
+      </div>
+    </div>
+    <div class="hero-btns hero-anim" style="animation-delay:200ms;">
+      <a href="https://calendar.app.google/aU3fdfyDQUxhAjFu5"
+         target="_blank" rel="noopener"
+         class="cta-primary">
+        Book a Free Demo
+      </a>
+      <a href="https://talktodeal.com"
+         target="_blank" rel="noopener"
+         class="cta-secondary">
+        Visit TalkToDeal.com
+      </a>
+    </div>
     <div class="hero-trust hero-anim" style="animation-delay:260ms;">
       <span><span class="dot-live"></span>No credit card</span>
       <span class="sep">&middot;</span>
@@ -503,34 +589,121 @@ footer a:hover{color:var(--blue);}
      ============================================================ -->
 <section class="how">
   <div class="how-inner">
-    <p class="section-label how-label reveal">How it works</p>
+    <p class="section-label how-label reveal">A real HVAC day &mdash; with TalkToDeal</p>
     <div class="how-card reveal">
-      <div class="how-row">
-        <div class="how-row-icon">
-          <i data-lucide="phone-call" style="width:18px;height:18px;color:#2563EB;"></i>
+      <div class="timeline">
+
+        <div class="tl-item">
+          <div class="tl-left">
+            <div class="tl-dot"></div>
+            <div class="tl-line"></div>
+          </div>
+          <div class="tl-content">
+            <div class="tl-icon" style="background:rgba(37,99,235,0.08);">
+              <i data-lucide="phone-incoming" style="width:18px;height:18px;color:#2563EB;"></i>
+            </div>
+            <div>
+              <div class="tl-title">Customer calls in</div>
+              <div class="tl-desc">Customer reports an issue &mdash; AC not cooling, heater down, system making noise.</div>
+            </div>
+          </div>
         </div>
-        <div class="how-row-body">
-          <div class="how-row-title">Tech makes one call after the job</div>
-          <div class="how-row-desc">30 seconds. No forms. No typing.<br>They just say what happened.</div>
+
+        <div class="tl-item">
+          <div class="tl-left">
+            <div class="tl-dot"></div>
+            <div class="tl-line"></div>
+          </div>
+          <div class="tl-content">
+            <div class="tl-icon" style="background:rgba(37,99,235,0.08);">
+              <i data-lucide="map-pin" style="width:18px;height:18px;color:#2563EB;"></i>
+            </div>
+            <div>
+              <div class="tl-title">Dispatch sends a technician</div>
+              <div class="tl-desc">Job assigned. Tech heads to the site.</div>
+            </div>
+          </div>
         </div>
-      </div>
-      <div class="how-row">
-        <div class="how-row-icon">
-          <i data-lucide="ear" style="width:18px;height:18px;color:#2563EB;"></i>
+
+        <div class="tl-item">
+          <div class="tl-left">
+            <div class="tl-dot"></div>
+            <div class="tl-line"></div>
+          </div>
+          <div class="tl-content">
+            <div class="tl-icon" style="background:rgba(37,99,235,0.08);">
+              <i data-lucide="wrench" style="width:18px;height:18px;color:#2563EB;"></i>
+            </div>
+            <div>
+              <div class="tl-title">Tech completes the job</div>
+              <div class="tl-desc">Diagnoses the problem. Does the work. Talks with the customer on-site.</div>
+            </div>
+          </div>
         </div>
-        <div class="how-row-body">
-          <div class="how-row-title">You hear what the customer said</div>
-          <div class="how-row-desc">What they asked about. What they mentioned.<br>What needs a follow-up.</div>
+
+        <div class="tl-item tl-item--highlight">
+          <div class="tl-left">
+            <div class="tl-dot tl-dot--blue"></div>
+            <div class="tl-line"></div>
+          </div>
+          <div class="tl-content">
+            <div class="tl-icon" style="background:#DBEAFE;">
+              <i data-lucide="phone-call" style="width:18px;height:18px;color:#2563EB;"></i>
+            </div>
+            <div>
+              <div class="tl-title" style="color:#2563EB;">Tech calls in &mdash; 30 seconds</div>
+              <div class="tl-desc">Describes what happened. What the customer said. What needs follow-up. No forms. No typing.</div>
+            </div>
+          </div>
         </div>
-      </div>
-      <div class="how-row">
-        <div class="how-row-icon">
-          <i data-lucide="smartphone" style="width:18px;height:18px;color:#2563EB;"></i>
+
+        <div class="tl-item tl-item--highlight">
+          <div class="tl-left">
+            <div class="tl-dot tl-dot--blue"></div>
+            <div class="tl-line"></div>
+          </div>
+          <div class="tl-content">
+            <div class="tl-icon" style="background:#DBEAFE;">
+              <i data-lucide="smartphone" style="width:18px;height:18px;color:#2563EB;"></i>
+            </div>
+            <div>
+              <div class="tl-title" style="color:#2563EB;">Report lands on your phone</div>
+              <div class="tl-desc">Job summary. Customer signals. Follow-up actions. Delivered by SMS before the tech is back at the shop.</div>
+            </div>
+          </div>
         </div>
-        <div class="how-row-body">
-          <div class="how-row-title">SMS lands on your phone</div>
-          <div class="how-row-desc">Before the tech is back at the shop.<br>Every job. Every time.</div>
+
+        <div class="tl-item">
+          <div class="tl-left">
+            <div class="tl-dot tl-dot--green"></div>
+            <div class="tl-line"></div>
+          </div>
+          <div class="tl-content">
+            <div class="tl-icon" style="background:rgba(22,163,74,0.08);">
+              <i data-lucide="send" style="width:18px;height:18px;color:#16A34A;"></i>
+            </div>
+            <div>
+              <div class="tl-title">Office follows up</div>
+              <div class="tl-desc">Send the estimate. Call the customer back. Book the next job. Nothing falls through the cracks.</div>
+            </div>
+          </div>
         </div>
+
+        <div class="tl-item">
+          <div class="tl-left">
+            <div class="tl-dot tl-dot--green"></div>
+          </div>
+          <div class="tl-content">
+            <div class="tl-icon" style="background:rgba(22,163,74,0.08);">
+              <i data-lucide="file-check" style="width:18px;height:18px;color:#16A34A;"></i>
+            </div>
+            <div>
+              <div class="tl-title">Service report generated</div>
+              <div class="tl-desc">Full job record saved. Customer history updated. No paperwork. No missed follow-ups.</div>
+            </div>
+          </div>
+        </div>
+
       </div>
     </div>
   </div>
@@ -572,9 +745,9 @@ footer a:hover{color:var(--blue);}
      ============================================================ -->
 <section class="bottom-cta">
   <div class="bottom-cta-inner">
-    <h2 class="reveal">One call after the job.<br>Everything captured.</h2>
-    <p class="bottom-cta-sub reveal">No missed follow-ups. No forgotten quotes.<br>Your tech calls in. You get what you need.</p>
-    <a href="tel:+16699000008" class="cta-primary reveal">Call about your last job</a>
+    <h2 class="reveal">Save time. Capture every job. Miss nothing.</h2>
+    <p class="bottom-cta-sub reveal">Your techs make one call after each job.<br>You get the full picture &mdash; automatically.<br>No extra software. No behavior change.</p>
+    <a href="tel:+16699000008" class="cta-primary reveal">Book a Free Demo</a>
   </div>
   <img src="../img/hero-2.png" alt="HVAC tech on job site" class="cta-fullwidth-img">
 </section>
