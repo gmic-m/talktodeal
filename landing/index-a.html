@@ -289,6 +289,99 @@ nav{
 }
 
 /* ============================================================
+   SCENE FLOW — quote + 2 desc steps between video and sample
+   ============================================================ */
+.scene-section {
+  background: #FFFFFF;
+  padding: 96px 48px;
+}
+.scene-inner {
+  max-width: 1440px;
+  margin: 0 auto;
+  width: 100%;
+}
+.htl {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 0;
+  width: 100%;
+}
+.htl-step {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 12px;
+}
+.htl-icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: #F3F4F6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.htl-connector {
+  width: 2px;
+  height: 20px;
+  background: #E5E7EB;
+}
+.htl-label {
+  font-size: 14px;
+  font-weight: 700;
+  color: #111827;
+  line-height: 1.4;
+}
+.htl-quote {
+  font-size: 14px;
+  color: #6B7280;
+  font-style: italic;
+  line-height: 1.6;
+  background: #F9FAFB;
+  border-left: 3px solid #E5E7EB;
+  padding: 10px 14px;
+  border-radius: 0 8px 8px 0;
+  text-align: left;
+  max-width: 100%;
+}
+.htl-desc {
+  font-size: 14px;
+  color: #6B7280;
+  line-height: 1.6;
+  max-width: 100%;
+}
+.htl-arrow {
+  display: flex;
+  align-items: center;
+  padding-top: 14px;
+  flex-shrink: 0;
+}
+
+@media(max-width:1024px){
+  .scene-section { padding: 72px 28px; }
+}
+@media(max-width:640px){
+  .htl {
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+  }
+  .htl-arrow {
+    transform: rotate(90deg);
+    padding-top: 0;
+  }
+  .htl-quote { max-width: 100%; }
+  .htl-desc { max-width: 100%; }
+}
+@media(max-width:480px){
+  .scene-section { padding: 56px 20px; }
+}
+
+/* ============================================================
    SAMPLE REPORT — white section, dark-headered card
    ============================================================ */
 .sample-section{
@@ -460,10 +553,7 @@ footer{
     <h1 class="hero-anim" style="animation-delay:60ms;">
       After every job,<br>your tech walks away.
     </h1>
-    <p class="hero-sub hero-anim" style="animation-delay:120ms;">What the customer said? Gone.<br>No notes. No follow-up. No next step.</p>
-    <p class="hero-bridge hero-anim" style="animation-delay:160ms;">
-      TalkToDeal lets your tech call in after the job.<br>You get a clear SMS: what was said, what needs to happen next.<br>No app. No typing. One call.
-    </p>
+    <p class="hero-sub hero-anim" style="animation-delay:120ms;">Your tech finishes the job. The customer mentioned something important.<br>By the time he's back at the shop &mdash; it's gone.</p>
     <div class="hero-btns hero-anim" style="animation-delay:200ms;">
       <a href="https://calendar.app.google/aU3fdfyDQUxhAjFu5"
          target="_blank" rel="noopener"
@@ -494,27 +584,86 @@ footer{
 </div>
 
 <!-- ============================================================
+     SCENE FLOW — customer quote, tech call, owner SMS
+     ============================================================ -->
+<section class="scene-section">
+  <div class="scene-inner">
+    <p class="section-eyebrow reveal">How it works on a real job</p>
+    <div class="htl reveal">
+      <div class="htl-step">
+        <div class="htl-icon">
+          <i data-lucide="user" style="width:20px;height:20px;color:#6B7280;"></i>
+        </div>
+        <div class="htl-connector"></div>
+        <div class="htl-label">Customer says</div>
+        <div class="htl-quote">
+          "My AC stopped working two days ago. We've been thinking about
+          just replacing the whole system &mdash; it's pretty old."
+        </div>
+      </div>
+
+      <div class="htl-arrow">
+        <i data-lucide="arrow-right" style="width:20px;height:20px;color:#D1D5DB;"></i>
+      </div>
+
+      <div class="htl-step">
+        <div class="htl-icon" style="background:rgba(37,99,235,0.08);">
+          <i data-lucide="phone-call" style="width:20px;height:20px;color:#2563EB;"></i>
+        </div>
+        <div class="htl-connector" style="background:#2563EB;"></div>
+        <div class="htl-label" style="color:#2563EB;">Tech calls in</div>
+        <div class="htl-desc">30 seconds. No forms. No typing.</div>
+      </div>
+
+      <div class="htl-arrow">
+        <i data-lucide="arrow-right" style="width:20px;height:20px;color:#D1D5DB;"></i>
+      </div>
+
+      <div class="htl-step">
+        <div class="htl-icon" style="background:rgba(22,163,74,0.08);">
+          <i data-lucide="smartphone" style="width:20px;height:20px;color:#16A34A;"></i>
+        </div>
+        <div class="htl-connector" style="background:#16A34A;"></div>
+        <div class="htl-label" style="color:#16A34A;">Owner gets the report</div>
+        <div class="htl-desc">
+          Job summary. What the customer said.
+          What to do next. Via SMS.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
      SAMPLE REPORT
      ============================================================ -->
 <section class="sample-section">
   <div class="sample-inner">
-    <p class="section-eyebrow section-eyebrow--tight reveal">What gets captured after the job</p>
+    <p class="section-eyebrow section-eyebrow--tight reveal">Job report &mdash; sent to owner's phone</p>
     <div class="sample-card reveal">
       <div class="sample-header">
         <span class="dot-live dot-live--header"></span>
-        <span>TalkToDeal &mdash; Field report via SMS</span>
+        <span>TalkToDeal &mdash; Auto-generated job summary</span>
+      </div>
+      <div class="sample-row">
+        <div class="sample-row-key">Job type</div>
+        <div class="sample-row-val">Residential AC &mdash; not cooling</div>
+      </div>
+      <div class="sample-row">
+        <div class="sample-row-key">Work done</div>
+        <div class="sample-row-val">Inspected unit. Found refrigerant low. Topped up. Capacitor replaced.</div>
       </div>
       <div class="sample-row">
         <div class="sample-row-key">Customer said</div>
-        <div class="sample-row-val">&ldquo;We're thinking about replacing the whole unit before summer.&rdquo;</div>
+        <div class="sample-row-val">&ldquo;We've been thinking about replacing the whole system &mdash; it's pretty old.&rdquo;</div>
       </div>
       <div class="sample-row">
-        <div class="sample-row-key">No note saved</div>
-        <div class="sample-row-val">Nothing was logged after the visit. No follow-up was scheduled.</div>
+        <div class="sample-row-key">Opportunity</div>
+        <div class="sample-row-val">Replacement quote needed. Customer is warm. Follow up within 24 hrs.</div>
       </div>
       <div class="sample-row">
-        <div class="sample-row-key">Next step</div>
-        <div class="sample-row-val">Call customer today. Send replacement estimate.</div>
+        <div class="sample-row-key">Next action</div>
+        <div class="sample-row-val">Call customer today. Send system replacement estimate.</div>
       </div>
     </div>
   </div>
@@ -525,8 +674,8 @@ footer{
      ============================================================ -->
 <section class="bottom-cta">
   <div class="bottom-cta-inner">
-    <h2 class="reveal">Stop losing what your customers tell you.</h2>
-    <p class="reveal">Every job has information. Most of it disappears.<br>TalkToDeal makes sure it doesn't.</p>
+    <h2 class="reveal">Less paperwork. More jobs captured.</h2>
+    <p class="reveal">Every conversation your tech has on-site &mdash; saved automatically.<br>No more forgotten follow-ups. No more lost quotes.</p>
     <a href="tel:+16699000008" class="cta-primary reveal">Call about your last job</a>
     <img class="bottom-cta-img reveal" src="../img/hero-2.png" alt="HVAC tech" loading="lazy">
   </div>
