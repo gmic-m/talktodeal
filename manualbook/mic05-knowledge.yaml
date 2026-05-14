@@ -1,0 +1,90 @@
+product_name: MIC05
+product_type: Wearable Voice Hardware Platform
+brand: GIMC
+target_customers:
+  - AI hardware startups
+  - Enterprise SaaS adding hardware
+  - Field service / industrial / healthcare device makers
+positioning: Customizable wearable voice hardware platform for ODM/OEM partners
+status: Reference platform — specs finalized at project scoping phase
+
+deployment_references:
+  - Field-service voice capture pilot deployments
+  - Industrial wearable audio applications
+  - Enterprise on-site documentation workflows
+
+two_layer_audience:
+  layer1: Brand brief — for first impressions, email outreach, trade shows, executives
+  layer2: Technical package — BOM, certification path, MOQ, lead time, QA, sample policy
+
+documents:
+  layer1: mic05-client.html — brand capability brief, for first contact and executive review
+  layer2: mic05-layer2.html — technical and business package, under NDA only
+
+internal_only:
+  - mic05-odm-brief.html (internal reference with yaml/layer notes)
+
+capabilities:
+  audio: Far-field voice capture, configurable mic array, on-device DSP
+  storage: Local audio buffer, capacity by configuration
+  connectivity:
+    - Wi-Fi
+    - BLE
+    - optional LTE
+  power: Configurable battery capacity and runtime by enclosure design
+  protection: IP-rated enclosure options
+  compute: On-device audio processing and compression
+
+hardware_physical_details:
+  connectors: USB-C (charge + data)
+  controls: Single multi-function button
+  indicators: LED status indicator
+  mounting: Integrated clip, lanyard loop
+  mic_opening: Dual front-facing mic ports
+  antenna: Internal Wi-Fi + BLE antenna
+
+customization:
+  enclosure: Shape, material, color, surface finish, mounting options
+  branding: Logo, LED profile, retail packaging, white-label
+  firmware: DSP pipeline, wake-word, OTA, button mapping
+  hardware: Mic capsule, battery size, additional sensors, GPIO
+  certification: By target market — CE, FCC, MIC, KC, SRRC
+  moq: Pilot from small batch, mass production path available
+
+integration:
+  - Audio file upload API
+  - Real-time or batch audio transfer
+  - Device status reporting
+  - User and device binding
+  - Firmware OTA support
+  - Webhook event notification
+  - Custom cloud endpoint support
+  - Partner SDK by project scope
+
+odm_process:
+  - step: Requirements & NDA
+    duration: 1–2 weeks
+  - step: Prototype & customization
+    duration: 4–8 weeks
+  - step: Pilot validation
+    duration: 6–10 weeks
+  - step: Mass production
+    duration: 8–14 weeks
+
+sample_policy: Sample units available for qualified ODM partners upon NDA
+packaging: Custom retail and industrial packaging available
+factory_capability: SMT production, in-house QA, small-batch to mass production
+
+next_steps:
+  - NDA discussion
+  - Sample unit review
+  - Integration workshop
+  - Customization scoping
+  - Pilot production discussion
+
+assets_needed:
+  - Hero product photo
+  - Three-view drawing
+  - Dimension diagram
+  - Wear scenario photos
+  - ODM before/after comparison

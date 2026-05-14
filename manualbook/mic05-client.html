@@ -1,0 +1,749 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>GIMC · MIC05 — ODM Brief</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FFFFFF;
+    --paper-2:#FAFAFA;
+    --ink:#0F0F0E;
+    --ink-2:#2A2A28;
+    --ink-3:#6B6A65;
+    --rule:#0F0F0E;
+    --rule-soft:#E0E0E0;
+    --accent:#4285F4;
+    --accent-soft:#E8F0FE;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:var(--paper);color:var(--ink);font-family:'Inter',system-ui,sans-serif;font-weight:400;line-height:1.5;-webkit-font-smoothing:antialiased;font-feature-settings:"ss01","cv11","tnum";font-variant-numeric:tabular-nums}
+  body{overflow-x:hidden}
+  a{color:inherit;text-decoration:none}
+  .mono{font-family:'Inter',system-ui,sans-serif;font-weight:400;letter-spacing:.02em}
+  .serif{font-family:'Inter',system-ui,sans-serif;font-weight:400;letter-spacing:-.01em}
+  .upper{text-transform:uppercase;letter-spacing:.14em}
+  .brand-model,.sec-no,.sec-kicker,.cap-name,.cust-name,.dim-label,.arch-caption,.proc-no,.badge,.cta,.dim-header,.cap-tag,.next-meta,.why-meta,.art-corner,.hero-meta,.foot-bottom,.foot-brand small,.proc-dur,.cust-no,.why-idx,.next-no,.int-bullet{font-weight:500}
+  svg text{font-weight:500;font-feature-settings:"tnum";font-variant-numeric:tabular-nums}
+  .container{max-width:1280px;margin:0 auto;padding:0 32px}
+  .rule{border:0;border-top:1px solid var(--rule);height:0;margin:0}
+  .rule-soft{border:0;border-top:1px solid var(--rule-soft);height:0;margin:0}
+
+  /* ============ NAV ============ */
+  .nav{position:sticky;top:0;z-index:50;background:var(--paper);border-bottom:1px solid var(--rule)}
+  .nav-inner{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:32px;padding:14px 32px;max-width:1280px;margin:0 auto}
+  .brand{display:flex;align-items:baseline;gap:14px}
+  .brand-mark{font-family:'Inter',system-ui,sans-serif;font-size:20px;line-height:1;font-weight:600;letter-spacing:-.01em}
+  .brand-model{font-family:'Inter',system-ui,sans-serif;font-size:11px;letter-spacing:.18em;text-transform:uppercase;padding:5px 9px;border:1px solid var(--ink);border-radius:1px}
+  .nav-links{display:flex;gap:26px;justify-content:center;flex-wrap:wrap}
+  .nav-links a{font-family:'Inter',system-ui,sans-serif;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-2);transition:color .2s}
+  .nav-links a:hover{color:var(--accent)}
+  .cta{font-family:'Inter',system-ui,sans-serif;font-size:11px;letter-spacing:.14em;text-transform:uppercase;padding:10px 18px;background:var(--ink);color:var(--paper);border:1px solid var(--ink);transition:background .2s,color .2s;cursor:pointer;display:inline-flex;align-items:center;gap:8px}
+  .cta:hover{background:var(--accent);border-color:var(--accent)}
+  .cta .dot{width:6px;height:6px;background:var(--accent);border-radius:50%;display:inline-block}
+  .cta:hover .dot{background:var(--paper)}
+
+  /* ============ HERO ============ */
+  .hero{position:relative;border-bottom:1px solid var(--rule);overflow:hidden}
+  .hero-grid-bg{position:absolute;inset:0;background-image:
+    linear-gradient(to right, rgba(15,15,14,.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(15,15,14,.05) 1px, transparent 1px);
+    background-size:40px 40px;pointer-events:none}
+  .hero-inner{position:relative;display:grid;grid-template-columns:1.05fr .95fr;gap:48px;padding:64px 0 72px;align-items:center}
+  .hero-meta{display:flex;gap:28px;flex-wrap:wrap;margin-bottom:36px;font-family:'Inter',system-ui,sans-serif;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-3)}
+  .hero-meta span{display:inline-flex;align-items:center;gap:8px}
+  .hero-meta span::before{content:"";width:10px;height:1px;background:var(--ink-3)}
+  .hero-title{font-family:'Inter',system-ui,sans-serif;font-weight:500;font-size:clamp(72px,11vw,168px);line-height:.92;letter-spacing:-.045em;margin-bottom:20px}
+  .hero-title em{font-style:normal;color:var(--accent);font-weight:500}
+  .hero-sub{font-family:'Inter',system-ui,sans-serif;font-weight:400;font-size:clamp(22px,2.2vw,28px);line-height:1.3;color:var(--ink-2);margin-bottom:28px;max-width:36ch;letter-spacing:-.015em}
+  .hero-desc{font-size:15px;line-height:1.65;color:var(--ink-2);max-width:48ch;margin-bottom:36px}
+  .hero-badges{display:flex;gap:10px;flex-wrap:wrap}
+  .badge{font-family:'Inter',system-ui,sans-serif;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;padding:7px 11px;border:1px solid var(--rule);background:var(--paper)}
+
+  /* product illustration */
+  .hero-art{position:relative;display:flex;justify-content:center;align-items:center;min-height:520px}
+  .hero-art img{display:block;width:100%;height:auto;max-height:600px;object-fit:contain;background:none;border:0}
+  .art-corner{position:absolute;font-family:'Inter',system-ui,sans-serif;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3)}
+  .art-corner.tl{top:0;left:0}
+  .art-corner.tr{top:0;right:0;text-align:right}
+  .art-corner.bl{bottom:0;left:0}
+  .art-corner.br{bottom:0;right:0;text-align:right}
+
+  /* ============ SECTION BASE ============ */
+  section{position:relative;padding:88px 0;border-bottom:1px solid var(--rule)}
+  .sec-head{display:grid;grid-template-columns:auto 1fr;gap:36px;align-items:end;margin-bottom:48px}
+  .sec-no{font-family:'Inter',system-ui,sans-serif;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-3);padding-top:8px}
+  .sec-no::before{content:"";display:block;width:48px;height:1px;background:var(--ink);margin-bottom:10px}
+  .sec-title{font-family:'Inter',system-ui,sans-serif;font-weight:500;font-size:clamp(40px,5.4vw,72px);line-height:1;letter-spacing:-.035em}
+  .sec-title em{font-style:normal;color:var(--accent);font-weight:500}
+  .sec-kicker{font-family:'Inter',system-ui,sans-serif;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-3);margin-bottom:14px}
+
+  /* ============ ARCHITECTURE ============ */
+  .arch-wrap{border:1px solid var(--rule);background:var(--paper-2);padding:36px;position:relative}
+  .arch-wrap::before,.arch-wrap::after{content:"";position:absolute;width:10px;height:10px;border:1px solid var(--ink)}
+  .arch-wrap::before{top:-1px;left:-1px;border-right:0;border-bottom:0}
+  .arch-wrap::after{bottom:-1px;right:-1px;border-left:0;border-top:0}
+  .arch-caption{display:flex;justify-content:space-between;font-family:'Inter',system-ui,sans-serif;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);margin-bottom:18px;padding-bottom:14px;border-bottom:1px dashed var(--rule-soft)}
+  .arch-svg{width:100%;height:auto;display:block}
+
+  /* ============ CAPABILITIES TABLE ============ */
+  .cap-table{border-top:1px solid var(--ink);border-bottom:1px solid var(--ink)}
+  .cap-row{display:grid;grid-template-columns:280px 1fr auto;gap:32px;padding:24px 0;border-bottom:1px solid var(--rule-soft);align-items:start}
+  .cap-row:last-child{border-bottom:0}
+  .cap-name{font-family:'Inter',system-ui,sans-serif;font-size:13px;letter-spacing:.04em;text-transform:uppercase;color:var(--ink)}
+  .cap-name .idx{color:var(--accent);margin-right:10px}
+  .cap-desc{font-size:15.5px;line-height:1.55;color:var(--ink-2);max-width:62ch}
+  .cap-tag{font-family:'Inter',system-ui,sans-serif;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-3);padding-top:3px;white-space:nowrap}
+
+  /* ============ WHY GIMC — ruled list ============ */
+  .why-list{border-top:1px solid var(--ink)}
+  .why-item{display:grid;grid-template-columns:80px 1fr auto;gap:32px;padding:28px 0;border-bottom:1px solid var(--ink);align-items:baseline;transition:background .3s}
+  .why-item:hover{background:var(--accent-soft)}
+  .why-idx{font-family:'Inter',system-ui,sans-serif;font-size:13px;letter-spacing:.12em;color:var(--accent)}
+  .why-text{font-family:'Inter',system-ui,sans-serif;font-weight:500;font-size:clamp(24px,2.6vw,32px);line-height:1.2;letter-spacing:-.025em;color:var(--ink)}
+  .why-meta{font-family:'Inter',system-ui,sans-serif;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);text-align:right}
+
+  /* ============ CUSTOMIZATION GRID ============ */
+  .cust-grid{display:grid;grid-template-columns:1fr 1fr;border-top:1px solid var(--ink);border-left:1px solid var(--ink)}
+  .cust-cell{padding:32px;border-right:1px solid var(--ink);border-bottom:1px solid var(--ink);position:relative;min-height:200px;display:flex;flex-direction:column;gap:14px;transition:background .3s}
+  .cust-cell:hover{background:var(--paper-2)}
+  .cust-no{font-family:'Inter',system-ui,sans-serif;font-size:11px;letter-spacing:.16em;color:var(--ink-3)}
+  .cust-name{font-family:'Inter',system-ui,sans-serif;font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink)}
+  .cust-desc{font-size:15px;line-height:1.55;color:var(--ink-2);margin-top:auto}
+
+  /* ============ DIMENSION ============ */
+  .dim-image{display:block;width:100%;height:auto;object-fit:contain;background:#FFFFFF;border:0}
+  .dim-note{margin-top:18px;padding-top:14px;border-top:1px solid var(--rule-soft);font-family:'Inter',system-ui,sans-serif;font-size:12px;line-height:1.55;color:var(--ink-3);letter-spacing:.02em;font-weight:400;display:flex;gap:12px;align-items:flex-start}
+  .dim-note::before{content:"NOTE";font-weight:500;color:var(--ink);letter-spacing:.14em;font-size:10px;padding:3px 7px;border:1px solid var(--ink);flex-shrink:0;text-transform:uppercase;line-height:1.2;margin-top:1px}
+
+  /* ============ CREDIBILITY ANCHOR (hero) ============ */
+  .cred-anchor{margin-top:28px;padding-top:20px;border-top:1px solid var(--rule-soft);font-family:'Inter',system-ui,sans-serif;font-size:12.5px;line-height:1.6;color:var(--ink-3);letter-spacing:.01em;font-weight:400;display:flex;gap:12px;align-items:flex-start;max-width:58ch}
+  .cred-anchor::before{content:"REF";font-weight:500;color:var(--ink);letter-spacing:.14em;font-size:10px;padding:3px 7px;border:1px solid var(--ink);flex-shrink:0;text-transform:uppercase;line-height:1.2;margin-top:2px}
+
+  /* ============ HARDWARE PHYSICAL INTERFACE TABLE ============ */
+  .hw-table{border-top:1px solid var(--ink);border-bottom:1px solid var(--ink)}
+  .hw-row{display:grid;grid-template-columns:260px 1fr;gap:32px;padding:22px 0;border-bottom:1px solid var(--rule-soft);align-items:baseline}
+  .hw-row:last-child{border-bottom:0}
+  .hw-param{font-family:'Inter',system-ui,sans-serif;font-size:12.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink);font-weight:500}
+  .hw-param .idx{color:var(--accent);margin-right:10px;font-weight:500}
+  .hw-value{font-size:15.5px;line-height:1.5;color:var(--ink-2);font-weight:400;font-feature-settings:"tnum";font-variant-numeric:tabular-nums}
+
+  /* ============ TWO-LAYER CALLOUT ============ */
+  .layer-kicker{font-family:'Inter',system-ui,sans-serif;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink);font-weight:500;margin-bottom:18px;padding-bottom:14px;border-bottom:1px solid var(--rule-soft);display:flex;justify-content:space-between;align-items:baseline;gap:24px}
+  .layer-kicker .layer-kicker-meta{color:var(--ink-3);letter-spacing:.14em;font-weight:500}
+  .layer-wrap{display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid var(--ink);margin-bottom:56px}
+  .layer-box{padding:30px;border-right:1px solid var(--ink);display:flex;flex-direction:column;gap:14px;min-height:240px;position:relative;background:var(--paper)}
+  .layer-box:last-child{border-right:0;background:var(--accent-soft)}
+  .layer-box.current{background:var(--paper-2)}
+  .layer-box::before{content:"";position:absolute;top:0;left:0;width:100%;height:3px;background:var(--ink-3)}
+  .layer-box.current::before{background:var(--ink)}
+  .layer-box:last-child::before{background:var(--accent)}
+  .layer-tag{font-family:'Inter',system-ui,sans-serif;font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-3);font-weight:500;display:flex;align-items:center;gap:10px}
+  .layer-tag .dot{width:6px;height:6px;border-radius:50%;background:var(--ink-3);display:inline-block}
+  .layer-box.current .layer-tag .dot{background:var(--ink)}
+  .layer-box:last-child .layer-tag .dot{background:var(--accent)}
+  .layer-title{font-family:'Inter',system-ui,sans-serif;font-size:22px;line-height:1.2;letter-spacing:-.02em;font-weight:500;color:var(--ink)}
+  .layer-desc{font-size:14.5px;line-height:1.55;color:var(--ink-2);max-width:42ch;font-weight:400}
+  .layer-foot{margin-top:auto;padding-top:14px;border-top:1px solid var(--rule-soft);display:flex;justify-content:space-between;font-family:'Inter',system-ui,sans-serif;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-3);font-weight:500;gap:14px}
+  .layer-foot .here{color:var(--ink)}
+  .layer-box:last-child .layer-foot .here{color:var(--accent)}
+
+  /* ============ CTA ROW (client-facing engagement) ============ */
+  .cta-row{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:1px solid var(--ink)}
+  .cta-btn{padding:38px 30px;border-right:1px solid var(--ink);display:flex;flex-direction:column;gap:14px;background:var(--paper);text-decoration:none;color:inherit;transition:background .25s,padding .25s;position:relative;min-height:210px}
+  .cta-btn:last-child{border-right:0}
+  .cta-btn:hover{background:var(--accent-soft)}
+  .cta-btn::before{content:"";position:absolute;top:0;left:0;width:100%;height:3px;background:var(--ink-3);transition:background .25s}
+  .cta-btn:hover::before{background:var(--accent)}
+  .cta-tag{font-family:'Inter',system-ui,sans-serif;font-size:11px;letter-spacing:.16em;color:var(--accent);font-weight:500;text-transform:uppercase}
+  .cta-label{font-family:'Inter',system-ui,sans-serif;font-size:clamp(22px,2.2vw,28px);line-height:1.2;letter-spacing:-.025em;font-weight:500;color:var(--ink)}
+  .cta-arrow{font-family:'Inter',system-ui,sans-serif;font-size:20px;color:var(--ink);transition:transform .25s,color .25s;margin-top:auto;font-weight:500}
+  .cta-btn:hover .cta-arrow{transform:translateX(10px);color:var(--accent)}
+
+  /* ============ INTEGRATION ============ */
+  .int-list{columns:2;column-gap:48px;border-top:1px solid var(--rule-soft);padding-top:12px}
+  .int-item{break-inside:avoid;padding:18px 0;border-bottom:1px solid var(--rule-soft);display:grid;grid-template-columns:auto 1fr;gap:18px;align-items:baseline}
+  .int-bullet{font-family:'Inter',system-ui,sans-serif;font-size:11px;color:var(--accent);letter-spacing:.06em}
+  .int-text{font-family:'Inter',sans-serif;font-size:16px;color:var(--ink)}
+
+  /* ============ PROCESS ============ */
+  .proc-track{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border:1px solid var(--ink)}
+  .proc-step{padding:32px 28px;border-right:1px solid var(--ink);display:flex;flex-direction:column;gap:18px;position:relative;background:var(--paper)}
+  .proc-step:last-child{border-right:0}
+  .proc-step::after{content:"→";position:absolute;right:-14px;top:50%;transform:translateY(-50%);font-family:'Inter',system-ui,sans-serif;font-size:22px;color:var(--accent);background:var(--paper);padding:0 4px;z-index:2}
+  .proc-step:last-child::after{display:none}
+  .proc-no{font-family:'Inter',system-ui,sans-serif;font-size:11px;letter-spacing:.16em;color:var(--ink-3)}
+  .proc-name{font-family:'Inter',system-ui,sans-serif;font-weight:500;font-size:24px;line-height:1.15;letter-spacing:-.02em}
+  .proc-dur{font-family:'Inter',system-ui,sans-serif;font-size:12px;letter-spacing:.06em;color:var(--accent);padding-top:8px;border-top:1px solid var(--rule-soft);margin-top:auto}
+
+  /* ============ NEXT STEPS ============ */
+  .next-list{display:grid;grid-template-columns:1fr;border-top:1px solid var(--ink)}
+  .next-row{display:grid;grid-template-columns:60px 1fr auto auto;gap:28px;padding:26px 0;border-bottom:1px solid var(--ink);align-items:center;transition:background .25s,padding .25s;cursor:pointer}
+  .next-row:hover{background:var(--accent-soft);padding-left:18px}
+  .next-no{font-family:'Inter',system-ui,sans-serif;font-size:13px;color:var(--accent);letter-spacing:.06em}
+  .next-name{font-family:'Inter',system-ui,sans-serif;font-weight:500;font-size:clamp(22px,2.4vw,30px);letter-spacing:-.02em}
+  .next-meta{font-family:'Inter',system-ui,sans-serif;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3)}
+  .next-arrow{font-family:'Inter',system-ui,sans-serif;font-size:18px;color:var(--ink);transition:transform .25s,color .25s}
+  .next-row:hover .next-arrow{transform:translateX(8px);color:var(--accent)}
+
+  /* ============ FOOTER ============ */
+  footer{padding:48px 0 36px;background:var(--ink);color:var(--paper)}
+  .foot-inner{display:grid;grid-template-columns:1fr 1fr 1fr;gap:32px;align-items:start}
+  .foot-brand{font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:28px;line-height:1;letter-spacing:-.02em}
+  .foot-brand small{font-family:'Inter',system-ui,sans-serif;font-size:11px;letter-spacing:.18em;text-transform:uppercase;display:block;margin-top:8px;color:#9b988e}
+  .foot-meta{font-family:'Inter',system-ui,sans-serif;font-size:11px;letter-spacing:.06em;color:#c9c5ba;line-height:1.7}
+  .foot-meta strong{color:var(--paper);font-weight:500}
+  .foot-bottom{margin-top:36px;padding-top:18px;border-top:1px solid #2a2a28;font-family:'Inter',system-ui,sans-serif;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:#6b6a65;display:flex;justify-content:space-between;flex-wrap:wrap;gap:16px}
+
+  /* ============ SCROLL REVEAL ============ */
+  .reveal{opacity:0;transform:translateY(24px);transition:opacity .9s cubic-bezier(.2,.6,.2,1),transform .9s cubic-bezier(.2,.6,.2,1)}
+  .reveal.in{opacity:1;transform:translateY(0)}
+  .reveal.d1{transition-delay:.08s}
+  .reveal.d2{transition-delay:.16s}
+  .reveal.d3{transition-delay:.24s}
+
+  /* ============ RESPONSIVE ============ */
+  @media (max-width:960px){
+    .nav-inner{grid-template-columns:1fr auto;gap:16px}
+    .nav-links{display:none}
+    .hero-inner{grid-template-columns:1fr;gap:24px;padding:36px 0 48px}
+    .hero-art{min-height:380px}
+    .sec-head{grid-template-columns:1fr;gap:16px}
+    .cap-row{grid-template-columns:1fr;gap:8px}
+    .hw-row{grid-template-columns:1fr;gap:6px}
+    .layer-wrap{grid-template-columns:1fr}
+    .layer-box{border-right:0;border-bottom:1px solid var(--ink)}
+    .layer-box:last-child{border-bottom:0}
+    .layer-kicker{flex-direction:column;align-items:flex-start;gap:8px}
+    .cta-row{grid-template-columns:1fr;border-right:1px solid var(--ink);border-bottom:1px solid var(--ink)}
+    .cta-btn{border-right:0;border-bottom:1px solid var(--ink);min-height:auto}
+    .cta-btn:last-child{border-bottom:0}
+    .why-item{grid-template-columns:50px 1fr;gap:14px}
+    .why-meta{display:none}
+    .cust-grid{grid-template-columns:1fr}
+    .int-list{columns:1}
+    .proc-track{grid-template-columns:1fr;border-right:1px solid var(--ink);border-bottom:1px solid var(--ink)}
+    .proc-step{border-right:0;border-bottom:1px solid var(--ink)}
+    .proc-step:last-child{border-bottom:0}
+    .proc-step::after{content:"↓";right:50%;top:auto;bottom:-14px;transform:translateX(50%)}
+    .next-row{grid-template-columns:40px 1fr auto;gap:14px}
+    .next-meta{display:none}
+    .foot-inner{grid-template-columns:1fr;gap:24px}
+    section{padding:56px 0}
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ NAV ============ -->
+<nav class="nav">
+  <div class="nav-inner">
+    <div class="brand">
+      <span class="brand-mark">GIMC</span>
+      <span class="brand-model">MIC05 / ODM BRIEF</span>
+    </div>
+    <div class="nav-links">
+      <a href="#architecture">Architecture</a>
+      <a href="#hardware">Hardware</a>
+      <a href="#capabilities">Capabilities</a>
+      <a href="#why">Why GIMC</a>
+      <a href="#customization">Customization</a>
+      <a href="#dimension">Dimension</a>
+      <a href="#integration">Integration</a>
+      <a href="#process">Process</a>
+    </div>
+    <a href="#next" class="cta"><span class="dot"></span> Request Sample</a>
+  </div>
+</nav>
+
+<!-- ============ HERO ============ -->
+<header class="hero">
+  <div class="hero-grid-bg"></div>
+  <div class="container">
+    <div class="hero-inner">
+      <div class="hero-left reveal">
+        <div class="hero-meta">
+          <span>Ref. MIC05</span>
+          <span>Rev. 2026.05</span>
+          <span>Status · Reference Platform</span>
+          <span>Origin · Shenzhen, CN</span>
+        </div>
+        <h1 class="hero-title">MIC<em>05</em></h1>
+        <p class="hero-sub">A customizable wearable voice hardware platform — engineered for ODM &amp; OEM partners.</p>
+        <p class="hero-desc">MIC05 is GIMC's reference wearable voice platform. Far-field capture, on-device DSP, configurable connectivity and enclosure — purpose-built to be re-shaped, re-skinned, and re-certified for AI hardware startups, enterprise SaaS extending into hardware, and industrial / field-service / healthcare device makers. Specs finalize at project scoping.</p>
+        <div class="hero-badges">
+          <span class="badge">Wi-Fi · BLE · LTE</span>
+          <span class="badge">On-device DSP</span>
+          <span class="badge">IP-rated options</span>
+          <span class="badge">OTA-ready</span>
+        </div>
+        <p class="cred-anchor">Used in field-service and voice-capture pilot deployments across field service, enterprise documentation, and industrial audio applications.</p>
+      </div>
+
+      <div class="hero-art reveal d2">
+        <span class="art-corner tl">FIG. 01 / FRONT 3⁄4</span>
+        <span class="art-corner tr">SCALE · INDICATIVE</span>
+        <span class="art-corner bl">MIC05.REF</span>
+        <span class="art-corner br">© GIMC</span>
+        <img src="../img/HCJD5.png" alt="MIC05 wearable voice device — hero product photo" loading="eager" decoding="async">
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ============ ARCHITECTURE ============ -->
+<section id="architecture">
+  <div class="container">
+    <div class="sec-head reveal">
+      <div class="sec-no">§ 01 / SYSTEM</div>
+      <div>
+        <div class="sec-kicker">Platform Architecture</div>
+        <h2 class="sec-title">Signal path, <em>end-to-end</em>.</h2>
+      </div>
+    </div>
+
+    <div class="arch-wrap reveal d1">
+      <div class="arch-caption">
+        <span>DWG. AR-01 / SIGNAL FLOW</span>
+        <span>MEMS → DSP → BUFFER → RADIO → CLOUD → APP</span>
+        <span>REV. 2026.05</span>
+      </div>
+      <svg class="arch-svg" viewBox="0 0 1200 280" xmlns="http://www.w3.org/2000/svg" aria-label="MIC05 platform signal flow diagram">
+        <defs>
+          <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="10" markerHeight="10" orient="auto">
+            <path d="M0,0 L10,5 L0,10 z" fill="#0F0F0E"/>
+          </marker>
+        </defs>
+
+        <g stroke="#C9C5BA" stroke-width=".4">
+          <line x1="0" y1="40" x2="1200" y2="40"/>
+          <line x1="0" y1="240" x2="1200" y2="240"/>
+        </g>
+
+        <g font-family="Inter, sans-serif" font-size="9" fill="#6B6A65" letter-spacing="1.6">
+          <text x="4" y="34">01</text>
+          <text x="1180" y="34" text-anchor="end">06</text>
+          <text x="4" y="270">DEVICE SIDE</text>
+          <text x="1180" y="270" text-anchor="end">CLOUD SIDE</text>
+        </g>
+
+        <line x1="610" y1="60" x2="610" y2="240" stroke="#0F0F0E" stroke-width=".6" stroke-dasharray="3 4"/>
+        <text x="614" y="58" font-family="Inter, sans-serif" font-size="9" fill="#6B6A65" letter-spacing="1.4">RF BOUNDARY</text>
+
+        <!-- Block 1: MEMS Mic Array -->
+        <g>
+          <rect x="20" y="100" width="170" height="90" fill="#FFFFFF" stroke="#0F0F0E" stroke-width="1.4"/>
+          <rect x="24" y="104" width="162" height="82" fill="none" stroke="#0F0F0E" stroke-width=".5" stroke-dasharray="2 3"/>
+          <text x="105" y="135" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" fill="#0F0F0E" letter-spacing="1.4">MEMS MIC</text>
+          <text x="105" y="152" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" fill="#0F0F0E" letter-spacing="1.4">ARRAY</text>
+          <text x="105" y="172" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" fill="#4285F4" letter-spacing="1.4">FAR-FIELD</text>
+          <text x="105" y="210" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" fill="#6B6A65" letter-spacing="1.6">01 · CAPTURE</text>
+        </g>
+        <line x1="190" y1="145" x2="220" y2="145" stroke="#0F0F0E" stroke-width="1.4" marker-end="url(#arr)"/>
+
+        <!-- Block 2: On-Device DSP -->
+        <g>
+          <rect x="220" y="100" width="170" height="90" fill="#FFFFFF" stroke="#0F0F0E" stroke-width="1.4"/>
+          <rect x="224" y="104" width="162" height="82" fill="none" stroke="#0F0F0E" stroke-width=".5" stroke-dasharray="2 3"/>
+          <text x="305" y="135" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" fill="#0F0F0E" letter-spacing="1.4">ON-DEVICE</text>
+          <text x="305" y="152" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" fill="#0F0F0E" letter-spacing="1.4">DSP</text>
+          <text x="305" y="172" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" fill="#4285F4" letter-spacing="1.4">AEC · NR · VAD</text>
+          <text x="305" y="210" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" fill="#6B6A65" letter-spacing="1.6">02 · PROCESS</text>
+        </g>
+        <line x1="390" y1="145" x2="420" y2="145" stroke="#0F0F0E" stroke-width="1.4" marker-end="url(#arr)"/>
+
+        <!-- Block 3: Local Buffer -->
+        <g>
+          <rect x="420" y="100" width="170" height="90" fill="#FFFFFF" stroke="#0F0F0E" stroke-width="1.4"/>
+          <rect x="424" y="104" width="162" height="82" fill="none" stroke="#0F0F0E" stroke-width=".5" stroke-dasharray="2 3"/>
+          <text x="505" y="135" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" fill="#0F0F0E" letter-spacing="1.4">LOCAL</text>
+          <text x="505" y="152" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" fill="#0F0F0E" letter-spacing="1.4">BUFFER</text>
+          <text x="505" y="172" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" fill="#4285F4" letter-spacing="1.4">FLASH · CACHE</text>
+          <text x="505" y="210" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" fill="#6B6A65" letter-spacing="1.6">03 · STORE</text>
+        </g>
+        <line x1="590" y1="145" x2="620" y2="145" stroke="#0F0F0E" stroke-width="1.4" marker-end="url(#arr)"/>
+
+        <!-- Block 4: Wi-Fi / BLE / LTE (straddles boundary) -->
+        <g>
+          <rect x="620" y="100" width="190" height="90" fill="#FFFFFF" stroke="#0F0F0E" stroke-width="1.4"/>
+          <rect x="624" y="104" width="182" height="82" fill="none" stroke="#0F0F0E" stroke-width=".5" stroke-dasharray="2 3"/>
+          <text x="715" y="135" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" fill="#0F0F0E" letter-spacing="1.4">WI-FI · BLE</text>
+          <text x="715" y="152" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" fill="#0F0F0E" letter-spacing="1.4">· LTE (OPT.)</text>
+          <text x="715" y="172" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" fill="#4285F4" letter-spacing="1.4">RADIO STACK</text>
+          <text x="715" y="210" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" fill="#6B6A65" letter-spacing="1.6">04 · TRANSPORT</text>
+        </g>
+        <line x1="810" y1="145" x2="840" y2="145" stroke="#0F0F0E" stroke-width="1.4" marker-end="url(#arr)"/>
+
+        <!-- Block 5: Partner Cloud API -->
+        <g>
+          <rect x="840" y="100" width="170" height="90" fill="#FFFFFF" stroke="#0F0F0E" stroke-width="1.4"/>
+          <rect x="844" y="104" width="162" height="82" fill="none" stroke="#0F0F0E" stroke-width=".5" stroke-dasharray="2 3"/>
+          <text x="925" y="135" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" fill="#0F0F0E" letter-spacing="1.4">PARTNER</text>
+          <text x="925" y="152" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" fill="#0F0F0E" letter-spacing="1.4">CLOUD API</text>
+          <text x="925" y="172" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" fill="#4285F4" letter-spacing="1.4">UPLOAD · WEBHOOK</text>
+          <text x="925" y="210" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" fill="#6B6A65" letter-spacing="1.6">05 · INGEST</text>
+        </g>
+        <line x1="1010" y1="145" x2="1040" y2="145" stroke="#0F0F0E" stroke-width="1.4" marker-end="url(#arr)"/>
+
+        <!-- Block 6: Partner Application -->
+        <g>
+          <rect x="1040" y="100" width="150" height="90" fill="#4285F4" stroke="#0F0F0E" stroke-width="1.4"/>
+          <rect x="1044" y="104" width="142" height="82" fill="none" stroke="#FFFFFF" stroke-width=".5" stroke-dasharray="2 3"/>
+          <text x="1115" y="135" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" fill="#FFFFFF" letter-spacing="1.4">PARTNER</text>
+          <text x="1115" y="152" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" fill="#FFFFFF" letter-spacing="1.4">APPLICATION</text>
+          <text x="1115" y="172" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" fill="#D2E3FC" letter-spacing="1.4">END EXPERIENCE</text>
+          <text x="1115" y="210" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" fill="#6B6A65" letter-spacing="1.6">06 · DELIVER</text>
+        </g>
+
+        <g font-family="Inter, sans-serif" font-size="9" fill="#6B6A65" letter-spacing="1.6">
+          <text x="305" y="80" text-anchor="middle">— DEVICE FIRMWARE —</text>
+          <text x="925" y="80" text-anchor="middle">— PARTNER INFRASTRUCTURE —</text>
+        </g>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- ============ HARDWARE ============ -->
+<section id="hardware">
+  <div class="container">
+    <div class="sec-head reveal">
+      <div class="sec-no">§ 02 / HARDWARE</div>
+      <div>
+        <div class="sec-kicker">Physical Interface Reference</div>
+        <h2 class="sec-title">What's on the <em>device</em>.</h2>
+      </div>
+    </div>
+
+    <div class="hw-table reveal d1">
+      <div class="hw-row">
+        <div class="hw-param"><span class="idx">01</span>CONNECTORS</div>
+        <div class="hw-value">USB-C — charge + data</div>
+      </div>
+      <div class="hw-row">
+        <div class="hw-param"><span class="idx">02</span>CONTROLS</div>
+        <div class="hw-value">Single multi-function button</div>
+      </div>
+      <div class="hw-row">
+        <div class="hw-param"><span class="idx">03</span>INDICATORS</div>
+        <div class="hw-value">LED status indicator</div>
+      </div>
+      <div class="hw-row">
+        <div class="hw-param"><span class="idx">04</span>MOUNTING</div>
+        <div class="hw-value">Integrated clip, lanyard loop</div>
+      </div>
+      <div class="hw-row">
+        <div class="hw-param"><span class="idx">05</span>MIC OPENING</div>
+        <div class="hw-value">Dual front-facing mic ports</div>
+      </div>
+      <div class="hw-row">
+        <div class="hw-param"><span class="idx">06</span>ANTENNA</div>
+        <div class="hw-value">Internal Wi-Fi + BLE antenna</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CAPABILITIES ============ -->
+<section id="capabilities">
+  <div class="container">
+    <div class="sec-head reveal">
+      <div class="sec-no">§ 03 / SPEC</div>
+      <div>
+        <div class="sec-kicker">Hardware Platform Capabilities</div>
+        <h2 class="sec-title">Configurable <em>by design</em>.</h2>
+      </div>
+    </div>
+
+    <div class="cap-table reveal d1">
+      <div class="cap-row">
+        <div class="cap-name"><span class="idx">01</span>AUDIO</div>
+        <div class="cap-desc">Far-field voice capture with a configurable MEMS microphone array and an on-device DSP pipeline tuned to project acoustic targets.</div>
+        <div class="cap-tag">CAPTURE</div>
+      </div>
+      <div class="cap-row">
+        <div class="cap-name"><span class="idx">02</span>STORAGE</div>
+        <div class="cap-desc">Local audio buffer for offline / intermittent-link operation; capacity selected per partner deployment profile.</div>
+        <div class="cap-tag">BUFFER</div>
+      </div>
+      <div class="cap-row">
+        <div class="cap-name"><span class="idx">03</span>CONNECTIVITY</div>
+        <div class="cap-desc">Wi-Fi and BLE as standard; optional LTE module for cellular-first or fail-over deployments. Antenna design tuned per enclosure.</div>
+        <div class="cap-tag">RADIO</div>
+      </div>
+      <div class="cap-row">
+        <div class="cap-name"><span class="idx">04</span>POWER</div>
+        <div class="cap-desc">Configurable battery capacity and runtime — sized to enclosure design, duty cycle, and connectivity profile of the partner use case.</div>
+        <div class="cap-tag">POWER</div>
+      </div>
+      <div class="cap-row">
+        <div class="cap-name"><span class="idx">05</span>PROTECTION</div>
+        <div class="cap-desc">IP-rated enclosure options for field, industrial, and healthcare environments — selected against the target operating profile.</div>
+        <div class="cap-tag">INGRESS</div>
+      </div>
+      <div class="cap-row">
+        <div class="cap-name"><span class="idx">06</span>COMPUTE</div>
+        <div class="cap-desc">On-device audio processing and compression — keeps bandwidth predictable and enables edge-side features without cloud round-trips.</div>
+        <div class="cap-tag">EDGE</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ WHY GIMC ============ -->
+<section id="why">
+  <div class="container">
+    <div class="sec-head reveal">
+      <div class="sec-no">§ 04 / RATIONALE</div>
+      <div>
+        <div class="sec-kicker">Why Build With GIMC</div>
+        <h2 class="sec-title">A platform, not a <em>part list</em>.</h2>
+      </div>
+    </div>
+
+    <div class="why-list reveal d1">
+      <div class="why-item">
+        <div class="why-idx">— 01</div>
+        <div class="why-text">A reference platform already engineered around far-field wearable voice.</div>
+        <div class="why-meta">SHORTENS TIME-TO-PROTOTYPE</div>
+      </div>
+      <div class="why-item">
+        <div class="why-idx">— 02</div>
+        <div class="why-text">Every layer — enclosure, firmware, hardware, branding — is open to customization.</div>
+        <div class="why-meta">DEEP ODM ACCESS</div>
+      </div>
+      <div class="why-item">
+        <div class="why-idx">— 03</div>
+        <div class="why-text">Built around partner cloud integration: APIs, webhooks, and SDK paths defined up front.</div>
+        <div class="why-meta">INTEGRATION-FIRST</div>
+      </div>
+      <div class="why-item">
+        <div class="why-idx">— 04</div>
+        <div class="why-text">Pilot from a small batch and graduate to mass production on the same hardware lineage.</div>
+        <div class="why-meta">PILOT TO MP</div>
+      </div>
+      <div class="why-item">
+        <div class="why-idx">— 05</div>
+        <div class="why-text">Certification handled per target market — CE, FCC, MIC, KC, SRRC — by region.</div>
+        <div class="why-meta">REGULATORY READY</div>
+      </div>
+      <div class="why-item">
+        <div class="why-idx">— 06</div>
+        <div class="why-text">Targeted at AI hardware startups, enterprise SaaS, and industrial / healthcare device makers.</div>
+        <div class="why-meta">FOCUSED SEGMENTS</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CUSTOMIZATION ============ -->
+<section id="customization">
+  <div class="container">
+    <div class="sec-head reveal">
+      <div class="sec-no">§ 05 / SCOPE</div>
+      <div>
+        <div class="sec-kicker">Customization Scope</div>
+        <h2 class="sec-title">What you can <em>re-shape</em>.</h2>
+      </div>
+    </div>
+
+    <div class="cust-grid reveal d1">
+      <div class="cust-cell">
+        <div class="cust-no">01</div>
+        <div class="cust-name">ENCLOSURE</div>
+        <div class="cust-desc">Shape, material, color, surface finish, and mounting options — re-skin the platform to the partner's product language.</div>
+      </div>
+      <div class="cust-cell">
+        <div class="cust-no">02</div>
+        <div class="cust-name">BRANDING</div>
+        <div class="cust-desc">Logo, LED profile, retail packaging, and white-label execution — including markings and pack-out for the destination market.</div>
+      </div>
+      <div class="cust-cell">
+        <div class="cust-no">03</div>
+        <div class="cust-name">FIRMWARE</div>
+        <div class="cust-desc">DSP pipeline tuning, wake-word selection, OTA flow, and button mapping — shaped to the partner's UX and acoustic targets.</div>
+      </div>
+      <div class="cust-cell">
+        <div class="cust-no">04</div>
+        <div class="cust-name">HARDWARE</div>
+        <div class="cust-desc">Mic capsule, battery size, additional sensors, and GPIO — extended where the use case warrants additional capability.</div>
+      </div>
+      <div class="cust-cell">
+        <div class="cust-no">05</div>
+        <div class="cust-name">CERTIFICATION</div>
+        <div class="cust-desc">Per target market — CE (EU), FCC (US), MIC (JP), KC (KR), SRRC (CN) — scoped into the program from kickoff.</div>
+      </div>
+      <div class="cust-cell">
+        <div class="cust-no">06</div>
+        <div class="cust-name">MOQ &amp; SCALE</div>
+        <div class="cust-desc">Pilot from a small batch with a defined path to mass production — same lineage, no re-tooling penalty when volume lifts.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ DIMENSION ============ -->
+<section id="dimension">
+  <div class="container">
+    <div class="sec-head reveal">
+      <div class="sec-no">§ 06 / FORM</div>
+      <div>
+        <div class="sec-kicker">Dimension &amp; Structure Placeholder</div>
+        <h2 class="sec-title">Three-view, <em>TBD at spec</em>.</h2>
+      </div>
+    </div>
+
+    <img class="dim-image reveal d1" src="../img/mic05-sketch.png" alt="MIC05 dimension and structure sketch" loading="lazy" decoding="async">
+    <p class="dim-note reveal d2">Interface positions and mounting details confirmed at prototype stage. Sample units available upon NDA.</p>
+  </div>
+</section>
+
+<!-- ============ INTEGRATION ============ -->
+<section id="integration">
+  <div class="container">
+    <div class="sec-head reveal">
+      <div class="sec-no">§ 07 / INTERFACE</div>
+      <div>
+        <div class="sec-kicker">Integration Capabilities</div>
+        <h2 class="sec-title">Where MIC05 <em>plugs in</em>.</h2>
+      </div>
+    </div>
+
+    <div class="int-list reveal d1">
+      <div class="int-item"><span class="int-bullet">— 01</span><span class="int-text">Audio file upload API</span></div>
+      <div class="int-item"><span class="int-bullet">— 02</span><span class="int-text">Real-time or batch audio transfer</span></div>
+      <div class="int-item"><span class="int-bullet">— 03</span><span class="int-text">Device status reporting</span></div>
+      <div class="int-item"><span class="int-bullet">— 04</span><span class="int-text">User and device binding</span></div>
+      <div class="int-item"><span class="int-bullet">— 05</span><span class="int-text">Firmware OTA support</span></div>
+      <div class="int-item"><span class="int-bullet">— 06</span><span class="int-text">Webhook event notification</span></div>
+      <div class="int-item"><span class="int-bullet">— 07</span><span class="int-text">Custom cloud endpoint support</span></div>
+      <div class="int-item"><span class="int-bullet">— 08</span><span class="int-text">Partner SDK by project scope</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PROCESS ============ -->
+<section id="process">
+  <div class="container">
+    <div class="sec-head reveal">
+      <div class="sec-no">§ 08 / PROGRAM</div>
+      <div>
+        <div class="sec-kicker">ODM Process</div>
+        <h2 class="sec-title">From scope to <em>mass production</em>.</h2>
+      </div>
+    </div>
+
+    <div class="proc-track reveal d1">
+      <div class="proc-step">
+        <div class="proc-no">PHASE 01</div>
+        <div class="proc-name">Requirements &amp; NDA</div>
+        <div class="proc-dur">1–2 WEEKS</div>
+      </div>
+      <div class="proc-step">
+        <div class="proc-no">PHASE 02</div>
+        <div class="proc-name">Prototype &amp; customization</div>
+        <div class="proc-dur">4–8 WEEKS</div>
+      </div>
+      <div class="proc-step">
+        <div class="proc-no">PHASE 03</div>
+        <div class="proc-name">Pilot validation</div>
+        <div class="proc-dur">6–10 WEEKS</div>
+      </div>
+      <div class="proc-step">
+        <div class="proc-no">PHASE 04</div>
+        <div class="proc-name">Mass production</div>
+        <div class="proc-dur">8–14 WEEKS</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ NEXT STEPS ============ -->
+<section id="next">
+  <div class="container">
+    <div class="sec-head reveal">
+      <div class="sec-no">§ 09 / ENGAGE</div>
+      <div>
+        <div class="sec-kicker">Suggested Next Steps</div>
+        <h2 class="sec-title">Pick where to <em>begin</em>.</h2>
+      </div>
+    </div>
+
+    <div class="cta-row reveal d1">
+      <a class="cta-btn" href="mailto:odm@gimc.example?subject=MIC05%20%E2%80%94%20Sample%20Unit%20Request">
+        <span class="cta-tag">— 01</span>
+        <span class="cta-label">Request Sample Unit</span>
+        <span class="cta-arrow">→</span>
+      </a>
+      <a class="cta-btn" href="mailto:odm@gimc.example?subject=MIC05%20%E2%80%94%20Technical%20Call">
+        <span class="cta-tag">— 02</span>
+        <span class="cta-label">Schedule Technical Call</span>
+        <span class="cta-arrow">→</span>
+      </a>
+      <a class="cta-btn" href="mailto:odm@gimc.example?subject=MIC05%20%E2%80%94%20Full%20Datasheet%20Request">
+        <span class="cta-tag">— 03</span>
+        <span class="cta-label">Request Full Datasheet</span>
+        <span class="cta-arrow">→</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="container">
+    <div class="foot-inner">
+      <div>
+        <div class="foot-brand">GIMC<small>Shenzhen · Wearable Voice ODM</small></div>
+      </div>
+      <div class="foot-meta">
+        <strong>Document</strong><br>
+        MIC05 — ODM Capability Brief<br>
+        GIMC Hardware
+      </div>
+      <div class="foot-meta">
+        <strong>Engage</strong><br>
+        ODM &amp; OEM partnerships<br>
+        odm@gimc.example<br>
+        Confidential — do not redistribute.
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>MIC05 · ODM Capability Brief · GIMC Hardware · 2025</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  (function(){
+    var els = document.querySelectorAll('.reveal');
+    if (!('IntersectionObserver' in window)) {
+      els.forEach(function(el){ el.classList.add('in'); });
+      return;
+    }
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        if (en.isIntersecting) {
+          en.target.classList.add('in');
+          io.unobserve(en.target);
+        }
+      });
+    }, { rootMargin: '0px 0px -10% 0px', threshold: 0.08 });
+    els.forEach(function(el){ io.observe(el); });
+  })();
+
+  document.querySelectorAll('a[href^="#"]').forEach(function(a){
+    a.addEventListener('click', function(e){
+      var id = a.getAttribute('href');
+      if (id.length > 1) {
+        var t = document.querySelector(id);
+        if (t) { e.preventDefault(); t.scrollIntoView({ behavior:'smooth', block:'start' }); }
+      }
+    });
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,582 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>MIC05 · Technical &amp; Business Package — Confidential Under NDA</title>
+<meta name="robots" content="noindex,nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FFFFFF;
+    --paper-2:#FAFAFA;
+    --ink:#0F0F0E;
+    --ink-2:#2A2A28;
+    --ink-3:#6B6A65;
+    --rule:#0F0F0E;
+    --rule-soft:#E0E0E0;
+    --accent:#4285F4;
+    --accent-soft:#E8F0FE;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:var(--paper);color:var(--ink);font-family:'Inter',system-ui,sans-serif;font-weight:400;line-height:1.5;-webkit-font-smoothing:antialiased;font-feature-settings:"ss01","cv11","tnum";font-variant-numeric:tabular-nums}
+  body{overflow-x:hidden}
+  a{color:inherit;text-decoration:none}
+  .mono{font-family:'Inter',system-ui,sans-serif;font-weight:400;letter-spacing:.02em}
+  .upper{text-transform:uppercase;letter-spacing:.14em}
+  .brand-model,.sec-no,.sec-kicker,.cap-name,.proc-no,.badge,.cta,.cap-tag,.art-corner,.hero-meta,.foot-bottom,.foot-brand small,.proc-dur,.status,.seal-k,.seal-sig,.cta-tag,.engage-meta,.nda-btn,.note-tag{font-weight:500}
+  svg text{font-weight:500;font-feature-settings:"tnum";font-variant-numeric:tabular-nums}
+  .container{max-width:1280px;margin:0 auto;padding:0 32px}
+
+  /* ============ CONFIDENTIAL BAR ============ */
+  .conf-bar{background:var(--ink);color:var(--paper);padding:10px 0;border-bottom:1px solid var(--ink)}
+  .conf-bar-inner{max-width:1280px;margin:0 auto;padding:0 32px;display:flex;justify-content:space-between;align-items:center;font-family:'Inter',system-ui,sans-serif;font-size:10.5px;letter-spacing:.22em;text-transform:uppercase;font-weight:500;gap:24px;flex-wrap:wrap}
+  .conf-bar .dot{width:6px;height:6px;border-radius:50%;background:var(--accent);display:inline-block;margin-right:12px;vertical-align:middle}
+  .conf-bar .pill{padding:3px 8px;border:1px solid #2a2a28;color:#c9c5ba;font-size:10px;letter-spacing:.2em}
+
+  /* ============ NAV ============ */
+  .nav{position:sticky;top:0;z-index:50;background:var(--paper);border-bottom:1px solid var(--rule)}
+  .nav-inner{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:32px;padding:14px 32px;max-width:1280px;margin:0 auto}
+  .brand{display:flex;align-items:baseline;gap:14px}
+  .brand-mark{font-family:'Inter',system-ui,sans-serif;font-size:20px;line-height:1;font-weight:600;letter-spacing:-.01em}
+  .brand-model{font-family:'Inter',system-ui,sans-serif;font-size:11px;letter-spacing:.18em;text-transform:uppercase;padding:5px 9px;border:1px solid var(--ink);border-radius:1px}
+  .nav-links{display:flex;gap:22px;justify-content:center;flex-wrap:wrap}
+  .nav-links a{font-family:'Inter',system-ui,sans-serif;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-2);transition:color .2s}
+  .nav-links a:hover{color:var(--accent)}
+  .cta{font-family:'Inter',system-ui,sans-serif;font-size:11px;letter-spacing:.14em;text-transform:uppercase;padding:10px 18px;background:var(--ink);color:var(--paper);border:1px solid var(--ink);transition:background .2s,color .2s;cursor:pointer;display:inline-flex;align-items:center;gap:8px}
+  .cta:hover{background:var(--accent);border-color:var(--accent)}
+  .cta .dot{width:6px;height:6px;background:var(--accent);border-radius:50%;display:inline-block}
+  .cta:hover .dot{background:var(--paper)}
+
+  /* ============ HERO ============ */
+  .hero{position:relative;border-bottom:1px solid var(--rule);overflow:hidden}
+  .hero-grid-bg{position:absolute;inset:0;background-image:
+    linear-gradient(to right, rgba(15,15,14,.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(15,15,14,.05) 1px, transparent 1px);
+    background-size:40px 40px;pointer-events:none}
+  .hero-inner{position:relative;display:grid;grid-template-columns:1.1fr .9fr;gap:48px;padding:64px 0 72px;align-items:center}
+  .hero-meta{display:flex;gap:28px;flex-wrap:wrap;margin-bottom:36px;font-family:'Inter',system-ui,sans-serif;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-3)}
+  .hero-meta span{display:inline-flex;align-items:center;gap:8px}
+  .hero-meta span::before{content:"";width:10px;height:1px;background:var(--ink-3)}
+  .hero-meta .conf{color:var(--accent)}
+  .hero-meta .conf::before{background:var(--accent)}
+  .hero-title{font-family:'Inter',system-ui,sans-serif;font-weight:500;font-size:clamp(72px,11vw,168px);line-height:.92;letter-spacing:-.045em;margin-bottom:20px}
+  .hero-title em{font-style:normal;color:var(--accent);font-weight:500}
+  .hero-sub{font-family:'Inter',system-ui,sans-serif;font-weight:400;font-size:clamp(22px,2.2vw,28px);line-height:1.3;color:var(--ink-2);margin-bottom:28px;max-width:36ch;letter-spacing:-.015em}
+  .hero-desc{font-size:15px;line-height:1.65;color:var(--ink-2);max-width:52ch;margin-bottom:32px}
+
+  /* Document Seal */
+  .seal-wrap{display:flex;justify-content:center;align-items:center}
+  .seal{border:1px solid var(--ink);background:var(--paper);padding:32px 30px 26px;display:flex;flex-direction:column;gap:0;position:relative;max-width:440px;width:100%}
+  .seal::before{content:"";position:absolute;top:-1px;left:-1px;width:14px;height:14px;border:1px solid var(--ink);border-right:0;border-bottom:0}
+  .seal::after{content:"";position:absolute;bottom:-1px;right:-1px;width:14px;height:14px;border:1px solid var(--ink);border-left:0;border-top:0}
+  .seal-stamp{font-family:'Inter',system-ui,sans-serif;font-size:34px;line-height:1;letter-spacing:.04em;text-transform:uppercase;font-weight:600;color:var(--accent);border:3px double var(--accent);padding:12px 20px;text-align:center;transform:rotate(-2.5deg);margin:0 auto 26px;display:inline-block}
+  .seal-row{display:grid;grid-template-columns:120px 1fr;gap:14px;padding:11px 0;border-bottom:1px solid var(--rule-soft);font-family:'Inter',system-ui,sans-serif;font-size:12px;letter-spacing:.02em;align-items:baseline}
+  .seal-row:last-of-type{border-bottom:0}
+  .seal-k{color:var(--ink-3);text-transform:uppercase;letter-spacing:.14em;font-size:10.5px}
+  .seal-v{color:var(--ink);font-weight:400}
+  .seal-sig{margin-top:18px;padding-top:14px;border-top:1px dashed var(--rule-soft);font-family:'Inter',system-ui,sans-serif;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-3);text-align:center;line-height:1.5}
+
+  /* ============ SECTION BASE ============ */
+  section{position:relative;padding:88px 0;border-bottom:1px solid var(--rule)}
+  .sec-head{display:grid;grid-template-columns:auto 1fr;gap:36px;align-items:end;margin-bottom:48px}
+  .sec-no{font-family:'Inter',system-ui,sans-serif;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-3);padding-top:8px}
+  .sec-no::before{content:"";display:block;width:48px;height:1px;background:var(--ink);margin-bottom:10px}
+  .sec-title{font-family:'Inter',system-ui,sans-serif;font-weight:500;font-size:clamp(40px,5.4vw,72px);line-height:1;letter-spacing:-.035em}
+  .sec-title em{font-style:normal;color:var(--accent);font-weight:500}
+  .sec-kicker{font-family:'Inter',system-ui,sans-serif;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-3);margin-bottom:14px}
+
+  /* ============ CAP-TABLE (reused for Manufacturing / Samples / NRE) ============ */
+  .cap-table{border-top:1px solid var(--ink);border-bottom:1px solid var(--ink)}
+  .cap-row{display:grid;grid-template-columns:280px 1fr auto;gap:32px;padding:24px 0;border-bottom:1px solid var(--rule-soft);align-items:start}
+  .cap-row:last-child{border-bottom:0}
+  .cap-name{font-family:'Inter',system-ui,sans-serif;font-size:13px;letter-spacing:.04em;text-transform:uppercase;color:var(--ink)}
+  .cap-name .idx{color:var(--accent);margin-right:10px}
+  .cap-desc{font-size:15.5px;line-height:1.55;color:var(--ink-2);max-width:64ch}
+  .cap-tag{font-family:'Inter',system-ui,sans-serif;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-3);padding-top:3px;white-space:nowrap}
+
+  /* ============ STATUS PILLS (Certification) ============ */
+  .status{font-family:'Inter',system-ui,sans-serif;font-size:10px;letter-spacing:.18em;text-transform:uppercase;padding:5px 11px;border:1px solid var(--ink);color:var(--ink);white-space:nowrap;display:inline-block;line-height:1.2}
+  .status.avail{border-color:var(--accent);color:var(--accent);background:var(--accent-soft)}
+  .status.byproject{color:var(--ink-3);border-color:var(--ink-3);background:var(--paper)}
+
+  /* ============ PROC-TRACK (MOQ tiers / Lead times) ============ */
+  .proc-track{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:1px solid var(--ink)}
+  .proc-track.four{grid-template-columns:repeat(4,1fr)}
+  .proc-step{padding:32px 28px;border-right:1px solid var(--ink);display:flex;flex-direction:column;gap:18px;position:relative;background:var(--paper)}
+  .proc-step:last-child{border-right:0}
+  .proc-step::after{content:"→";position:absolute;right:-14px;top:50%;transform:translateY(-50%);font-family:'Inter',system-ui,sans-serif;font-size:22px;color:var(--accent);background:var(--paper);padding:0 4px;z-index:2}
+  .proc-step:last-child::after{display:none}
+  .proc-no{font-family:'Inter',system-ui,sans-serif;font-size:11px;letter-spacing:.16em;color:var(--ink-3)}
+  .proc-name{font-family:'Inter',system-ui,sans-serif;font-weight:500;font-size:24px;line-height:1.15;letter-spacing:-.02em}
+  .proc-dur{font-family:'Inter',system-ui,sans-serif;font-size:12px;letter-spacing:.06em;color:var(--accent);padding-top:8px;border-top:1px solid var(--rule-soft);margin-top:auto}
+  .proc-vol{font-family:'Inter',system-ui,sans-serif;font-size:12px;letter-spacing:.04em;color:var(--ink-2)}
+
+  /* ============ MOQ Footer note ============ */
+  .moq-note{margin-top:22px;padding:20px 24px;border:1px solid var(--rule-soft);background:var(--paper-2);font-size:14px;line-height:1.55;color:var(--ink-2);display:flex;gap:16px;align-items:flex-start}
+  .moq-note::before{content:"NOTE";font-weight:500;color:var(--ink);letter-spacing:.14em;font-size:10px;padding:3px 7px;border:1px solid var(--ink);flex-shrink:0;text-transform:uppercase;line-height:1.2;margin-top:1px}
+
+  /* ============ QA list ============ */
+  .qa-list{border-top:1px solid var(--ink)}
+  .qa-item{display:grid;grid-template-columns:80px 1fr auto;gap:32px;padding:26px 0;border-bottom:1px solid var(--ink);align-items:baseline}
+  .qa-idx{font-family:'Inter',system-ui,sans-serif;font-size:13px;letter-spacing:.12em;color:var(--accent);font-weight:500}
+  .qa-text{font-family:'Inter',system-ui,sans-serif;font-size:clamp(22px,2.4vw,28px);line-height:1.2;letter-spacing:-.02em;font-weight:500;color:var(--ink)}
+  .qa-tag{font-family:'Inter',system-ui,sans-serif;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-3);text-align:right;font-weight:500}
+
+  /* ============ STATEMENT BLOCK (Samples / NRE) ============ */
+  .stmt{border:1px solid var(--ink);padding:36px;background:var(--paper);display:grid;grid-template-columns:auto 1fr;gap:32px;align-items:start}
+  .stmt-tag{font-family:'Inter',system-ui,sans-serif;font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink);font-weight:500;padding:6px 11px;border:1px solid var(--ink);white-space:nowrap;align-self:flex-start;background:var(--paper-2)}
+  .stmt-body{display:flex;flex-direction:column;gap:14px}
+  .stmt-body p{font-size:16px;line-height:1.6;color:var(--ink-2)}
+  .stmt-body p strong{color:var(--ink);font-weight:500}
+  .stmt-body ul{list-style:none;padding-left:0;display:flex;flex-direction:column;gap:8px;margin-top:8px}
+  .stmt-body li{padding-left:18px;position:relative;font-size:14.5px;color:var(--ink-2);line-height:1.55}
+  .stmt-body li::before{content:"—";position:absolute;left:0;color:var(--accent);font-weight:500}
+
+  /* ============ ENGAGE / Initiate NDA ============ */
+  .engage-block{border:1px solid var(--ink);padding:64px 40px;background:var(--paper-2);text-align:center;display:flex;flex-direction:column;gap:24px;align-items:center;position:relative}
+  .engage-block::before{content:"";position:absolute;top:-1px;left:-1px;width:14px;height:14px;border:1px solid var(--ink);border-right:0;border-bottom:0}
+  .engage-block::after{content:"";position:absolute;bottom:-1px;right:-1px;width:14px;height:14px;border:1px solid var(--ink);border-left:0;border-top:0}
+  .engage-tag{font-family:'Inter',system-ui,sans-serif;font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);font-weight:500}
+  .engage-title{font-family:'Inter',system-ui,sans-serif;font-size:clamp(36px,4.4vw,60px);font-weight:500;letter-spacing:-.03em;line-height:1.05;max-width:24ch}
+  .engage-desc{font-size:15.5px;color:var(--ink-2);max-width:56ch;line-height:1.6}
+  .nda-btn{display:inline-flex;align-items:center;gap:14px;padding:18px 32px;background:var(--ink);color:var(--paper);font-family:'Inter',system-ui,sans-serif;font-size:13px;letter-spacing:.2em;text-transform:uppercase;text-decoration:none;border:1px solid var(--ink);transition:background .25s,color .25s,gap .25s;margin-top:12px}
+  .nda-btn:hover{background:var(--accent);border-color:var(--accent);gap:18px}
+  .nda-btn .dot{width:8px;height:8px;border-radius:50%;background:var(--accent)}
+  .nda-btn:hover .dot{background:var(--paper)}
+  .nda-btn .arr{margin-left:6px}
+  .engage-meta{font-family:'Inter',system-ui,sans-serif;font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-3);margin-top:14px;padding-top:18px;border-top:1px solid var(--rule-soft);width:100%;max-width:520px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
+
+  /* ============ FOOTER ============ */
+  footer{padding:48px 0 36px;background:var(--ink);color:var(--paper)}
+  .foot-inner{display:grid;grid-template-columns:1fr 1fr 1fr;gap:32px;align-items:start}
+  .foot-brand{font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:28px;line-height:1;letter-spacing:-.02em}
+  .foot-brand small{font-family:'Inter',system-ui,sans-serif;font-size:11px;letter-spacing:.18em;text-transform:uppercase;display:block;margin-top:8px;color:#9b988e}
+  .foot-meta{font-family:'Inter',system-ui,sans-serif;font-size:11px;letter-spacing:.06em;color:#c9c5ba;line-height:1.7}
+  .foot-meta strong{color:var(--paper);font-weight:500}
+  .foot-bottom{margin-top:36px;padding-top:18px;border-top:1px solid #2a2a28;font-family:'Inter',system-ui,sans-serif;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:#6b6a65;display:flex;justify-content:space-between;flex-wrap:wrap;gap:16px}
+  .foot-bottom .acc{color:var(--accent)}
+
+  /* ============ SCROLL REVEAL ============ */
+  .reveal{opacity:0;transform:translateY(24px);transition:opacity .9s cubic-bezier(.2,.6,.2,1),transform .9s cubic-bezier(.2,.6,.2,1)}
+  .reveal.in{opacity:1;transform:translateY(0)}
+  .reveal.d1{transition-delay:.08s}
+  .reveal.d2{transition-delay:.16s}
+  .reveal.d3{transition-delay:.24s}
+
+  /* ============ RESPONSIVE ============ */
+  @media (max-width:960px){
+    .conf-bar-inner{font-size:9.5px;gap:14px}
+    .conf-bar-inner span:nth-child(3){display:none}
+    .nav-inner{grid-template-columns:1fr auto;gap:16px}
+    .nav-links{display:none}
+    .hero-inner{grid-template-columns:1fr;gap:24px;padding:36px 0 48px}
+    .seal-wrap{justify-content:flex-start}
+    .sec-head{grid-template-columns:1fr;gap:16px}
+    .cap-row{grid-template-columns:1fr;gap:8px}
+    .proc-track,.proc-track.four{grid-template-columns:1fr;border-right:1px solid var(--ink);border-bottom:1px solid var(--ink)}
+    .proc-step{border-right:0;border-bottom:1px solid var(--ink)}
+    .proc-step:last-child{border-bottom:0}
+    .proc-step::after{content:"↓";right:50%;top:auto;bottom:-14px;transform:translateX(50%)}
+    .qa-item{grid-template-columns:50px 1fr;gap:14px}
+    .qa-tag{display:none}
+    .stmt{grid-template-columns:1fr;gap:18px}
+    .engage-block{padding:44px 24px}
+    .foot-inner{grid-template-columns:1fr;gap:24px}
+    section{padding:56px 0}
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ CONFIDENTIAL BANNER ============ -->
+<div class="conf-bar">
+  <div class="conf-bar-inner">
+    <span><span class="dot"></span>Confidential — Under NDA</span>
+    <span class="pill">Layer 02 of 02</span>
+    <span>Distribution restricted to qualified partners</span>
+  </div>
+</div>
+
+<!-- ============ NAV ============ -->
+<nav class="nav">
+  <div class="nav-inner">
+    <div class="brand">
+      <span class="brand-mark">GIMC</span>
+      <span class="brand-model">MIC05 / LAYER 02 · NDA</span>
+    </div>
+    <div class="nav-links">
+      <a href="#manufacturing">Manufacturing</a>
+      <a href="#moq">MOQ &amp; Pricing</a>
+      <a href="#certification">Certification</a>
+      <a href="#lead-times">Lead Times</a>
+      <a href="#qa">QA</a>
+      <a href="#samples">Samples</a>
+      <a href="#nre">NRE</a>
+    </div>
+    <a href="#engage" class="cta"><span class="dot"></span> Initiate NDA</a>
+  </div>
+</nav>
+
+<!-- ============ HERO ============ -->
+<header class="hero">
+  <div class="hero-grid-bg"></div>
+  <div class="container">
+    <div class="hero-inner">
+      <div class="hero-left reveal">
+        <div class="hero-meta">
+          <span>Ref. MIC05-L2-NDA</span>
+          <span>Rev. 2026.05.13</span>
+          <span class="conf">Confidential</span>
+          <span>Tier · Layer 02 of 02</span>
+        </div>
+        <h1 class="hero-title">MIC<em>05</em></h1>
+        <p class="hero-sub">Technical &amp; Business Package — for partners under signed NDA.</p>
+        <p class="hero-desc">This package complements the Brand Capability Brief. It covers manufacturing capability, MOQ tiers and pricing structure, certification path, lead times, QA process, sample policy, and NRE / tooling terms. Distribution is restricted to qualified ODM partners under signed NDA.</p>
+      </div>
+
+      <div class="seal-wrap reveal d2">
+        <div class="seal">
+          <div class="seal-stamp">Confidential</div>
+          <div class="seal-row"><span class="seal-k">Doc</span><span class="seal-v">MIC05-L2-NDA</span></div>
+          <div class="seal-row"><span class="seal-k">Revision</span><span class="seal-v">2026.05.13</span></div>
+          <div class="seal-row"><span class="seal-k">Tier</span><span class="seal-v">Layer 02 of 02</span></div>
+          <div class="seal-row"><span class="seal-k">Distribution</span><span class="seal-v">Partner · NDA only</span></div>
+          <div class="seal-row"><span class="seal-k">Origin</span><span class="seal-v">Shenzhen, CN</span></div>
+          <div class="seal-sig">For partner use only · Under signed NDA · Do not redistribute</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ============ §01 MANUFACTURING CAPABILITY ============ -->
+<section id="manufacturing">
+  <div class="container">
+    <div class="sec-head reveal">
+      <div class="sec-no">§ 01 / FACTORY</div>
+      <div>
+        <div class="sec-kicker">Manufacturing Capability</div>
+        <h2 class="sec-title">Built in <em>Shenzhen</em>.</h2>
+      </div>
+    </div>
+
+    <div class="cap-table reveal d1">
+      <div class="cap-row">
+        <div class="cap-name"><span class="idx">01</span>PRODUCTION</div>
+        <div class="cap-desc">SMT production line with in-house assembly. Capacity scoped against partner program — small-batch through mass production on the same line.</div>
+        <div class="cap-tag">SMT</div>
+      </div>
+      <div class="cap-row">
+        <div class="cap-name"><span class="idx">02</span>QUALITY</div>
+        <div class="cap-desc">In-house QA team — IQC, in-line audit, functional test, aging, and OQC integrated into the production flow (detailed in §05).</div>
+        <div class="cap-tag">IN-HOUSE</div>
+      </div>
+      <div class="cap-row">
+        <div class="cap-name"><span class="idx">03</span>LOCATION</div>
+        <div class="cap-desc">Shenzhen, CN — primary assembly and test. Local supply chain access for components, enclosures, and packaging.</div>
+        <div class="cap-tag">SHENZHEN</div>
+      </div>
+      <div class="cap-row">
+        <div class="cap-name"><span class="idx">04</span>SCALE PATH</div>
+        <div class="cap-desc">Small-batch → pilot → mass production on the same hardware lineage. No re-tooling penalty when volume lifts.</div>
+        <div class="cap-tag">PILOT → MP</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ §02 MOQ & PRICING ============ -->
+<section id="moq">
+  <div class="container">
+    <div class="sec-head reveal">
+      <div class="sec-no">§ 02 / VOLUME</div>
+      <div>
+        <div class="sec-kicker">MOQ &amp; Pricing Structure</div>
+        <h2 class="sec-title">Three volume <em>tiers</em>.</h2>
+      </div>
+    </div>
+
+    <div class="proc-track reveal d1">
+      <div class="proc-step">
+        <div class="proc-no">TIER 01</div>
+        <div class="proc-name">Prototype</div>
+        <div class="proc-vol">For rapid iteration and partner-side acceptance.</div>
+        <div class="proc-dur">10–50 UNITS</div>
+      </div>
+      <div class="proc-step">
+        <div class="proc-no">TIER 02</div>
+        <div class="proc-name">Pilot</div>
+        <div class="proc-vol">For field validation, certification samples, soft launch.</div>
+        <div class="proc-dur">100–500 UNITS</div>
+      </div>
+      <div class="proc-step">
+        <div class="proc-no">TIER 03</div>
+        <div class="proc-name">Mass production</div>
+        <div class="proc-vol">Commercial volume. Pricing tiers shared at scoping.</div>
+        <div class="proc-dur">1,000+ UNITS</div>
+      </div>
+    </div>
+
+    <div class="moq-note reveal d2">
+      <span>NRE and tooling cost are discussed at project scoping phase (see §07). Sample fee is waived for qualified partners (see §06). Unit pricing tiers and payment terms shared in response to specific RFQ.</span>
+    </div>
+  </div>
+</section>
+
+<!-- ============ §03 CERTIFICATION PATH ============ -->
+<section id="certification">
+  <div class="container">
+    <div class="sec-head reveal">
+      <div class="sec-no">§ 03 / COMPLIANCE</div>
+      <div>
+        <div class="sec-kicker">Certification Path</div>
+        <h2 class="sec-title">Regulatory <em>scope</em>.</h2>
+      </div>
+    </div>
+
+    <div class="cap-table reveal d1">
+      <div class="cap-row">
+        <div class="cap-name"><span class="idx">01</span>CE — EU</div>
+        <div class="cap-desc">Reference platform path completed. Re-certification per partner enclosure and antenna configuration.</div>
+        <div class="cap-tag"><span class="status avail">Available now</span></div>
+      </div>
+      <div class="cap-row">
+        <div class="cap-name"><span class="idx">02</span>FCC — US</div>
+        <div class="cap-desc">Reference platform path completed. Re-certification per partner enclosure and antenna configuration.</div>
+        <div class="cap-tag"><span class="status avail">Available now</span></div>
+      </div>
+      <div class="cap-row">
+        <div class="cap-name"><span class="idx">03</span>SRRC — CN</div>
+        <div class="cap-desc">Reference platform path completed. Domestic certification handled in-region.</div>
+        <div class="cap-tag"><span class="status avail">Available now</span></div>
+      </div>
+      <div class="cap-row">
+        <div class="cap-name"><span class="idx">04</span>MIC — JP</div>
+        <div class="cap-desc">Scoped per project — test plan and lab partner confirmed at kickoff.</div>
+        <div class="cap-tag"><span class="status byproject">By project</span></div>
+      </div>
+      <div class="cap-row">
+        <div class="cap-name"><span class="idx">05</span>KC — KR</div>
+        <div class="cap-desc">Scoped per project — test plan and lab partner confirmed at kickoff.</div>
+        <div class="cap-tag"><span class="status byproject">By project</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ §04 LEAD TIMES ============ -->
+<section id="lead-times">
+  <div class="container">
+    <div class="sec-head reveal">
+      <div class="sec-no">§ 04 / TIMING</div>
+      <div>
+        <div class="sec-kicker">Lead Times</div>
+        <h2 class="sec-title">From scoping to <em>shipment</em>.</h2>
+      </div>
+    </div>
+
+    <div class="proc-track four reveal d1">
+      <div class="proc-step">
+        <div class="proc-no">PHASE 01</div>
+        <div class="proc-name">Requirements &amp; NDA</div>
+        <div class="proc-vol">Scoping, NDA execution, asset alignment.</div>
+        <div class="proc-dur">1–2 WEEKS</div>
+      </div>
+      <div class="proc-step">
+        <div class="proc-no">PHASE 02</div>
+        <div class="proc-name">Prototype</div>
+        <div class="proc-vol">Customization, first articles, partner review.</div>
+        <div class="proc-dur">4–8 WEEKS</div>
+      </div>
+      <div class="proc-step">
+        <div class="proc-no">PHASE 03</div>
+        <div class="proc-name">Pilot validation</div>
+        <div class="proc-vol">Field validation, certification samples, fixes.</div>
+        <div class="proc-dur">6–10 WEEKS</div>
+      </div>
+      <div class="proc-step">
+        <div class="proc-no">PHASE 04</div>
+        <div class="proc-name">Mass production</div>
+        <div class="proc-vol">Tooling-up, MP runs, FOB / ship-out.</div>
+        <div class="proc-dur">8–14 WEEKS</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ §05 QA PROCESS ============ -->
+<section id="qa">
+  <div class="container">
+    <div class="sec-head reveal">
+      <div class="sec-no">§ 05 / QUALITY</div>
+      <div>
+        <div class="sec-kicker">QA Process</div>
+        <h2 class="sec-title">Four checkpoints, <em>every batch</em>.</h2>
+      </div>
+    </div>
+
+    <div class="qa-list reveal d1">
+      <div class="qa-item">
+        <div class="qa-idx">— 01</div>
+        <div class="qa-text">Incoming inspection — component-level verification at IQC.</div>
+        <div class="qa-tag">IQC</div>
+      </div>
+      <div class="qa-item">
+        <div class="qa-idx">— 02</div>
+        <div class="qa-text">Functional test — every unit verified against acoustic and connectivity targets.</div>
+        <div class="qa-tag">FUNCTIONAL</div>
+      </div>
+      <div class="qa-item">
+        <div class="qa-idx">— 03</div>
+        <div class="qa-text">Aging test — burn-in to surface infant-mortality failures before pack-out.</div>
+        <div class="qa-tag">AGING / BURN-IN</div>
+      </div>
+      <div class="qa-item">
+        <div class="qa-idx">— 04</div>
+        <div class="qa-text">Outgoing QC — AQL sample audit at the outbound gate.</div>
+        <div class="qa-tag">OQC · AQL</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ §06 SAMPLE POLICY ============ -->
+<section id="samples">
+  <div class="container">
+    <div class="sec-head reveal">
+      <div class="sec-no">§ 06 / SAMPLES</div>
+      <div>
+        <div class="sec-kicker">Sample Policy</div>
+        <h2 class="sec-title">Available <em>upon NDA</em>.</h2>
+      </div>
+    </div>
+
+    <div class="stmt reveal d1">
+      <div class="stmt-tag">Policy · MIC05-SAMPLE</div>
+      <div class="stmt-body">
+        <p><strong>Sample units are available for qualified ODM partners upon signed NDA.</strong> Quantity and configuration are scoped per program — reference unit, partner-spec configuration, or pre-pilot lot.</p>
+        <ul>
+          <li>Sample fee waived for qualified partners</li>
+          <li>Shipping arranged on partner account or quoted FOB Shenzhen</li>
+          <li>Sample units remain GIMC property unless purchase order is issued</li>
+          <li>Confidentiality and return / disposition terms specified in the NDA</li>
+        </ul>
+        <p>Contact <strong>odm@gimc.example</strong> to initiate. NDA template available on request — see §08.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ §07 NRE & TOOLING ============ -->
+<section id="nre">
+  <div class="container">
+    <div class="sec-head reveal">
+      <div class="sec-no">§ 07 / NRE</div>
+      <div>
+        <div class="sec-kicker">NRE &amp; Tooling</div>
+        <h2 class="sec-title">Scoped at <em>kickoff</em>.</h2>
+      </div>
+    </div>
+
+    <div class="stmt reveal d1">
+      <div class="stmt-tag">Terms · NRE / TOOLING</div>
+      <div class="stmt-body">
+        <p><strong>NRE (non-recurring engineering) and tooling cost are discussed at project scoping phase.</strong> Scope is set against the customization depth, certification footprint, and target volume.</p>
+        <ul>
+          <li>Industrial design / mechanical engineering — scoped per enclosure</li>
+          <li>Firmware customization — DSP tuning, wake-word, OTA flow, button mapping</li>
+          <li>Tooling — soft tooling for pilot, hard tooling for mass production</li>
+          <li>Certification — test fees, lab time, re-cert per enclosure / antenna</li>
+        </ul>
+        <p><strong>Tooling ownership is negotiable</strong> — full transfer, shared, or factory-retained — scoped against volume commitment and enclosure investment level. Specifics in the program SOW.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ §08 INITIATE NDA ============ -->
+<section id="engage">
+  <div class="container">
+    <div class="sec-head reveal">
+      <div class="sec-no">§ 08 / ENGAGE</div>
+      <div>
+        <div class="sec-kicker">Next Step</div>
+        <h2 class="sec-title">Initiate the <em>NDA</em>.</h2>
+      </div>
+    </div>
+
+    <div class="engage-block reveal d1">
+      <div class="engage-tag">— Engagement gate</div>
+      <h3 class="engage-title">Sign the NDA. Unlock scoping, samples, BOM, and pricing.</h3>
+      <p class="engage-desc">A signed NDA opens the program scoping conversation — RFQ response, sample dispatch, BOM-level dialogue, and a fully-priced SOW against partner volume targets.</p>
+      <a class="nda-btn" href="mailto:odm@gimc.example?subject=MIC05%20%E2%80%94%20Initiate%20NDA"><span class="dot"></span> Initiate NDA <span class="arr">→</span></a>
+      <div class="engage-meta">
+        <span>odm@gimc.example</span>
+        <span>Response · within 2 business days</span>
+        <span>NDA template on request</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="container">
+    <div class="foot-inner">
+      <div>
+        <div class="foot-brand">GIMC<small>Shenzhen · Wearable Voice ODM</small></div>
+      </div>
+      <div class="foot-meta">
+        <strong>Document</strong><br>
+        MIC05 — Technical &amp; Business Package<br>
+        Layer 02 of 02<br>
+        Revision · 2026.05.13
+      </div>
+      <div class="foot-meta">
+        <strong>Distribution</strong><br>
+        Confidential · Under NDA<br>
+        Qualified ODM partners only<br>
+        Do not redistribute
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© GIMC · MIC05 Reference Platform</span>
+      <span class="acc">Confidential — Under signed NDA</span>
+      <span>MIC05-L2-NDA · Rev 2026.05.13</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  (function(){
+    var els = document.querySelectorAll('.reveal');
+    if (!('IntersectionObserver' in window)) {
+      els.forEach(function(el){ el.classList.add('in'); });
+      return;
+    }
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        if (en.isIntersecting) {
+          en.target.classList.add('in');
+          io.unobserve(en.target);
+        }
+      });
+    }, { rootMargin: '0px 0px -10% 0px', threshold: 0.08 });
+    els.forEach(function(el){ io.observe(el); });
+  })();
+
+  document.querySelectorAll('a[href^="#"]').forEach(function(a){
+    a.addEventListener('click', function(e){
+      var id = a.getAttribute('href');
+      if (id.length > 1) {
+        var t = document.querySelector(id);
+        if (t) { e.preventDefault(); t.scrollIntoView({ behavior:'smooth', block:'start' }); }
+      }
+    });
+  });
+</script>
+</body>
+</html>
